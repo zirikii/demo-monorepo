@@ -45,3 +45,24 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
   `apps/nab/AGENTS.md`.
 - Build: `pnpm build` builds all four apps.
+
+### Git remotes & pushing (GitHub + Bitbucket)
+
+This repo is mirrored on **both GitHub and Bitbucket**, and a given session's `origin`
+may point at either one. The Cursor cloud environment injects credentials into the
+*global* git config using GitHub's username convention
+(`https://x-access-token:<token>@bitbucket.org/` via `insteadOf`). **Bitbucket rejects the
+`x-access-token` username** — it needs `x-token-auth` with the *same* token value — so a
+push to a Bitbucket `origin` can fail with `Authentication failed` even though the token is
+valid. GitHub pushes are unaffected.
+
+If a push fails against Bitbucket, use the helper instead of pushing directly:
+
+```bash
+scripts/git-push.sh -u origin <branch>   # pushes; on failure, fixes Bitbucket auth and retries
+scripts/git-push.sh --fix-only           # only repair origin's auth (x-token-auth), no push
+```
+
+The helper borrows the already-injected token, swaps in the `x-token-auth` username on the
+**local** `origin` URL only (never touches global config, prints no secrets, and is a no-op
+for GitHub remotes). Tokens rotate per session, so just re-run it if a later push fails.
