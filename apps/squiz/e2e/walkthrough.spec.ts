@@ -95,7 +95,11 @@ test("Squiz demo — full site walkthrough", async ({ page }) => {
     await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
     await beat(page, 700);
     await pointAndClick(page, page.getByRole("button", { name: "Insights" }), 900);
-    await pointAndClick(page, page.getByRole("link", { name: /^Blog/ }), 1400);
+    await pointAndClick(
+      page,
+      page.getByRole("region", { name: "Insights menu" }).getByRole("link", { name: /^Blog/ }),
+      1400,
+    );
     await expect(page).toHaveURL(/\/blog$/);
     await pointAndClick(page, page.getByRole("button", { name: "AI & Search" }), 1100);
     await pointAndClick(
@@ -126,9 +130,10 @@ test("Squiz demo — full site walkthrough", async ({ page }) => {
   await safe("book a call", async () => {
     await pointAndClick(page, page.getByRole("link", { name: "Book a call" }).first(), 1300);
     await expect(page).toHaveURL(/book-a-call/);
-    await typeInto(page, page.getByLabel("Full name"), "Alex Taylor");
-    await typeInto(page, page.getByLabel("Work email"), "alex.taylor@harbourcity.gov");
-    await typeInto(page, page.getByLabel("Organization"), "Harbour City Council");
+    const form = page.locator("main");
+    await typeInto(page, form.getByLabel("Full name"), "Alex Taylor");
+    await typeInto(page, form.getByLabel("Work email"), "alex.taylor@harbourcity.gov");
+    await typeInto(page, form.getByLabel("Organization"), "Harbour City Council");
     await pointAndClick(page, page.getByRole("button", { name: /request a time/i }), 1500);
     await expect(page.getByRole("status")).toBeVisible();
     await beat(page, 1500);
