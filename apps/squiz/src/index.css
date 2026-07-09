@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (installed via @fontsource — no external hotlinks) */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/spline-sans/400.css";
+@import "@fontsource/spline-sans/500.css";
+@import "@fontsource/spline-sans/600.css";
+@import "@fontsource/spline-sans/700.css";
+
+/*
+ * Squiz web design tokens (Tailwind v4 CSS-first @theme).
+ * Values mirror the squiz.net 2026 design language: deep navy ink (#001822),
+ * mint-green accent (#96F2A9), warm cream surfaces, Spline Sans headings.
+ * Each token becomes a utility, e.g. bg-navy, text-mint, bg-cream, etc.
+ */
+@theme {
+  /* Brand */
+  --color-navy: #001822; /* primary ink + dark bands */
+  --color-navy-soft: #0d2833; /* card surfaces on dark bands */
+  --color-mint: #96f2a9; /* brand accent (hsl 142 81% 77%) */
+  --color-mint-tint: #e3fbe9; /* pale highlight tint (hsl 142 67% 94%) */
+  --color-blue-pop: #002fff; /* tertiary highlight (hsl 227 100% 50%) */
+
+  /* Surfaces */
+  --color-cream: #fbfaf7; /* page background (hsl 40 33% 98%) */
+  --color-cream-alt: #f6f5f0; /* alt section background (hsl 45 22% 96%) */
+  --color-cream-deep: #e0ddd1; /* subtle borders / hovers (hsl 45 15% 86%) */
+  --color-card: #ffffff;
+
+  /* Ink */
+  --color-ink: #001822;
+  --color-ink-soft: #3d5560;
+  --color-ink-faint: #6c8089;
+
+  /* Badge tints */
+  --color-badge-blue: #e3f5fe; /* hsl 197 96% 94% */
+  --color-badge-purple: #f2ebff; /* hsl 258 100% 97% */
+  --color-badge-pink: #ffeff2; /* hsl 349 100% 97% */
+  --color-badge-orange: #ffe8d1; /* hsl 32 100% 91% */
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Spline Sans", "Inter", system-ui, sans-serif;
+
+  /* Radii (squiz.net: card 16, button 8, shape 24) */
+  --radius-card: 16px;
+  --radius-btn: 8px;
+  --radius-shape: 24px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(0, 24, 34, 0.07);
+  --shadow-float: 0 16px 48px rgba(0, 24, 34, 0.14);
+
+  /* Motion */
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-marquee: marquee 32s linear infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+/* Squiz "shape" treatment — asymmetric rounded corners used on imagery/cards */
+.shape-card {
+  border-radius: var(--radius-shape) 0 var(--radius-shape) 0;
+}
+.shape-card-lg {
+  border-radius: 48px 0 48px 0;
+}
+
+/* Hide scrollbars on horizontal carousels while keeping them scrollable */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Decorative line art used behind heroes (mimics squiz.net's line background) */
+.squiz-lines {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 85% 10%, rgba(150, 242, 169, 0.18), transparent 65%),
+    radial-gradient(ellipse 50% 40% at 5% 90%, rgba(150, 242, 169, 0.12), transparent 60%);
+}
+.squiz-lines-dark {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 85% 0%, rgba(150, 242, 169, 0.1), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 0% 100%, rgba(0, 47, 255, 0.12), transparent 60%);
+}
