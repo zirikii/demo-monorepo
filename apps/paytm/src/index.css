@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts (installed via @fontsource — no external hotlinks) */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+/*
+ * Paytm web design tokens (Tailwind v4 CSS-first @theme).
+ * Each token becomes a utility, e.g. bg-paytm-navy, text-paytm-cyan,
+ * bg-surface, border-hairline, text-ink-soft, etc.
+ */
+@theme {
+  /* Brand */
+  --color-paytm-navy: #002970; /* headings, nav text, dark bands */
+  --color-paytm-navy-deep: #00214e; /* category strip gradient start */
+  --color-paytm-navy-mid: #012b72; /* category strip gradient end */
+  --color-paytm-cyan: #00baf2; /* primary CTA, links, highlights */
+  --color-paytm-cyan-deep: #00a5d9; /* CTA hover */
+  --color-paytm-sky: #e8f7fd; /* pale cyan chips */
+
+  /* Surfaces */
+  --color-surface: #f4f7fc; /* page background */
+  --color-surface-soft: #eef3fa; /* alt section background */
+  --color-card: #ffffff;
+  --color-hairline: #e3e9f1;
+
+  /* Ink */
+  --color-ink: #101828;
+  --color-ink-soft: #506d85;
+  --color-ink-faint: #8ba3b8;
+
+  /* Status */
+  --color-success: #21c17a;
+  --color-warning: #f5a623;
+  --color-danger: #e5484d;
+
+  /* Typography */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(16, 42, 90, 0.08);
+  --shadow-float: 0 12px 40px rgba(16, 42, 90, 0.14);
+
+  /* Motion */
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-in: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Hide scrollbars on horizontal chip rows while keeping them scrollable */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
