@@ -46,8 +46,7 @@ export function Footer() {
               <SquizLogo width={96} height={23} />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-              The digital experience platform for service-led organizations. Unofficial demo build
-              — not affiliated with Squiz.
+              The digital experience platform for service-led organizations.
             </p>
             <div className="mt-8">
               <p className="font-heading text-sm font-semibold uppercase tracking-wider text-white/80">
@@ -128,7 +127,7 @@ export function Footer() {
       {/* Legal row */}
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 text-sm text-white/50 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p>© 2026 Squiz demo — unofficial build, all trademarks belong to their owners.</p>
+          <p>© 2026 Squiz. All rights reserved.</p>
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {footerLegalLinks.map((link) => (
               <li key={link.label}>
