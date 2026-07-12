@@ -1,0 +1,73 @@
+@import "tailwindcss";
+@import "@fontsource/lato/400.css";
+@import "@fontsource/lato/700.css";
+@import "@fontsource/lato/900.css";
+
+@theme {
+  --color-ink: #222222;
+  --color-ink-deep: #121212;
+  --color-ink-soft: #454545;
+  --color-ink-faint: #999999;
+  --color-sand: #f3efe9;
+  --color-sand-deep: #e8e2d8;
+  --color-surface: #f7f7f7;
+  --color-line: #e5e5e5;
+  --color-card: #ffffff;
+  --color-purple: #7a35b0;
+  --color-purple-deep: #6950a1;
+  --color-taupe: #7d6a55;
+  --color-green: #008545;
+  --color-gold: #f7c651;
+  --color-danger: #cc1000;
+  --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --shadow-card: 0 8px 24px rgba(18, 18, 18, 0.08);
+  --shadow-float: 0 16px 40px rgba(18, 18, 18, 0.14);
+  --animate-fade-up: fade-up 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-slide-in: slide-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { min-height: 100vh; }
+
+a { color: inherit; text-decoration: none; }
+
+:root {
+  --demo-accent: #7a35b0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
