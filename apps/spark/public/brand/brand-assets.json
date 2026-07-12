@@ -1,0 +1,44 @@
+[
+  {
+    "filename": "logo.svg",
+    "sourceUrl": "https://www.spark.co.nz/content/dam/sparkdigital/images/logo/purple.svg",
+    "fetchedDate": "2026-07-12",
+    "notes": "Official public Spark header logo from spark.co.nz, used in the demo header."
+  },
+  {
+    "filename": "travel-queenstown.png",
+    "sourceUrl": "https://www.spark.co.nz/content/dam/spark/images/backgrounds/marketing/hero-banners/travel-pack/qtown-590x203.png",
+    "fetchedDate": "2026-07-12",
+    "notes": "Spark travel-pack Queenstown campaign image."
+  },
+  {
+    "filename": "travel-beach.png",
+    "sourceUrl": "https://www.spark.co.nz/content/dam/spark/images/backgrounds/marketing/hero-banners/travel-pack/beach-590x203.png",
+    "fetchedDate": "2026-07-12",
+    "notes": "Spark travel-pack beach campaign image."
+  },
+  {
+    "filename": "travel-mount.png",
+    "sourceUrl": "https://www.spark.co.nz/content/dam/spark/images/backgrounds/marketing/hero-banners/travel-pack/mount-590x203.png",
+    "fetchedDate": "2026-07-12",
+    "notes": "Spark travel-pack mountain campaign image."
+  },
+  {
+    "filename": "sim-icon.svg",
+    "sourceUrl": "https://www.spark.co.nz/content/dam/telecomcms/responsive/images/shop/mobile/plans-pricing/icon-cirlce-black-150x150-sim.svg",
+    "fetchedDate": "2026-07-12",
+    "notes": "Spark plan-card SIM/eSIM icon."
+  },
+  {
+    "filename": "wifi-icon.png",
+    "sourceUrl": "https://www.spark.co.nz/content/dam/telecomcms/responsive/images/shop/mobile/plans-pricing/wifi-icon-150x150.png",
+    "fetchedDate": "2026-07-12",
+    "notes": "Spark plan-card free hotspot icon."
+  },
+  {
+    "filename": "favicon.svg",
+    "sourceUrl": "local fallback derived from Spark-purple logo mark styling",
+    "fetchedDate": "2026-07-12",
+    "notes": "Small self-hosted favicon fallback because the live favicon was not exposed by the text fetch."
+  }
+]

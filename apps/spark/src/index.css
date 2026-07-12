@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/inter/900.css";
+
+@theme {
+  --color-spark-purple: #5f259f;
+  --color-spark-purple-deep: #3d1475;
+  --color-spark-purple-dark: #2f0e61;
+  --color-spark-lilac: #f3ecfb;
+  --color-spark-lilac-strong: #e5d4f5;
+  --color-spark-pink: #c3198d;
+  --color-spark-yellow: #ffd43b;
+  --color-ink: #17121f;
+  --color-ink-soft: #5b5268;
+  --color-card: #ffffff;
+  --color-line: #ded5e8;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --shadow-card: 0 16px 42px rgba(52, 17, 94, 0.12);
+  --shadow-purple: 0 24px 70px rgba(95, 37, 159, 0.28);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(95, 37, 159, 0.12), transparent 34rem),
+    linear-gradient(180deg, #fff 0%, #f8f4fc 44%, #fff 100%);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.spark-container {
+  width: min(1180px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.spark-focus {
+  outline: 3px solid transparent;
+  outline-offset: 3px;
+}
+
+.spark-focus:focus-visible {
+  outline-color: var(--color-spark-yellow);
+}
+
+.travel-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
