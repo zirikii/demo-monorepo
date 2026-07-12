@@ -1,0 +1,23 @@
+[
+  {
+    "id": "tu-1",
+    "amount": 20,
+    "method": "Visa ••4242",
+    "createdAt": "2026-07-01T09:12:00.000Z",
+    "note": "Prepaid top-up"
+  },
+  {
+    "id": "tu-2",
+    "amount": 40,
+    "method": "Spark app voucher",
+    "createdAt": "2026-06-12T14:40:00.000Z",
+    "note": "Travel Pack top-up"
+  },
+  {
+    "id": "tu-3",
+    "amount": 10,
+    "method": "Mastercard ••5510",
+    "createdAt": "2026-05-28T18:05:00.000Z",
+    "note": "Data boost"
+  }
+]

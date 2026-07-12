@@ -1,0 +1,32 @@
+[
+  {
+    "id": "endless-45",
+    "name": "Endless Essential",
+    "price": 45,
+    "data": "Endless (speed reduced after allowance)",
+    "features": ["Unlimited NZ calls & texts", "Team Up eligible", "Spotify Premium eligible"],
+    "tag": "From $45"
+  },
+  {
+    "id": "endless-60",
+    "name": "Endless Plus",
+    "price": 60,
+    "data": "Endless with larger high-speed bucket",
+    "features": ["Unlimited NZ calls & texts", "International add-ons", "Team Up save up to 35%"],
+    "tag": "Popular"
+  },
+  {
+    "id": "endless-80",
+    "name": "Endless Max",
+    "price": 80,
+    "data": "Endless with max high-speed data",
+    "features": ["Unlimited NZ calls & texts", "5G where available", "Hotspot included"]
+  },
+  {
+    "id": "prepaid-value",
+    "name": "Prepaid Value Pack",
+    "price": 29,
+    "data": "4GB / 28 days",
+    "features": ["Flexible top-ups", "Spark app managed", "No lock-in"]
+  }
+]

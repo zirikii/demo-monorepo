@@ -1,0 +1,48 @@
+[
+  {
+    "id": "tp-29",
+    "price": 29,
+    "data": "2GB",
+    "talkNz": "200 NZ only",
+    "talkIntl": "100 International*",
+    "textNz": "200 NZ only",
+    "textIntl": "100 International*",
+    "duration": "Plan lasts for three months.",
+    "features": ["Physical Trio SIM or eSIM available", "Free Hotspot"]
+  },
+  {
+    "id": "tp-49",
+    "price": 49,
+    "data": "10GB",
+    "talkNz": "200 NZ only",
+    "talkIntl": "200 International*",
+    "textNz": "200 NZ only",
+    "textIntl": "200 International*",
+    "duration": "Plan lasts for three months.",
+    "features": ["Physical Trio SIM or eSIM available", "Free Hotspot"]
+  },
+  {
+    "id": "tp-79",
+    "price": 79,
+    "data": "50GB",
+    "talkNz": "Unlimited NZ only",
+    "talkIntl": "200 International*",
+    "textNz": "Unlimited NZ only",
+    "textIntl": "200 International*",
+    "duration": "Plan lasts for three months.",
+    "features": ["Physical Trio SIM or eSIM available", "Free Hotspot"],
+    "highlight": true
+  },
+  {
+    "id": "tp-129",
+    "price": 129,
+    "data": "Endless data",
+    "dataNote": "Speed reduced after 100GB**",
+    "talkNz": "Unlimited NZ only",
+    "talkIntl": "300 International*",
+    "textNz": "Unlimited NZ only",
+    "textIntl": "300 International*",
+    "duration": "Plan lasts for three months.",
+    "features": ["Physical Trio SIM or eSIM available", "Free Hotspot"]
+  }
+]

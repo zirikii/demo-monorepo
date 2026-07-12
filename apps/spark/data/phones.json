@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ph-1",
+    "name": "iPhone 16",
+    "brand": "Apple",
+    "priceFrom": 49,
+    "upfront": 199,
+    "storage": "128GB",
+    "tag": "5G"
+  },
+  {
+    "id": "ph-2",
+    "name": "iPhone 16 Pro",
+    "brand": "Apple",
+    "priceFrom": 69,
+    "upfront": 299,
+    "storage": "256GB",
+    "tag": "5G"
+  },
+  {
+    "id": "ph-3",
+    "name": "Samsung Galaxy S25",
+    "brand": "Samsung",
+    "priceFrom": 45,
+    "upfront": 99,
+    "storage": "256GB",
+    "tag": "5G"
+  },
+  {
+    "id": "ph-4",
+    "name": "Samsung Galaxy A56",
+    "brand": "Samsung",
+    "priceFrom": 25,
+    "upfront": 0,
+    "storage": "128GB",
+    "tag": "Value"
+  },
+  {
+    "id": "ph-5",
+    "name": "Google Pixel 9",
+    "brand": "Google",
+    "priceFrom": 39,
+    "upfront": 49,
+    "storage": "128GB",
+    "tag": "5G"
+  },
+  {
+    "id": "ph-6",
+    "name": "Google Pixel 9 Pro",
+    "brand": "Google",
+    "priceFrom": 55,
+    "upfront": 149,
+    "storage": "256GB",
+    "tag": "AI"
+  },
+  {
+    "id": "ph-7",
+    "name": "OPPO Reno13",
+    "brand": "OPPO",
+    "priceFrom": 22,
+    "upfront": 0,
+    "storage": "256GB",
+    "tag": "Deal"
+  },
+  {
+    "id": "ph-8",
+    "name": "Motorola edge 50",
+    "brand": "Motorola",
+    "priceFrom": 18,
+    "upfront": 0,
+    "storage": "256GB",
+    "tag": "Deal"
+  }
+]
