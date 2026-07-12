@@ -12,9 +12,9 @@ export async function installCursor(page: Page) {
       const style = document.createElement("style");
       style.textContent = `
         #pw-cursor{position:fixed;top:0;left:0;width:22px;height:22px;border-radius:50%;
-          background:rgba(230,2,120,0.35);border:2px solid #E60278;box-shadow:0 0 0 2px rgba(255,255,255,0.6);
+          background:rgba(95,37,159,0.35);border:2px solid #5F259F;box-shadow:0 0 0 2px rgba(255,255,255,0.6);
           z-index:2147483647;pointer-events:none;transform:translate(-50%,-50%);transition:width .08s,height .08s;}
-        .pw-ripple{position:fixed;width:10px;height:10px;border-radius:50%;background:rgba(230,2,120,0.45);
+        .pw-ripple{position:fixed;width:10px;height:10px;border-radius:50%;background:rgba(95,37,159,0.45);
           z-index:2147483646;pointer-events:none;transform:translate(-50%,-50%);animation:pw-r .5s ease-out forwards;}
         @keyframes pw-r{from{opacity:.7;width:10px;height:10px}to{opacity:0;width:60px;height:60px}}
       `;
