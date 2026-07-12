@@ -11,7 +11,7 @@ export function NotFoundPage() {
           <p className="text-sm font-black uppercase tracking-[0.22em] text-spark-purple">404</p>
           <h1 className="mt-3 text-4xl font-black tracking-tight text-ink">Page not found</h1>
           <p className="mt-4 text-ink-soft">
-            This demo focuses on Spark's NZ Travel Packs promotional page.
+            This demo focuses on Spark&apos;s NZ Travel Packs promotional page.
           </p>
           <Link
             to="/online/shop/promotions/travel-and-move"

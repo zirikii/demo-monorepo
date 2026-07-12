@@ -8,7 +8,7 @@ export function BuyingGuide() {
         <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:items-start">
           <SectionHeading eyebrow="In store only" title="Where to buy your NZ Travel Pack">
             <p>
-              Travel Packs are designed for visitors arriving in New Zealand. We don't ship Travel Packs overseas.
+              Travel Packs are designed for visitors arriving in New Zealand. We don&apos;t ship Travel Packs overseas.
             </p>
           </SectionHeading>
 

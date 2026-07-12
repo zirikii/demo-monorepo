@@ -8,7 +8,7 @@ describe("Spark travel page", () => {
     window.history.pushState({}, "", "/online/shop/promotions/travel-and-move");
     render(<App />);
 
-    expect(screen.getByAltText("Spark NZ")).toBeInTheDocument();
+    expect(screen.getAllByAltText("Spark NZ")).toHaveLength(2);
     expect(screen.getByRole("button", { name: "Shop" })).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {

@@ -13,7 +13,7 @@ export function TravelPackSection() {
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <SectionHeading eyebrow="Get connected" title="Get connected with a Spark Travel Pack.">
             <p>
-              If you're planning to visit New Zealand for up to three months, make your trip that little bit easier with a Spark Travel Pack.
+              If you&apos;re planning to visit New Zealand for up to three months, make your trip that little bit easier with a Spark Travel Pack.
             </p>
             <p className="mt-3 font-extrabold text-ink">Travel Packs are only available in store.</p>
             <a href="#buy" className="mt-3 inline-block font-extrabold text-spark-purple hover:underline">

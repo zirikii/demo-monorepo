@@ -11,7 +11,7 @@ export function FaqSection() {
           <div>
             <SectionHeading eyebrow="Need to know" title="How Travel Packs work">
               <p>
-                Key rules from Spark's page: the pack lasts three months from activation, allowances do not refresh, and the price is the total cost for the whole term.
+                Key rules from Spark&apos;s page: the pack lasts three months from activation, allowances do not refresh, and the price is the total cost for the whole term.
               </p>
             </SectionHeading>
             <div className="mt-8">

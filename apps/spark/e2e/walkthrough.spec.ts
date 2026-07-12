@@ -12,7 +12,7 @@ test("Spark NZ travel page visual walkthrough", async ({ page }, testInfo) => {
   await page.waitForTimeout(1200);
 
   await scrollAndPause(page, 650, 1000);
-  await expect(page.getByText("Endless data")).toBeVisible();
+  await expect(page.locator("article").filter({ hasText: "$129" }).getByText("Endless data")).toBeVisible();
   await pointAndClick(page, page.getByRole("button", { name: /click & collect/i }).last(), 1100);
   await expect(page.getByRole("status")).toContainText("Demo only: Endless selected.");
 

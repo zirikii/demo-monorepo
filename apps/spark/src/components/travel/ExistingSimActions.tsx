@@ -13,7 +13,7 @@ export function ExistingSimActions() {
               Keep going with top ups, the Spark app, and extras.
             </h2>
             <p className="mt-4 text-base leading-7 text-white/75">
-              Staying in New Zealand longer? Check out Spark's range of plans and extras once your Travel Pack term is done.
+              Staying in New Zealand longer? Check out Spark&apos;s range of plans and extras once your Travel Pack term is done.
             </p>
           </div>
 
