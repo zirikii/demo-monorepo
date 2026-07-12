@@ -1,6 +1,6 @@
 # demo-monorepo
 
-A pnpm workspace that bundles four independent demo apps together and gives them
+A pnpm workspace that bundles independent demo apps together and gives them
 a single shared UI package (`@demo/ui`) to pull from.
 
 ## What's inside
@@ -8,11 +8,13 @@ a single shared UI package (`@demo/ui`) to pull from.
 ```
 demo-monorepo/
 ├── apps/
+│   ├── changi/   # Vite + React 19 Changi Airport public website demo
 │   ├── kddi/     # Vite + React 19 NOC dashboard (Tailwind v4, JS)
 │   ├── nab/      # Static HTML/CSS landing site (template-built)
 │   ├── naukri/   # Next.js 14 + React 18 job portal (Tailwind v3, TS)
 │   ├── paytm/    # Vite + React 19 consumer payments site (Tailwind v4, TS)
-│   └── seek/     # Next.js 15 + React 19 jobs marketplace (Tailwind v3, TS)
+│   ├── seek/     # Next.js 15 + React 19 jobs marketplace (Tailwind v3, TS)
+│   └── squiz/    # Vite + React 19 marketing website demo (Tailwind v4, TS)
 ├── packages/
 │   └── ui/       # @demo/ui — shared utilities, tokens, and components
 └── .cursor/
@@ -31,6 +33,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 
 | App | Pulls from `@demo/ui` |
 | --- | --- |
+| changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) |
 | kddi | `cx` class joiner (`src/lib/cx.js` re-exports `@demo/ui/cx`) |
 | naukri | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
 | paytm | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
@@ -46,10 +49,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / dev:naukri / dev:paytm / dev:seek
+pnpm dev:changi    # or dev:kddi / dev:nab / dev:naukri / dev:paytm / dev:seek / dev:squiz
 
 # build one app
-pnpm build:seek    # or build:kddi / build:nab / build:naukri / build:paytm
+pnpm build:changi  # or build:kddi / build:nab / build:naukri / build:paytm / build:seek / build:squiz
 
 # build every app
 pnpm build

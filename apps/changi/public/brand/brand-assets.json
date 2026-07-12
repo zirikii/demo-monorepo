@@ -1,0 +1,41 @@
+{
+  "fetchedDate": "2026-07-12",
+  "sourcePage": "https://www.changiairport.com/au/en.html",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/evergreen/homepage/Logo_CAG_Horizontal_RGB_Pos.svg",
+      "notes": "Primary Changi Airport logo matching the provided header logo."
+    },
+    {
+      "file": "logo-light.png",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/common/header/logo-light.png",
+      "notes": "Light header logo from the live Changi site."
+    },
+    {
+      "file": "favicon.png",
+      "sourceUrl": "https://www.changiairport.com/etc.clientlibs/changiairport/clientlibs/clientlib-site/resources/icon-192x192.png",
+      "notes": "Live Changi site app icon used as favicon."
+    },
+    {
+      "file": "happening-outlet-deals.jpg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/events-and-campaigns/2025/lcd-miffy-garden-in-changi/outlets-deals/baba-nyonya-outlet-deals-cf.jpg",
+      "notes": "Outlet deals homepage image."
+    },
+    {
+      "file": "happening-rewards-sia.jpg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/promos/2026/fly-with-changi-rewards-and-singapore-airlines/cr-sa-banner.jpg",
+      "notes": "Changi Rewards x Singapore Airlines campaign image."
+    },
+    {
+      "file": "happening-peanuts.jpg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/events-and-campaigns/2026/peanuts/peanuts-homepage-desktop.jpg",
+      "notes": "Peanuts activation homepage image."
+    },
+    {
+      "file": "happening-lego-botanicals.jpg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/promos/2026/celebrate-jewel-blooms-with-lego-botanicals/celebrate-jewel-blooms-with-lego-botanicals-wide.jpg",
+      "notes": "LEGO Botanicals homepage image."
+    }
+  ]
+}
