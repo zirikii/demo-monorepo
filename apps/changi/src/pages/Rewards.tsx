@@ -11,7 +11,7 @@ export function RewardsPage() {
         <Card><h2 className="text-2xl font-bold">Sign up or Login</h2><p className="mt-3 text-sm leading-6 text-[#665448]">Demo account entry mirrors the public site call to action.</p></Card>
       </PageHero>
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold">Member's Benefits & Privileges</h2>
+        <h2 className="text-3xl font-bold">Member&apos;s Benefits & Privileges</h2>
         <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {rewardBenefits.map((benefit) => <Card key={benefit.title}><h3 className="text-xl font-bold">{benefit.title}</h3><p className="mt-3 text-sm leading-6 text-[#665448]">{benefit.description}</p><Link to={benefit.href} className="mt-5 inline-flex font-bold text-[#806d5d]">Read more</Link></Card>)}
         </div>

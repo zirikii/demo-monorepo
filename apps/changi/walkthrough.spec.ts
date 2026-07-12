@@ -9,19 +9,19 @@ test("visual walkthrough of Changi homepage and key routes", async ({ browser })
   const page = await context.newPage();
 
   await page.goto("/");
-  await expect(page.getByRole("img", { name: /changi airport singapore/i })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Changi Airport home" })).toBeVisible();
   await expect(page.getByRole("heading", { name: /useful information for arriving passengers/i })).toBeVisible();
-  await page.screenshot({ path: join(artifactDir, "changi-home.png"), fullPage: true });
+  await page.screenshot({ path: join(artifactDir, "changi-home.png") });
 
-  await page.getByRole("button", { name: /departing/i }).click();
+  await page.getByRole("tab", { name: /departing/i }).click();
   await expect(page.getByRole("heading", { name: /useful information for departing passengers/i })).toBeVisible();
-  await page.getByRole("link", { name: /^fly$/i }).click();
+  await page.locator("header").getByRole("link", { name: /^fly$/i }).click();
   await expect(page.getByRole("heading", { name: /fly with changi airport/i })).toBeVisible();
-  await page.screenshot({ path: join(artifactDir, "changi-fly.png"), fullPage: true });
+  await page.screenshot({ path: join(artifactDir, "changi-fly.png") });
 
-  await page.getByRole("link", { name: /changi rewards/i }).click();
+  await page.locator("header").getByRole("link", { name: /changi rewards/i }).click();
   await expect(page.getByRole("heading", { name: /changi rewards/i })).toBeVisible();
-  await page.screenshot({ path: join(artifactDir, "changi-rewards.png"), fullPage: true });
+  await page.screenshot({ path: join(artifactDir, "changi-rewards.png") });
 
   const video = page.video();
   await context.close();
