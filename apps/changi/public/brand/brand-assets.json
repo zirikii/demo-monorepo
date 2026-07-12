@@ -1,0 +1,37 @@
+{
+  "note": "Official Changi Airport brand assets sourced from changiairport.com for visual fidelity in this unofficial demo. Not affiliated with Changi Airport Group.",
+  "fetchedOn": "2026-07-12",
+  "source": "https://www.changiairport.com/au/en.html",
+  "assets": [
+    {
+      "file": "changi-globe.svg",
+      "description": "Official multi-colour globe emblem (extracted from Logo_CAG_Horizontal_RGB_Pos.svg)",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/evergreen/homepage/Logo_CAG_Horizontal_RGB_Pos.svg"
+    },
+    {
+      "file": "favicon.svg",
+      "description": "Globe emblem reused as the browser tab icon",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/sg/airport/evergreen/homepage/Logo_CAG_Horizontal_RGB_Pos.svg"
+    },
+    {
+      "file": "facebook.svg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/common/footer/facebook-app-symbol.svg"
+    },
+    {
+      "file": "instagram.svg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/common/footer/instagram.svg"
+    },
+    {
+      "file": "linkedin.svg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/common/footer/linkedin.svg"
+    },
+    {
+      "file": "youtube.svg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/common/footer/youtube.svg"
+    },
+    {
+      "file": "telegram.svg",
+      "sourceUrl": "https://www.changiairport.com/content/dam/changiairport/common/footer/telegram.svg"
+    }
+  ]
+}
