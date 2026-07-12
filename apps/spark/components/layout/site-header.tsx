@@ -3,19 +3,35 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, Search, ShoppingBag, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DemoRibbon } from "@demo/ui/components/demo-ribbon";
 import { NAV_MARKETING } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    const onMyspark = [
+      "/dashboard",
+      "/usage",
+      "/plans",
+      "/top-up",
+      "/bills",
+      "/settings",
+    ].some((p) => pathname === p || pathname.startsWith(`${p}/`));
+    setSignedIn(onMyspark);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur">
       <div className="container flex h-16 items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link href="/" className="flex items-center gap-2" aria-label="Spark NZ home">
+            {/* Official Spark logo — self-hosted brand asset */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo.svg" alt="Spark NZ" className="h-9 w-auto" />
           </Link>
           <DemoRibbon className="hidden border-spark-purple/20 text-spark-ink/70 sm:inline-flex" />
@@ -38,7 +54,13 @@ export function SiteHeader() {
             href="/dashboard"
             className={cn(
               "text-sm font-semibold text-spark-ink/80 hover:text-spark-purple",
-              pathname.startsWith("/dashboard") && "text-spark-purple",
+              (pathname.startsWith("/dashboard") ||
+                pathname.startsWith("/usage") ||
+                pathname.startsWith("/plans") ||
+                pathname.startsWith("/top-up") ||
+                pathname.startsWith("/bills") ||
+                pathname.startsWith("/settings")) &&
+                "text-spark-purple",
             )}
           >
             MySpark
@@ -60,12 +82,21 @@ export function SiteHeader() {
           >
             <ShoppingBag className="h-5 w-5" />
           </button>
-          <Link
-            href="/login"
-            className="hidden h-9 items-center rounded-md bg-spark-purple px-3 text-xs font-semibold text-white hover:bg-spark-purple-dark sm:inline-flex"
-          >
-            Sign in
-          </Link>
+          {signedIn ? (
+            <Link
+              href="/dashboard"
+              className="hidden h-9 items-center rounded-md border border-spark-purple px-3 text-xs font-semibold text-spark-purple hover:bg-spark-purple-light sm:inline-flex"
+            >
+              Account
+            </Link>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden h-9 items-center rounded-md bg-spark-purple px-3 text-xs font-semibold text-white hover:bg-spark-purple-dark sm:inline-flex"
+            >
+              Sign in
+            </Link>
+          )}
           <button
             type="button"
             className="inline-flex rounded-md p-2 text-spark-ink hover:bg-surface-muted lg:hidden"
@@ -98,11 +129,11 @@ export function SiteHeader() {
               MySpark
             </Link>
             <Link
-              href="/login"
+              href={signedIn ? "/dashboard" : "/login"}
               className="rounded-md px-3 py-2 text-sm font-semibold text-spark-purple"
               onClick={() => setOpen(false)}
             >
-              Sign in
+              {signedIn ? "Account" : "Sign in"}
             </Link>
           </nav>
         </div>
