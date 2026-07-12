@@ -1,0 +1,110 @@
+[
+  {
+    "id": "u_001",
+    "date": "2026-07-11T08:12:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — streaming",
+    "amount": 2.4,
+    "unit": "GB",
+    "location": "Wellington"
+  },
+  {
+    "id": "u_002",
+    "date": "2026-07-10T19:40:00.000Z",
+    "kind": "roaming",
+    "description": "Daily Roaming — data",
+    "amount": 0.8,
+    "unit": "GB",
+    "location": "Sydney, AU"
+  },
+  {
+    "id": "u_003",
+    "date": "2026-07-10T18:05:00.000Z",
+    "kind": "calls",
+    "description": "Call to +64 mobile",
+    "amount": 14,
+    "unit": "min",
+    "location": "Sydney, AU"
+  },
+  {
+    "id": "u_004",
+    "date": "2026-07-09T12:22:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — maps & browsing",
+    "amount": 1.1,
+    "unit": "GB",
+    "location": "Auckland"
+  },
+  {
+    "id": "u_005",
+    "date": "2026-07-08T21:15:00.000Z",
+    "kind": "text",
+    "description": "Texts sent",
+    "amount": 26,
+    "unit": "txt",
+    "location": "Auckland"
+  },
+  {
+    "id": "u_006",
+    "date": "2026-07-07T09:48:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — social",
+    "amount": 3.2,
+    "unit": "GB",
+    "location": "Auckland"
+  },
+  {
+    "id": "u_007",
+    "date": "2026-07-06T14:03:00.000Z",
+    "kind": "calls",
+    "description": "Call to Australia",
+    "amount": 8,
+    "unit": "min",
+    "location": "Christchurch"
+  },
+  {
+    "id": "u_008",
+    "date": "2026-07-05T20:30:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — video streaming",
+    "amount": 4.7,
+    "unit": "GB",
+    "location": "Christchurch"
+  },
+  {
+    "id": "u_009",
+    "date": "2026-07-04T07:55:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — music",
+    "amount": 0.9,
+    "unit": "GB",
+    "location": "Queenstown"
+  },
+  {
+    "id": "u_010",
+    "date": "2026-07-03T16:18:00.000Z",
+    "kind": "roaming",
+    "description": "Travel Pack — data",
+    "amount": 1.5,
+    "unit": "GB",
+    "location": "Nadi, FJ"
+  },
+  {
+    "id": "u_011",
+    "date": "2026-07-02T11:40:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — browsing",
+    "amount": 1.8,
+    "unit": "GB",
+    "location": "Wellington"
+  },
+  {
+    "id": "u_012",
+    "date": "2026-07-01T22:05:00.000Z",
+    "kind": "data",
+    "description": "Mobile data — downloads",
+    "amount": 5.3,
+    "unit": "GB",
+    "location": "Wellington"
+  }
+]

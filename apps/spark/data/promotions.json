@@ -1,0 +1,73 @@
+[
+  {
+    "id": "promo-daily-roaming",
+    "slug": "daily-roaming",
+    "eyebrow": "Going overseas",
+    "title": "Daily Roaming from $7/day",
+    "description": "Use your NZ plan's data, minutes and texts in Australia and the Pacific for a flat daily fee. You're only charged on the days you actually use it.",
+    "category": "travel",
+    "accent": "purple",
+    "badge": "Most popular",
+    "cta": { "label": "Set up roaming", "href": "/roaming" },
+    "secondaryCta": { "label": "See all destinations", "href": "/roaming#zones" },
+    "highlights": [
+      "No charge on days you don't use it",
+      "Keep your own number",
+      "Turn it on before you fly"
+    ]
+  },
+  {
+    "id": "promo-travel-packs",
+    "slug": "travel-packs",
+    "eyebrow": "Further afield",
+    "title": "Travel Packs for 60+ destinations",
+    "description": "Heading to Asia, Europe or the Americas? Grab a data, minutes and text pack that lasts 30 days so you can travel without bill shock.",
+    "category": "travel",
+    "accent": "magenta",
+    "cta": { "label": "Compare travel packs", "href": "/roaming#packs" },
+    "highlights": ["5GB and 10GB options", "Valid for 30 days", "Add before or during your trip"]
+  },
+  {
+    "id": "promo-esim",
+    "slug": "esim",
+    "eyebrow": "Skip the SIM swap",
+    "title": "Travel on an eSIM",
+    "description": "Add a travel eSIM to a compatible phone and stay connected the moment you land — no plastic SIM, no queues.",
+    "category": "travel",
+    "accent": "green",
+    "cta": { "label": "Check eSIM options", "href": "/roaming#esim" }
+  },
+  {
+    "id": "promo-move-broadband",
+    "slug": "move-your-broadband",
+    "eyebrow": "Moving home",
+    "title": "Take your broadband with you",
+    "description": "Tell us your new address and we'll move your Spark broadband across. In many homes you can be back online the same day.",
+    "category": "move",
+    "accent": "orange",
+    "badge": "Free to move",
+    "cta": { "label": "Move my broadband", "href": "/broadband#move" },
+    "highlights": ["Keep your plan and price", "Same-day reconnection in many areas", "We'll check what's available"]
+  },
+  {
+    "id": "promo-switch-to-spark",
+    "slug": "switch-to-spark",
+    "eyebrow": "New to Spark",
+    "title": "Switch and bring your number",
+    "description": "Moving to Spark is easy. Keep your existing mobile number and we'll handle the transfer, usually within a few hours.",
+    "category": "move",
+    "accent": "purple",
+    "cta": { "label": "Switch to Spark", "href": "/mobile" },
+    "highlights": ["Keep your number", "No connection fee online", "Help every step of the way"]
+  },
+  {
+    "id": "promo-visitor-esim",
+    "slug": "visitor-esim",
+    "eyebrow": "Visiting Aotearoa",
+    "title": "Prepaid eSIM for visitors",
+    "description": "Landing in New Zealand? Get connected before you arrive with a prepaid Visitor eSIM loaded with data, minutes and texts.",
+    "category": "move",
+    "accent": "green",
+    "cta": { "label": "Get a Visitor eSIM", "href": "/roaming#esim" }
+  }
+]

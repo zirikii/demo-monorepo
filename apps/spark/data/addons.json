@@ -1,0 +1,78 @@
+[
+  {
+    "id": "addon-roam-daily",
+    "name": "Daily Roaming",
+    "category": "roaming",
+    "description": "Use your NZ plan's data, minutes and texts overseas for a flat daily fee. You're only charged on the days you use it.",
+    "price": 7,
+    "unit": "per day",
+    "zones": ["Australia & the Pacific"],
+    "popular": true
+  },
+  {
+    "id": "addon-roam-pack-5",
+    "name": "Travel Pack 5GB",
+    "category": "roaming",
+    "description": "5GB of data plus 120 minutes and 200 texts to use across 60+ destinations. Valid for 30 days.",
+    "price": 49,
+    "unit": "one-off",
+    "data": "5GB",
+    "durationDays": 30,
+    "zones": ["Asia", "Europe & UK", "North America"]
+  },
+  {
+    "id": "addon-roam-pack-10",
+    "name": "Travel Pack 10GB",
+    "category": "roaming",
+    "description": "10GB of data plus endless minutes and texts across 60+ destinations. Valid for 30 days.",
+    "price": 79,
+    "unit": "one-off",
+    "data": "10GB",
+    "durationDays": 30,
+    "zones": ["Asia", "Europe & UK", "North America", "Rest of world"]
+  },
+  {
+    "id": "addon-esim-visitor",
+    "name": "Visitor eSIM 8GB",
+    "category": "roaming",
+    "description": "A prepaid eSIM for visitors to New Zealand. Scan a QR code and you're connected — no physical SIM required.",
+    "price": 39,
+    "unit": "one-off",
+    "data": "8GB",
+    "durationDays": 30
+  },
+  {
+    "id": "addon-data-5gb",
+    "name": "Data Top-up 5GB",
+    "category": "data",
+    "description": "Add 5GB to your current cycle. Handy when you're close to your allowance.",
+    "price": 15,
+    "unit": "one-off",
+    "data": "5GB"
+  },
+  {
+    "id": "addon-data-endless-day",
+    "name": "Endless Data Day Pass",
+    "category": "data",
+    "description": "Unlimited data for 24 hours. Great for a big download day or a move-in weekend.",
+    "price": 5,
+    "unit": "per day"
+  },
+  {
+    "id": "addon-spotify",
+    "name": "Spotify Premium",
+    "category": "entertainment",
+    "description": "Ad-free music included with your plan. Manage it from My Spark anytime.",
+    "price": 0,
+    "unit": "per month",
+    "popular": true
+  },
+  {
+    "id": "addon-neon",
+    "name": "Neon Streaming",
+    "category": "entertainment",
+    "description": "Movies and box sets on demand, billed to your Spark account.",
+    "price": 14,
+    "unit": "per month"
+  }
+]

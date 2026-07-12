@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* shadcn semantic tokens mapped to the Spark palette (HSL channels). */
+    --background: 0 0% 100%;
+    --foreground: 240 3% 12%; /* #1D1D1F ink */
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 3% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 3% 12%;
+
+    /* Spark Purple #5F259F */
+    --primary: 268 62% 38%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 265 40% 96%;
+    --secondary-foreground: 268 62% 30%;
+
+    --muted: 265 30% 95%;
+    --muted-foreground: 240 2% 44%; /* #6E6E73 */
+
+    --accent: 265 55% 95%; /* purple-light */
+    --accent-foreground: 268 62% 32%;
+
+    --destructive: 359 60% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 262 22% 90%; /* #E5E1EC */
+    --input: 262 22% 90%;
+    --ring: 268 62% 38%;
+
+    --radius: 0.625rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-white text-ink;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-semibold tracking-tight text-spark-ink;
+  }
+}
+
+@layer components {
+  /* Focus ring used across interactive controls for keyboard accessibility. */
+  .focus-ring {
+    @apply outline-none ring-offset-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-spark-purple;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-[1240px] px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Thin, unobtrusive scrollbars. */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: #cfc8db transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #cfc8db;
+  border-radius: 9999px;
+}

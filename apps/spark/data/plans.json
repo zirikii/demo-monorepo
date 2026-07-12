@@ -1,0 +1,106 @@
+[
+  {
+    "id": "plan-mobile-value",
+    "kind": "mobile",
+    "name": "Value Mobile",
+    "tagline": "Everything you need, nothing you don't.",
+    "monthlyPrice": 40,
+    "data": "20GB",
+    "calls": "Endless mins & texts in NZ & to Aussie",
+    "term": "open-term",
+    "roamingReady": true,
+    "features": [
+      "20GB data, then slows (no bill surprises)",
+      "Endless minutes & texts within NZ",
+      "Roaming ready — add a travel pack anytime",
+      "Rollover unused data for one cycle"
+    ]
+  },
+  {
+    "id": "plan-mobile-endless",
+    "kind": "mobile",
+    "name": "Endless Data Mobile",
+    "tagline": "Stream, scroll and share without watching the meter.",
+    "monthlyPrice": 65,
+    "data": "Endless data",
+    "calls": "Endless mins & texts in NZ & to Aussie",
+    "term": "open-term",
+    "popular": true,
+    "roamingReady": true,
+    "features": [
+      "Endless data at full speed up to 40GB, then 1.2Mbps",
+      "Endless minutes & texts within NZ",
+      "$7/day roaming ready in Australia & the Pacific",
+      "Includes a Spark entertainment add-on of your choice"
+    ]
+  },
+  {
+    "id": "plan-mobile-max",
+    "kind": "mobile",
+    "name": "Endless Max Mobile",
+    "tagline": "Our fastest mobile experience for heavy users.",
+    "monthlyPrice": 85,
+    "data": "Endless data (max speed)",
+    "calls": "Endless mins & texts in NZ, Aussie & 60+ countries",
+    "term": "open-term",
+    "roamingReady": true,
+    "features": [
+      "Endless data at max 5G speed",
+      "Endless minutes & texts to 60+ destinations",
+      "Priority network access at busy times",
+      "Two entertainment add-ons included"
+    ]
+  },
+  {
+    "id": "plan-broadband-fibre",
+    "kind": "broadband",
+    "name": "Fibre Unlimited",
+    "tagline": "Reliable everyday fibre for the whole household.",
+    "monthlyPrice": 85,
+    "data": "Unlimited data",
+    "calls": "Add a home phone line anytime",
+    "speed": "Up to 300Mbps download",
+    "term": "open-term",
+    "features": [
+      "Unlimited data on our fibre network",
+      "Smart Mesh Wi-Fi router included",
+      "No fixed-term contract",
+      "Free standard installation"
+    ]
+  },
+  {
+    "id": "plan-broadband-fibremax",
+    "kind": "broadband",
+    "name": "Fibre Max",
+    "tagline": "Max speed fibre for gaming and 4K streaming.",
+    "monthlyPrice": 105,
+    "data": "Unlimited data",
+    "calls": "Add a home phone line anytime",
+    "speed": "Up to 900Mbps download",
+    "term": "open-term",
+    "popular": true,
+    "features": [
+      "Unlimited data at max fibre speed",
+      "Wi-Fi 6 Smart Mesh router included",
+      "Priority fault response",
+      "Free standard installation"
+    ]
+  },
+  {
+    "id": "plan-broadband-wireless",
+    "kind": "broadband",
+    "name": "Wireless Broadband",
+    "tagline": "Plug-and-play broadband over our 5G network.",
+    "monthlyPrice": 60,
+    "data": "Unlimited data",
+    "calls": "Mobile-based — no landline needed",
+    "speed": "Typical 5G speeds 100–300Mbps",
+    "term": "open-term",
+    "features": [
+      "Set up yourself in minutes — no technician",
+      "Unlimited data with no fixed-term contract",
+      "5G modem included",
+      "Great for renters and short stays"
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Spark">
+  <g>
+    <circle cx="32" cy="14" r="4.4" fill="#00AF55"/>
+    <circle cx="45" cy="19" r="4.1" fill="#00AF55" opacity="0.9"/>
+    <circle cx="51" cy="31" r="3.8" fill="#FF9B00"/>
+    <circle cx="48" cy="44" r="3.4" fill="#FF9B00" opacity="0.9"/>
+    <circle cx="38" cy="51" r="3.1" fill="#EC008C"/>
+    <circle cx="25" cy="50" r="2.8" fill="#EC008C" opacity="0.85"/>
+    <circle cx="16" cy="42" r="2.5" fill="#5F259F"/>
+    <circle cx="14" cy="29" r="2.3" fill="#5F259F" opacity="0.85"/>
+    <circle cx="19" cy="18" r="2.6" fill="#5F259F"/>
+    <circle cx="32" cy="32" r="5.2" fill="#5F259F"/>
+  </g>
+</svg>

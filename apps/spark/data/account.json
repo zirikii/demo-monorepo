@@ -1,0 +1,8 @@
+{
+  "planId": "plan-mobile-endless",
+  "activeAddOnIds": ["addon-roam-daily", "addon-spotify"],
+  "dataAllowanceGb": 0,
+  "dataUsedGb": 34.6,
+  "cycleResetAt": "2026-08-02T00:00:00.000Z",
+  "balanceOwing": 65
+}

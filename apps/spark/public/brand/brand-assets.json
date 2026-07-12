@@ -1,0 +1,36 @@
+{
+  "note": "Unofficial demo. Not affiliated with Spark New Zealand Trading Limited. Brand assets sourced from public Spark web pages for visual-fidelity purposes only.",
+  "brandColor": "#5F259F",
+  "assets": [
+    {
+      "file": "spark-logo.svg",
+      "description": "Primary Spark wordmark + spot (colour), for light backgrounds",
+      "source": "https://www.spark.co.nz/content/dam/sparkdigital/images/logo/purple.svg",
+      "fetched": "2026-07-12"
+    },
+    {
+      "file": "spark-logo-white.svg",
+      "description": "Reversed Spark wordmark + spot (white), for dark backgrounds",
+      "source": "https://www.spark.co.nz/content/dam/sparkdigital/images/logo/white.svg",
+      "fetched": "2026-07-12"
+    },
+    {
+      "file": "spark-mark.svg",
+      "description": "Spark spot mark only (multicolour), reconstructed for app icons",
+      "source": "derived from Spark spot artwork",
+      "fetched": "2026-07-12"
+    },
+    {
+      "file": "favicon.svg",
+      "description": "Browser tab favicon (purple tile + white spot)",
+      "source": "derived from Spark spot artwork",
+      "fetched": "2026-07-12"
+    },
+    {
+      "file": "icon.svg",
+      "description": "App icon (purple tile + white spot)",
+      "source": "derived from Spark spot artwork",
+      "fetched": "2026-07-12"
+    }
+  ]
+}

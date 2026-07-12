@@ -1,0 +1,15 @@
+{
+  "fullName": "Aria Ngata",
+  "email": "you@example.co.nz",
+  "mobile": "+64 21 555 0142",
+  "notifications": {
+    "billing": true,
+    "usageAlerts": true,
+    "roamingTips": true,
+    "marketing": false
+  },
+  "privacy": {
+    "shareUsageForOffers": false,
+    "twoFactor": true
+  }
+}

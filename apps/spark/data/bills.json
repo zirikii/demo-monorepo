@@ -1,0 +1,59 @@
+[
+  {
+    "id": "bill-2026-07",
+    "period": "July 2026",
+    "issuedAt": "2026-07-02T00:00:00.000Z",
+    "dueAt": "2026-07-16T00:00:00.000Z",
+    "amount": 65,
+    "status": "Due",
+    "items": [
+      { "label": "Endless Data Mobile", "amount": 65 },
+      { "label": "Daily Roaming (2 days)", "amount": 14 },
+      { "label": "Spotify Premium (included)", "amount": 0 },
+      { "label": "Roaming credit applied", "amount": -14 }
+    ]
+  },
+  {
+    "id": "bill-2026-06",
+    "period": "June 2026",
+    "issuedAt": "2026-06-02T00:00:00.000Z",
+    "dueAt": "2026-06-16T00:00:00.000Z",
+    "amount": 65,
+    "status": "Paid",
+    "items": [
+      { "label": "Endless Data Mobile", "amount": 65 },
+      { "label": "Spotify Premium (included)", "amount": 0 }
+    ]
+  },
+  {
+    "id": "bill-2026-05",
+    "period": "May 2026",
+    "issuedAt": "2026-05-02T00:00:00.000Z",
+    "dueAt": "2026-05-16T00:00:00.000Z",
+    "amount": 114,
+    "status": "Paid",
+    "items": [
+      { "label": "Endless Data Mobile", "amount": 65 },
+      { "label": "Travel Pack 5GB", "amount": 49 },
+      { "label": "Spotify Premium (included)", "amount": 0 }
+    ]
+  },
+  {
+    "id": "bill-2026-04",
+    "period": "April 2026",
+    "issuedAt": "2026-04-02T00:00:00.000Z",
+    "dueAt": "2026-04-16T00:00:00.000Z",
+    "amount": 65,
+    "status": "Paid",
+    "items": [{ "label": "Endless Data Mobile", "amount": 65 }]
+  },
+  {
+    "id": "bill-2026-03",
+    "period": "March 2026",
+    "issuedAt": "2026-03-02T00:00:00.000Z",
+    "dueAt": "2026-03-16T00:00:00.000Z",
+    "amount": 65,
+    "status": "Paid",
+    "items": [{ "label": "Endless Data Mobile", "amount": 65 }]
+  }
+]
