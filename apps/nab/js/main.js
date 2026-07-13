@@ -3,6 +3,7 @@
 (function () {
   "use strict";
 
+  // Variables
   const header = document.getElementById("siteHeader");
   const mainNav = document.getElementById("mainNav");
   const overlay = document.getElementById("megaOverlay");
