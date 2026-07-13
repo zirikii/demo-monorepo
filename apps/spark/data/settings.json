@@ -1,0 +1,53 @@
+{
+  "team": [
+    {
+      "id": "tm-1",
+      "name": "Aroha Demo",
+      "email": "admin@spark-demo.nz",
+      "role": "Owner"
+    },
+    {
+      "id": "tm-2",
+      "name": "Jamie Patel",
+      "email": "jamie@example.co.nz",
+      "role": "Admin"
+    },
+    {
+      "id": "tm-3",
+      "name": "Mia Chen",
+      "email": "mia@example.co.nz",
+      "role": "Member"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int-airpoints",
+      "name": "Airpoints™",
+      "description": "Link membership for broadband join/move offers (demo toggle).",
+      "connected": true
+    },
+    {
+      "id": "int-spotify",
+      "name": "Spotify Premium",
+      "description": "Entertainment benefit on eligible plans.",
+      "connected": false
+    },
+    {
+      "id": "int-netflix",
+      "name": "Netflix",
+      "description": "Non-stop Netflix on eligible broadband.",
+      "connected": false
+    },
+    {
+      "id": "int-neon",
+      "name": "NEON",
+      "description": "Streaming perk for selected plans.",
+      "connected": true
+    }
+  ],
+  "profile": {
+    "phone": "+64 21 555 0182",
+    "address": "12 Courtenay Place, Wellington 6011",
+    "preferredContact": "Email"
+  }
+}

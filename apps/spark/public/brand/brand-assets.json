@@ -1,0 +1,34 @@
+{
+  "fetchedAt": "2026-07-12",
+  "note": "Unofficial demo assets sourced from public spark.co.nz pages for visual fidelity only. Not affiliated with Spark New Zealand Trading Limited.",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "source": "https://www.spark.co.nz/content/dam/sparkdigital/images/logo/purple.svg"
+    },
+    {
+      "file": "logo-white.svg",
+      "source": "https://www.spark.co.nz/content/dam/sparkdigital/images/logo/white.svg"
+    },
+    {
+      "file": "favicon.png",
+      "source": "https://www.spark.co.nz/favicon_128.png"
+    },
+    {
+      "file": "logo-mark.svg",
+      "source": "recreated spark-mark approximation"
+    },
+    {
+      "file": "photos/hero-friends-grass.jpg",
+      "source": "https://www.spark.co.nz/content/dam/spark/images/spark-photography/consumer/2025-collection/digital/friend-group-hanging-on-grass-1920x1280.jpg"
+    },
+    {
+      "file": "photos/app-cta-girls.png",
+      "source": "https://www.spark.co.nz/content/dam/spark/images/spark-photography/consumer/2025-collection/banners/girls-on-phone-landscape-banner-asset.png"
+    },
+    {
+      "file": "photos/network-coverage.png",
+      "source": "https://www.spark.co.nz/content/dam/spark/images/backgrounds/marketing/promo/network-coverage-tile-2025-desktop.png"
+    }
+  ]
+}

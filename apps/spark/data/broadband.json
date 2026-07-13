@@ -1,0 +1,34 @@
+[
+  {
+    "id": "fibre-everyday",
+    "name": "Everyday Fibre",
+    "type": "Fibre",
+    "price": 85,
+    "speed": "Up to 300 Mbps",
+    "features": ["Unlimited data", "Wi‑Fi modem included", "McAfee Security eligible"]
+  },
+  {
+    "id": "fibre-max",
+    "name": "Max Fibre",
+    "type": "Fibre",
+    "price": 105,
+    "speed": "Up to 900 Mbps",
+    "features": ["Unlimited data", "Great for 4K streaming", "Netflix deal eligible"]
+  },
+  {
+    "id": "wireless-lite",
+    "name": "Lite Wireless",
+    "type": "Wireless",
+    "price": 65,
+    "speed": "4G / 5G wireless",
+    "features": ["Quick setup", "No fibre install wait", "$20 off for 12 months (promo)"]
+  },
+  {
+    "id": "wireless-everyday",
+    "name": "Everyday Wireless",
+    "type": "Wireless",
+    "price": 75,
+    "speed": "4G / 5G wireless",
+    "features": ["Flexible home internet", "Portable modem options", "Spark app support"]
+  }
+]

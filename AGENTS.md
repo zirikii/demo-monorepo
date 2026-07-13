@@ -15,11 +15,13 @@ per-app scripts and features are documented in the root `README.md` and each app
 | kddi (Vite + React 19) | `pnpm dev:kddi` | 5173 | NOC dashboard; no env needed |
 | naukri (Next.js 14) | `pnpm dev:naukri` | 3000 | Job portal |
 | seek (Next.js 15) | `pnpm dev:seek` | 3000 | Marketplace |
+| spark (Next.js 15) | `pnpm dev:spark` | 3000 | Spark NZ Travel & Move / MySpark demo |
 | nab (static site) | `pnpm dev:nab` | 8080 | Builds then serves generated HTML |
 
-- **Port collision:** naukri and seek both default to port 3000. To run them at the same
+- **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
-  `PORT=3001 pnpm --filter seek-marketplace-demo dev`. Do **not** try
+  `PORT=3001 pnpm --filter seek-marketplace-demo dev` or
+  `PORT=3002 pnpm --filter spark-nz-demo dev`. Do **not** try
   `pnpm dev:seek -- -p 3001` / `pnpm dev:naukri -- -p 3001` — the extra args get
   mis-parsed by `next dev` as a project directory and the server fails to start.
 - **nab** is a generated static site (not a live app server): `pnpm dev:nab` runs the
@@ -29,17 +31,17 @@ per-app scripts and features are documented in the root `README.md` and each app
 
 ### Env files (Next apps)
 
-`apps/naukri` and `apps/seek` read `DEMO_AUTH_SECRET` but fall back to `"change-me"`, so
-`.env.local` is **optional** for dev — the apps boot without it. Copy
+`apps/naukri`, `apps/seek`, and `apps/spark` read `DEMO_AUTH_SECRET` but fall back to
+`"change-me"`, so `.env.local` is **optional** for dev — the apps boot without it. Copy
 `.env.example` → `.env.local` if you want to override defaults. Auth is mock: the login
 forms accept **any** email/password (they come pre-filled with demo credentials).
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek + `@demo/ui` typecheck; nab has no
-  linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, and seek (run `pnpm test` inside
-  an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz + `@demo/ui`
+  typecheck; nab has no linter.
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, and spark (run `pnpm test`
+  inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
