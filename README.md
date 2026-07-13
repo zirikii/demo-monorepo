@@ -13,13 +13,14 @@ demo-monorepo/
 │   ├── naukri/   # Next.js 14 + React 18 job portal (Tailwind v3, TS)
 │   ├── paytm/    # Vite + React 19 consumer payments site (Tailwind v4, TS)
 │   ├── seek/     # Next.js 15 + React 19 jobs marketplace (Tailwind v3, TS)
+│   ├── spark/    # Next.js 15 Spark NZ Travel & Move / MySpark demo
 │   ├── squiz/    # Vite + React 19 marketing site (Tailwind v4, TS)
 │   └── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
 ├── packages/
 │   └── ui/       # @demo/ui — shared utilities, tokens, and components
 └── .cursor/
     └── skills/
-        └── migrate-to-skills/   # Reusable Cursor skill (see below)
+        └── mock-company-repo/   # Prompt + scaffold skill for company demos
 ```
 
 Each app keeps its own framework, dependencies, tests, and README. pnpm
@@ -37,6 +38,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | naukri | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
 | paytm | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | seek | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
+| spark | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
 | squiz | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
@@ -50,10 +52,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / dev:naukri / dev:paytm / dev:seek / dev:squiz / dev:changi
+pnpm dev:kddi      # or dev:nab / dev:naukri / dev:paytm / dev:seek / dev:spark / dev:squiz / dev:changi
 
 # build one app
-pnpm build:seek    # or build:kddi / build:nab / build:naukri / build:paytm / build:squiz / build:changi
+pnpm build:seek    # or build:kddi / build:nab / build:naukri / build:paytm / build:spark / build:squiz / build:changi
 
 # build every app
 pnpm build

@@ -17,6 +17,7 @@
     "dev:naukri": "pnpm --filter naukri-job-portal dev",
     "dev:paytm": "pnpm --filter paytm-web-demo dev",
     "dev:seek": "pnpm --filter seek-marketplace-demo dev",
+    "dev:spark": "pnpm --filter spark-nz-demo dev",
     "dev:squiz": "pnpm --filter squiz-website-demo dev",
     "dev:changi": "pnpm --filter changi-airport-demo dev",
     "build:kddi": "pnpm --filter kddi-noc-dashboard build",
@@ -24,6 +25,7 @@
     "build:naukri": "pnpm --filter naukri-job-portal build",
     "build:paytm": "pnpm --filter paytm-web-demo build",
     "build:seek": "pnpm --filter seek-marketplace-demo build",
+    "build:spark": "pnpm --filter spark-nz-demo build",
     "build:squiz": "pnpm --filter squiz-website-demo build",
     "build:changi": "pnpm --filter changi-airport-demo build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore"
