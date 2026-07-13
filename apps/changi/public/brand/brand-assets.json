@@ -1,0 +1,54 @@
+{
+  "fetched": "2026-07-12",
+  "disclaimer": "Unofficial demo assets sourced from public changiairport.com pages for visual fidelity only. Not affiliated with Changi Airport Group.",
+  "files": [
+    {
+      "file": "logo.svg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/sg/airport/evergreen/homepage/Logo_CAG_Horizontal_RGB_Pos.svg"
+    },
+    {
+      "file": "logo-light.png",
+      "source": "https://www.changiairport.com/content/dam/changiairport/common/header/logo-light.png"
+    },
+    {
+      "file": "favicon.svg",
+      "source": "Derived from CAG ribbon-sphere brand colours (yellow → red → purple)"
+    },
+    {
+      "file": "icons/globe.svg",
+      "source": "https://www.changiairport.com/etc.clientlibs/changiairport/clientlibs/clientlib-site/resources/images/website-globe.svg"
+    },
+    {
+      "file": "icons/search.svg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/common/header/search.svg"
+    },
+    {
+      "file": "icons/app-store.svg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/common/footer/AppStore.svg"
+    },
+    {
+      "file": "icons/google-play.svg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/common/footer/GooglePlay.svg"
+    },
+    {
+      "file": "happenings/outlet-deals.jpg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/events-and-campaigns/2025/lcd-miffy-garden-in-changi/outlets-deals/baba-nyonya-outlet-deals-cf.jpg"
+    },
+    {
+      "file": "happenings/changi-rewards-sia.jpg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/promos/2026/fly-with-changi-rewards-and-singapore-airlines/cr-sa-banner.jpg"
+    },
+    {
+      "file": "happenings/peanuts.jpg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/events-and-campaigns/2026/peanuts/peanuts-homepage-desktop.jpg"
+    },
+    {
+      "file": "happenings/jewel-blooms-lego.jpg",
+      "source": "https://www.changiairport.com/content/dam/changiairport/sg/airport/seasonal/promos/2026/celebrate-jewel-blooms-with-lego-botanicals/celebrate-jewel-blooms-with-lego-botanicals-wide.jpg"
+    },
+    {
+      "file": "destinations/*.jpg",
+      "source": "https://changiairport.scene7.com/is/image/changiairport/{NN City}?wid=640&hei=640&fit=crop"
+    }
+  ]
+}

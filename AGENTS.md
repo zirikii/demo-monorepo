@@ -17,6 +17,9 @@ per-app scripts and features are documented in the root `README.md` and each app
 | seek (Next.js 15) | `pnpm dev:seek` | 3000 | Marketplace |
 | spark (Next.js 15) | `pnpm dev:spark` | 3000 | Spark NZ Travel & Move / MySpark demo |
 | nab (static site) | `pnpm dev:nab` | 8080 | Builds then serves generated HTML |
+| paytm (Vite + React 19) | `pnpm dev:paytm` | 5174 | Payments site |
+| squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
+| changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
