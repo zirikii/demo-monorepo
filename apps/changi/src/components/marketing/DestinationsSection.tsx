@@ -56,7 +56,12 @@ export function DestinationsSection() {
               style={{ animationDelay: `${idx * 30}ms` }}
             >
               <div className="aspect-square overflow-hidden bg-sand">
-                <img src={city.image} alt={city.city} className="h-full w-full object-cover" loading="lazy" />
+                <img
+                  src={city.image}
+                  alt={city.city}
+                  className="block h-full w-full object-cover"
+                  loading="lazy"
+                />
               </div>
               <div className="p-3">
                 <h3 className="text-base font-black text-ink-deep">{city.city}</h3>
