@@ -20,7 +20,6 @@ const accessibilitySection = `
           <div class="accordion__item">
             <h2 class="accordion__header">
               <button class="accordion__btn" aria-expanded="false" aria-controls="acc-1">
-                <img class="accordion__icon" src="assets/logos/national-interpreter-icon.png" alt="" aria-hidden="true" width="28" height="28" />
                 Interpreters available
                 <svg class="chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg>
               </button>
