@@ -125,7 +125,8 @@
   const loginToggle = document.getElementById("loginToggle");
   const loginPanel = document.getElementById("loginPanel");
   if (loginToggle && loginPanel) {
-    const loginRequestDelay = 1200;
+    // Simulate the auth request window in this static demo so loading feedback is visible.
+    const loginRequestDelay = 2500;
 
     function setLoginLoading(loading) {
       loginToggle.disabled = loading;
