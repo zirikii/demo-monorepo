@@ -8,6 +8,25 @@ required. `pnpm install` at the repo root installs every workspace project. Stan
 per-app scripts and features are documented in the root `README.md` and each app's
 `README.md`; only the non-obvious cloud caveats are captured here.
 
+### Cloud bootstrap / `pnpm install`
+
+Multi-repo Cursor Team Environments often run the configured install command from
+`/agent` (parent of `repos/*`). That directory is root-owned, so a bare
+`pnpm install` fails with `EACCES: permission denied, open '/agent/_tmp_...'` and
+leaves `node_modules` missing.
+
+Recovery (from any cwd):
+
+```bash
+bash /agent/repos/demo-monorepo/scripts/cloud-install.sh
+# or: cd /agent/repos/demo-monorepo && pnpm install
+```
+
+`.cursor/environment.json` points the Cloud install at that script. If a Team
+Environment still has `"install": "pnpm install"`, update it in the Cursor
+dashboard to match (or to `bash repos/demo-monorepo/scripts/cloud-install.sh`)
+so bootstrap succeeds without a manual retry.
+
 ### Apps, dev commands, and ports
 
 | App | Root dev script | Default port | Notes |

@@ -1,3 +1,3 @@
 {
-  "install": "if [ -f pnpm-workspace.yaml ]; then pnpm install; else cd repos/demo-monorepo && pnpm install; fi"
+  "install": "bash repos/demo-monorepo/scripts/cloud-install.sh || bash scripts/cloud-install.sh || bash \"$(git rev-parse --show-toplevel)/scripts/cloud-install.sh\""
 }
