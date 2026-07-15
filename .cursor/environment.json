@@ -1,0 +1,3 @@
+{
+  "install": "if [ -f pnpm-workspace.yaml ]; then pnpm install; else cd repos/demo-monorepo && pnpm install; fi"
+}

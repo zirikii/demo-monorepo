@@ -51,6 +51,10 @@ Edit page content in `scripts/pages.js`, then rebuild. The home page (`index.htm
 fires a `cmp:show` page event, and UI interactions fire `cmp:click` component events. Open
 the browser console to watch events as they are pushed.
 
+## Authors
+
+- Richard Zhang
+
 ## Walkthrough demo
 
 Record a Playwright walkthrough video of the site:
