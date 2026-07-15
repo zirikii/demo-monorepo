@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This is a pnpm workspace (`pnpm-workspace.yaml`) with four independent demo apps under
+This is a pnpm workspace (`pnpm-workspace.yaml`) with eight independent demo apps under
 `apps/*` plus a shared `@demo/ui` package under `packages/*`. Node 20+ and pnpm 10+ are
 required. `pnpm install` at the repo root installs every workspace project. Standard
 per-app scripts and features are documented in the root `README.md` and each app's
@@ -49,7 +49,7 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
   `apps/nab/AGENTS.md`.
-- Build: `pnpm build` builds all four apps.
+- Build: `pnpm build` builds all apps.
 
 ### Git remotes & pushing (GitHub + Bitbucket)
 
