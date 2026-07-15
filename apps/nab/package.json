@@ -8,8 +8,9 @@
     "prebuild": "node scripts/sync-tokens.js",
     "build": "node scripts/build.js",
     "dev": "node scripts/build.js && node scripts/serve.js",
+    "test:login-button": "node scripts/login-button-test.js",
     "test:walkthrough": "node scripts/walkthrough.js",
-    "test": "npm run build && npm run test:walkthrough"
+    "test": "npm run build && npm run test:login-button && npm run test:walkthrough"
   },
   "keywords": [],
   "author": "",

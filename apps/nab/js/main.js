@@ -125,12 +125,37 @@
   const loginToggle = document.getElementById("loginToggle");
   const loginPanel = document.getElementById("loginPanel");
   if (loginToggle && loginPanel) {
+    const loginRequestDelay = 700;
+
+    function setLoginLoading(loading) {
+      loginToggle.disabled = loading;
+      loginToggle.classList.toggle("is-loading", loading);
+      loginToggle.setAttribute("aria-busy", String(loading));
+    }
+
+    function finishLoginOpen() {
+      loginPanel.hidden = false;
+      loginToggle.setAttribute("aria-expanded", "true");
+      pushClick("login-open", "Login");
+    }
+
     loginToggle.addEventListener("click", (e) => {
       e.stopPropagation();
       const open = loginPanel.hidden;
-      loginPanel.hidden = !open;
-      loginToggle.setAttribute("aria-expanded", String(open));
-      if (open) pushClick("login-open", "Login");
+      if (!open) {
+        loginPanel.hidden = true;
+        loginToggle.setAttribute("aria-expanded", "false");
+        return;
+      }
+
+      setLoginLoading(true);
+      window.setTimeout(() => {
+        try {
+          finishLoginOpen();
+        } finally {
+          setLoginLoading(false);
+        }
+      }, loginRequestDelay);
     });
     document.addEventListener("click", (e) => {
       if (!loginPanel.hidden && !loginPanel.contains(e.target) && e.target !== loginToggle) {

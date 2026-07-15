@@ -228,6 +228,23 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-size: 1.05rem;
 }
 .login-btn:hover { background: var(--nab-red); }
+.login-btn:disabled {
+  cursor: wait;
+  opacity: 0.88;
+}
+.login-btn__spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: login-spin 0.7s linear infinite;
+}
+.login-btn.is-loading .login-btn__spinner { display: inline-block; }
+@keyframes login-spin {
+  to { transform: rotate(360deg); }
+}
 .login-panel {
   position: absolute;
   right: 0;
