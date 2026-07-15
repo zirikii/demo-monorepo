@@ -125,7 +125,7 @@
   const loginToggle = document.getElementById("loginToggle");
   const loginPanel = document.getElementById("loginPanel");
   if (loginToggle && loginPanel) {
-    const loginRequestDelay = 700;
+    const loginRequestDelay = 1200;
 
     function setLoginLoading(loading) {
       loginToggle.disabled = loading;
