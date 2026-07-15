@@ -124,15 +124,25 @@
   /* ---------- Login dropdown ---------- */
   const loginToggle = document.getElementById("loginToggle");
   const loginPanel = document.getElementById("loginPanel");
+  let cancelLoginRequest = () => {};
   if (loginToggle && loginPanel) {
     // Simulate the auth request window in this static demo so loading feedback is visible.
     const loginRequestDelay = 2500;
+    let loginRequestTimer = null;
 
     function setLoginLoading(loading) {
       loginToggle.disabled = loading;
       loginToggle.classList.toggle("is-loading", loading);
       loginToggle.setAttribute("aria-busy", String(loading));
     }
+
+    cancelLoginRequest = () => {
+      if (loginRequestTimer) {
+        window.clearTimeout(loginRequestTimer);
+        loginRequestTimer = null;
+      }
+      setLoginLoading(false);
+    };
 
     function finishLoginOpen() {
       loginPanel.hidden = false;
@@ -144,13 +154,15 @@
       e.stopPropagation();
       const open = loginPanel.hidden;
       if (!open) {
+        cancelLoginRequest();
         loginPanel.hidden = true;
         loginToggle.setAttribute("aria-expanded", "false");
         return;
       }
 
       setLoginLoading(true);
-      window.setTimeout(() => {
+      loginRequestTimer = window.setTimeout(() => {
+        loginRequestTimer = null;
         try {
           finishLoginOpen();
         } finally {
@@ -159,7 +171,11 @@
       }, loginRequestDelay);
     });
     document.addEventListener("click", (e) => {
+      if (loginToggle.disabled && e.target !== loginToggle) {
+        cancelLoginRequest();
+      }
       if (!loginPanel.hidden && !loginPanel.contains(e.target) && e.target !== loginToggle) {
+        cancelLoginRequest();
         loginPanel.hidden = true;
         loginToggle.setAttribute("aria-expanded", "false");
       }
@@ -186,6 +202,7 @@
       searchPanel.hidden = true;
       searchToggle.setAttribute("aria-expanded", "false");
     }
+    cancelLoginRequest();
     if (loginPanel && !loginPanel.hidden) {
       loginPanel.hidden = true;
       loginToggle.setAttribute("aria-expanded", "false");
