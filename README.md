@@ -16,17 +16,18 @@ demo-monorepo/
 │   ├── spark/    # Next.js 15 Spark NZ Travel & Move / MySpark demo
 │   ├── squiz/    # Vite + React 19 marketing site (Tailwind v4, TS)
 │   └── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
-├── packages/
-│   └── ui/       # @demo/ui — shared utilities, tokens, and components
-└── .cursor/
-    └── skills/
-        └── mock-company-repo/   # Prompt + scaffold skill for company demos
+└── packages/
+    └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
 
 Each app keeps its own framework, dependencies, tests, and README. pnpm
 workspaces isolate their (conflicting) React and Tailwind versions while still
 symlinking the shared package, so `@demo/ui` edits are picked up instantly with
 no publish step.
+
+Agent alignment skills (design tokens, per-app conventions, `mock-company-repo`)
+live in the sibling [demo-monorepo-plugin](https://github.com/zirikii/demo-monorepo-plugin)
+repository — add that repo when launching cloud agents against this monorepo.
 
 ## The shared package
 
@@ -66,9 +67,7 @@ Node 20+ and pnpm 10+ are required (`packageManager` is pinned in the root
 
 ## Cursor skills
 
-The `migrate-to-skills` Cursor skill lives at the repo root in
-[`.cursor/skills/migrate-to-skills/SKILL.md`](.cursor/skills/migrate-to-skills/SKILL.md).
-Because it sits at the parent level, any Cursor agent (including a freshly spun-up
-cloud agent) working in this repo can invoke it — e.g. `/migrate-to-skills` — to
-convert existing `.cursor/rules/*.mdc` and `.cursor/commands/*.md` into the Agent
-Skills format.
+Agent skills for this monorepo — including `mock-company-repo` and the
+per-app convention skills — live in
+[demo-monorepo-plugin](https://github.com/zirikii/demo-monorepo-plugin).
+Install that plugin locally or attach the repo when launching a cloud agent.
