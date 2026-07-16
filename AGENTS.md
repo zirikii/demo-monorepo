@@ -20,6 +20,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | paytm (Vite + React 19) | `pnpm dev:paytm` | 5174 | Payments site |
 | squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
+| nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -41,7 +42,7 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz + `@demo/ui`
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine + `@demo/ui`
   typecheck; nab has no linter.
 - Tests: the real unit suites are Vitest in kddi, naukri, seek, and spark (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
