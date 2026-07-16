@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "@/App";
@@ -12,13 +12,19 @@ describe("app routes", () => {
     expect(screen.getByText(/Get the newsletter/i)).toBeInTheDocument();
   });
 
-  it("Sport page shows Latest chip and NaN timestamps (demo bug)", async () => {
-    window.history.pushState({}, "", "/sport");
-    render(<App />);
-    expect(screen.getByRole("heading", { level: 1, name: /Sport/i })).toBeInTheDocument();
-    expect(screen.getByTestId("sport-sort-latest")).toBeInTheDocument();
-    const nanLabels = await screen.findAllByText(/NaN hours ago/i);
-    expect(nanLabels.length).toBeGreaterThan(0);
+  it("Sport page shows Latest chip and valid relative timestamps", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-07-16T03:00:00.000Z"));
+    try {
+      window.history.pushState({}, "", "/sport");
+      render(<App />);
+      expect(screen.getByRole("heading", { level: 1, name: /Sport/i })).toBeInTheDocument();
+      expect(screen.getByTestId("sport-sort-latest")).toBeInTheDocument();
+      expect(screen.queryByText(/NaN hours ago/i)).not.toBeInTheDocument();
+      expect(screen.getAllByText(/28h ago/i)).toHaveLength(1);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("can open login", async () => {

@@ -8,17 +8,14 @@ import { cn } from "@/lib/cn";
 export function StoryCard({
   article,
   compact,
-  timeLabel,
   className,
 }: {
   article: Article;
   compact?: boolean;
-  /** Override relative time (used by buggy Sport page) */
-  timeLabel?: string;
   className?: string;
 }) {
   const href = `/${article.pillar}/${article.slug}`;
-  const time = timeLabel ?? formatRelativeTime(article.publishedAt);
+  const time = formatRelativeTime(article.publishedAt);
 
   return (
     <article className={cn("story-lift animate-[fade-up_0.45s_ease-out_both] group", className)}>

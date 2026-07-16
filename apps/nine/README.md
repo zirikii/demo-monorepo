@@ -18,7 +18,6 @@ Demo credentials (any work): `reader@example.com` / `demo`
 The **Sport** page (`/sport`) ships with a deliberate bug for QA / Bugbot demos:
 
 1. **Latest sort is inverted** — oldest stories appear first while the chip says “Latest”.
-2. **Timestamps show `NaN hours ago`** — `formatRelativeTime` is fed a locale date string.
 
 See `src/pages/Sport.tsx` and `getSportArticlesBuggyLatest()` in `src/data/articles.ts`.
 A Jira ticket in project **DR** (bug label) tracks the fix — link noted in the PR.
