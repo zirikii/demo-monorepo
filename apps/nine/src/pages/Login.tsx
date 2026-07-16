@@ -1,0 +1,87 @@
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useDocumentTitle } from "@/hooks/useDocumentTitle";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { Button } from "@/components/ui/Button";
+import { useAuth } from "@/hooks/useAuth";
+
+const schema = z.object({
+  email: z.string().email("Enter a valid email"),
+  password: z.string().min(1, "Password is required"),
+});
+
+type FormValues = z.infer<typeof schema>;
+
+export function LoginPage() {
+  useDocumentTitle("Sign in");
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: zodResolver(schema),
+    defaultValues: { email: "reader@example.com", password: "demo" },
+  });
+
+  return (
+    <PageLayout ticker={false}>
+      <section className="mx-auto flex min-h-[70vh] max-w-md flex-col justify-center px-4 py-12">
+        <div className="rounded-2xl border border-line bg-card p-7 shadow-card">
+          <img src="/brand/logo.svg" alt="nine.com.au" className="h-6 w-auto" />
+          <h1 className="mt-5 text-2xl font-black text-ink">Sign in to your Nine account</h1>
+          <p className="mt-1 text-sm text-ink-soft">
+            Demo mode: any email and password will work.
+          </p>
+          <form
+            className="mt-6 space-y-4"
+            onSubmit={handleSubmit((values) => {
+              login(values.email, values.password);
+              navigate(params.get("redirect") || "/account");
+            })}
+          >
+            <div>
+              <label htmlFor="email" className="text-xs font-bold uppercase tracking-wide text-ink-faint">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                className="mt-1 w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-sm outline-none ring-nine-deep focus:ring-2"
+                {...register("email")}
+              />
+              {errors.email ? <p className="mt-1 text-xs text-live">{errors.email.message}</p> : null}
+            </div>
+            <div>
+              <label htmlFor="password" className="text-xs font-bold uppercase tracking-wide text-ink-faint">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                className="mt-1 w-full rounded-lg border border-line bg-surface px-3 py-2.5 text-sm outline-none ring-nine-deep focus:ring-2"
+                {...register("password")}
+              />
+              {errors.password ? (
+                <p className="mt-1 text-xs text-live">{errors.password.message}</p>
+              ) : null}
+            </div>
+            <Button type="submit" className="w-full">
+              Sign in
+            </Button>
+          </form>
+          <p className="mt-5 text-center text-sm text-ink-soft">
+            New to Nine?{" "}
+            <Link to="/signup" className="font-bold text-nine-deep hover:underline">
+              Create a free account
+            </Link>
+          </p>
+        </div>
+      </section>
+    </PageLayout>
+  );
+}

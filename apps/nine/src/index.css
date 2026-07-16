@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/inter/900.css";
+
+@theme {
+  /* Ink + neutrals */
+  --color-ink: #111820;
+  --color-ink-deep: #0a0f16;
+  --color-ink-soft: #46525f;
+  --color-ink-faint: #8b95a1;
+  --color-surface: #f4f6f8;
+  --color-surface-deep: #eaedf1;
+  --color-line: #e4e7ec;
+  --color-line-soft: #eef1f4;
+  --color-card: #ffffff;
+
+  /* Nine brand */
+  --color-nine: #3bccff;
+  --color-nine-deep: #0518c5;
+  --color-nine-ink: #0a1230;
+
+  /* Pillar accents */
+  --color-news: #0518c5;
+  --color-sport: #0a9d67;
+  --color-lifestyle: #e0117f;
+  --color-travel: #0f8fd4;
+  --color-entertainment: #7b3fe4;
+  --color-shopping: #f5820a;
+
+  /* Signals */
+  --color-live: #e5091e;
+  --color-positive: #0a9d67;
+
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(10, 15, 22, 0.06), 0 8px 24px rgba(10, 15, 22, 0.06);
+  --shadow-float: 0 16px 44px rgba(10, 15, 22, 0.16);
+
+  --animate-fade-up: fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: fade-in 0.32s ease-out both;
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-pulse-dot: pulse-dot 1.4s ease-in-out infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:root {
+  --demo-accent: #0518c5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

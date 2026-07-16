@@ -1,0 +1,58 @@
+import type { Deal } from "./types";
+
+export const deals: Deal[] = [
+  {
+    id: "d1",
+    retailer: "TechHub",
+    title: "Noise-cancelling headphones at their lowest price",
+    discount: "30% off",
+    code: "SOUND30",
+    category: "Electronics",
+    expires: "2026-07-20",
+  },
+  {
+    id: "d2",
+    retailer: "Northerly",
+    title: "End-of-season coats and knitwear",
+    discount: "Up to 50% off",
+    code: "WINTER50",
+    category: "Fashion",
+    expires: "2026-07-22",
+  },
+  {
+    id: "d3",
+    retailer: "HomeStead",
+    title: "Air fryers and small appliances",
+    discount: "25% off",
+    code: "KITCHEN25",
+    category: "Home & Garden",
+    expires: "2026-07-19",
+  },
+  {
+    id: "d4",
+    retailer: "Wander",
+    title: "Hotel bookings for spring travel",
+    discount: "$60 off $300+",
+    code: "ESCAPE60",
+    category: "Travel",
+    expires: "2026-07-25",
+  },
+  {
+    id: "d5",
+    retailer: "PlayZone",
+    title: "Console bundles and top games",
+    discount: "15% off",
+    code: "GAMEON15",
+    category: "Electronics",
+    expires: "2026-07-18",
+  },
+  {
+    id: "d6",
+    retailer: "GreenThumb",
+    title: "Garden tools and outdoor heaters",
+    discount: "Buy 2 get 1 free",
+    code: "GARDEN3",
+    category: "Home & Garden",
+    expires: "2026-07-30",
+  },
+];

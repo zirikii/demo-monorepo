@@ -1,0 +1,22 @@
+{
+  "fetched": "2026-07-16",
+  "disclaimer": "Unofficial demo. Not affiliated with, endorsed by, or connected to Nine Entertainment Co. or nine.com.au. Brand assets are used solely to approximate the look and feel of the public site for an internal UI-fidelity demo.",
+  "files": [
+    {
+      "file": "logo.svg",
+      "description": "Nine wordmark (dots + 'nine' lockup), ink fill for light headers.",
+      "source": "Official Nine wordmark SVG supplied in the task brief (nine.com.au header lockup)."
+    },
+    {
+      "file": "logo-white.svg",
+      "description": "Nine wordmark, white fill for dark surfaces (footer, hero overlays).",
+      "source": "Recolour of the supplied Nine wordmark SVG."
+    },
+    {
+      "file": "favicon.svg",
+      "description": "App icon derived from the Nine dot-cluster mark on 9News blue.",
+      "source": "Approximated from the Nine dot mark; colours per Nine for Brands palette (#3bccff, #0518c5)."
+    }
+  ],
+  "notes": "Egress to nine.com.au is blocked in the cloud build environment, so assets could not be curl'd from the live CDN; the official wordmark from the task brief is self-hosted here instead. See scripts/fetch-brand-assets.sh for the intended fetch steps."
+}
