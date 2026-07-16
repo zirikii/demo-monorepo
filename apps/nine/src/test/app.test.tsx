@@ -21,7 +21,7 @@ describe("app routes", () => {
       expect(screen.getByRole("heading", { level: 1, name: /Sport/i })).toBeInTheDocument();
       expect(screen.getByTestId("sport-sort-latest")).toBeInTheDocument();
       expect(screen.queryByText(/NaN hours ago/i)).not.toBeInTheDocument();
-      expect(screen.getAllByText(/28h ago/i)).toHaveLength(1);
+      expect(screen.getAllByText(/1d ago/i)).toHaveLength(1);
     } finally {
       vi.useRealTimers();
     }
