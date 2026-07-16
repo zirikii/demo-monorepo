@@ -22,7 +22,7 @@ async function shot(page: import("@playwright/test").Page, name: string) {
 test.describe("vision screenshots", () => {
   test("capture key pages", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByLabel(/nine\.com\.au home/i)).toBeVisible();
+    await expect(page.getByRole("banner").getByLabel(/nine\.com\.au home/i)).toBeVisible();
     await shot(page, "01-home");
 
     await page.goto("/news");

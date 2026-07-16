@@ -9,7 +9,7 @@ test.describe("nine.com.au walkthrough", () => {
   test("homepage → sport bug → entertainment → login", async ({ page }) => {
     await installCursor(page);
     await page.goto("/");
-    await expect(page.getByLabel(/nine\.com\.au home/i)).toBeVisible();
+    await expect(page.getByRole("banner").getByLabel(/nine\.com\.au home/i)).toBeVisible();
     await beat(page, 900);
     await scrollAndPause(page, 600, 800);
     await scrollAndPause(page, 700, 800);
