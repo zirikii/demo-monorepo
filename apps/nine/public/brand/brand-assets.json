@@ -1,0 +1,17 @@
+{
+  "brand": "Nine",
+  "source": "User-provided SVG logo",
+  "assets": [
+    {
+      "name": "Nine logo",
+      "path": "/brand/logo.svg",
+      "type": "image/svg+xml"
+    },
+    {
+      "name": "Nine favicon",
+      "path": "/brand/favicon.svg",
+      "type": "image/svg+xml"
+    }
+  ],
+  "disclaimer": "Unofficial demo only. Not affiliated with Nine Entertainment Co."
+}

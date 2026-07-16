@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This is a pnpm workspace (`pnpm-workspace.yaml`) with four independent demo apps under
+This is a pnpm workspace (`pnpm-workspace.yaml`) with independent demo apps under
 `apps/*` plus a shared `@demo/ui` package under `packages/*`. Node 20+ and pnpm 10+ are
 required. `pnpm install` at the repo root installs every workspace project. Standard
 per-app scripts and features are documented in the root `README.md` and each app's
@@ -20,6 +20,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | paytm (Vite + React 19) | `pnpm dev:paytm` | 5174 | Payments site |
 | squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
+| nine (Vite + React 19) | `pnpm dev:nine` | 5177 | Nine media site; `/weather` is intentionally buggy for demos |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -41,7 +42,7 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz + `@demo/ui`
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine + `@demo/ui`
   typecheck; nab has no linter.
 - Tests: the real unit suites are Vitest in kddi, naukri, seek, and spark (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
@@ -49,7 +50,7 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
   `apps/nab/AGENTS.md`.
-- Build: `pnpm build` builds all four apps.
+- Build: `pnpm build` builds all apps.
 
 ### Git remotes & pushing (GitHub + Bitbucket)
 
