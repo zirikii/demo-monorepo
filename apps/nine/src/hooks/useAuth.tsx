@@ -1,0 +1,49 @@
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import {
+  clearSession,
+  loginWithCredentials,
+  readSession,
+  type DemoUser,
+} from "@/lib/auth";
+
+type AuthContextValue = {
+  user: DemoUser | null;
+  login: (email: string, password: string, name?: string) => void;
+  logout: () => void;
+};
+
+const AuthContext = createContext<AuthContextValue | null>(null);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<DemoUser | null>(null);
+
+  useEffect(() => {
+    setUser(readSession());
+  }, []);
+
+  const login = useCallback((email: string, password: string, name?: string) => {
+    setUser(loginWithCredentials(email, password, name));
+  }, []);
+
+  const logout = useCallback(() => {
+    clearSession();
+    setUser(null);
+  }, []);
+
+  const value = useMemo(() => ({ user, login, logout }), [user, login, logout]);
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+}
+
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  return ctx;
+}

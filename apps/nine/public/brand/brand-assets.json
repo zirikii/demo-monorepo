@@ -1,0 +1,22 @@
+{
+  "fetchedAt": "2026-07-16",
+  "disclaimer": "Unofficial demo assets for visual fidelity only. Not affiliated with Nine Entertainment Co.",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "source": "User-supplied official nine.com.au wordmark SVG from task brief",
+      "notes": "Fill set to #070720 for light headers; React NineLogo uses currentColor"
+    },
+    {
+      "file": "favicon.svg",
+      "source": "Derived from nine-dots mark in wordmark",
+      "notes": "Cyan dots on ink square"
+    }
+  ],
+  "colours": {
+    "primary": "#00BEFF",
+    "corporateBlue": "#008FE2",
+    "ink": "#070720",
+    "liveRed": "#E10600"
+  }
+}
