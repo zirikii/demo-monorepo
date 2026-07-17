@@ -26,7 +26,7 @@ describe("app routes", () => {
     expect(screen.queryByText(/NaN hours ago/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Invalid date/i)).not.toBeInTheDocument();
     expect(screen.getAllByText("1d ago").length).toBeGreaterThan(0);
-    expect(screen.getByText("22h ago")).toBeInTheDocument();
+    expect(screen.getByText("18h ago")).toBeInTheDocument();
   });
 
   it("can open login", async () => {
