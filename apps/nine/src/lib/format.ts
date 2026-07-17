@@ -1,7 +1,7 @@
 /** Format an ISO date string as a relative time label. */
 export function formatRelativeTime(iso: string, now = Date.now()): string {
   const then = Date.parse(iso);
-  if (Number.isNaN(then)) return "NaN hours ago";
+  if (Number.isNaN(then)) return "Invalid date";
   const diffMs = now - then;
   const mins = Math.floor(diffMs / 60_000);
   if (mins < 1) return "Just now";

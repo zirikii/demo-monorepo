@@ -6,7 +6,7 @@ import { beat, installCursor, pointAndClick, safe, scrollAndPause } from "./help
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 test.describe("nine.com.au walkthrough", () => {
-  test("homepage → sport bug → entertainment → login", async ({ page }) => {
+  test("homepage → sport → entertainment → login", async ({ page }) => {
     await installCursor(page);
     await page.goto("/");
     await expect(page.getByRole("banner").getByLabel(/nine\.com\.au home/i)).toBeVisible();
@@ -17,7 +17,8 @@ test.describe("nine.com.au walkthrough", () => {
     await safe("open sport", async () => {
       await pointAndClick(page, page.getByRole("navigation", { name: /Primary/i }).getByRole("link", { name: /^Sport$/i }));
       await expect(page.getByRole("heading", { level: 1, name: /Sport/i })).toBeVisible();
-      await expect(page.getByText(/NaN hours ago/i).first()).toBeVisible();
+      await expect(page.getByText(/NaN hours ago/i)).toHaveCount(0);
+      await expect(page.getByText(/\b\d+[mhd] ago\b/i).first()).toBeVisible();
       await beat(page, 1200);
       await scrollAndPause(page, 500, 700);
     });

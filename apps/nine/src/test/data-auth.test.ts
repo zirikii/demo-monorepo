@@ -21,8 +21,8 @@ describe("formatRelativeTime", () => {
     expect(formatRelativeTime(iso, now)).toBe("2h ago");
   });
 
-  it("returns NaN hours ago for invalid input", () => {
-    expect(formatRelativeTime("16/07/2026")).toBe("NaN hours ago");
+  it("returns an invalid date label for invalid input", () => {
+    expect(formatRelativeTime("16/07/2026")).toBe("Invalid date");
   });
 });
 

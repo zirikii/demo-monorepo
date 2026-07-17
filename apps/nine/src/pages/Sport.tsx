@@ -4,14 +4,12 @@ import { SectionHero } from "@/components/layout/SectionHero";
 import { StoryCard } from "@/components/article/StoryCard";
 import { getSportArticlesBuggyLatest } from "@/data/articles";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
-import { formatRelativeTime } from "@/lib/format";
 import { cn } from "@/lib/cn";
 
 /**
- * Sport hub — intentionally buggy for demo / Bugbot.
- * DEMO BUG (intentional):
- * 1) "Latest" sort uses ascending order (oldest first) via getSportArticlesBuggyLatest().
- * 2) Relative timestamps pass a locale date string into formatRelativeTime, producing "NaN hours ago".
+ * Sport hub — intentionally keeps the demo "Latest" sorting bug for Bugbot.
+ * DEMO BUG (intentional): "Latest" sort uses ascending order (oldest first)
+ * via getSportArticlesBuggyLatest().
  * Tracked in Jira project DR with the bug label.
  */
 export function SportPage() {
@@ -58,13 +56,9 @@ export function SportPage() {
         ))}
       </div>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-testid="sport-story-grid">
-        {articles.map((a) => {
-          // DEMO BUG (intentional): pass display string instead of ISO → NaN hours ago
-          const buggyTime = formatRelativeTime(
-            new Date(a.publishedAt).toLocaleDateString("en-AU"),
-          );
-          return <StoryCard key={a.slug} article={a} timeLabel={buggyTime} />;
-        })}
+        {articles.map((a) => (
+          <StoryCard key={a.slug} article={a} />
+        ))}
       </div>
     </PageLayout>
   );
