@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { flights, type FlightDirection, type FlightStatus } from "@/data/flights";
 import { statusTone } from "@/lib/format";
@@ -32,18 +32,48 @@ function parseStatus(value: string | null): StatusFilter {
 
 export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const searchParamsString = searchParams.toString();
   const urlDirection = parseDirection(searchParams.get("dir"), initialDirection);
   const urlQuery = searchParams.get("q") ?? initialQuery;
   const urlStatus = parseStatus(searchParams.get("status"));
   const [direction, setDirection] = useState<FlightDirection>(urlDirection);
   const [query, setQuery] = useState(urlQuery);
   const [status, setStatus] = useState<StatusFilter>(urlStatus);
+  const hasSyncedFilters = useRef(false);
 
   useEffect(() => {
     setDirection(urlDirection);
     setQuery(urlQuery);
     setStatus(urlStatus);
   }, [urlDirection, urlQuery, urlStatus]);
+
+  useEffect(() => {
+    if (!hasSyncedFilters.current) {
+      hasSyncedFilters.current = true;
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      const nextParams = new URLSearchParams(searchParamsString);
+      nextParams.set("dir", direction);
+      if (query) {
+        nextParams.set("q", query);
+      } else {
+        nextParams.delete("q");
+      }
+      if (status === "All") {
+        nextParams.delete("status");
+      } else {
+        nextParams.set("status", status);
+      }
+
+      if (nextParams.toString() !== searchParamsString) {
+        setSearchParams(nextParams, { replace: true });
+      }
+    }, 250);
+
+    return () => window.clearTimeout(timeout);
+  }, [direction, query, searchParamsString, setSearchParams, status]);
 
   function updateFilters(nextFilters: {
     direction?: FlightDirection;
@@ -53,25 +83,10 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
     const nextDirection = nextFilters.direction ?? direction;
     const nextQuery = nextFilters.query ?? query;
     const nextStatus = nextFilters.status ?? status;
-    const nextParams = new URLSearchParams(searchParams);
 
     setDirection(nextDirection);
     setQuery(nextQuery);
     setStatus(nextStatus);
-
-    nextParams.set("dir", nextDirection);
-    if (nextQuery) {
-      nextParams.set("q", nextQuery);
-    } else {
-      nextParams.delete("q");
-    }
-    if (nextStatus === "All") {
-      nextParams.delete("status");
-    } else {
-      nextParams.set("status", nextStatus);
-    }
-
-    setSearchParams(nextParams, { replace: true });
   }
 
   const rows = useMemo(() => {
