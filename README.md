@@ -28,7 +28,7 @@ Agent alignment skills (design tokens, per-app conventions, `mock-company-repo`)
 live in the sibling [demo-monorepo-plugin](https://github.com/zirikii/demo-monorepo-plugin)
 repository — add that repo when launching cloud agents against this monorepo.
 
-## The shared package
+## The shared package!
 
 Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 
