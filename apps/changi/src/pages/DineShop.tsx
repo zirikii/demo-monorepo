@@ -24,12 +24,7 @@ export function DineShopPage() {
       if (terminal !== "All" && o.terminal !== terminal) return false;
       if (!q) return true;
 
-      return (
-        o.name.toLowerCase().includes(q) ||
-        o.subcategory.toLowerCase().includes(q) ||
-        o.terminal.toLowerCase().includes(q) ||
-        o.highlight?.toLowerCase().includes(q)
-      );
+      return o.name.toLowerCase().includes(q) || o.subcategory.toLowerCase().includes(q);
     });
   }, [query, tab, terminal]);
   const outletLabel = rows.length === 1 ? "outlet" : "outlets";
@@ -62,7 +57,7 @@ export function DineShopPage() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search outlet, category, or terminal"
+            placeholder="Search outlet or category"
             className="w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
             aria-label="Search Dine & Shop outlets"
           />
