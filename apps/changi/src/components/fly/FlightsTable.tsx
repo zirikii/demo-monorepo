@@ -1,19 +1,110 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { flights, type FlightDirection, type FlightStatus } from "@/data/flights";
 import { statusTone } from "@/lib/format";
 import { Badge } from "../ui/Badge";
 import { EmptyState } from "../ui/EmptyState";
 import { cn } from "@/lib/cn";
 
+const statusOptions = [
+  "All",
+  "On Time",
+  "Boarding",
+  "Landed",
+  "Delayed",
+  "Gate Closed",
+  "Departed",
+] as const satisfies readonly (FlightStatus | "All")[];
+
+type FlightStatusFilter = (typeof statusOptions)[number];
+
 type Props = {
   initialDirection?: FlightDirection;
   initialQuery?: string;
+  initialStatus?: FlightStatusFilter;
 };
 
-export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }: Props) {
-  const [direction, setDirection] = useState<FlightDirection>(initialDirection);
-  const [query, setQuery] = useState(initialQuery);
-  const [status, setStatus] = useState<FlightStatus | "All">("All");
+function parseDirection(value: string | null, fallback: FlightDirection): FlightDirection {
+  if (value === "arrival" || value === "departure") {
+    return value;
+  }
+
+  return fallback;
+}
+
+function parseStatus(value: string | null, fallback: FlightStatusFilter): FlightStatusFilter {
+  return statusOptions.includes(value as FlightStatusFilter)
+    ? (value as FlightStatusFilter)
+    : fallback;
+}
+
+function buildSearchParams(
+  currentParams: URLSearchParams,
+  direction: FlightDirection,
+  query: string,
+  status: FlightStatusFilter,
+) {
+  const nextParams = new URLSearchParams(currentParams);
+  const normalizedQuery = query.trim();
+
+  if (direction === "departure") {
+    nextParams.set("dir", direction);
+  } else {
+    nextParams.delete("dir");
+  }
+
+  if (normalizedQuery) {
+    nextParams.set("q", normalizedQuery);
+  } else {
+    nextParams.delete("q");
+  }
+
+  if (status === "All") {
+    nextParams.delete("status");
+  } else {
+    nextParams.set("status", status);
+  }
+
+  return nextParams;
+}
+
+export function FlightsTable({
+  initialDirection = "arrival",
+  initialQuery = "",
+  initialStatus = "All",
+}: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlFilters = useMemo(
+    () => ({
+      direction: parseDirection(searchParams.get("dir"), initialDirection),
+      query: searchParams.get("q") ?? initialQuery,
+      status: parseStatus(searchParams.get("status"), initialStatus),
+    }),
+    [initialDirection, initialQuery, initialStatus, searchParams],
+  );
+  const [direction, setDirection] = useState<FlightDirection>(urlFilters.direction);
+  const [query, setQuery] = useState(urlFilters.query);
+  const [status, setStatus] = useState<FlightStatusFilter>(urlFilters.status);
+
+  useEffect(() => {
+    setDirection(urlFilters.direction);
+    setQuery(urlFilters.query);
+    setStatus(urlFilters.status);
+  }, [urlFilters.direction, urlFilters.query, urlFilters.status]);
+
+  useEffect(() => {
+    const nextParams = buildSearchParams(searchParams, direction, query, status);
+
+    if (nextParams.toString() === searchParams.toString()) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setSearchParams(nextParams, { replace: true });
+    }, 250);
+
+    return () => window.clearTimeout(timeout);
+  }, [direction, query, searchParams, setSearchParams, status]);
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -38,6 +129,7 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
               key={dir}
               type="button"
               onClick={() => setDirection(dir)}
+              aria-pressed={direction === dir}
               className={cn(
                 "rounded-md px-4 py-2 text-sm font-bold capitalize",
                 direction === dir ? "bg-purple text-white" : "text-ink-soft hover:text-ink",
@@ -57,17 +149,15 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
           />
           <select
             value={status}
-            onChange={(e) => setStatus(e.target.value as FlightStatus | "All")}
+            onChange={(e) => setStatus(e.target.value as FlightStatusFilter)}
             className="rounded-md border border-line bg-surface px-3 py-2 text-sm"
             aria-label="Filter by status"
           >
-            <option value="All">All statuses</option>
-            <option value="On Time">On Time</option>
-            <option value="Boarding">Boarding</option>
-            <option value="Landed">Landed</option>
-            <option value="Delayed">Delayed</option>
-            <option value="Gate Closed">Gate Closed</option>
-            <option value="Departed">Departed</option>
+            {statusOptions.map((option) => (
+              <option key={option} value={option}>
+                {option === "All" ? "All statuses" : option}
+              </option>
+            ))}
           </select>
         </div>
       </div>
