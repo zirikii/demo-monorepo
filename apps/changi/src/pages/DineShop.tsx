@@ -103,7 +103,8 @@ export function DineShopPage() {
           </div>
         )}
         <p className="mt-4 text-xs text-ink-faint">
-          Showing {rows.length} demo outlets — availability and hours are illustrative.
+          Showing {rows.length} demo outlet{rows.length === 1 ? "" : "s"} — availability and hours
+          are illustrative.
         </p>
       </section>
     </PageLayout>
