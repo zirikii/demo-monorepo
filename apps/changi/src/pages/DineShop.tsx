@@ -2,13 +2,36 @@ import { useMemo, useState } from "react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { PageHero } from "@/components/layout/PageHero";
+import { EmptyState } from "@/components/ui/EmptyState";
 import { outlets } from "@/data/outlets";
 import { cn } from "@/lib/cn";
+
+const terminalOptions = Array.from(new Set(outlets.map((o) => o.terminal))).sort((a, b) =>
+  a.localeCompare(b, undefined, { numeric: true }),
+);
 
 export function DineShopPage() {
   useDocumentTitle("Dine & Shop");
   const [tab, setTab] = useState<"Dining" | "Shopping">("Dining");
-  const rows = useMemo(() => outlets.filter((o) => o.category === tab), [tab]);
+  const [terminal, setTerminal] = useState("All");
+  const [query, setQuery] = useState("");
+
+  const rows = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    return outlets.filter((o) => {
+      if (o.category !== tab) return false;
+      if (terminal !== "All" && o.terminal !== terminal) return false;
+      if (!q) return true;
+
+      return (
+        o.name.toLowerCase().includes(q) ||
+        o.subcategory.toLowerCase().includes(q) ||
+        o.terminal.toLowerCase().includes(q) ||
+        o.highlight?.toLowerCase().includes(q)
+      );
+    });
+  }, [query, tab, terminal]);
 
   return (
     <PageLayout>
@@ -24,27 +47,65 @@ export function DineShopPage() {
               key={t}
               type="button"
               onClick={() => setTab(t)}
+              aria-pressed={tab === t}
               className={cn(
                 "rounded-md px-4 py-2 text-sm font-bold",
-                tab === t ? "bg-purple text-white" : "text-ink-soft",
+                tab === t ? "bg-purple text-white" : "text-ink-soft hover:text-ink",
               )}
             >
               {t}
             </button>
           ))}
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {rows.map((o) => (
-            <article key={o.id} className="rounded-xl border border-line bg-card p-4">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-ink-faint">{o.subcategory}</p>
-              <h2 className="mt-1 text-base font-black text-ink-deep">{o.name}</h2>
-              <p className="mt-2 text-sm text-ink-soft">
-                {o.terminal} · {o.hours}
-              </p>
-              {o.highlight ? <p className="mt-2 text-sm font-bold text-purple">{o.highlight}</p> : null}
-            </article>
-          ))}
+        <div className="mb-6 grid gap-3 rounded-xl border border-line bg-card p-4 sm:grid-cols-[minmax(0,1fr)_220px]">
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search outlet, category, or terminal"
+            className="w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
+            aria-label="Search Dine & Shop outlets"
+          />
+          <select
+            value={terminal}
+            onChange={(e) => setTerminal(e.target.value)}
+            className="rounded-md border border-line bg-surface px-3 py-2 text-sm"
+            aria-label="Filter by terminal"
+          >
+            <option value="All">All terminals</option>
+            {terminalOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
+
+        {rows.length === 0 ? (
+          <EmptyState
+            title="No outlets match your filters"
+            description="Try another outlet name, category, or terminal."
+          />
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {rows.map((o) => (
+              <article key={o.id} className="rounded-xl border border-line bg-card p-4">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-ink-faint">
+                  {o.subcategory}
+                </p>
+                <h2 className="mt-1 text-base font-black text-ink-deep">{o.name}</h2>
+                <p className="mt-2 text-sm text-ink-soft">
+                  {o.terminal} · {o.hours}
+                </p>
+                {o.highlight ? (
+                  <p className="mt-2 text-sm font-bold text-purple">{o.highlight}</p>
+                ) : null}
+              </article>
+            ))}
+          </div>
+        )}
+        <p className="mt-4 text-xs text-ink-faint">
+          Showing {rows.length} demo outlets — not live operational data.
+        </p>
       </section>
     </PageLayout>
   );

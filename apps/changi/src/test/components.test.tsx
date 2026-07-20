@@ -6,6 +6,7 @@ import { PersonaHero } from "@/components/marketing/PersonaHero";
 import { FlightsTable } from "@/components/fly/FlightsTable";
 import { AuthProvider } from "@/hooks/useAuth";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { DineShopPage } from "@/pages/DineShop";
 import { destinations } from "@/data/destinations";
 import { flights } from "@/data/flights";
 
@@ -43,6 +44,51 @@ describe("FlightsTable", () => {
     await user.clear(input);
     await user.type(input, "ZZZNOPE");
     expect(screen.getByText(/No flights match your filters/i)).toBeInTheDocument();
+  });
+});
+
+describe("DineShopPage", () => {
+  it("filters outlets by terminal", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <DineShopPage />
+      </MemoryRouter>,
+    );
+
+    await user.selectOptions(screen.getByLabelText(/Filter by terminal/i), "T2");
+
+    expect(screen.getByText("Ya Kun Kaya Toast")).toBeInTheDocument();
+    expect(screen.getByText("Old Chang Kee")).toBeInTheDocument();
+    expect(screen.queryByText("Jumbo Seafood")).not.toBeInTheDocument();
+  });
+
+  it("filters outlets by search query", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <DineShopPage />
+      </MemoryRouter>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Shopping" }));
+    await user.type(screen.getByLabelText(/Search Dine & Shop outlets/i), "wine");
+
+    expect(screen.getByText("DFS Wine & Spirits")).toBeInTheDocument();
+    expect(screen.queryByText("Sephora")).not.toBeInTheDocument();
+  });
+
+  it("shows an empty state when no outlets match", async () => {
+    const user = userEvent.setup();
+    render(
+      <MemoryRouter>
+        <DineShopPage />
+      </MemoryRouter>,
+    );
+
+    await user.type(screen.getByLabelText(/Search Dine & Shop outlets/i), "ZZZNOPE");
+
+    expect(screen.getByText(/No outlets match your filters/i)).toBeInTheDocument();
   });
 });
 
