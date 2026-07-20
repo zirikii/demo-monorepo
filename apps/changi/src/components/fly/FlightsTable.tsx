@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { flights, type FlightDirection, type FlightStatus } from "@/data/flights";
 import { statusTone } from "@/lib/format";
@@ -32,9 +32,18 @@ function parseStatus(value: string | null): StatusFilter {
 
 export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const direction = parseDirection(searchParams.get("dir"), initialDirection);
-  const query = searchParams.get("q") ?? initialQuery;
-  const status = parseStatus(searchParams.get("status"));
+  const urlDirection = parseDirection(searchParams.get("dir"), initialDirection);
+  const urlQuery = searchParams.get("q") ?? initialQuery;
+  const urlStatus = parseStatus(searchParams.get("status"));
+  const [direction, setDirection] = useState<FlightDirection>(urlDirection);
+  const [query, setQuery] = useState(urlQuery);
+  const [status, setStatus] = useState<StatusFilter>(urlStatus);
+
+  useEffect(() => {
+    setDirection(urlDirection);
+    setQuery(urlQuery);
+    setStatus(urlStatus);
+  }, [urlDirection, urlQuery, urlStatus]);
 
   function updateFilters(nextFilters: {
     direction?: FlightDirection;
@@ -45,6 +54,10 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
     const nextQuery = nextFilters.query ?? query;
     const nextStatus = nextFilters.status ?? status;
     const nextParams = new URLSearchParams(searchParams);
+
+    setDirection(nextDirection);
+    setQuery(nextQuery);
+    setStatus(nextStatus);
 
     nextParams.set("dir", nextDirection);
     if (nextQuery) {
