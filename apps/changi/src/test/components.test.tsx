@@ -78,6 +78,7 @@ describe("DineShopPage", () => {
 
     expect(screen.getByText("DFS Wine & Spirits")).toBeInTheDocument();
     expect(screen.queryByText("Sephora")).not.toBeInTheDocument();
+    expect(screen.getByText(/Showing 1 demo outlets/i)).toBeInTheDocument();
   });
 
   it("shows an empty state when no outlets match", async () => {
@@ -87,6 +88,7 @@ describe("DineShopPage", () => {
     await user.type(screen.getByLabelText(/Search Dine & Shop outlets/i), "ZZZNOPE");
 
     expect(screen.getByText(/No outlets match your filters/i)).toBeInTheDocument();
+    expect(screen.getByText(/Showing 0 demo outlets/i)).toBeInTheDocument();
   });
 });
 
