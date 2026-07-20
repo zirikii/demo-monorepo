@@ -78,7 +78,7 @@ describe("DineShopPage", () => {
 
     expect(screen.getByText("DFS Wine & Spirits")).toBeInTheDocument();
     expect(screen.queryByText("Sephora")).not.toBeInTheDocument();
-    expect(screen.getByText(/Showing 1 demo outlets/i)).toBeInTheDocument();
+    expect(screen.getByText(/Showing 1 demo outlet/i)).toBeInTheDocument();
   });
 
   it("shows an empty state when no outlets match", async () => {

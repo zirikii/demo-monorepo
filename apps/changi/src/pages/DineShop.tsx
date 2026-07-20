@@ -32,6 +32,7 @@ export function DineShopPage() {
       );
     });
   }, [query, tab, terminal]);
+  const outletLabel = rows.length === 1 ? "outlet" : "outlets";
 
   return (
     <PageLayout>
@@ -104,7 +105,7 @@ export function DineShopPage() {
           </div>
         )}
         <p className="mt-4 text-xs text-ink-faint">
-          Showing {rows.length} demo outlets — not live operational data.
+          Showing {rows.length} demo {outletLabel} — not live operational data.
         </p>
       </section>
     </PageLayout>
