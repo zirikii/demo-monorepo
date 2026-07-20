@@ -6,6 +6,7 @@ import { PersonaHero } from "@/components/marketing/PersonaHero";
 import { FlightsTable } from "@/components/fly/FlightsTable";
 import { AuthProvider } from "@/hooks/useAuth";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { LoginPage } from "@/pages/Login";
 import { destinations } from "@/data/destinations";
 import { flights } from "@/data/flights";
 
@@ -43,6 +44,41 @@ describe("FlightsTable", () => {
     await user.clear(input);
     await user.type(input, "ZZZNOPE");
     expect(screen.getByText(/No flights match your filters/i)).toBeInTheDocument();
+  });
+});
+
+describe("LoginPage", () => {
+  it("shows a loading state on the Sign in button while submitting", async () => {
+    const user = userEvent.setup();
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>,
+    );
+    const button = screen.getByRole("button", { name: /Sign in/i });
+    expect(button).toBeEnabled();
+    await user.click(button);
+    const submitting = await screen.findByRole("button", { name: /Signing in/i });
+    expect(submitting).toBeDisabled();
+  });
+
+  it("keeps the button enabled and never enters loading when validation fails", async () => {
+    const user = userEvent.setup();
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>,
+    );
+    await user.clear(screen.getByLabelText(/Email/i));
+    await user.click(screen.getByRole("button", { name: /Sign in/i }));
+    expect(await screen.findByText(/Enter a valid email/i)).toBeInTheDocument();
+    const button = screen.getByRole("button", { name: /Sign in/i });
+    expect(button).toBeEnabled();
+    expect(screen.queryByRole("button", { name: /Signing in/i })).not.toBeInTheDocument();
   });
 });
 

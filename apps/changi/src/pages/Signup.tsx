@@ -2,10 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+
+const SUBMIT_DELAY_MS = 700;
 
 const schema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -22,7 +25,7 @@ export function SignupPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { name: "Alex Traveller", email: "traveller@example.com", password: "demo" },
@@ -37,7 +40,8 @@ export function SignupPage() {
           <p className="mt-1 text-sm text-ink-soft">Demo mode — details stay in your browser only.</p>
           <form
             className="mt-6 space-y-4"
-            onSubmit={handleSubmit((values) => {
+            onSubmit={handleSubmit(async (values) => {
+              await new Promise((resolve) => setTimeout(resolve, SUBMIT_DELAY_MS));
               login(values.email, values.password, values.name);
               navigate("/account");
             })}
@@ -77,8 +81,15 @@ export function SignupPage() {
               />
               {errors.password ? <p className="mt-1 text-xs text-danger">{errors.password.message}</p> : null}
             </div>
-            <Button type="submit" variant="purple" className="w-full">
-              Sign up
+            <Button type="submit" variant="purple" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Creating account…
+                </>
+              ) : (
+                "Sign up"
+              )}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-ink-soft">
