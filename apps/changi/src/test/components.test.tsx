@@ -63,10 +63,10 @@ describe("FlightsTable", () => {
   }
 
   it("initializes from URL query params", () => {
-    renderFlightsPage("/fly/flights?dir=departure&q=Tokyo&status=Departed");
+    renderFlightsPage("/fly/flights?dir=departure&q=Tokyo&status=Delayed");
 
     expect(screen.getByLabelText(/Search flights/i)).toHaveValue("Tokyo");
-    expect(screen.getByLabelText(/Filter by status/i)).toHaveValue("Departed");
+    expect(screen.getByLabelText(/Filter by status/i)).toHaveValue("Delayed");
     expect(screen.getByText("To")).toBeInTheDocument();
   });
 
