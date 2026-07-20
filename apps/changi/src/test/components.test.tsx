@@ -47,14 +47,20 @@ describe("FlightsTable", () => {
   });
 });
 
+function renderDineShopPage() {
+  render(
+    <AuthProvider>
+      <MemoryRouter>
+        <DineShopPage />
+      </MemoryRouter>
+    </AuthProvider>,
+  );
+}
+
 describe("DineShopPage", () => {
   it("filters outlets by terminal", async () => {
     const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DineShopPage />
-      </MemoryRouter>,
-    );
+    renderDineShopPage();
 
     await user.selectOptions(screen.getByLabelText(/Filter by terminal/i), "T2");
 
@@ -65,11 +71,7 @@ describe("DineShopPage", () => {
 
   it("filters outlets by search query", async () => {
     const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DineShopPage />
-      </MemoryRouter>,
-    );
+    renderDineShopPage();
 
     await user.click(screen.getByRole("button", { name: "Shopping" }));
     await user.type(screen.getByLabelText(/Search Dine & Shop outlets/i), "wine");
@@ -80,11 +82,7 @@ describe("DineShopPage", () => {
 
   it("shows an empty state when no outlets match", async () => {
     const user = userEvent.setup();
-    render(
-      <MemoryRouter>
-        <DineShopPage />
-      </MemoryRouter>,
-    );
+    renderDineShopPage();
 
     await user.type(screen.getByLabelText(/Search Dine & Shop outlets/i), "ZZZNOPE");
 
