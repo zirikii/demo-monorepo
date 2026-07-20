@@ -1,5 +1,14 @@
 export type FlightDirection = "arrival" | "departure";
-export type FlightStatus = "On Time" | "Boarding" | "Landed" | "Delayed" | "Gate Closed" | "Departed";
+export const flightStatuses = [
+  "On Time",
+  "Boarding",
+  "Landed",
+  "Delayed",
+  "Gate Closed",
+  "Departed",
+] as const;
+export type FlightStatus = (typeof flightStatuses)[number];
+export type FlightStatusFilter = FlightStatus | "All";
 export type Flight = {
   id: string;
   flightNo: string;
