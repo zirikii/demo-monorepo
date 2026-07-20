@@ -21,9 +21,7 @@ demo-monorepo/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
 
-Each app keeps its own framework, dependencies, tests, and README. pnpm
-workspaces isolate their (conflicting) React and Tailwind versions while still
-symlinking the shared package, so `@demo/ui` edits are picked up instantly with
+Each app keeps its own framework, dependencies, tests, and README files. pnpm workspaces isolate their (conflicting) React and Tailwind versions while still symlinking the shared package, so `@demo/ui` edits are picked up instantly with
 no publish step.
 
 Agent alignment skills (design tokens, per-app conventions, `mock-company-repo`)
@@ -34,19 +32,21 @@ repository — add that repo when launching cloud agents against this monorepo.
 
 Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 
-| App | Pulls from `@demo/ui` |
-| --- | --- |
-| kddi | `cx` class joiner (`src/lib/cx.js` re-exports `@demo/ui/cx`) |
-| naukri | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
-| paytm | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
-| seek | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
-| spark | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
-| squiz | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
-| changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
-| nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
-| nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
-See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
+| App    | Pulls from `@demo/ui`                                                                                 |
+| ------ | ----------------------------------------------------------------------------------------------------- |
+| kddi   | `cx` class joiner (`src/lib/cx.js` re-exports `@demo/ui/cx`)                                          |
+| naukri | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages`                  |
+| paytm  | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header               |
+| seek   | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages`                  |
+| spark  | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
+| squiz  | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header               |
+| changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header               |
+| nine   | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header               |
+| nab    | `tokens.css` design tokens copied into `css/tokens.css` at build time                                 |
+
+
+See `[packages/ui/README.md](packages/ui/README.md)` for the full export list.
 
 ## Getting started
 
