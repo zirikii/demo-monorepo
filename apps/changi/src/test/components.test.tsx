@@ -105,6 +105,12 @@ describe("FlightsTable", () => {
     expect(screen.getByLabelText(/Current flight filters/i)).toHaveTextContent(
       "?dir=departure&q=Tokyo&status=Boarding",
     );
+
+    await user.clear(screen.getByLabelText(/Search flights/i));
+
+    expect(screen.getByLabelText(/Current flight filters/i)).toHaveTextContent(
+      "?dir=departure&status=Boarding",
+    );
   });
 });
 
