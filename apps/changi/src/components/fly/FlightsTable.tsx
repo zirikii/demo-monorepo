@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import { flights, type FlightDirection, type FlightStatus } from "@/data/flights";
 import { statusTone } from "@/lib/format";
 import { Badge } from "../ui/Badge";
@@ -10,10 +11,55 @@ type Props = {
   initialQuery?: string;
 };
 
+type StatusFilter = FlightStatus | "All";
+
+const statusFilters = [
+  "On Time",
+  "Boarding",
+  "Landed",
+  "Delayed",
+  "Gate Closed",
+  "Departed",
+] as const satisfies readonly FlightStatus[];
+
+function parseDirection(value: string | null, fallback: FlightDirection): FlightDirection {
+  return value === "arrival" || value === "departure" ? value : fallback;
+}
+
+function parseStatus(value: string | null): StatusFilter {
+  return statusFilters.includes(value as FlightStatus) ? (value as FlightStatus) : "All";
+}
+
 export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }: Props) {
-  const [direction, setDirection] = useState<FlightDirection>(initialDirection);
-  const [query, setQuery] = useState(initialQuery);
-  const [status, setStatus] = useState<FlightStatus | "All">("All");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const direction = parseDirection(searchParams.get("dir"), initialDirection);
+  const query = searchParams.get("q") ?? initialQuery;
+  const status = parseStatus(searchParams.get("status"));
+
+  function updateFilters(nextFilters: {
+    direction?: FlightDirection;
+    query?: string;
+    status?: StatusFilter;
+  }) {
+    const nextDirection = nextFilters.direction ?? direction;
+    const nextQuery = nextFilters.query ?? query;
+    const nextStatus = nextFilters.status ?? status;
+    const nextParams = new URLSearchParams(searchParams);
+
+    nextParams.set("dir", nextDirection);
+    if (nextQuery) {
+      nextParams.set("q", nextQuery);
+    } else {
+      nextParams.delete("q");
+    }
+    if (nextStatus === "All") {
+      nextParams.delete("status");
+    } else {
+      nextParams.set("status", nextStatus);
+    }
+
+    setSearchParams(nextParams, { replace: true });
+  }
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -37,7 +83,8 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
             <button
               key={dir}
               type="button"
-              onClick={() => setDirection(dir)}
+              onClick={() => updateFilters({ direction: dir })}
+              aria-pressed={direction === dir}
               className={cn(
                 "rounded-md px-4 py-2 text-sm font-bold capitalize",
                 direction === dir ? "bg-purple text-white" : "text-ink-soft hover:text-ink",
@@ -50,14 +97,14 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
         <div className="flex flex-1 flex-col gap-2 sm:max-w-xl sm:flex-row">
           <input
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => updateFilters({ query: e.target.value })}
             placeholder="Search flight no, airline, or city"
             className="w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
             aria-label="Search flights"
           />
           <select
             value={status}
-            onChange={(e) => setStatus(e.target.value as FlightStatus | "All")}
+            onChange={(e) => updateFilters({ status: e.target.value as StatusFilter })}
             className="rounded-md border border-line bg-surface px-3 py-2 text-sm"
             aria-label="Filter by status"
           >
