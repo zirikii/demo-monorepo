@@ -13,9 +13,7 @@ function matchesQuery(outlet: Outlet, query: string) {
   const q = query.trim().toLowerCase();
   if (!q) return true;
 
-  return [outlet.name, outlet.subcategory, outlet.terminal, outlet.hours, outlet.highlight].some(
-    (value) => value?.toLowerCase().includes(q) ?? false,
-  );
+  return [outlet.name, outlet.subcategory].some((value) => value.toLowerCase().includes(q));
 }
 
 export function DineShopPage() {
