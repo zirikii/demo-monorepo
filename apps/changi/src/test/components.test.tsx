@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { PersonaHero } from "@/components/marketing/PersonaHero";
-import { FlightsTable } from "@/components/fly/FlightsTable";
+import { FlightsPage } from "@/pages/Flights";
 import { AuthProvider } from "@/hooks/useAuth";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { destinations } from "@/data/destinations";
@@ -32,16 +32,68 @@ describe("PersonaHero", () => {
 });
 
 describe("FlightsTable", () => {
-  it("filters by query", async () => {
-    const user = userEvent.setup();
+  function LocationProbe() {
+    const location = useLocation();
+    return <output aria-label="Current search">{location.search}</output>;
+  }
+
+  function renderFlightsPage(initialEntry = "/fly/flights") {
     render(
-      <MemoryRouter>
-        <FlightsTable initialDirection="arrival" />
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter initialEntries={[initialEntry]}>
+          <Routes>
+            <Route
+              path="/fly/flights"
+              element={
+                <>
+                  <FlightsPage />
+                  <LocationProbe />
+                </>
+              }
+            />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>,
     );
+  }
+
+  function currentParams() {
+    const search = screen.getByLabelText(/Current search/i).textContent ?? "";
+    return new URLSearchParams(search);
+  }
+
+  it("initializes from URL query params", () => {
+    renderFlightsPage("/fly/flights?dir=departure&q=Tokyo&status=Departed");
+
+    expect(screen.getByLabelText(/Search flights/i)).toHaveValue("Tokyo");
+    expect(screen.getByLabelText(/Filter by status/i)).toHaveValue("Departed");
+    expect(screen.getByText("To")).toBeInTheDocument();
+  });
+
+  it("syncs filter changes to URL query params", async () => {
+    const user = userEvent.setup();
+    renderFlightsPage();
+
     const input = screen.getByLabelText(/Search flights/i);
     await user.clear(input);
-    await user.type(input, "ZZZNOPE");
+    await user.type(input, "Sydney");
+    expect(currentParams().get("q")).toBe("Sydney");
+
+    await user.selectOptions(screen.getByLabelText(/Filter by status/i), "Delayed");
+    expect(currentParams().get("status")).toBe("Delayed");
+
+    await user.click(screen.getByRole("button", { name: /departures/i }));
+    expect(currentParams().get("dir")).toBe("departure");
+
+    await user.clear(input);
+    expect(currentParams().has("q")).toBe(false);
+  });
+
+  it("filters by query", async () => {
+    const user = userEvent.setup();
+    renderFlightsPage();
+
+    await user.type(screen.getByLabelText(/Search flights/i), "ZZZNOPE");
     expect(screen.getByText(/No flights match your filters/i)).toBeInTheDocument();
   });
 });

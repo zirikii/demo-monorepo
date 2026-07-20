@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { flights, type FlightDirection, type FlightStatus } from "@/data/flights";
 import { statusTone } from "@/lib/format";
 import { Badge } from "../ui/Badge";
@@ -6,15 +6,22 @@ import { EmptyState } from "../ui/EmptyState";
 import { cn } from "@/lib/cn";
 
 type Props = {
-  initialDirection?: FlightDirection;
-  initialQuery?: string;
+  direction: FlightDirection;
+  query: string;
+  status: FlightStatus | "All";
+  onDirectionChange: (direction: FlightDirection) => void;
+  onQueryChange: (query: string) => void;
+  onStatusChange: (status: FlightStatus | "All") => void;
 };
 
-export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }: Props) {
-  const [direction, setDirection] = useState<FlightDirection>(initialDirection);
-  const [query, setQuery] = useState(initialQuery);
-  const [status, setStatus] = useState<FlightStatus | "All">("All");
-
+export function FlightsTable({
+  direction,
+  query,
+  status,
+  onDirectionChange,
+  onQueryChange,
+  onStatusChange,
+}: Props) {
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
     return flights.filter((f) => {
@@ -37,7 +44,7 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
             <button
               key={dir}
               type="button"
-              onClick={() => setDirection(dir)}
+              onClick={() => onDirectionChange(dir)}
               className={cn(
                 "rounded-md px-4 py-2 text-sm font-bold capitalize",
                 direction === dir ? "bg-purple text-white" : "text-ink-soft hover:text-ink",
@@ -50,14 +57,14 @@ export function FlightsTable({ initialDirection = "arrival", initialQuery = "" }
         <div className="flex flex-1 flex-col gap-2 sm:max-w-xl sm:flex-row">
           <input
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => onQueryChange(e.target.value)}
             placeholder="Search flight no, airline, or city"
             className="w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
             aria-label="Search flights"
           />
           <select
             value={status}
-            onChange={(e) => setStatus(e.target.value as FlightStatus | "All")}
+            onChange={(e) => onStatusChange(e.target.value as FlightStatus | "All")}
             className="rounded-md border border-line bg-surface px-3 py-2 text-sm"
             aria-label="Filter by status"
           >
