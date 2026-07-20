@@ -75,9 +75,13 @@ describe("FlightsTable", () => {
     await user.type(input, "London");
     await user.selectOptions(statusSelect, "Landed");
 
-    expect(screen.getByLabelText(/Current search/i)).toHaveTextContent(
-      "?dir=arrival&q=London&status=Landed",
+    const syncedParams = new URLSearchParams(
+      screen.getByLabelText(/Current search/i).textContent ?? "",
     );
+
+    expect(syncedParams.get("dir")).toBe("arrival");
+    expect(syncedParams.get("q")).toBe("London");
+    expect(syncedParams.get("status")).toBe("Landed");
     expect(screen.getByText("BA114")).toBeInTheDocument();
   });
 });
