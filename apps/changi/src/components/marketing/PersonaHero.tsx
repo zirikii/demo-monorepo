@@ -41,7 +41,7 @@ export function PersonaHero() {
             "radial-gradient(ellipse at 20% 20%, rgba(225,210,0,0.25), transparent 45%), radial-gradient(ellipse at 80% 10%, rgba(238,52,36,0.28), transparent 40%), radial-gradient(ellipse at 70% 80%, rgba(108,33,127,0.45), transparent 50%)",
         }}
       />
-      <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
+      <div className="relative z-20 mx-auto max-w-6xl px-4 pb-10 pt-12 sm:px-6 sm:pt-16">
         <div className="animate-fade-up">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">Airport</p>
           <div className="mt-4 flex flex-wrap items-end gap-3 sm:gap-4">
