@@ -14,7 +14,7 @@ const schema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-const LOGIN_FEEDBACK_DELAY_MS = 300;
+const LOGIN_FEEDBACK_DELAY_MS = 800;
 
 type FormValues = z.infer<typeof schema>;
 
