@@ -1,0 +1,58 @@
+[
+  {
+    "id": "nbn-everyday",
+    "name": "Everyday NBN 50",
+    "type": "NBN",
+    "price": 79,
+    "speed": "Typical evening speed 50 Mbps",
+    "data": "Unlimited data",
+    "features": [
+      "WiFi modem included in demo",
+      "Great for browsing and streaming",
+      "Month-to-month service"
+    ],
+    "tag": "Starter"
+  },
+  {
+    "id": "nbn-fast",
+    "name": "Family NBN 100",
+    "type": "NBN",
+    "price": 89,
+    "speed": "Typical evening speed 100 Mbps",
+    "data": "Unlimited data",
+    "features": [
+      "Built for busy households",
+      "WiFi 6 modem option",
+      "Optus Sport add-on ready"
+    ],
+    "tag": "Popular"
+  },
+  {
+    "id": "nbn-ultrafast",
+    "name": "Ultra NBN 250",
+    "type": "NBN",
+    "price": 109,
+    "speed": "Typical evening speed 240 Mbps",
+    "data": "Unlimited data",
+    "features": [
+      "4K streaming and gaming",
+      "Priority support placeholder",
+      "No real NBN lookup"
+    ],
+    "tag": "Fast"
+  },
+  {
+    "id": "5g-home",
+    "name": "5G Home Internet",
+    "type": "5G Home",
+    "price": 69,
+    "speed": "Typical download speed 50-100 Mbps",
+    "data": "Unlimited data",
+    "features": [
+      "Plug-in 5G modem",
+      "Availability varies by address",
+      "Great for renters"
+    ],
+    "tag": "Wireless"
+  }
+]

@@ -14,6 +14,7 @@ demo-monorepo/
 │   ├── paytm/    # Vite + React 19 consumer payments site (Tailwind v4, TS)
 │   ├── seek/     # Next.js 15 + React 19 jobs marketplace (Tailwind v3, TS)
 │   ├── spark/    # Next.js 15 Spark NZ Travel & Move / MySpark demo
+│   ├── optus/    # Next.js 15 Optus AU telco / My Optus demo
 │   ├── squiz/    # Vite + React 19 marketing site (Tailwind v4, TS)
 │   ├── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
 │   └── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
@@ -41,6 +42,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | paytm | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | seek | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
 | spark | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
+| optus | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
 | squiz | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
@@ -55,10 +57,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / … / changi / nine
+pnpm dev:kddi      # or dev:nab / ... / optus / changi / nine
 
 # build one app
-pnpm build:seek    # or build:kddi / … / build:changi / build:nine
+pnpm build:seek    # or build:kddi / ... / build:optus / build:nine
 
 # build every app
 pnpm build

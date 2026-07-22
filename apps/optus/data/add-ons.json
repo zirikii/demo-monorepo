@@ -1,0 +1,44 @@
+[
+  {
+    "id": "roaming-5gb",
+    "name": "International Roaming 5GB",
+    "price": 25,
+    "category": "Roaming",
+    "description": "Demo roaming data for short overseas trips.",
+    "active": true,
+    "purchasedAt": "2026-07-01T09:00:00.000Z"
+  },
+  {
+    "id": "sport",
+    "name": "Optus Sport",
+    "price": 15,
+    "category": "Entertainment",
+    "description": "Football and sport add-on represented as a local toggle.",
+    "active": true,
+    "purchasedAt": "2026-06-15T09:00:00.000Z"
+  },
+  {
+    "id": "data-boost",
+    "name": "Extra Data Boost 20GB",
+    "price": 10,
+    "category": "Data",
+    "description": "One-off data boost for the current billing period.",
+    "active": false
+  },
+  {
+    "id": "intl-calls",
+    "name": "International Talk Pack",
+    "price": 12,
+    "category": "Calling",
+    "description": "International minutes pack for selected destinations.",
+    "active": false
+  },
+  {
+    "id": "premium-support",
+    "name": "Premium Support",
+    "price": 8,
+    "category": "Support",
+    "description": "Demo support priority flag for account portal scenarios.",
+    "active": false
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "fetchedAt": "2026-07-22",
+  "note": "Unofficial demo assets. Logos and simple icons are embedded so the demo can be rebuilt when optus.com.au is blocked. Not affiliated with Singtel Optus Pty Limited.",
+  "assets": [
+    { "file": "logo.svg", "source": "embedded Optus wordmark SVG (fill #00A3AD)" },
+    { "file": "logo-white.svg", "source": "embedded Optus wordmark SVG (fill #FFFFFF)" },
+    { "file": "logo-mark.svg", "source": "embedded derived mark for favicon-scale use" },
+    { "file": "icons/*.svg", "source": "embedded demo UI icons" }
+  ]
+}

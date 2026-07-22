@@ -1,0 +1,53 @@
+{
+  "team": [
+    {
+      "id": "tm-1",
+      "name": "Olivia Taylor",
+      "email": "admin@optus-demo.au",
+      "role": "Owner"
+    },
+    {
+      "id": "tm-2",
+      "name": "Noah Singh",
+      "email": "noah@example.com.au",
+      "role": "Admin"
+    },
+    {
+      "id": "tm-3",
+      "name": "Mia Chen",
+      "email": "mia@example.com.au",
+      "role": "Member"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int-optus-sport",
+      "name": "Optus Sport",
+      "description": "Entertainment add-on access for eligible demo plans.",
+      "connected": true
+    },
+    {
+      "id": "int-flybuys",
+      "name": "Flybuys",
+      "description": "Loyalty placeholder for Australian customer journeys.",
+      "connected": false
+    },
+    {
+      "id": "int-netflix",
+      "name": "Netflix",
+      "description": "Streaming perk placeholder for selected home internet bundles.",
+      "connected": false
+    },
+    {
+      "id": "int-google",
+      "name": "Google One",
+      "description": "Cloud storage add-on represented as a local toggle.",
+      "connected": true
+    }
+  ],
+  "profile": {
+    "phone": "+61 4 12 345 678",
+    "address": "200 George Street, Sydney NSW 2000",
+    "preferredContact": "Email"
+  }
+}

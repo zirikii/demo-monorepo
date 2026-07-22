@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --demo-accent: #00a3ad;
+  --optus-teal: #00a3ad;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --primary: 184 100% 34%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 184 100% 94%;
+  --secondary-foreground: 184 100% 26%;
+  --muted: 184 20% 94%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 49 100% 50%;
+  --accent-foreground: 0 0% 10%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 184 24% 88%;
+  --input: 184 24% 88%;
+  --ring: 184 100% 34%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-optus-ink antialiased;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .optus-pattern {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255, 209, 0, 0.28), transparent 24rem),
+      radial-gradient(circle at 85% 10%, rgba(0, 163, 173, 0.28), transparent 20rem),
+      linear-gradient(135deg, #007a82 0%, #00a3ad 55%, #e6f7f8 100%);
+  }
+}

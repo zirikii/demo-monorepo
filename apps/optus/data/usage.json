@@ -1,0 +1,37 @@
+[
+  {
+    "id": "mobile-data",
+    "label": "Mobile data",
+    "used": "46.2 GB",
+    "limit": "72 GB",
+    "pct": 64
+  },
+  {
+    "id": "national-calls",
+    "label": "Australian calls",
+    "used": "182 min",
+    "limit": "Unlimited",
+    "pct": 18
+  },
+  {
+    "id": "national-texts",
+    "label": "Australian texts",
+    "used": "214",
+    "limit": "Unlimited",
+    "pct": 10
+  },
+  {
+    "id": "home-internet",
+    "label": "Home internet",
+    "used": "612 GB",
+    "limit": "Unlimited",
+    "pct": 52
+  },
+  {
+    "id": "roaming",
+    "label": "International roaming",
+    "used": "1.2 GB",
+    "limit": "5 GB",
+    "pct": 24
+  }
+]

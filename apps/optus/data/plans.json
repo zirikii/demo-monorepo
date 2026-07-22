@@ -1,0 +1,54 @@
+[
+  {
+    "id": "sim-49",
+    "name": "Optus Plus Everyday",
+    "price": 49,
+    "data": "80GB data",
+    "network": "Optus 5G network access",
+    "features": [
+      "Unlimited standard national talk and text",
+      "Data sharing on eligible services",
+      "No lock-in SIM-only demo"
+    ],
+    "tag": "Popular"
+  },
+  {
+    "id": "sim-59",
+    "name": "Optus Plus Family",
+    "price": 59,
+    "data": "180GB data",
+    "network": "Optus 5G network access",
+    "features": [
+      "Unlimited standard national talk and text",
+      "Family data pooling",
+      "International talk add-ons available"
+    ],
+    "tag": "Best value"
+  },
+  {
+    "id": "sim-69",
+    "name": "Optus Plus Max",
+    "price": 69,
+    "data": "Unlimited data",
+    "network": "Optus 5G network access",
+    "features": [
+      "Unlimited standard national talk and text",
+      "Speed-managed after 360GB",
+      "Roaming add-ons ready"
+    ],
+    "tag": "Unlimited"
+  },
+  {
+    "id": "prepaid-35",
+    "name": "Optus Prepaid Flex",
+    "price": 35,
+    "data": "50GB / 28 days",
+    "network": "Optus 4G and 5G network",
+    "features": [
+      "Recharge in My Optus",
+      "Unlimited standard national talk and text",
+      "No lock-in"
+    ],
+    "tag": "Prepaid"
+  }
+]
