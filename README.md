@@ -16,7 +16,8 @@ demo-monorepo/
 │   ├── spark/    # Next.js 15 Spark NZ Travel & Move / MySpark demo
 │   ├── squiz/    # Vite + React 19 marketing site (Tailwind v4, TS)
 │   ├── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
-│   └── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
+│   ├── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
+│   └── optus/    # Vite + React 19 Optus NOC agentic remediation demo (Tailwind v4, TS)
 └── packages/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
@@ -44,6 +45,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | squiz | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
+| optus | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
 See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
@@ -55,10 +57,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / … / changi / nine
+pnpm dev:kddi      # or dev:nab / … / changi / nine / optus
 
 # build one app
-pnpm build:seek    # or build:kddi / … / build:changi / build:nine
+pnpm build:seek    # or build:kddi / … / build:changi / build:nine / build:optus
 
 # build every app
 pnpm build

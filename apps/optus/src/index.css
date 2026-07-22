@@ -1,0 +1,106 @@
+@import "tailwindcss";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@theme {
+  --color-optus: #00c4b8;
+  --color-optus-bright: #2ef0e2;
+  --color-optus-dim: #0a7f78;
+  --color-noc-bg: #070b0d;
+  --color-noc-panel: #0f161a;
+  --color-noc-elevated: #162026;
+  --color-noc-line: #243239;
+  --color-noc-muted: #8aa0a8;
+  --color-noc-fg: #e8f2f4;
+  --color-sev-critical: #ff4d6a;
+  --color-sev-warning: #f5b942;
+  --color-sev-info: #4db8ff;
+  --color-ok: #3dde8c;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
+  --animate-flow: flow-dash 1.2s linear infinite;
+  --animate-rise: rise-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(0 196 184 / 0%);
+  }
+  50% {
+    box-shadow: 0 0 24px 0 rgb(0 196 184 / 35%);
+  }
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 48px 48px;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgb(0 196 184 / 14%), transparent 55%),
+      radial-gradient(900px 500px at -10% 20%, rgb(15 60 70 / 45%), transparent 50%),
+      var(--color-noc-bg);
+    color: var(--color-noc-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-noc-elevated) transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-optus);
+    outline-offset: 2px;
+  }
+}
+
+.noc-grid {
+  background-image:
+    linear-gradient(rgb(36 50 57 / 45%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(36 50 57 / 45%) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: grid-drift 28s linear infinite;
+}
+
+.pipeline-active {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
