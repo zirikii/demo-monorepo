@@ -1,0 +1,37 @@
+[
+  {
+    "id": "bill-1",
+    "period": "Jul 2026",
+    "amount": 148.5,
+    "status": "Due",
+    "dueDate": "2026-08-05"
+  },
+  {
+    "id": "bill-2",
+    "period": "Jun 2026",
+    "amount": 141.2,
+    "status": "Paid",
+    "dueDate": "2026-07-05"
+  },
+  {
+    "id": "bill-3",
+    "period": "May 2026",
+    "amount": 139.9,
+    "status": "Paid",
+    "dueDate": "2026-06-05"
+  },
+  {
+    "id": "bill-4",
+    "period": "Apr 2026",
+    "amount": 159.35,
+    "status": "Paid",
+    "dueDate": "2026-05-05"
+  },
+  {
+    "id": "bill-5",
+    "period": "Mar 2026",
+    "amount": 142.0,
+    "status": "Paid",
+    "dueDate": "2026-04-05"
+  }
+]

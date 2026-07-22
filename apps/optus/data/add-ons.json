@@ -1,0 +1,30 @@
+[
+  {
+    "id": "roam-5",
+    "name": "$5 Roaming Pass",
+    "description": "Daily roaming simulation for selected destinations.",
+    "price": 5,
+    "active": true
+  },
+  {
+    "id": "sport",
+    "name": "Optus Sport access",
+    "description": "Entertainment add-on placeholder for the demo.",
+    "price": 9.99,
+    "active": false
+  },
+  {
+    "id": "safe",
+    "name": "Family internet safety",
+    "description": "Parental controls and safe browsing controls.",
+    "price": 6,
+    "active": true
+  },
+  {
+    "id": "data",
+    "name": "Extra 20GB data pack",
+    "description": "One-off mobile data boost.",
+    "price": 15,
+    "active": false
+  }
+]

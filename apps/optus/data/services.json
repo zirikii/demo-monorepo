@@ -1,0 +1,29 @@
+[
+  {
+    "id": "svc-1",
+    "name": "Choice Plus 180GB",
+    "type": "Mobile",
+    "status": "Active",
+    "usagePercent": 0.62,
+    "usageLabel": "112GB of 180GB used",
+    "renewsAt": "2026-08-12"
+  },
+  {
+    "id": "svc-2",
+    "name": "Optus Plus Everyday nbn",
+    "type": "Internet",
+    "status": "Active",
+    "usagePercent": 0.31,
+    "usageLabel": "Unlimited data - strong WiFi health",
+    "renewsAt": "2026-08-15"
+  },
+  {
+    "id": "svc-3",
+    "name": "Prepaid Epic Data",
+    "type": "Prepaid",
+    "status": "Needs attention",
+    "usagePercent": 0.88,
+    "usageLabel": "40GB of 45GB used",
+    "renewsAt": "2026-07-29"
+  }
+]

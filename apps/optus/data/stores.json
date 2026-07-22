@@ -1,0 +1,218 @@
+[
+  {
+    "id": "st-01",
+    "name": "Auckland Airport Optus Store",
+    "city": "Auckland",
+    "address": "Auckland Airport Domestic Terminal",
+    "hours": "Mon\u2013Sun 6am\u201310pm",
+    "airport": true
+  },
+  {
+    "id": "st-02",
+    "name": "Christchurch Airport Optus",
+    "city": "Christchurch",
+    "address": "Christchurch Airport Arrivals",
+    "hours": "Mon\u2013Sun 6am\u20139pm",
+    "airport": true
+  },
+  {
+    "id": "st-03",
+    "name": "Optus Queen Street",
+    "city": "Auckland",
+    "address": "200 Queen Street, Auckland CBD",
+    "hours": "Mon\u2013Fri 9am\u20136pm, Sat 10am\u20134pm",
+    "airport": false
+  },
+  {
+    "id": "st-04",
+    "name": "Optus Sylvia Park",
+    "city": "Auckland",
+    "address": "Sylvia Park Shopping Centre",
+    "hours": "Mon\u2013Wed 9am\u20136pm, Thu\u2013Fri 9am\u20139pm",
+    "airport": false
+  },
+  {
+    "id": "st-05",
+    "name": "Optus Albany",
+    "city": "Auckland",
+    "address": "Westfield Albany",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-06",
+    "name": "Optus Newmarket",
+    "city": "Auckland",
+    "address": "Westfield Newmarket",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-07",
+    "name": "Optus Manukau",
+    "city": "Auckland",
+    "address": "Westfield Manukau",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-08",
+    "name": "Optus Wellington CBD",
+    "city": "Wellington",
+    "address": "Cuba Street, Wellington",
+    "hours": "Mon\u2013Fri 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-09",
+    "name": "Optus Queensgate",
+    "city": "Lower Hutt",
+    "address": "Westfield Queensgate",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-10",
+    "name": "Optus Porirua",
+    "city": "Porirua",
+    "address": "North City Shopping Centre",
+    "hours": "Mon\u2013Sat 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-11",
+    "name": "Optus Riccarton",
+    "city": "Christchurch",
+    "address": "Westfield Riccarton",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-12",
+    "name": "Optus Hornby",
+    "city": "Christchurch",
+    "address": "The Hub Hornby",
+    "hours": "Mon\u2013Sat 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-13",
+    "name": "Optus Dunedin",
+    "city": "Dunedi",
+    "address": "Meridian Mall",
+    "hours": "Mon\u2013Fri 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-14",
+    "name": "Optus Hamilton",
+    "city": "Hamilton",
+    "address": "Centre Place",
+    "hours": "Mon\u2013Sat 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-15",
+    "name": "Optus Tauranga",
+    "city": "Tauranga",
+    "address": "Bayfair Shopping Centre",
+    "hours": "Mon\u2013Sat 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-16",
+    "name": "Optus Rotorua",
+    "city": "Rotorua",
+    "address": "Rotorua Central",
+    "hours": "Mon\u2013Fri 9am\u20135pm",
+    "airport": false
+  },
+  {
+    "id": "st-17",
+    "name": "Optus Napier",
+    "city": "Napier",
+    "address": "Downtown Napier",
+    "hours": "Mon\u2013Fri 9am\u20135pm",
+    "airport": false
+  },
+  {
+    "id": "st-18",
+    "name": "Optus Palmerston North",
+    "city": "Palmerston North",
+    "address": "The Plaza",
+    "hours": "Mon\u2013Sat 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-19",
+    "name": "Optus Nelson",
+    "city": "Nelson",
+    "address": "Centre City",
+    "hours": "Mon\u2013Fri 9am\u20135pm",
+    "airport": false
+  },
+  {
+    "id": "st-20",
+    "name": "Optus Invercargill",
+    "city": "Invercargill",
+    "address": "Invercargill Central",
+    "hours": "Mon\u2013Fri 9am\u20135pm",
+    "airport": false
+  },
+  {
+    "id": "st-21",
+    "name": "Optus New Plymouth",
+    "city": "New Plymouth",
+    "address": "Centre City",
+    "hours": "Mon\u2013Fri 9am\u20135pm",
+    "airport": false
+  },
+  {
+    "id": "st-22",
+    "name": "Optus Whangarei",
+    "city": "Whangarei",
+    "address": "Okara Shopping Centre",
+    "hours": "Mon\u2013Fri 9am\u20135pm",
+    "airport": false
+  },
+  {
+    "id": "st-23",
+    "name": "Optus Queenstown",
+    "city": "Queenstown",
+    "address": "Remarkables Park",
+    "hours": "Mon\u2013Sun 10am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-24",
+    "name": "Optus Botany",
+    "city": "Auckland",
+    "address": "Botany Town Centre",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-25",
+    "name": "Optus St Lukes",
+    "city": "Auckland",
+    "address": "Westfield St Lukes",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  },
+  {
+    "id": "st-26",
+    "name": "Optus Chartwell",
+    "city": "Hamilton",
+    "address": "Chartwell Shopping Centre",
+    "hours": "Mon\u2013Sat 9am\u20135:30pm",
+    "airport": false
+  },
+  {
+    "id": "st-27",
+    "name": "Optus Northlands",
+    "city": "Christchurch",
+    "address": "Northlands Shopping Centre",
+    "hours": "Mon\u2013Sat 9am\u20136pm",
+    "airport": false
+  }
+]

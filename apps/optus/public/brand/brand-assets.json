@@ -1,0 +1,26 @@
+{
+  "fetchedDate": "2026-07-22",
+  "note": "Direct cloud downloads from optus.com.au and the public SVG fallback host were blocked by the agent egress policy, so this demo commits a self-hosted Optus-branded SVG fallback and preserves the attempted official/public sources.",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "sourceUrl": "https://www.optus.com.au/about/media-centre/multimedia/logos",
+      "status": "egress-blocked-fallback-svg"
+    },
+    {
+      "file": "logo-white.svg",
+      "sourceUrl": "https://www.optus.com.au/about/media-centre/multimedia/logos",
+      "status": "egress-blocked-fallback-svg"
+    },
+    {
+      "file": "logo-mark.svg",
+      "sourceUrl": "https://www.optus.com.au/",
+      "status": "egress-blocked-fallback-svg"
+    },
+    {
+      "file": "favicon.svg",
+      "sourceUrl": "https://www.optus.com.au/",
+      "status": "egress-blocked-fallback-svg"
+    }
+  ]
+}
