@@ -14,7 +14,7 @@ const schema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
-const LOGIN_FEEDBACK_DELAY_MS = 800;
+const LOGIN_FEEDBACK_DELAY_MS = 1200;
 
 type FormValues = z.infer<typeof schema>;
 
@@ -24,6 +24,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const [hint] = useState("Demo mode: any email and password will work.");
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const {
     register,
     handleSubmit,
@@ -32,6 +33,7 @@ export function LoginPage() {
     resolver: zodResolver(schema),
     defaultValues: { email: "traveller@example.com", password: "demo" },
   });
+  const isLoginPending = isSubmitting || isLoggingIn;
 
   return (
     <PageLayout>
@@ -43,6 +45,7 @@ export function LoginPage() {
           <form
             className="mt-6 space-y-4"
             onSubmit={handleSubmit(async (values) => {
+              setIsLoggingIn(true);
               await new Promise((resolve) => window.setTimeout(resolve, LOGIN_FEEDBACK_DELAY_MS));
               login(values.email, values.password);
               navigate(params.get("redirect") || "/account");
@@ -58,7 +61,7 @@ export function LoginPage() {
               <input
                 id="email"
                 type="email"
-                disabled={isSubmitting}
+                disabled={isLoginPending}
                 className="mt-1 w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
                 {...register("email")}
               />
@@ -76,7 +79,7 @@ export function LoginPage() {
               <input
                 id="password"
                 type="password"
-                disabled={isSubmitting}
+                disabled={isLoginPending}
                 className="mt-1 w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
                 {...register("password")}
               />
@@ -88,10 +91,10 @@ export function LoginPage() {
               type="submit"
               variant="purple"
               className="w-full"
-              disabled={isSubmitting}
-              aria-busy={isSubmitting}
+              disabled={isLoginPending}
+              aria-busy={isLoginPending}
             >
-              {isSubmitting ? (
+              {isLoginPending ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
                   Signing in...
