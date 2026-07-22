@@ -1,0 +1,36 @@
+{
+  "fetchedAt": "2026-07-22",
+  "note": "Unofficial demo. Optus brand assets on optus.com.au could not be downloaded from this environment (the domain is outside the network allowlist), so the logo, favicon and photography here are original SVGs built from the publicly documented Optus palette (teal #39A8AF wordmark + yellow #FECD03 accent). Not affiliated with Singtel Optus Pty Limited. Run scripts/fetch-brand-assets.sh from a network with optus.com.au allowed to replace these with the official assets.",
+  "palette": {
+    "teal": "#39A8AF",
+    "yellow": "#FECD03",
+    "ink": "#1A1A1A"
+  },
+  "assets": [
+    {
+      "file": "logo.svg",
+      "source": "original SVG wordmark (teal) built from documented Optus palette",
+      "official": "https://www.optus.com.au/about/media-centre/multimedia/logos"
+    },
+    {
+      "file": "logo-white.svg",
+      "source": "original SVG wordmark (white/reversed) for dark surfaces"
+    },
+    {
+      "file": "logo-mark.svg",
+      "source": "original SVG app mark"
+    },
+    {
+      "file": "favicon.svg",
+      "source": "original SVG favicon"
+    },
+    {
+      "file": "photos/hero.svg",
+      "source": "original gradient backdrop in Optus teal/yellow"
+    },
+    {
+      "file": "photos/sport.svg",
+      "source": "original gradient backdrop for Optus Sport"
+    }
+  ]
+}

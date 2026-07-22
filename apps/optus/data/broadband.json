@@ -1,0 +1,43 @@
+[
+  {
+    "id": "bb-nbn-50",
+    "name": "Internet Everyday",
+    "type": "nbn",
+    "price": 79,
+    "speed": "nbn 50",
+    "typicalEvening": "50Mbps typical evening speed",
+    "features": ["No lock-in contract", "WiFi modem included", "Unlimited data"]
+  },
+  {
+    "id": "bb-nbn-100",
+    "name": "Internet Family",
+    "type": "nbn",
+    "price": 89,
+    "speed": "nbn 100",
+    "typicalEvening": "100Mbps typical evening speed",
+    "features": [
+      "No lock-in contract",
+      "Optus Ultra WiFi modem included",
+      "4G backup during outages"
+    ],
+    "highlight": true
+  },
+  {
+    "id": "bb-5g-home",
+    "name": "5G Home Internet",
+    "type": "5G Home",
+    "price": 85,
+    "speed": "5G Home Fast",
+    "typicalEvening": "Typical busy speeds 100–250Mbps",
+    "features": ["Self-install in minutes", "No lock-in contract", "First month free"]
+  },
+  {
+    "id": "bb-nbn-250",
+    "name": "Internet Superfast",
+    "type": "nbn",
+    "price": 109,
+    "speed": "nbn 250",
+    "typicalEvening": "240Mbps typical evening speed",
+    "features": ["No lock-in contract", "Optus Ultra WiFi Booster", "Priority support"]
+  }
+]

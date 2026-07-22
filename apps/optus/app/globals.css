@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --demo-accent: #f54e00;
+  --optus-teal: #39a8af;
+  --optus-yellow: #fecd03;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --primary: 184 51% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 180 12% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 180 10% 94%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 184 51% 94%;
+  --accent-foreground: 186 52% 24%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 180 6% 90%;
+  --input: 180 6% 90%;
+  --ring: 184 51% 45%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-optus-ink antialiased;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-optus-teal focus-visible:ring-offset-2;
+  }
+}

@@ -1,0 +1,6 @@
+[
+  { "id": "fx-1", "competition": "Premier League", "home": "Arsenal", "away": "Liverpool", "kickoff": "2026-08-15T02:30:00.000Z", "venue": "Emirates Stadium" },
+  { "id": "fx-2", "competition": "LaLiga", "home": "Real Madrid", "away": "Barcelona", "kickoff": "2026-08-16T05:00:00.000Z", "venue": "Santiago Bernabéu" },
+  { "id": "fx-3", "competition": "Matildas", "home": "Australia", "away": "Japan", "kickoff": "2026-08-18T09:45:00.000Z", "venue": "Stadium Australia" },
+  { "id": "fx-4", "competition": "Premier League", "home": "Man City", "away": "Tottenham", "kickoff": "2026-08-22T04:00:00.000Z", "venue": "Etihad Stadium" }
+]
