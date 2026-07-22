@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { LoginForm } from "@/components/auth/login-form";
 import { OptusLogo } from "@/components/layout/logo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,7 +17,9 @@ export default function LoginPage() {
           </p>
         </CardHeader>
         <CardContent>
-          <LoginForm />
+          <Suspense fallback={<p className="text-sm text-optus-muted">Loading login form...</p>}>
+            <LoginForm />
+          </Suspense>
           <p className="mt-5 text-center text-sm text-optus-muted">
             Need a workspace?{" "}
             <Link href="/signup" className="font-bold text-optus-teal">

@@ -3,7 +3,7 @@ import type { SessionUser } from "@/lib/types";
 const ISSUER = "optus-business-hub-demo";
 const AUDIENCE = "optus-enterprise-customer";
 function getSecretKey(): Uint8Array {
-  return Buffer.from(process.env.DEMO_AUTH_SECRET ?? "change-me", "utf8");
+  return new TextEncoder().encode(process.env.DEMO_AUTH_SECRET ?? "change-me");
 }
 export async function encodeSession(user: SessionUser): Promise<string> {
   return new SignJWT({ email: user.email, name: user.name })

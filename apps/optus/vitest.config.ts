@@ -8,5 +8,10 @@ export default defineConfig({
     setupFiles: ["./vitest.setup.ts"],
     include: ["**/*.{test,spec}.{ts,tsx}"],
   },
-  resolve: { alias: { "@": path.resolve(__dirname, "./") } },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./"),
+      "server-only": path.resolve(__dirname, "./test/server-only.ts"),
+    },
+  },
 });

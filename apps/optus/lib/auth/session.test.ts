@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { describe, expect, it } from "vitest";
 import { decodeSession, encodeSession } from "@/lib/auth/session";
 describe("session token helpers", () => {
