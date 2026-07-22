@@ -3,7 +3,10 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Optus Network Operations demo — SNMP→RabbitMQ automation with Cursor Cloud Agent remediation (unofficial)",
+  "description": "Optus Network Operations demo — SNMP→RabbitMQ automation with Cursor Cloud Agent remediation via @cursor/sdk (unofficial)",
+  "engines": {
+    "node": ">=22.13"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
@@ -16,6 +19,7 @@
     "shots": "playwright test e2e/vision.spec.ts"
   },
   "dependencies": {
+    "@cursor/sdk": "^1.0.24",
     "@demo/ui": "workspace:*",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/outfit": "^5.2.6",

@@ -21,7 +21,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
 | nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
-| optus (Vite + React 19) | `pnpm dev:optus` | 5178 | Optus NOC agentic remediation demo; optional `CURSOR_API_KEY` |
+| optus (Vite + React 19) | `pnpm dev:optus` | 5178 | Optus NOC + `@cursor/sdk` cloud agents; optional `CURSOR_API_KEY`; Node 22.13+ |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -41,9 +41,9 @@ per-app scripts and features are documented in the root `README.md` and each app
 `.env.example` → `.env.local` if you want to override defaults. Auth is mock: the login
 forms accept **any** email/password (they come pre-filled with demo credentials).
 
-`apps/optus` optionally reads server-only `CURSOR_API_KEY` (via Vite middleware) to
-dispatch live Cursor Cloud Agents. The pipeline UI works without it; live dispatch needs
-the key in `apps/optus/.env.local`.
+`apps/optus` optionally reads server-only `CURSOR_API_KEY` and dispatches live Cloud Agents
+through `@cursor/sdk` in Vite middleware (`/api/cursor/*`). The pipeline UI works without
+it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
 ### Lint / test / build
 

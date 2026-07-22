@@ -12,6 +12,12 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
+  optimizeDeps: {
+    exclude: ["@cursor/sdk"],
+  },
+  ssr: {
+    external: ["@cursor/sdk"],
+  },
   server: {
     port: 5178,
     host: true,

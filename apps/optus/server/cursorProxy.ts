@@ -1,8 +1,14 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Plugin, ViteDevServer } from "vite";
 import { loadEnv } from "vite";
-
-const API_BASE = "https://api.cursor.com";
+import { Agent, Cursor, type Run, type SDKMessage } from "@cursor/sdk";
+import {
+  agentUrl,
+  formatSse,
+  normalizeRunStatus,
+  sdkMessageToSse,
+  type SseEvent,
+} from "./cursorSdkHelpers";
 
 type JsonBody = Record<string, unknown>;
 
@@ -31,17 +37,8 @@ function getConfig(server: ViteDevServer) {
       process.env.CURSOR_REPO_URL ||
       "https://github.com/zirikii/demo-monorepo",
     startingRef: env.CURSOR_STARTING_REF || process.env.CURSOR_STARTING_REF || "main",
+    modelId: env.CURSOR_MODEL || process.env.CURSOR_MODEL || "composer-2.5",
   };
-}
-
-async function cursorFetch(apiKey: string, path: string, init?: RequestInit) {
-  const headers = new Headers(init?.headers);
-  if (!headers.has("Authorization")) headers.set("Authorization", `Bearer ${apiKey}`);
-  if (!headers.has("Accept")) headers.set("Accept", "application/json");
-  if (init?.body && !headers.has("Content-Type")) {
-    headers.set("Content-Type", "application/json");
-  }
-  return fetch(`${API_BASE}${path}`, { ...init, headers });
 }
 
 function buildRemediationPrompt(incident: JsonBody): string {
@@ -72,32 +69,107 @@ function buildRemediationPrompt(incident: JsonBody): string {
   ].join("\n");
 }
 
+function serializeRun(run: Run) {
+  return {
+    id: run.id,
+    agentId: run.agentId,
+    status: normalizeRunStatus(run.status),
+    createdAt: run.createdAt ? new Date(run.createdAt).toISOString() : undefined,
+    durationMs: run.durationMs,
+    result: run.result,
+    git: run.git,
+  };
+}
+
+function writeSse(res: ServerResponse, event: SseEvent) {
+  res.write(formatSse(event));
+}
+
+async function streamRunToSse(
+  run: Run,
+  res: ServerResponse,
+  req: IncomingMessage,
+): Promise<void> {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/event-stream");
+  res.setHeader("Cache-Control", "no-cache");
+  res.setHeader("Connection", "keep-alive");
+
+  let closed = false;
+  const onClose = () => {
+    closed = true;
+  };
+  req.on("close", onClose);
+
+  try {
+    for await (const message of run.stream() as AsyncGenerator<SDKMessage, void>) {
+      if (closed) break;
+      for (const event of sdkMessageToSse(message)) {
+        writeSse(res, event);
+      }
+    }
+
+    if (!closed) {
+      const result = await run.wait();
+      writeSse(res, {
+        event: "result",
+        data: {
+          status: normalizeRunStatus(result.status),
+          text: result.result,
+          durationMs: result.durationMs,
+        },
+      });
+    }
+  } finally {
+    req.off("close", onClose);
+    if (!res.writableEnded) res.end();
+  }
+}
+
 export function cursorApiPlugin(): Plugin {
   return {
-    name: "optus-cursor-api-proxy",
+    name: "optus-cursor-sdk-proxy",
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         if (!req.url?.startsWith("/api/cursor")) return next();
 
-        const { apiKey, repoUrl, startingRef } = getConfig(server);
+        const { apiKey, repoUrl, startingRef, modelId } = getConfig(server);
         const url = new URL(req.url, "http://localhost");
         const path = url.pathname;
 
         try {
           if (path === "/api/cursor/health" && req.method === "GET") {
             if (!apiKey) {
-              return sendJson(res, 200, { ok: false, configured: false, reason: "CURSOR_API_KEY missing" });
+              return sendJson(res, 200, {
+                ok: false,
+                configured: false,
+                reason: "CURSOR_API_KEY missing",
+              });
             }
-            const me = await cursorFetch(apiKey, "/v1/me");
-            const body = await me.json().catch(() => ({}));
-            return sendJson(res, me.ok ? 200 : me.status, {
-              ok: me.ok,
-              configured: true,
-              me: me.ok ? body : undefined,
-              error: me.ok ? undefined : body,
-              repoUrl,
-              startingRef,
-            });
+            try {
+              const me = await Cursor.me({ apiKey });
+              return sendJson(res, 200, {
+                ok: true,
+                configured: true,
+                me,
+                repoUrl,
+                startingRef,
+                modelId,
+                sdk: "@cursor/sdk",
+              });
+            } catch (error) {
+              const message = error instanceof Error ? error.message : "Health check failed";
+              return sendJson(res, 200, {
+                ok: false,
+                configured: true,
+                reason: message,
+                error: message,
+                repoUrl,
+                startingRef,
+                modelId,
+                sdk: "@cursor/sdk",
+              });
+            }
           }
 
           if (!apiKey) {
@@ -107,10 +179,24 @@ export function cursorApiPlugin(): Plugin {
           }
 
           if (path === "/api/cursor/agents" && req.method === "GET") {
-            const limit = url.searchParams.get("limit") ?? "10";
-            const upstream = await cursorFetch(apiKey, `/v1/agents?limit=${encodeURIComponent(limit)}`);
-            const body = await upstream.json().catch(() => ({}));
-            return sendJson(res, upstream.status, body);
+            const limit = Number(url.searchParams.get("limit") ?? "10");
+            const listed = await Agent.list({
+              runtime: "cloud",
+              apiKey,
+              limit: Number.isFinite(limit) ? limit : 10,
+            });
+            return sendJson(res, 200, {
+              agents: listed.items.map((item) => ({
+                id: item.agentId,
+                name: item.name,
+                status: item.status ? normalizeRunStatus(item.status) : "UNKNOWN",
+                url: agentUrl(item.agentId),
+                summary: item.summary,
+                createdAt: item.createdAt ? new Date(item.createdAt).toISOString() : undefined,
+                updatedAt: new Date(item.lastModified).toISOString(),
+              })),
+              nextCursor: listed.nextCursor,
+            });
           }
 
           if (path === "/api/cursor/agents" && req.method === "POST") {
@@ -120,77 +206,99 @@ export function cursorApiPlugin(): Plugin {
               typeof incident.prompt === "string" && incident.prompt.trim()
                 ? incident.prompt
                 : buildRemediationPrompt(incident);
+            const name = String(incident.name ?? `Optus NOC · ${incident.title ?? "incident"}`).slice(
+              0,
+              100,
+            );
 
-            const payload = {
-              prompt: { text: promptText },
-              name: String(incident.name ?? `Optus NOC · ${incident.title ?? "incident"}`).slice(0, 100),
-              repos: [{ url: repoUrl, startingRef }],
-              autoCreatePR: false,
-            };
-
-            const upstream = await cursorFetch(apiKey, "/v1/agents", {
-              method: "POST",
-              body: JSON.stringify(payload),
+            const agent = await Agent.create({
+              apiKey,
+              name,
+              model: { id: modelId },
+              cloud: {
+                repos: [{ url: repoUrl, startingRef }],
+                autoCreatePR: false,
+              },
             });
-            const body = await upstream.json().catch(() => ({}));
-            return sendJson(res, upstream.status, body);
+
+            let aborted = false;
+            const onAbort = () => {
+              aborted = true;
+            };
+            req.on("close", onAbort);
+
+            try {
+              const run = await agent.send(promptText);
+              if (aborted) {
+                await run.cancel().catch(() => undefined);
+                return;
+              }
+
+              return sendJson(res, 200, {
+                agent: {
+                  id: agent.agentId,
+                  name,
+                  status: normalizeRunStatus(run.status),
+                  url: agentUrl(agent.agentId),
+                  latestRunId: run.id,
+                },
+                run: serializeRun(run),
+                sdk: "@cursor/sdk",
+              });
+            } finally {
+              req.off("close", onAbort);
+            }
           }
 
           const agentMatch = path.match(/^\/api\/cursor\/agents\/([^/]+)$/);
           if (agentMatch && req.method === "GET") {
-            const upstream = await cursorFetch(apiKey, `/v1/agents/${agentMatch[1]}`);
-            const body = await upstream.json().catch(() => ({}));
-            return sendJson(res, upstream.status, body);
+            const agentId = decodeURIComponent(agentMatch[1]);
+            const info = await Agent.get(agentId, { apiKey });
+            return sendJson(res, 200, {
+              id: info.agentId,
+              name: info.name,
+              status: info.status ? normalizeRunStatus(info.status) : "UNKNOWN",
+              url: agentUrl(info.agentId),
+              summary: info.summary,
+              createdAt: info.createdAt ? new Date(info.createdAt).toISOString() : undefined,
+              updatedAt: new Date(info.lastModified).toISOString(),
+            });
           }
 
           const runMatch = path.match(/^\/api\/cursor\/agents\/([^/]+)\/runs\/([^/]+)$/);
           if (runMatch && req.method === "GET") {
-            const upstream = await cursorFetch(
+            const agentId = decodeURIComponent(runMatch[1]);
+            const runId = decodeURIComponent(runMatch[2]);
+            const run = await Agent.getRun(runId, {
+              runtime: "cloud",
+              agentId,
               apiKey,
-              `/v1/agents/${runMatch[1]}/runs/${runMatch[2]}`,
-            );
-            const body = await upstream.json().catch(() => ({}));
-            return sendJson(res, upstream.status, body);
+            });
+            return sendJson(res, 200, serializeRun(run));
           }
 
-          const streamMatch = path.match(/^\/api\/cursor\/agents\/([^/]+)\/runs\/([^/]+)\/stream$/);
+          const streamMatch = path.match(
+            /^\/api\/cursor\/agents\/([^/]+)\/runs\/([^/]+)\/stream$/,
+          );
           if (streamMatch && req.method === "GET") {
-            const upstream = await cursorFetch(
+            const agentId = decodeURIComponent(streamMatch[1]);
+            const runId = decodeURIComponent(streamMatch[2]);
+            const run = await Agent.getRun(runId, {
+              runtime: "cloud",
+              agentId,
               apiKey,
-              `/v1/agents/${streamMatch[1]}/runs/${streamMatch[2]}/stream`,
-              { headers: { Accept: "text/event-stream" } },
-            );
-
-            res.statusCode = upstream.status;
-            res.setHeader("Content-Type", "text/event-stream");
-            res.setHeader("Cache-Control", "no-cache");
-            res.setHeader("Connection", "keep-alive");
-
-            if (!upstream.ok || !upstream.body) {
-              const text = await upstream.text();
-              res.end(text);
-              return;
-            }
-
-            const reader = upstream.body.getReader();
-            const decoder = new TextDecoder();
-            const pump = async () => {
-              while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                res.write(decoder.decode(value, { stream: true }));
-              }
-              res.end();
-            };
-            req.on("close", () => reader.cancel().catch(() => undefined));
-            await pump();
+            });
+            await streamRunToSse(run, res, req);
             return;
           }
 
           return sendJson(res, 404, { error: `No handler for ${req.method} ${path}` });
         } catch (error) {
-          const message = error instanceof Error ? error.message : "Proxy failure";
-          return sendJson(res, 500, { error: message });
+          const message = error instanceof Error ? error.message : "Cursor SDK proxy failure";
+          if (!res.headersSent) {
+            return sendJson(res, 500, { error: message });
+          }
+          res.end();
         }
       });
     },

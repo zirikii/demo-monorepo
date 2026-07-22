@@ -35,7 +35,7 @@ describe("Optus NOC App", () => {
         name: /Network event → SNMP → filter → RabbitMQ → remediation/i,
       }),
     ).toBeInTheDocument();
-    expect(await screen.findByText(/API ready/i)).toBeInTheDocument();
+    expect(await screen.findByText(/SDK ready/i)).toBeInTheDocument();
   });
 
   it("lists showcase scenarios including an agentic handoff", () => {

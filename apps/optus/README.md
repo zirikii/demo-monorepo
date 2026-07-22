@@ -33,12 +33,13 @@ pnpm dev:optus
 
 | Variable | Required | Notes |
 | --- | --- | --- |
-| `CURSOR_API_KEY` | for live dispatch | Server-only (no `VITE_` prefix). Proxied by Vite middleware. |
+| `CURSOR_API_KEY` | for live dispatch | Server-only (no `VITE_` prefix). Used by `@cursor/sdk` in Vite middleware. |
 | `CURSOR_REPO_URL` | optional | Defaults to this monorepo |
 | `CURSOR_STARTING_REF` | optional | Defaults to `main` |
+| `CURSOR_MODEL` | optional | Defaults to `composer-2.5` |
 
-Without a key, the pipeline simulation and **Simulate reasoning locally** path still work.
-**Dispatch Cursor Cloud Agent** needs a valid key.
+Requires **Node.js 22.13+** (`@cursor/sdk` engine). Without a key, the pipeline simulation and
+**Simulate reasoning locally** path still work. **Dispatch Cursor Cloud Agent** needs a valid key.
 
 ## Demo walkthrough
 
@@ -46,10 +47,11 @@ Without a key, the pipeline simulation and **Simulate reasoning locally** path s
 2. Click **Run pipeline** and watch stages light up
 3. When the feed says the deterministic limit was reached, open the agent cockpit
 4. Either:
-   - **Dispatch Cursor Cloud Agent** — live `POST /v1/agents` via `/api/cursor/*`
+   - **Dispatch Cursor Cloud Agent** — live cloud agent via `@cursor/sdk` (`Agent.create` + `send` + `run.stream`) behind `/api/cursor/*`
    - **Simulate reasoning locally** — UI-only stream for offline demos
 
-Live agents append notes under `data/remediation-log.md`.
+Live agents append notes under `data/remediation-log.md`. In the Cursor UI, filter
+**Source → SDK** to see agents launched from this demo.
 
 ## Scripts
 
@@ -63,4 +65,4 @@ Live agents append notes under `data/remediation-log.md`.
 
 ## Stack
 
-Vite · React 19 · TypeScript · Tailwind v4 · Vitest · Playwright · `@demo/ui`
+Vite · React 19 · TypeScript · Tailwind v4 · Vitest · Playwright · `@demo/ui` · `@cursor/sdk`

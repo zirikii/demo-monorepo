@@ -10,6 +10,9 @@ export type CursorHealth = {
   };
   repoUrl?: string;
   startingRef?: string;
+  modelId?: string;
+  /** Present when the Vite proxy is backed by `@cursor/sdk`. */
+  sdk?: string;
   error?: unknown;
 };
 

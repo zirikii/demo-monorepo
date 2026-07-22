@@ -64,7 +64,7 @@ export function AgentCockpit({
           )}
         >
           {liveReady
-            ? `API ready · ${health?.me?.apiKeyName ?? "key"}`
+            ? `SDK ready · ${health?.me?.apiKeyName ?? "key"}`
             : health?.reason || "Configure CURSOR_API_KEY"}
         </div>
       </div>
