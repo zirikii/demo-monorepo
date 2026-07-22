@@ -1,0 +1,47 @@
+{
+  "team": [
+    {
+      "id": "tm-1",
+      "name": "Alex Morgan",
+      "email": "admin@example.com",
+      "role": "Owner"
+    },
+    {
+      "id": "tm-2",
+      "name": "Priya Shah",
+      "email": "priya@example.com",
+      "role": "Member"
+    },
+    {
+      "id": "tm-3",
+      "name": "Jordan Lee",
+      "email": "jordan@example.com",
+      "role": "Admin"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "sms",
+      "name": "SMS alerts",
+      "description": "Usage, bill, and outage notifications.",
+      "connected": true
+    },
+    {
+      "id": "email",
+      "name": "Email summaries",
+      "description": "Monthly bill and plan recommendations.",
+      "connected": true
+    },
+    {
+      "id": "calendar",
+      "name": "Appointment reminders",
+      "description": "Store and technician visit reminders.",
+      "connected": false
+    }
+  ],
+  "profile": {
+    "phone": "0412 345 678",
+    "address": "42 Bourke Street, Melbourne VIC 3000",
+    "preferredContact": "SMS for service updates, email for bills"
+  }
+}

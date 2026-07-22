@@ -1,0 +1,94 @@
+[
+  {
+    "id": "m-50",
+    "name": "Choice Plus 50GB",
+    "category": "Mobile",
+    "price": 49,
+    "billing": "per month",
+    "data": "50GB",
+    "tag": "Best everyday value",
+    "popular": false,
+    "features": [
+      "5G network access",
+      "No excess data charges",
+      "International talk and text add-on ready"
+    ]
+  },
+  {
+    "id": "m-180",
+    "name": "Choice Plus 180GB",
+    "category": "Mobile",
+    "price": 69,
+    "billing": "per month",
+    "data": "180GB",
+    "tag": "Most popular",
+    "popular": true,
+    "features": [
+      "Shareable data across eligible plans",
+      "Discounted phone accessories",
+      "Priority 5G support"
+    ]
+  },
+  {
+    "id": "m-unlimited",
+    "name": "Optus Plus Max",
+    "category": "Mobile",
+    "price": 89,
+    "billing": "per month",
+    "data": "Unlimited standard AU data",
+    "tag": "Premium",
+    "features": [
+      "Unlimited standard national talk and text",
+      "Roaming starter pack included",
+      "Streaming perks simulated"
+    ]
+  },
+  {
+    "id": "p-35",
+    "name": "Prepaid Epic Data",
+    "category": "Prepaid",
+    "price": 35,
+    "billing": "28 day recharge",
+    "data": "45GB",
+    "features": [
+      "Data rollover up to 200GB",
+      "AutoRecharge discount",
+      "International calls to selected destinations"
+    ]
+  },
+  {
+    "id": "p-55",
+    "name": "Prepaid Flex Plus",
+    "category": "Prepaid",
+    "price": 55,
+    "billing": "28 day recharge",
+    "data": "120GB",
+    "popular": true,
+    "features": [
+      "5G access on compatible devices",
+      "Unlimited standard national calls",
+      "Bonus weekend data"
+    ]
+  },
+  {
+    "id": "i-nbn",
+    "name": "Optus Plus Everyday nbn",
+    "category": "Internet",
+    "price": 79,
+    "billing": "per month",
+    "data": "Unlimited data",
+    "speed": "Typical evening speed 100Mbps",
+    "popular": true,
+    "features": ["WiFi 6 modem included", "4G backup simulated", "No lock-in contract"]
+  },
+  {
+    "id": "i-5g",
+    "name": "Optus 5G Home Internet",
+    "category": "Internet",
+    "price": 69,
+    "billing": "per month",
+    "data": "Unlimited data",
+    "speed": "Great for streaming households",
+    "features": ["Plug and play setup", "No technician visit", "Coverage checker required"]
+  }
+]

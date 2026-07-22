@@ -1,0 +1,26 @@
+[
+  {
+    "id": "case-1001",
+    "subject": "Check nbn appointment window",
+    "service": "Optus Plus Everyday nbn",
+    "status": "Open",
+    "priority": "Medium",
+    "updatedAt": "2026-07-21"
+  },
+  {
+    "id": "case-1002",
+    "subject": "Roaming pack confirmation",
+    "service": "Choice Plus 180GB",
+    "status": "Waiting",
+    "priority": "Low",
+    "updatedAt": "2026-07-20"
+  },
+  {
+    "id": "case-1003",
+    "subject": "Prepaid recharge receipt",
+    "service": "Prepaid Epic Data",
+    "status": "Resolved",
+    "priority": "Low",
+    "updatedAt": "2026-07-16"
+  }
+]
