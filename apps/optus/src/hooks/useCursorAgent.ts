@@ -17,6 +17,12 @@ export type StreamLine = {
   at: number;
 };
 
+function isAbortError(err: unknown): boolean {
+  return err instanceof DOMException
+    ? err.name === "AbortError"
+    : err instanceof Error && err.name === "AbortError";
+}
+
 export function useCursorAgent() {
   const [health, setHealth] = useState<CursorHealth | null>(null);
   const [launching, setLaunching] = useState(false);
@@ -26,6 +32,9 @@ export function useCursorAgent() {
   const [error, setError] = useState<string | null>(null);
   const esRef = useRef<EventSource | null>(null);
   const pollRef = useRef<number | null>(null);
+  const simTimersRef = useRef<number[]>([]);
+  const launchAbortRef = useRef<AbortController | null>(null);
+  const sessionRef = useRef(0);
 
   const pushLine = useCallback((line: Omit<StreamLine, "id" | "at">) => {
     setLines((prev) => [
@@ -50,6 +59,13 @@ export function useCursorAgent() {
     void refreshHealth();
   }, [refreshHealth]);
 
+  const clearSimTimers = useCallback(() => {
+    for (const id of simTimersRef.current) {
+      window.clearTimeout(id);
+    }
+    simTimersRef.current = [];
+  }, []);
+
   const stopStreams = useCallback(() => {
     esRef.current?.close();
     esRef.current = null;
@@ -59,15 +75,32 @@ export function useCursorAgent() {
     }
   }, []);
 
-  useEffect(() => () => stopStreams(), [stopStreams]);
+  const beginSession = useCallback(() => {
+    sessionRef.current += 1;
+    launchAbortRef.current?.abort();
+    launchAbortRef.current = null;
+    clearSimTimers();
+    stopStreams();
+    return sessionRef.current;
+  }, [clearSimTimers, stopStreams]);
+
+  useEffect(
+    () => () => {
+      beginSession();
+    },
+    [beginSession],
+  );
 
   const attachStream = useCallback(
-    (agentId: string, runId: string) => {
+    (agentId: string, runId: string, session: number) => {
       stopStreams();
       const source = new EventSource(`/api/cursor/agents/${agentId}/runs/${runId}/stream`);
       esRef.current = source;
 
+      const stillActive = () => sessionRef.current === session;
+
       const onStatus = (event: MessageEvent) => {
+        if (!stillActive()) return;
         try {
           const data = JSON.parse(event.data) as { status?: string };
           if (data.status) {
@@ -79,6 +112,7 @@ export function useCursorAgent() {
         }
       };
       const onAssistant = (event: MessageEvent) => {
+        if (!stillActive()) return;
         try {
           const data = JSON.parse(event.data) as { text?: string };
           if (data.text) pushLine({ kind: "assistant", text: data.text });
@@ -87,6 +121,7 @@ export function useCursorAgent() {
         }
       };
       const onThinking = (event: MessageEvent) => {
+        if (!stillActive()) return;
         try {
           const data = JSON.parse(event.data) as { text?: string };
           if (data.text) pushLine({ kind: "thinking", text: data.text });
@@ -95,6 +130,7 @@ export function useCursorAgent() {
         }
       };
       const onTool = (event: MessageEvent) => {
+        if (!stillActive()) return;
         try {
           const data = JSON.parse(event.data) as { name?: string; status?: string };
           pushLine({
@@ -106,6 +142,7 @@ export function useCursorAgent() {
         }
       };
       const onResult = (event: MessageEvent) => {
+        if (!stillActive()) return;
         try {
           const data = JSON.parse(event.data) as {
             status?: string;
@@ -122,6 +159,7 @@ export function useCursorAgent() {
         }
       };
       const onError = () => {
+        if (!stillActive()) return;
         pushLine({
           kind: "info",
           text: "SSE stream closed — falling back to status polling",
@@ -137,8 +175,13 @@ export function useCursorAgent() {
       source.onerror = onError;
 
       pollRef.current = window.setInterval(() => {
+        if (!stillActive()) {
+          stopStreams();
+          return;
+        }
         void fetchCursorRun(agentId, runId)
           .then((next) => {
+            if (!stillActive()) return;
             setRun(next);
             if (isTerminalRunStatus(next.status)) {
               stopStreams();
@@ -155,43 +198,55 @@ export function useCursorAgent() {
 
   const launch = useCallback(
     async (incident: LaunchIncident) => {
+      const session = beginSession();
+      const controller = new AbortController();
+      launchAbortRef.current = controller;
       setLaunching(true);
       setError(null);
+      setAgent(null);
+      setRun(null);
       setLines([]);
       try {
         pushLine({ kind: "info", text: "Dispatching Cursor Cloud Agent…" });
-        const created = await launchCursorAgent(incident);
+        const created = await launchCursorAgent(incident, { signal: controller.signal });
+        if (sessionRef.current !== session) return null;
         setAgent(created.agent);
         setRun(created.run);
         pushLine({
           kind: "status",
           text: `Agent ${created.agent.id} created · open ${created.agent.url}`,
         });
-        attachStream(created.agent.id, created.run.id);
+        attachStream(created.agent.id, created.run.id, session);
         return created;
       } catch (err) {
+        if (sessionRef.current !== session || isAbortError(err)) return null;
         const message = err instanceof Error ? err.message : "Launch failed";
         setError(message);
         pushLine({ kind: "error", text: message });
         throw err;
       } finally {
-        setLaunching(false);
+        if (sessionRef.current === session) {
+          setLaunching(false);
+          launchAbortRef.current = null;
+        }
       }
     },
-    [attachStream, pushLine],
+    [attachStream, beginSession, pushLine],
   );
 
   const resetAgent = useCallback(() => {
-    stopStreams();
+    beginSession();
+    setLaunching(false);
     setAgent(null);
     setRun(null);
     setLines([]);
     setError(null);
-  }, [stopStreams]);
+  }, [beginSession]);
 
   const simulateLocal = useCallback(
     (steps: string[]) => {
-      stopStreams();
+      const session = beginSession();
+      setLaunching(false);
       setAgent(null);
       setRun({
         id: "sim-run-local",
@@ -203,7 +258,8 @@ export function useCursorAgent() {
       pushLine({ kind: "info", text: "Local simulation — no Cloud Agent API call" });
 
       steps.forEach((step, index) => {
-        window.setTimeout(() => {
+        const timerId = window.setTimeout(() => {
+          if (sessionRef.current !== session) return;
           pushLine({ kind: index === steps.length - 1 ? "result" : "thinking", text: step });
           if (index === steps.length - 1) {
             setRun({
@@ -213,9 +269,10 @@ export function useCursorAgent() {
             });
           }
         }, 450 * (index + 1));
+        simTimersRef.current.push(timerId);
       });
     },
-    [pushLine, stopStreams],
+    [beginSession, pushLine],
   );
 
   return {

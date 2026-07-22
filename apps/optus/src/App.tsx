@@ -18,13 +18,14 @@ export default function App() {
 
   const handleDispatch = useCallback(async () => {
     const { scenario } = simulation;
-    await cursor.launch({
+    const created = await cursor.launch({
       title: scenario.title,
       site: scenario.site,
       symptom: scenario.symptom,
       oid: scenario.oid,
       name: `Optus NOC · ${scenario.site}`,
     });
+    if (!created) return;
     setHandoffConsumed(true);
     simulation.markResolved();
   }, [cursor, simulation]);

@@ -45,6 +45,9 @@ describe("Optus NOC App", () => {
     expect(
       screen.getByRole("button", { name: /Dispatch live Cursor Cloud Agent/i }),
     ).toBeDisabled();
+    expect(
+      screen.getByRole("button", { name: /Simulate local agent reasoning/i }),
+    ).toBeDisabled();
   });
 
   it("runs the pipeline for the selected scenario", async () => {

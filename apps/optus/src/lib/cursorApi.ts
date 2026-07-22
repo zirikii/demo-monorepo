@@ -63,11 +63,15 @@ export async function fetchCursorHealth(): Promise<CursorHealth> {
   return parseJson<CursorHealth>(res);
 }
 
-export async function launchCursorAgent(incident: LaunchIncident): Promise<CreateAgentResponse> {
+export async function launchCursorAgent(
+  incident: LaunchIncident,
+  options?: { signal?: AbortSignal },
+): Promise<CreateAgentResponse> {
   const res = await fetch("/api/cursor/agents", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(incident),
+    signal: options?.signal,
   });
   return parseJson<CreateAgentResponse>(res);
 }

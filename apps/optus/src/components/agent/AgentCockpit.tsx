@@ -111,7 +111,7 @@ export function AgentCockpit({
               <Button
                 variant="soft"
                 onClick={onSimulateLocal}
-                disabled={!awaitingAgent}
+                disabled={!awaitingAgent || launching}
                 aria-label="Simulate local agent reasoning"
               >
                 <Bot className="h-4 w-4" />
