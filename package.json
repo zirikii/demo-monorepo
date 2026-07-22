@@ -21,6 +21,7 @@
     "dev:squiz": "pnpm --filter squiz-website-demo dev",
     "dev:changi": "pnpm --filter changi-airport-demo dev",
     "dev:nine": "pnpm --filter nine-com-au-demo dev",
+    "dev:optus": "pnpm --filter optus-noc-demo dev",
     "build:kddi": "pnpm --filter kddi-noc-dashboard build",
     "build:nab": "pnpm --filter nab-landing build",
     "build:naukri": "pnpm --filter naukri-job-portal build",
@@ -30,6 +31,7 @@
     "build:squiz": "pnpm --filter squiz-website-demo build",
     "build:changi": "pnpm --filter changi-airport-demo build",
     "build:nine": "pnpm --filter nine-com-au-demo build",
+    "build:optus": "pnpm --filter optus-noc-demo build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore"
   },
   "devDependencies": {
