@@ -1,0 +1,32 @@
+{
+  "unlimitedDataDay": {
+    "active": false,
+    "activatedAt": null,
+    "expiresAt": null
+  },
+  "donateData": {
+    "lastDonationGb": 0,
+    "totalDonatedGb": 12
+  },
+  "scamwise": {
+    "reports": []
+  },
+  "networkPulse": {
+    "mobile": {
+      "status": "Excellent",
+      "latencyMs": 18,
+      "signal": "5G"
+    },
+    "home": {
+      "status": "Good",
+      "latencyMs": 12,
+      "signal": "WiFi 6"
+    },
+    "publicWifi": {
+      "status": "Fair",
+      "latencyMs": 48,
+      "signal": "Optus WiFi"
+    },
+    "updatedAt": "2026-07-22T08:30:00.000Z"
+  }
+}

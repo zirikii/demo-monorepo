@@ -79,6 +79,18 @@ const config: Config = {
           from: { opacity: "0", transform: "translateY(12px)" },
           to: { opacity: "1", transform: "translateY(0)" },
         },
+        "slide-in": {
+          from: { opacity: "0", transform: "translateY(-8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "float-slow": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-14px)" },
+        },
+        "bar-fill": {
+          from: { transform: "scaleX(0)" },
+          to: { transform: "scaleX(1)" },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -89,7 +101,10 @@ const config: Config = {
         },
       },
       animation: {
-        "fade-up": "fade-up 0.5s ease-out both",
+        "fade-up": "fade-up 0.55s ease-out both",
+        "slide-in": "slide-in 0.45s ease-out both",
+        "float-slow": "float-slow 7s ease-in-out infinite",
+        "bar-fill": "bar-fill 0.7s ease-out both",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },

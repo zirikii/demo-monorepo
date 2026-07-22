@@ -1,42 +1,58 @@
 [
   {
     "id": "sim-49",
-    "name": "Optus Plus Everyday",
+    "name": "Choice Plus",
     "price": 49,
     "data": "80GB data",
     "network": "Optus 5G network access",
     "features": [
       "Unlimited standard national talk and text",
       "Data sharing on eligible services",
-      "No lock-in SIM-only demo"
+      "No lock-in SIM-only demo",
+      "Save $15/mth for 12 months promo language"
     ],
     "tag": "Popular"
   },
   {
     "id": "sim-59",
-    "name": "Optus Plus Family",
+    "name": "Choice Plus Family",
     "price": 59,
     "data": "180GB data",
     "network": "Optus 5G network access",
     "features": [
       "Unlimited standard national talk and text",
       "Family data pooling",
-      "International talk add-ons available"
+      "International talk add-ons available",
+      "eSIM ready"
     ],
     "tag": "Best value"
   },
   {
     "id": "sim-69",
-    "name": "Optus Plus Max",
+    "name": "Choice Plus Max",
     "price": 69,
     "data": "Unlimited data",
     "network": "Optus 5G network access",
     "features": [
       "Unlimited standard national talk and text",
       "Speed-managed after 360GB",
-      "Roaming add-ons ready"
+      "Roaming add-ons ready",
+      "Entertainment extras available"
     ],
     "tag": "Unlimited"
+  },
+  {
+    "id": "sim-45",
+    "name": "Small Business Mobile",
+    "price": 45,
+    "data": "50GB data",
+    "network": "Optus 5G network access",
+    "features": [
+      "Unlimited standard national talk and text",
+      "Shared team billing in My Optus",
+      "No lock-in demo"
+    ],
+    "tag": "Business"
   },
   {
     "id": "prepaid-35",
@@ -48,6 +64,32 @@
       "Recharge in My Optus",
       "Unlimited standard national talk and text",
       "No lock-in"
+    ],
+    "tag": "Prepaid"
+  },
+  {
+    "id": "prepaid-45",
+    "name": "Optus Prepaid Plus",
+    "price": 45,
+    "data": "90GB / 28 days",
+    "network": "Optus 4G and 5G network",
+    "features": [
+      "Extra data for streaming",
+      "Unlimited standard national talk and text",
+      "Activate with eSIM"
+    ],
+    "tag": "Prepaid"
+  },
+  {
+    "id": "prepaid-55",
+    "name": "Optus Prepaid Max",
+    "price": 55,
+    "data": "150GB / 28 days",
+    "network": "Optus 4G and 5G network",
+    "features": [
+      "Highest prepaid data demo tier",
+      "Unlimited standard national talk and text",
+      "Roaming packs available"
     ],
     "tag": "Prepaid"
   }

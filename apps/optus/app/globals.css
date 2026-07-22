@@ -49,8 +49,8 @@
 
   .optus-pattern {
     background:
-      radial-gradient(circle at 20% 20%, rgba(255, 209, 0, 0.28), transparent 24rem),
-      radial-gradient(circle at 85% 10%, rgba(0, 163, 173, 0.28), transparent 20rem),
-      linear-gradient(135deg, #007a82 0%, #00a3ad 55%, #e6f7f8 100%);
+      radial-gradient(circle at 18% 18%, rgba(255, 209, 0, 0.32), transparent 26rem),
+      radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.18), transparent 18rem),
+      linear-gradient(135deg, #005f66 0%, #007a82 28%, #00a3ad 62%, #4ec4cb 100%);
   }
 }

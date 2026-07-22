@@ -79,3 +79,33 @@ export type UserRecord = SessionUser & {
   password: string;
   createdAt: string;
 };
+
+export type UsageHistoryRow = {
+  id: string;
+  date: string;
+  service: string;
+  type: string;
+  amount: string;
+  location: string;
+};
+
+export type NetworkToolsState = {
+  unlimitedDataDay: {
+    active: boolean;
+    activatedAt: string | null;
+    expiresAt: string | null;
+  };
+  donateData: {
+    lastDonationGb: number;
+    totalDonatedGb: number;
+  };
+  scamwise: {
+    reports: Array<{ id: string; message: string; createdAt: string }>;
+  };
+  networkPulse: {
+    mobile: { status: string; latencyMs: number; signal: string };
+    home: { status: string; latencyMs: number; signal: string };
+    publicWifi: { status: string; latencyMs: number; signal: string };
+    updatedAt: string;
+  };
+};

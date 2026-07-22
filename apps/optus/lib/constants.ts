@@ -12,8 +12,9 @@ export const NAV_MARKETING = [
   { href: "/home-internet", label: "Home internet" },
   { href: "/phones", label: "Phones" },
   { href: "/entertainment", label: "Entertainment" },
+  { href: "/prepaid", label: "Prepaid" },
+  { href: "/network", label: "Network" },
   { href: "/support", label: "Support" },
-  { href: "/pricing", label: "Pricing" },
 ] as const;
 
 export const NAV_MYOPTUS = [
@@ -22,5 +23,6 @@ export const NAV_MYOPTUS = [
   { href: "/plans", label: "Plans" },
   { href: "/add-ons", label: "Add-ons" },
   { href: "/bills", label: "Bills" },
+  { href: "/network-tools", label: "Network tools" },
   { href: "/settings", label: "Settings" },
 ] as const;

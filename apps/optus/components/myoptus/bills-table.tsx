@@ -18,7 +18,7 @@ const columns = [
 ];
 
 export function BillsTable({ bills }: { bills: Bill[] }) {
-  const table = useReactTable({ data: bills, columns, getCoreRowModel: getCoreRowModel(), getPaginationRowModel: getPaginationRowModel(), initialState: { pagination: { pageSize: 5 } } });
+  const table = useReactTable({ data: bills, columns, getCoreRowModel: getCoreRowModel(), getPaginationRowModel: getPaginationRowModel(), initialState: { pagination: { pageSize: 8 } } });
   return (
     <div>
       <div className="overflow-x-auto rounded-lg border border-line bg-white"><table className="w-full text-left text-sm"><thead className="border-b border-line bg-surface-subtle">{table.getHeaderGroups().map((headerGroup) => <tr key={headerGroup.id}>{headerGroup.headers.map((header) => <th key={header.id} className="px-4 py-3 font-bold">{flexRender(header.column.columnDef.header, header.getContext())}</th>)}</tr>)}</thead><tbody>{table.getRowModel().rows.map((row) => <tr key={row.id} className="border-b border-line last:border-0">{row.getVisibleCells().map((cell) => <td key={cell.id} className="px-4 py-3">{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>)}</tr>)}</tbody></table></div>

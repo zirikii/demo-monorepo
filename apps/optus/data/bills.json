@@ -2,56 +2,56 @@
   {
     "id": "bill-2026-07",
     "period": "July 2026",
-    "amount": 128.4,
+    "amount": 118.4,
     "status": "Due",
     "dueDate": "2026-07-20"
   },
   {
     "id": "bill-2026-06",
     "period": "June 2026",
-    "amount": 128.4,
+    "amount": 125.9,
     "status": "Paid",
     "dueDate": "2026-06-20"
   },
   {
     "id": "bill-2026-05",
     "period": "May 2026",
-    "amount": 121.9,
+    "amount": 132.4,
     "status": "Paid",
     "dueDate": "2026-05-20"
   },
   {
     "id": "bill-2026-04",
     "period": "April 2026",
-    "amount": 136.2,
+    "amount": 139.9,
     "status": "Paid",
     "dueDate": "2026-04-20"
   },
   {
     "id": "bill-2026-03",
     "period": "March 2026",
-    "amount": 128.4,
+    "amount": 123.4,
     "status": "Paid",
     "dueDate": "2026-03-20"
   },
   {
     "id": "bill-2026-02",
     "period": "February 2026",
-    "amount": 118.0,
-    "status": "Paid",
+    "amount": 130.9,
+    "status": "Overdue",
     "dueDate": "2026-02-20"
   },
   {
     "id": "bill-2026-01",
     "period": "January 2026",
-    "amount": 128.4,
+    "amount": 137.4,
     "status": "Paid",
     "dueDate": "2026-01-20"
   },
   {
     "id": "bill-2025-12",
     "period": "December 2025",
-    "amount": 142.7,
+    "amount": 121.9,
     "status": "Paid",
     "dueDate": "2025-12-20"
   },
@@ -65,148 +65,134 @@
   {
     "id": "bill-2025-10",
     "period": "October 2025",
-    "amount": 128.4,
+    "amount": 135.9,
     "status": "Paid",
     "dueDate": "2025-10-20"
   },
   {
     "id": "bill-2025-09",
     "period": "September 2025",
-    "amount": 116.95,
+    "amount": 119.4,
     "status": "Paid",
     "dueDate": "2025-09-20"
   },
   {
     "id": "bill-2025-08",
     "period": "August 2025",
-    "amount": 128.4,
+    "amount": 126.9,
     "status": "Paid",
     "dueDate": "2025-08-20"
   },
   {
     "id": "bill-2025-07",
     "period": "July 2025",
-    "amount": 128.4,
+    "amount": 133.4,
     "status": "Paid",
     "dueDate": "2025-07-20"
   },
   {
     "id": "bill-2025-06",
     "period": "June 2025",
-    "amount": 131.25,
+    "amount": 140.9,
     "status": "Paid",
     "dueDate": "2025-06-20"
   },
   {
     "id": "bill-2025-05",
     "period": "May 2025",
-    "amount": 128.4,
+    "amount": 124.4,
     "status": "Paid",
     "dueDate": "2025-05-20"
   },
   {
     "id": "bill-2025-04",
     "period": "April 2025",
-    "amount": 128.4,
+    "amount": 131.9,
     "status": "Paid",
     "dueDate": "2025-04-20"
   },
   {
     "id": "bill-2025-03",
     "period": "March 2025",
-    "amount": 119.8,
+    "amount": 138.4,
     "status": "Paid",
     "dueDate": "2025-03-20"
   },
   {
     "id": "bill-2025-02",
     "period": "February 2025",
-    "amount": 128.4,
+    "amount": 122.9,
     "status": "Paid",
     "dueDate": "2025-02-20"
   },
   {
     "id": "bill-2025-01",
     "period": "January 2025",
-    "amount": 128.4,
+    "amount": 129.4,
     "status": "Paid",
     "dueDate": "2025-01-20"
   },
   {
     "id": "bill-2024-12",
     "period": "December 2024",
-    "amount": 139.1,
+    "amount": 136.9,
     "status": "Paid",
     "dueDate": "2024-12-20"
   },
   {
     "id": "bill-2024-11",
     "period": "November 2024",
-    "amount": 128.4,
+    "amount": 120.4,
     "status": "Paid",
     "dueDate": "2024-11-20"
   },
   {
     "id": "bill-2024-10",
     "period": "October 2024",
-    "amount": 128.4,
+    "amount": 127.9,
     "status": "Paid",
     "dueDate": "2024-10-20"
   },
   {
     "id": "bill-2024-09",
     "period": "September 2024",
-    "amount": 123.55,
+    "amount": 134.4,
     "status": "Paid",
     "dueDate": "2024-09-20"
   },
   {
     "id": "bill-2024-08",
     "period": "August 2024",
-    "amount": 128.4,
+    "amount": 118.9,
     "status": "Paid",
     "dueDate": "2024-08-20"
   },
   {
     "id": "bill-2024-07",
     "period": "July 2024",
-    "amount": 128.4,
+    "amount": 125.4,
     "status": "Paid",
     "dueDate": "2024-07-20"
   },
   {
     "id": "bill-2024-06",
     "period": "June 2024",
-    "amount": 128.4,
+    "amount": 132.9,
     "status": "Paid",
     "dueDate": "2024-06-20"
   },
   {
     "id": "bill-2024-05",
     "period": "May 2024",
-    "amount": 117.7,
+    "amount": 139.4,
     "status": "Paid",
     "dueDate": "2024-05-20"
   },
   {
     "id": "bill-2024-04",
     "period": "April 2024",
-    "amount": 128.4,
+    "amount": 123.9,
     "status": "Paid",
     "dueDate": "2024-04-20"
-  },
-  {
-    "id": "bill-2024-03",
-    "period": "March 2024",
-    "amount": 128.4,
-    "status": "Paid",
-    "dueDate": "2024-03-20"
-  },
-  {
-    "id": "bill-2024-02",
-    "period": "February 2024",
-    "amount": 121.15,
-    "status": "Paid",
-    "dueDate": "2024-02-20"
   }
 ]

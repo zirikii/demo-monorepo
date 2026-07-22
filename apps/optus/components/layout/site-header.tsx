@@ -8,7 +8,15 @@ import { useEffect, useState } from "react";
 import { NAV_MARKETING } from "@/lib/constants";
 import { cn } from "@/lib/utils/cn";
 
-const MY_OPTUS_PREFIXES = ["/dashboard", "/usage", "/plans", "/add-ons", "/bills", "/settings"];
+const MY_OPTUS_PREFIXES = [
+  "/dashboard",
+  "/usage",
+  "/plans",
+  "/add-ons",
+  "/bills",
+  "/network-tools",
+  "/settings",
+];
 
 export function SiteHeader() {
   const pathname = usePathname();

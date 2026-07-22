@@ -1,15 +1,23 @@
-import Image from "next/image";
 import Link from "next/link";
 import { quickLinks } from "@/lib/constants/optus-landing";
 
 export function QuickLinkGrid() {
   return (
-    <section className="border-b border-line bg-white">
-      <div className="container grid grid-cols-2 gap-3 py-6 md:grid-cols-3 lg:grid-cols-6">
-        {quickLinks.map((item) => (
-          <Link key={item.href} href={item.href} className="group flex flex-col items-center gap-3 rounded-lg border border-line bg-surface-subtle px-3 py-6 text-center transition hover:border-optus-teal hover:bg-optus-teal-light">
-            <Image src={item.icon} width={40} height={40} alt="" aria-hidden="true" />
-            <span className="text-sm font-bold text-optus-ink group-hover:text-optus-teal-dark">{item.title}</span>
+    <section className="container py-14">
+      <p className="text-sm font-bold uppercase tracking-wide text-optus-teal-dark">Shop Optus</p>
+      <h2 className="mt-2 text-3xl font-black tracking-tight text-optus-ink md:text-4xl">
+        Everything you need to stay connected
+      </h2>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {quickLinks.map((link) => (
+          <Link
+            key={link.href + link.title}
+            href={link.href}
+            className="flex items-center gap-4 rounded-xl border border-line bg-white p-5 transition hover:border-optus-teal hover:shadow-sm"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={link.icon} alt="" className="h-12 w-12" />
+            <span className="text-base font-bold text-optus-ink">{link.title}</span>
           </Link>
         ))}
       </div>

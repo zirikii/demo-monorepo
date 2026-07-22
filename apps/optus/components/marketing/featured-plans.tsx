@@ -5,7 +5,9 @@ import type { MobilePlan } from "@/lib/types";
 import { formatAud } from "@/lib/utils/format";
 
 export async function FeaturedPlans() {
-  const plans = (await readJson<MobilePlan[]>("plans.json")).slice(0, 3);
+  const plans = (await readJson<MobilePlan[]>("plans.json"))
+    .filter((plan) => plan.tag !== "Prepaid")
+    .slice(0, 3);
   return (
     <section className="container py-14">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
