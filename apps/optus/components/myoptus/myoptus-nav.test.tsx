@@ -13,4 +13,9 @@ describe("MyOptusNav", () => {
     expect(link).toHaveAttribute("data-active", "true");
     expect(link).toHaveAttribute("aria-current", "page");
   });
+
+  it("exposes Network tools in the account nav", () => {
+    render(<MyOptusNav userName="Olivia Taylor" />);
+    expect(screen.getByRole("link", { name: "Network tools" })).toHaveAttribute("href", "/network-tools");
+  });
 });
