@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 64" role="img" aria-label="Yes">
+  <title>Yes</title>
+  <path fill="#FECD03" d="M12 4h60c8 0 14 6 14 14v20c0 8-6 14-14 14H36l-16 10v-10H12C4 52 0 46 0 38V18C0 10 4 4 12 4z"/>
+  <text x="20" y="38" font-family="Georgia, 'Times New Roman', serif" font-size="28" font-style="italic" font-weight="700" fill="#1A1A1A">Yes</text>
+</svg>

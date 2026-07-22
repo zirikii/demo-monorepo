@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --demo-accent: #f54e00;
+  --optus-teal: #00a3ad;
+  --optus-yellow: #fecd03;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --primary: 184 100% 34%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 190 20% 96%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 200 12% 94%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 184 60% 95%;
+  --accent-foreground: 184 100% 24%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 200 10% 90%;
+  --input: 200 10% 90%;
+  --ring: 184 100% 34%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white font-sans text-optus-ink antialiased;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .hero-mesh {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 20%, rgba(254, 205, 3, 0.35), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 85% 15%, rgba(0, 163, 173, 0.55), transparent 50%),
+      linear-gradient(135deg, #007a82 0%, #00a3ad 45%, #005f66 100%);
+  }
+}

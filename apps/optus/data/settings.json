@@ -1,0 +1,47 @@
+{
+  "team": [
+    {
+      "id": "tm1",
+      "name": "Alex Chen",
+      "email": "alex@optus-demo.au",
+      "role": "Owner"
+    },
+    {
+      "id": "tm2",
+      "name": "Sam Nguyen",
+      "email": "sam@optus-demo.au",
+      "role": "Admin"
+    },
+    {
+      "id": "tm3",
+      "name": "Jordan Lee",
+      "email": "jordan@optus-demo.au",
+      "role": "Member"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int-sport",
+      "name": "Optus Sport",
+      "description": "Link Sport entitlements to this account.",
+      "connected": true
+    },
+    {
+      "id": "int-wifi",
+      "name": "Home Wi‑Fi tips",
+      "description": "Push Wi‑Fi health tips into My Optus.",
+      "connected": false
+    },
+    {
+      "id": "int-pause",
+      "name": "Optus Pause",
+      "description": "Network pause controls for connected devices.",
+      "connected": true
+    }
+  ],
+  "profile": {
+    "phone": "04xx xxx 128",
+    "address": "100 George St, Sydney NSW 2000",
+    "preferredContact": "Email"
+  }
+}

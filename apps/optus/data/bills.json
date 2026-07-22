@@ -1,0 +1,198 @@
+[
+  {
+    "id": "bill-1",
+    "period": "Apr 2024",
+    "amount": 89,
+    "status": "Paid",
+    "dueDate": "2024-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-2",
+    "period": "May 2024",
+    "amount": 93.5,
+    "status": "Paid",
+    "dueDate": "2024-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-3",
+    "period": "June 2024",
+    "amount": 98,
+    "status": "Paid",
+    "dueDate": "2024-06-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-4",
+    "period": "July 2024",
+    "amount": 99.5,
+    "status": "Paid",
+    "dueDate": "2024-07-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-5",
+    "period": "Aug 2024",
+    "amount": 104,
+    "status": "Paid",
+    "dueDate": "2024-08-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-6",
+    "period": "Sept 2024",
+    "amount": 108.5,
+    "status": "Paid",
+    "dueDate": "2024-09-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-7",
+    "period": "Oct 2024",
+    "amount": 110,
+    "status": "Paid",
+    "dueDate": "2024-10-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-8",
+    "period": "Nov 2024",
+    "amount": 90,
+    "status": "Paid",
+    "dueDate": "2024-11-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-9",
+    "period": "Dec 2024",
+    "amount": 94.5,
+    "status": "Paid",
+    "dueDate": "2024-12-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-10",
+    "period": "Jan 2025",
+    "amount": 96,
+    "status": "Paid",
+    "dueDate": "2025-01-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-11",
+    "period": "Feb 2025",
+    "amount": 100.5,
+    "status": "Paid",
+    "dueDate": "2025-02-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-12",
+    "period": "Mar 2025",
+    "amount": 105,
+    "status": "Paid",
+    "dueDate": "2025-03-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-13",
+    "period": "Apr 2025",
+    "amount": 106.5,
+    "status": "Paid",
+    "dueDate": "2025-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-14",
+    "period": "May 2025",
+    "amount": 111,
+    "status": "Paid",
+    "dueDate": "2025-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-15",
+    "period": "June 2025",
+    "amount": 91,
+    "status": "Paid",
+    "dueDate": "2025-06-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-16",
+    "period": "July 2025",
+    "amount": 92.5,
+    "status": "Paid",
+    "dueDate": "2025-07-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-17",
+    "period": "Aug 2025",
+    "amount": 97,
+    "status": "Paid",
+    "dueDate": "2025-08-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-18",
+    "period": "Sept 2025",
+    "amount": 101.5,
+    "status": "Paid",
+    "dueDate": "2025-09-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-19",
+    "period": "Oct 2025",
+    "amount": 103,
+    "status": "Paid",
+    "dueDate": "2025-10-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-20",
+    "period": "Nov 2025",
+    "amount": 107.5,
+    "status": "Paid",
+    "dueDate": "2025-11-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-21",
+    "period": "Dec 2025",
+    "amount": 112,
+    "status": "Paid",
+    "dueDate": "2025-12-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-22",
+    "period": "Jan 2026",
+    "amount": 89,
+    "status": "Paid",
+    "dueDate": "2026-01-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-23",
+    "period": "Feb 2026",
+    "amount": 93.5,
+    "status": "Paid",
+    "dueDate": "2026-02-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-24",
+    "period": "Mar 2026",
+    "amount": 98,
+    "status": "Paid",
+    "dueDate": "2026-03-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-25",
+    "period": "Apr 2026",
+    "amount": 99.5,
+    "status": "Paid",
+    "dueDate": "2026-04-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-26",
+    "period": "May 2026",
+    "amount": 104,
+    "status": "Paid",
+    "dueDate": "2026-05-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-27",
+    "period": "June 2026",
+    "amount": 108.5,
+    "status": "Overdue",
+    "dueDate": "2026-06-14T00:00:00.000Z"
+  },
+  {
+    "id": "bill-28",
+    "period": "July 2026",
+    "amount": 110,
+    "status": "Due",
+    "dueDate": "2026-07-14T00:00:00.000Z"
+  }
+]

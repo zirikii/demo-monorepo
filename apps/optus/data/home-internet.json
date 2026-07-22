@@ -1,0 +1,50 @@
+[
+  {
+    "id": "nbn-25",
+    "name": "nbn Home Fast",
+    "type": "nbn",
+    "price": 80,
+    "speed": "Typical evening 45 Mbps",
+    "features": [
+      "Modem included on selected offers",
+      "Static IP optional",
+      "My Optus Wi‑Fi tips"
+    ]
+  },
+  {
+    "id": "nbn-50",
+    "name": "nbn Home Superfast",
+    "type": "nbn",
+    "price": 95,
+    "speed": "Typical evening 90 Mbps",
+    "features": [
+      "Great for streaming households",
+      "Priority support hours",
+      "Whole-home Wi‑Fi tips"
+    ]
+  },
+  {
+    "id": "nbn-100",
+    "name": "nbn Home Ultrafast",
+    "type": "nbn",
+    "price": 110,
+    "speed": "Typical evening 250 Mbps+",
+    "features": [
+      "Multi-device heavy use",
+      "Gaming-friendly",
+      "Optional mesh"
+    ]
+  },
+  {
+    "id": "5g-home",
+    "name": "5G Home Internet",
+    "type": "5G Home",
+    "price": 85,
+    "speed": "5G fixed wireless",
+    "features": [
+      "No nbn connection needed*",
+      "Quick install",
+      "Flexible contract options"
+    ]
+  }
+]

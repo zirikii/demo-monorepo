@@ -1,0 +1,30 @@
+[
+  {
+    "id": "endless",
+    "name": "Endless Data",
+    "description": "Keep browsing at slower speeds after you use your shared data.",
+    "price": 0,
+    "enabled": true
+  },
+  {
+    "id": "boost-1gb",
+    "name": "Data Boost 1GB",
+    "description": "One-off 1GB boost when you need a little extra.",
+    "price": 10,
+    "enabled": false
+  },
+  {
+    "id": "udd",
+    "name": "Unlimited Data Day",
+    "description": "24 hours of unlimited data for a single day.",
+    "price": 15,
+    "enabled": false
+  },
+  {
+    "id": "intl-talk",
+    "name": "International Talk Pack",
+    "description": "Extra minutes to selected destinations.",
+    "price": 10,
+    "enabled": true
+  }
+]

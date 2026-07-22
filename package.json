@@ -30,7 +30,9 @@
     "build:squiz": "pnpm --filter squiz-website-demo build",
     "build:changi": "pnpm --filter changi-airport-demo build",
     "build:nine": "pnpm --filter nine-com-au-demo build",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore"
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore",
+    "dev:optus": "pnpm --filter optus-web-demo dev",
+    "build:optus": "pnpm --filter optus-web-demo build"
   },
   "devDependencies": {
     "prettier": "^3.4.2"
