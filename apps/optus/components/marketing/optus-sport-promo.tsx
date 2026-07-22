@@ -28,7 +28,7 @@ export function OptusSportPromo() {
               className="focus-ring inline-flex h-11 items-center gap-2 rounded-md bg-optus-yellow px-5 text-sm font-bold text-optus-ink hover:bg-optus-yellow-dark"
             >
               <PlayCircle className="h-5 w-5" aria-hidden="true" />
-              See what's on
+              See what&apos;s on
             </Link>
             <Link
               href="/mobile-plans"
