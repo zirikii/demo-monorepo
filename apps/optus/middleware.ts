@@ -1,0 +1,27 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { decodeSession } from "@/lib/auth/session";
+import { SESSION_COOKIE } from "@/lib/constants";
+const PROTECTED_PREFIXES = [
+  "/overview",
+  "/fleet",
+  "/insights",
+  "/billing",
+  "/services",
+  "/reports",
+  "/settings",
+];
+function isProtected(pathname: string): boolean {
+  return PROTECTED_PREFIXES.some(
+    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  if (!isProtected(pathname)) return NextResponse.next();
+  const session = await decodeSession(request.cookies.get(SESSION_COOKIE)?.value);
+  if (session) return NextResponse.next();
+  const loginUrl = new URL("/login", request.url);
+  loginUrl.searchParams.set("redirect", pathname);
+  return NextResponse.redirect(loginUrl);
+}
+export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico|brand|api).*)"] };

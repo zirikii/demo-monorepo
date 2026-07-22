@@ -1,0 +1,86 @@
+{
+  "inboundCalls": [
+    {
+      "label": "Support queue",
+      "calls": 4230,
+      "missed": 118
+    },
+    {
+      "label": "Retail stores",
+      "calls": 3610,
+      "missed": 94
+    },
+    {
+      "label": "Logistics desk",
+      "calls": 1840,
+      "missed": 42
+    },
+    {
+      "label": "Executive reception",
+      "calls": 680,
+      "missed": 8
+    }
+  ],
+  "costCentres": [
+    {
+      "name": "Retail Ops",
+      "amount": 18420
+    },
+    {
+      "name": "Customer Care",
+      "amount": 15380
+    },
+    {
+      "name": "Logistics",
+      "amount": 12890
+    },
+    {
+      "name": "Digital",
+      "amount": 9340
+    },
+    {
+      "name": "Finance",
+      "amount": 7420
+    },
+    {
+      "name": "Executive",
+      "amount": 5180
+    }
+  ],
+  "monthlySpend": [
+    {
+      "month": "February",
+      "amount": 61240
+    },
+    {
+      "month": "March",
+      "amount": 63810
+    },
+    {
+      "month": "April",
+      "amount": 65720
+    },
+    {
+      "month": "May",
+      "amount": 68190
+    },
+    {
+      "month": "June",
+      "amount": 69240
+    }
+  ],
+  "alerts": [
+    {
+      "id": "alert-1",
+      "title": "Roaming threshold exceeded",
+      "detail": "7 services are above 80% of roaming allowance.",
+      "severity": "High"
+    },
+    {
+      "id": "alert-2",
+      "title": "Invoice allocation pending",
+      "detail": "June cost-centre split is ready for approval.",
+      "severity": "Medium"
+    }
+  ]
+}

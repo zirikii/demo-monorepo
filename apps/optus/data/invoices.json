@@ -1,0 +1,42 @@
+[
+  {
+    "id": "INV-2026-006",
+    "month": "June 2026",
+    "amount": 69240,
+    "status": "Due",
+    "dueDate": "2026-07-31",
+    "costCentre": "All cost centres"
+  },
+  {
+    "id": "INV-2026-005",
+    "month": "May 2026",
+    "amount": 68190,
+    "status": "Review",
+    "dueDate": "2026-06-30",
+    "costCentre": "Customer Care"
+  },
+  {
+    "id": "INV-2026-004",
+    "month": "April 2026",
+    "amount": 65720,
+    "status": "Paid",
+    "dueDate": "2026-05-31",
+    "costCentre": "All cost centres"
+  },
+  {
+    "id": "INV-2026-003",
+    "month": "March 2026",
+    "amount": 63810,
+    "status": "Paid",
+    "dueDate": "2026-04-30",
+    "costCentre": "Retail Ops"
+  },
+  {
+    "id": "INV-2026-002",
+    "month": "February 2026",
+    "amount": 61240,
+    "status": "Paid",
+    "dueDate": "2026-03-31",
+    "costCentre": "All cost centres"
+  }
+]

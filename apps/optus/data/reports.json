@@ -1,0 +1,42 @@
+[
+  {
+    "id": "rpt-1",
+    "name": "Monthly billing summary",
+    "cadence": "Monthly",
+    "owner": "Finance",
+    "enabled": true,
+    "lastRun": "2026-07-01"
+  },
+  {
+    "id": "rpt-2",
+    "name": "Inbound call performance",
+    "cadence": "Weekly",
+    "owner": "Customer Care",
+    "enabled": true,
+    "lastRun": "2026-07-19"
+  },
+  {
+    "id": "rpt-3",
+    "name": "Roaming exceptions",
+    "cadence": "Daily",
+    "owner": "IT Operations",
+    "enabled": false,
+    "lastRun": "2026-07-21"
+  },
+  {
+    "id": "rpt-4",
+    "name": "Cost-centre allocation",
+    "cadence": "Monthly",
+    "owner": "Finance",
+    "enabled": true,
+    "lastRun": "2026-07-01"
+  },
+  {
+    "id": "rpt-5",
+    "name": "Service health digest",
+    "cadence": "Weekly",
+    "owner": "Digital",
+    "enabled": false,
+    "lastRun": "2026-07-18"
+  }
+]

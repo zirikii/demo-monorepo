@@ -1,0 +1,57 @@
+{
+  "profile": {
+    "company": "Harbour Retail Group",
+    "contactName": "Demo Admin",
+    "contactEmail": "admin@example.com",
+    "billingAccount": "BAN 8142 0091"
+  },
+  "team": [
+    {
+      "id": "team-1",
+      "name": "Demo Admin",
+      "email": "admin@example.com",
+      "role": "Administrator",
+      "status": "Active"
+    },
+    {
+      "id": "team-2",
+      "name": "Priya Shah",
+      "email": "priya.shah@example.com",
+      "role": "Cost Centre Manager",
+      "status": "Active"
+    },
+    {
+      "id": "team-3",
+      "name": "Tom Avery",
+      "email": "tom.avery@example.com",
+      "role": "End User",
+      "status": "Invited"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int-1",
+      "name": "Finance CSV export",
+      "description": "Push invoice allocation files to a mock finance drop zone.",
+      "connected": true
+    },
+    {
+      "id": "int-2",
+      "name": "ServiceNow tickets",
+      "description": "Simulate service-impact notifications into ITSM.",
+      "connected": false
+    },
+    {
+      "id": "int-3",
+      "name": "SSO directory",
+      "description": "Mock enterprise identity and role sync.",
+      "connected": true
+    },
+    {
+      "id": "int-4",
+      "name": "Data warehouse",
+      "description": "Mirror Insight Plus report rows into analytics storage.",
+      "connected": false
+    }
+  ]
+}

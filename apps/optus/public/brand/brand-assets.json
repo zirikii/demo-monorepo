@@ -1,0 +1,25 @@
+{
+  "fetchedDate": "2026-07-22",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "sourceUrl": "user-provided SVG in /mock-company-repo request; official Optus media source attempted at https://www.optus.com.au/about/media-centre/multimedia/logos",
+      "notes": "Wordmark filled with Optus teal #00A3AD for demo fidelity."
+    },
+    {
+      "file": "logo-white.svg",
+      "sourceUrl": "derived from user-provided SVG",
+      "notes": "White variant for dark hub navigation."
+    },
+    {
+      "file": "logo-mark.svg",
+      "sourceUrl": "derived local favicon mark",
+      "notes": "Compact demo mark derived from the Optus O shape and brand colors."
+    },
+    {
+      "file": "favicon.svg",
+      "sourceUrl": "derived local favicon mark",
+      "notes": "Self-hosted favicon for browser tab fidelity."
+    }
+  ]
+}

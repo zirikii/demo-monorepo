@@ -1,0 +1,56 @@
+[
+  {
+    "id": "svc-1",
+    "name": "Business Mobile Core",
+    "category": "Mobile",
+    "region": "National",
+    "uptime": 99.96,
+    "incidents": 0,
+    "status": "Operational"
+  },
+  {
+    "id": "svc-2",
+    "name": "Sydney CBD 5G",
+    "category": "5G",
+    "region": "NSW",
+    "uptime": 99.91,
+    "incidents": 1,
+    "status": "Operational"
+  },
+  {
+    "id": "svc-3",
+    "name": "Inbound Voice Queues",
+    "category": "Voice",
+    "region": "National",
+    "uptime": 99.88,
+    "incidents": 1,
+    "status": "Maintenance"
+  },
+  {
+    "id": "svc-4",
+    "name": "Retail NBN Backup",
+    "category": "Broadband",
+    "region": "VIC",
+    "uptime": 99.72,
+    "incidents": 2,
+    "status": "Degraded"
+  },
+  {
+    "id": "svc-5",
+    "name": "Perth Logistics 5G",
+    "category": "5G",
+    "region": "WA",
+    "uptime": 99.94,
+    "incidents": 0,
+    "status": "Operational"
+  },
+  {
+    "id": "svc-6",
+    "name": "Adelaide Store Broadband",
+    "category": "Broadband",
+    "region": "SA",
+    "uptime": 99.9,
+    "incidents": 1,
+    "status": "Operational"
+  }
+]
