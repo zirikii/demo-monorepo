@@ -1,22 +1,28 @@
-import type { IncomingMessage } from "node:http";
+import type { IncomingMessage, ServerResponse } from "node:http";
 
-/** Track client disconnect for long-running dispatch. Attach before any await. */
-export function trackRequestAbort(req: IncomingMessage): {
+/**
+ * Track client disconnect for long-running dispatch.
+ * Attach before any await. Do not use req.destroyed / req "close" — after the
+ * POST body is fully read, Node marks the request stream destroyed even while
+ * the client is still waiting for the response.
+ */
+export function trackRequestAbort(
+  _req: IncomingMessage,
+  res: ServerResponse,
+): {
   isAborted: () => boolean;
   dispose: () => void;
 } {
-  let aborted = Boolean(req.destroyed);
-  const onAbort = () => {
-    aborted = true;
+  let aborted = false;
+  const onClose = () => {
+    if (!res.writableFinished) aborted = true;
   };
-  req.on("close", onAbort);
-  // close may have already fired before the listener was attached
-  if (req.destroyed) aborted = true;
+  res.on("close", onClose);
 
   return {
-    isAborted: () => aborted || Boolean(req.destroyed),
+    isAborted: () => aborted,
     dispose: () => {
-      req.off("close", onAbort);
+      res.off("close", onClose);
     },
   };
 }

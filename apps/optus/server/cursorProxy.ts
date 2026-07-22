@@ -214,7 +214,7 @@ export function cursorApiPlugin(): Plugin {
 
             // Must attach before Agent.create — abort during create used to be missed
             // when close fired before the listener existed, then agent.send still ran.
-            const abort = trackRequestAbort(req);
+            const abort = trackRequestAbort(req, res);
             try {
               if (abort.isAborted()) return;
 
