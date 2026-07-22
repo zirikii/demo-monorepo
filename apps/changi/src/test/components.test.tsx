@@ -1,5 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
-import { act, render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { PersonaHero } from "@/components/marketing/PersonaHero";
@@ -64,36 +64,27 @@ describe("SiteHeader", () => {
 
 describe("LoginPage", () => {
   it("shows a loading state while submitting credentials", async () => {
-    vi.useFakeTimers();
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    const user = userEvent.setup();
 
-    try {
-      render(
-        <AuthProvider>
-          <MemoryRouter initialEntries={["/login?redirect=/account"]}>
-            <Routes>
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/account" element={<div>Account landing</div>} />
-            </Routes>
-          </MemoryRouter>
-        </AuthProvider>,
-      );
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login?redirect=/account"]}>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/account" element={<div>Account landing</div>} />
+          </Routes>
+        </MemoryRouter>
+      </AuthProvider>,
+    );
 
-      await user.click(screen.getByRole("button", { name: /^Sign in$/i }));
+    await user.click(screen.getByRole("button", { name: /^Sign in$/i }));
 
-      const submitButton = screen.getByRole("button", { name: /Signing in/i });
-      expect(submitButton).toBeDisabled();
-      expect(submitButton).toHaveAttribute("aria-busy", "true");
-      expect(screen.getByLabelText(/Email/i)).toBeDisabled();
-      expect(screen.getByLabelText(/Password/i)).toBeDisabled();
+    const submitButton = screen.getByRole("button", { name: /Signing in/i });
+    expect(submitButton).toBeDisabled();
+    expect(submitButton).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByLabelText(/Email/i)).toBeDisabled();
+    expect(screen.getByLabelText(/Password/i)).toBeDisabled();
 
-      await act(async () => {
-        vi.runOnlyPendingTimers();
-      });
-
-      expect(screen.getByText(/Account landing/i)).toBeInTheDocument();
-    } finally {
-      vi.useRealTimers();
-    }
+    expect(await screen.findByText(/Account landing/i)).toBeInTheDocument();
   });
 });
