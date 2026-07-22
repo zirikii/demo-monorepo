@@ -7,8 +7,14 @@ export function HeroBanner() {
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(0,0,0,0.3),rgba(0,0,0,0.02))]" />
       <div className="container relative grid min-h-[520px] items-center gap-10 py-16 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="max-w-2xl animate-fade-up">
-          <p className="text-sm font-bold uppercase tracking-[0.24em] text-optus-yellow">{hero.eyebrow}</p>
-          <h1 className="mt-5 text-4xl font-black tracking-tight md:text-6xl">{hero.title}</h1>
+          {/* Brand-first wordmark — self-hosted Optus logo */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/logo-white.svg"
+            alt="Optus"
+            className="h-10 w-auto drop-shadow-sm md:h-12"
+          />
+          <h1 className="mt-6 text-4xl font-black tracking-tight md:text-6xl">{hero.title}</h1>
           <p className="mt-6 text-lg leading-relaxed text-white/90 md:text-xl">{hero.description}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href={hero.primaryCta.href} className="inline-flex h-12 items-center rounded-md bg-optus-yellow px-6 text-sm font-bold text-optus-ink hover:bg-white">{hero.primaryCta.label}</Link>
