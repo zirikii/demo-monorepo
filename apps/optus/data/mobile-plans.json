@@ -1,0 +1,55 @@
+[
+  {
+    "id": "choice-lite",
+    "name": "Choice Lite",
+    "price": 45,
+    "data": "25GB",
+    "features": [
+      "Endless Data at slower speeds",
+      "Unlimited standard calls & texts",
+      "5G access"
+    ],
+    "tag": "Value"
+  },
+  {
+    "id": "choice",
+    "name": "Choice",
+    "price": 55,
+    "data": "50GB",
+    "features": [
+      "Endless Data at slower speeds",
+      "Unlimited standard calls & texts",
+      "International talk inclusions",
+      "5G access"
+    ],
+    "tag": "Popular",
+    "highlight": true
+  },
+  {
+    "id": "choice-plus",
+    "name": "Choice Plus",
+    "price": 65,
+    "data": "80GB",
+    "features": [
+      "Endless Data at slower speeds",
+      "Unlimited standard calls & texts",
+      "Larger international talk",
+      "Optus Sport access*",
+      "5G access"
+    ],
+    "tag": "Extra data"
+  },
+  {
+    "id": "promo-120",
+    "name": "Promo 120GB",
+    "price": 69,
+    "data": "120GB",
+    "features": [
+      "Promo pricing for new services",
+      "Endless Data",
+      "Unlimited calls & texts",
+      "5G access"
+    ],
+    "tag": "Promo"
+  }
+]

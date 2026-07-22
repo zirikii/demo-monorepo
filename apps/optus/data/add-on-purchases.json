@@ -1,0 +1,26 @@
+[
+  {
+    "id": "p1",
+    "addOnId": "boost-1gb",
+    "name": "Data Boost 1GB",
+    "amount": 10,
+    "createdAt": "2026-06-12T03:00:00.000Z",
+    "note": "Weekend stream binge"
+  },
+  {
+    "id": "p2",
+    "addOnId": "udd",
+    "name": "Unlimited Data Day",
+    "amount": 15,
+    "createdAt": "2026-05-02T01:00:00.000Z",
+    "note": "Road trip day"
+  },
+  {
+    "id": "p3",
+    "addOnId": "boost-1gb",
+    "name": "Data Boost 1GB",
+    "amount": 10,
+    "createdAt": "2026-04-18T08:00:00.000Z",
+    "note": "Work upload"
+  }
+]

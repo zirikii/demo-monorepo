@@ -1,0 +1,50 @@
+[
+  {
+    "id": "iphone-16",
+    "name": "iPhone 16",
+    "brand": "Apple",
+    "priceFrom": 49,
+    "storage": "128GB",
+    "colour": "Ultramarine"
+  },
+  {
+    "id": "iphone-16-pro",
+    "name": "iPhone 16 Pro",
+    "brand": "Apple",
+    "priceFrom": 65,
+    "storage": "256GB",
+    "colour": "Natural Titanium"
+  },
+  {
+    "id": "galaxy-s25",
+    "name": "Galaxy S25",
+    "brand": "Samsung",
+    "priceFrom": 45,
+    "storage": "256GB",
+    "colour": "Navy"
+  },
+  {
+    "id": "galaxy-z-flip",
+    "name": "Galaxy Z Flip6",
+    "brand": "Samsung",
+    "priceFrom": 55,
+    "storage": "256GB",
+    "colour": "Mint"
+  },
+  {
+    "id": "pixel-9",
+    "name": "Pixel 9",
+    "brand": "Google",
+    "priceFrom": 42,
+    "storage": "128GB",
+    "colour": "Porcelain"
+  },
+  {
+    "id": "pixel-9-pro",
+    "name": "Pixel 9 Pro",
+    "brand": "Google",
+    "priceFrom": 58,
+    "storage": "256GB",
+    "colour": "Hazel"
+  }
+]

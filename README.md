@@ -41,6 +41,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | paytm | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | seek | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `transpilePackages` |
 | spark | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
+| optus | Next.js 15 Optus marketing + My Optus | `pnpm dev:optus` | 3003 |
 | squiz | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |

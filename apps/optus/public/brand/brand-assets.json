@@ -1,0 +1,30 @@
+{
+  "fetchedAt": "2026-07-22",
+  "note": "optus.com.au egress blocked in cloud agent; wordmark SVGs recreated to match public brand teal #00A3AD and Yes yellow #FECD03. fetch-brand-assets.sh retries official URLs when available.",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "source": "recreated-from-public-brand-palette",
+      "preferredSources": [
+        "https://www.optus.com.au/about/media-centre/multimedia/logos",
+        "https://upload.wikimedia.org/wikipedia/commons/c/ca/Optus_logo.svg"
+      ]
+    },
+    {
+      "file": "logo-white.svg",
+      "source": "recreated-from-public-brand-palette"
+    },
+    {
+      "file": "logo-mark.svg",
+      "source": "recreated-from-public-brand-palette"
+    },
+    {
+      "file": "yes-mark.svg",
+      "source": "recreated-from-public-brand-palette"
+    },
+    {
+      "file": "favicon.png",
+      "source": "generated-teal-mark"
+    }
+  ]
+}

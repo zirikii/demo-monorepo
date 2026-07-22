@@ -1,0 +1,30 @@
+[
+  {
+    "id": "d1",
+    "title": "Bonus data on Choice plans",
+    "summary": "Score extra data when you connect a new Choice mobile service this month.",
+    "badge": "Yes",
+    "href": "/mobile"
+  },
+  {
+    "id": "d2",
+    "title": "Phone on us* with selected plans",
+    "summary": "Eligible handsets with $0 upfront when you stay connected on a qualifying plan.",
+    "badge": "Device",
+    "href": "/phones"
+  },
+  {
+    "id": "d3",
+    "title": "nbn upgrade credit",
+    "summary": "Switch to a faster nbn tier and get a one-off credit on your first bill.",
+    "badge": "Home",
+    "href": "/home-internet"
+  },
+  {
+    "id": "d4",
+    "title": "Optus Sport included",
+    "summary": "Watch live footy and more on eligible plans — no extra monthly fee.",
+    "badge": "Sport",
+    "href": "/entertainment"
+  }
+]
