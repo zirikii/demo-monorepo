@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Loader2 } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
@@ -13,6 +14,8 @@ const schema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+const LOGIN_FEEDBACK_DELAY_MS = 300;
+
 type FormValues = z.infer<typeof schema>;
 
 export function LoginPage() {
@@ -24,7 +27,7 @@ export function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { email: "traveller@example.com", password: "demo" },
@@ -39,37 +42,63 @@ export function LoginPage() {
           <p className="mt-1 text-sm text-ink-soft">{hint}</p>
           <form
             className="mt-6 space-y-4"
-            onSubmit={handleSubmit((values) => {
+            onSubmit={handleSubmit(async (values) => {
+              await new Promise((resolve) => window.setTimeout(resolve, LOGIN_FEEDBACK_DELAY_MS));
               login(values.email, values.password);
               navigate(params.get("redirect") || "/account");
             })}
           >
             <div>
-              <label htmlFor="email" className="text-xs font-bold uppercase tracking-wide text-ink-faint">
+              <label
+                htmlFor="email"
+                className="text-xs font-bold uppercase tracking-wide text-ink-faint"
+              >
                 Email
               </label>
               <input
                 id="email"
                 type="email"
+                disabled={isSubmitting}
                 className="mt-1 w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
                 {...register("email")}
               />
-              {errors.email ? <p className="mt-1 text-xs text-danger">{errors.email.message}</p> : null}
+              {errors.email ? (
+                <p className="mt-1 text-xs text-danger">{errors.email.message}</p>
+              ) : null}
             </div>
             <div>
-              <label htmlFor="password" className="text-xs font-bold uppercase tracking-wide text-ink-faint">
+              <label
+                htmlFor="password"
+                className="text-xs font-bold uppercase tracking-wide text-ink-faint"
+              >
                 Password
               </label>
               <input
                 id="password"
                 type="password"
+                disabled={isSubmitting}
                 className="mt-1 w-full rounded-md border border-line bg-surface px-3 py-2 text-sm outline-none ring-purple focus:ring-2"
                 {...register("password")}
               />
-              {errors.password ? <p className="mt-1 text-xs text-danger">{errors.password.message}</p> : null}
+              {errors.password ? (
+                <p className="mt-1 text-xs text-danger">{errors.password.message}</p>
+              ) : null}
             </div>
-            <Button type="submit" variant="purple" className="w-full">
-              Sign in
+            <Button
+              type="submit"
+              variant="purple"
+              className="w-full"
+              disabled={isSubmitting}
+              aria-busy={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+                  Signing in...
+                </>
+              ) : (
+                "Sign in"
+              )}
             </Button>
           </form>
           <p className="mt-4 text-center text-sm text-ink-soft">
