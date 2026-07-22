@@ -1,0 +1,84 @@
+[
+  {
+    "id": "st-syd-george",
+    "name": "Optus George St",
+    "suburb": "Sydney",
+    "state": "NSW",
+    "address": "375 George St, Sydney NSW 2000",
+    "hours": "Mon–Sat 9am–6pm, Sun 10am–5pm",
+    "flagship": true
+  },
+  {
+    "id": "st-syd-bondi",
+    "name": "Optus Bondi Junction",
+    "suburb": "Bondi Junction",
+    "state": "NSW",
+    "address": "Westfield, 500 Oxford St, Bondi Junction NSW 2022",
+    "hours": "Mon–Sun 9am–6pm"
+  },
+  {
+    "id": "st-mel-bourke",
+    "name": "Optus Bourke St Mall",
+    "suburb": "Melbourne",
+    "state": "VIC",
+    "address": "246 Bourke St, Melbourne VIC 3000",
+    "hours": "Mon–Sat 9am–6pm, Sun 10am–5pm",
+    "flagship": true
+  },
+  {
+    "id": "st-mel-chadstone",
+    "name": "Optus Chadstone",
+    "suburb": "Chadstone",
+    "state": "VIC",
+    "address": "Chadstone Shopping Centre, 1341 Dandenong Rd, VIC 3148",
+    "hours": "Mon–Sun 9am–6pm"
+  },
+  {
+    "id": "st-bne-queen",
+    "name": "Optus Queen St Mall",
+    "suburb": "Brisbane",
+    "state": "QLD",
+    "address": "160 Queen St, Brisbane City QLD 4000",
+    "hours": "Mon–Sat 9am–5:30pm, Sun 10am–4pm"
+  },
+  {
+    "id": "st-per-hay",
+    "name": "Optus Hay St",
+    "suburb": "Perth",
+    "state": "WA",
+    "address": "659 Hay St, Perth WA 6000",
+    "hours": "Mon–Sat 9am–5:30pm, Sun 11am–4pm"
+  },
+  {
+    "id": "st-adl-rundle",
+    "name": "Optus Rundle Mall",
+    "suburb": "Adelaide",
+    "state": "SA",
+    "address": "80 Rundle Mall, Adelaide SA 5000",
+    "hours": "Mon–Sat 9am–5:30pm, Sun 11am–5pm"
+  },
+  {
+    "id": "st-cbr-civic",
+    "name": "Optus Canberra Centre",
+    "suburb": "Canberra",
+    "state": "ACT",
+    "address": "148 Bunda St, Canberra ACT 2601",
+    "hours": "Mon–Sun 9am–5:30pm"
+  },
+  {
+    "id": "st-gold-pacific",
+    "name": "Optus Pacific Fair",
+    "suburb": "Broadbeach",
+    "state": "QLD",
+    "address": "Pacific Fair, Hooker Blvd, Broadbeach QLD 4218",
+    "hours": "Mon–Sun 9am–6pm"
+  },
+  {
+    "id": "st-new-hunter",
+    "name": "Optus Newcastle",
+    "suburb": "Newcastle",
+    "state": "NSW",
+    "address": "Hunter St Mall, Newcastle NSW 2300",
+    "hours": "Mon–Fri 9am–5:30pm, Sat 9am–4pm"
+  }
+]

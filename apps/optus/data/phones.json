@@ -1,0 +1,65 @@
+[
+  {
+    "id": "iphone-16-pro",
+    "brand": "Apple",
+    "name": "iPhone 16 Pro",
+    "colour": "Natural Titanium",
+    "outright": 1849,
+    "monthly": 51.36,
+    "term": 36,
+    "storage": "256GB",
+    "tag": "New"
+  },
+  {
+    "id": "iphone-16",
+    "brand": "Apple",
+    "name": "iPhone 16",
+    "colour": "Ultramarine",
+    "outright": 1399,
+    "monthly": 38.86,
+    "term": 36,
+    "storage": "128GB"
+  },
+  {
+    "id": "galaxy-s25-ultra",
+    "brand": "Samsung",
+    "name": "Galaxy S25 Ultra",
+    "colour": "Titanium Black",
+    "outright": 2149,
+    "monthly": 59.69,
+    "term": 36,
+    "storage": "256GB",
+    "tag": "New"
+  },
+  {
+    "id": "galaxy-s25",
+    "brand": "Samsung",
+    "name": "Galaxy S25",
+    "colour": "Icy Blue",
+    "outright": 1399,
+    "monthly": 38.86,
+    "term": 36,
+    "storage": "128GB"
+  },
+  {
+    "id": "pixel-9-pro",
+    "brand": "Google",
+    "name": "Pixel 9 Pro",
+    "colour": "Hazel",
+    "outright": 1699,
+    "monthly": 47.19,
+    "term": 36,
+    "storage": "128GB"
+  },
+  {
+    "id": "galaxy-a56",
+    "brand": "Samsung",
+    "name": "Galaxy A56 5G",
+    "colour": "Awesome Graphite",
+    "outright": 699,
+    "monthly": 19.41,
+    "term": 36,
+    "storage": "128GB",
+    "tag": "Value"
+  }
+]

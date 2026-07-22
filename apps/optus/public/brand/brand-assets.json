@@ -1,0 +1,27 @@
+{
+  "fetchedAt": "2026-07-22",
+  "note": "Unofficial demo assets. The primary wordmark was supplied with the task; white and spark-mark variants were derived locally. optus.com.au CDN was unreachable from the build VM (egress blocked), so photography is replaced by Optus-yellow colour blocks. Not affiliated with Singtel Optus Pty Limited.",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "source": "Provided optus wordmark (recoloured to ink #142433 for light headers)"
+    },
+    {
+      "file": "logo-white.svg",
+      "source": "Provided optus wordmark (recoloured to white for dark surfaces)"
+    },
+    {
+      "file": "logo-mark.svg",
+      "source": "Derived Optus-yellow spark mark for small/icon use"
+    },
+    {
+      "file": "favicon.svg",
+      "source": "Derived spark mark on ink rounded square for the browser tab"
+    }
+  ],
+  "intendedOfficialSources": {
+    "note": "Use these when egress to optus.com.au is enabled.",
+    "wordmark": "https://www.optus.com.au/ (inspect header logo SVG)",
+    "favicon": "https://www.optus.com.au/favicon.ico"
+  }
+}

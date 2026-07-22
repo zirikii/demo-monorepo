@@ -16,7 +16,8 @@ demo-monorepo/
 │   ├── spark/    # Next.js 15 Spark NZ Travel & Move / MySpark demo
 │   ├── squiz/    # Vite + React 19 marketing site (Tailwind v4, TS)
 │   ├── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
-│   └── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
+│   ├── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
+│   └── optus/    # Next.js 15 Optus telco marketing + My Optus demo (Tailwind v3, TS)
 └── packages/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
@@ -44,6 +45,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | squiz | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
+| optus | `cn` class merger (`lib/utils/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` + `transpilePackages` |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
 See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.

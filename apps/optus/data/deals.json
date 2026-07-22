@@ -1,0 +1,44 @@
+[
+  {
+    "id": "deal-subhub",
+    "title": "6 months of SubHub credit",
+    "category": "Entertainment",
+    "blurb": "Join an eligible Optus Choice Plus plan and get $10/mth SubHub credit to spend across Netflix, Paramount+ and more.",
+    "ends": "2026-09-30T00:00:00.000Z"
+  },
+  {
+    "id": "deal-iphone",
+    "title": "$300 off iPhone 16 Pro",
+    "category": "Device",
+    "blurb": "Save $300 over 36 months when you pair iPhone 16 Pro with an Optus Choice Premium plan.",
+    "ends": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "deal-5ghome",
+    "title": "First month free on 5G Home",
+    "category": "Internet",
+    "blurb": "Get your first month free on Optus 5G Home Internet. Self-install in minutes, no lock-in contract.",
+    "ends": "2026-08-15T00:00:00.000Z"
+  },
+  {
+    "id": "deal-sport",
+    "title": "Optus Sport included",
+    "category": "Entertainment",
+    "blurb": "Stream the Premier League, LaLiga and the Matildas — included on all eligible Optus postpaid plans.",
+    "ends": "2026-12-31T00:00:00.000Z"
+  },
+  {
+    "id": "deal-prepaid",
+    "title": "Bonus 30GB on prepaid",
+    "category": "Mobile",
+    "blurb": "Recharge an Epic Value $40 for the first time and get a bonus 30GB on your first recharge.",
+    "ends": "2026-08-31T00:00:00.000Z"
+  },
+  {
+    "id": "deal-family",
+    "title": "Save $10/mth on a 2nd plan",
+    "category": "Mobile",
+    "blurb": "Add a second eligible Choice plan to your account and save $10 per month on it, ongoing.",
+    "ends": "2026-10-31T00:00:00.000Z"
+  }
+]

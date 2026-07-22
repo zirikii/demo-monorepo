@@ -1,0 +1,9 @@
+[
+  {
+    "id": "u-admin",
+    "email": "admin@optus-demo.com.au",
+    "name": "Mia Sullivan",
+    "password": "demo",
+    "createdAt": "2026-01-05T09:00:00.000Z"
+  }
+]

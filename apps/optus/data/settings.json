@@ -1,0 +1,66 @@
+{
+  "team": [
+    {
+      "id": "tm-owner",
+      "name": "Mia Sullivan",
+      "email": "admin@optus-demo.com.au",
+      "role": "Owner"
+    },
+    {
+      "id": "tm-jack",
+      "name": "Jack Nguyen",
+      "email": "jack.nguyen@optus-demo.com.au",
+      "role": "Admin"
+    },
+    {
+      "id": "tm-priya",
+      "name": "Priya Sharma",
+      "email": "priya.sharma@optus-demo.com.au",
+      "role": "Member"
+    },
+    {
+      "id": "tm-liam",
+      "name": "Liam O'Brien",
+      "email": "liam.obrien@optus-demo.com.au",
+      "role": "Member"
+    }
+  ],
+  "integrations": [
+    {
+      "id": "int-subhub",
+      "name": "Optus SubHub",
+      "description": "Manage streaming subscriptions on your Optus bill.",
+      "connected": true
+    },
+    {
+      "id": "int-sport",
+      "name": "Optus Sport",
+      "description": "Sign in to stream live sport across your devices.",
+      "connected": true
+    },
+    {
+      "id": "int-app",
+      "name": "My Optus app",
+      "description": "Push notifications for usage alerts and bill reminders.",
+      "connected": false
+    },
+    {
+      "id": "int-pay",
+      "name": "Auto-pay",
+      "description": "Automatically pay each bill from your saved card.",
+      "connected": true
+    },
+    {
+      "id": "int-perks",
+      "name": "Optus Perks",
+      "description": "Weekly rewards, competitions and partner offers.",
+      "connected": false
+    }
+  ],
+  "profile": {
+    "name": "Mia Sullivan",
+    "email": "admin@optus-demo.com.au",
+    "mobile": "0412 908 771",
+    "marketingOptIn": true
+  }
+}

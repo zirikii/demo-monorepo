@@ -1,0 +1,65 @@
+[
+  {
+    "id": "nbn-everyday",
+    "name": "Optus Internet Everyday",
+    "type": "nbn",
+    "price": 79,
+    "speed": "nbn 50",
+    "typicalEvening": "50Mbps typical evening speed",
+    "features": [
+      "No lock-in contract",
+      "Optus Ultra WiFi modem included",
+      "4G backup on selected plans"
+    ]
+  },
+  {
+    "id": "nbn-family",
+    "name": "Optus Internet Family",
+    "type": "nbn",
+    "price": 99,
+    "speed": "nbn 100",
+    "typicalEvening": "100Mbps typical evening speed",
+    "features": [
+      "No lock-in contract",
+      "Optus Ultra WiFi modem included",
+      "Optus SubHub $5 credit each month",
+      "4G backup included"
+    ],
+    "highlight": true
+  },
+  {
+    "id": "nbn-superfast",
+    "name": "Optus Internet Superfast",
+    "type": "nbn",
+    "price": 119,
+    "speed": "nbn 250",
+    "typicalEvening": "250Mbps typical evening speed",
+    "features": ["No lock-in contract", "Optus Ultra WiFi modem included", "Priority nbn support"]
+  },
+  {
+    "id": "5g-home-standard",
+    "name": "Optus 5G Home Internet",
+    "type": "5G Home",
+    "price": 89,
+    "speed": "Up to 100Mbps",
+    "typicalEvening": "50Mbps minimum speed guarantee",
+    "features": [
+      "Self-install in minutes",
+      "Optus 5G Ultra WiFi modem included",
+      "Unlimited data, no lock-in contract"
+    ]
+  },
+  {
+    "id": "5g-home-fast",
+    "name": "Optus 5G Home Internet Fast",
+    "type": "5G Home",
+    "price": 99,
+    "speed": "Up to 200Mbps",
+    "typicalEvening": "100Mbps minimum speed guarantee",
+    "features": [
+      "Self-install in minutes",
+      "Optus 5G Ultra WiFi modem included",
+      "Unlimited data, no lock-in contract"
+    ]
+  }
+]

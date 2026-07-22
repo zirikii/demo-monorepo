@@ -21,9 +21,10 @@ per-app scripts and features are documented in the root `README.md` and each app
 | squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
 | nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
+| optus (Next.js 15) | `pnpm dev:optus` | 3000 | Optus telco marketing + My Optus demo |
 
-- **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
-  time, start one on another port with the `PORT` env var, e.g.
+- **Port collision:** naukri, seek, spark, and optus all default to port 3000. To run them at
+  the same time, start one on another port with the `PORT` env var, e.g.
   `PORT=3001 pnpm --filter seek-marketplace-demo dev` or
   `PORT=3002 pnpm --filter spark-nz-demo dev`. Do **not** try
   `pnpm dev:seek -- -p 3001` / `pnpm dev:naukri -- -p 3001` — the extra args get
@@ -35,16 +36,16 @@ per-app scripts and features are documented in the root `README.md` and each app
 
 ### Env files (Next apps)
 
-`apps/naukri`, `apps/seek`, and `apps/spark` read `DEMO_AUTH_SECRET` but fall back to
-`"change-me"`, so `.env.local` is **optional** for dev — the apps boot without it. Copy
+`apps/naukri`, `apps/seek`, `apps/spark`, and `apps/optus` read `DEMO_AUTH_SECRET` but fall
+back to `"change-me"`, so `.env.local` is **optional** for dev — the apps boot without it. Copy
 `.env.example` → `.env.local` if you want to override defaults. Auth is mock: the login
 forms accept **any** email/password (they come pre-filled with demo credentials).
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine + `@demo/ui`
-  typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, and spark (run `pnpm test`
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/optus/paytm/squiz/changi/nine +
+  `@demo/ui` typecheck; nab has no linter.
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, and optus (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the

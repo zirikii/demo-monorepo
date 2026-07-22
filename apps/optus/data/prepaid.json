@@ -1,0 +1,39 @@
+[
+  {
+    "id": "prepaid-epic-30",
+    "name": "Optus Prepaid Epic Value $30",
+    "price": 30,
+    "data": "40GB",
+    "expiry": "28 days",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Unlimited standard international text",
+      "Data banking up to 200GB"
+    ]
+  },
+  {
+    "id": "prepaid-epic-40",
+    "name": "Optus Prepaid Epic Value $40",
+    "price": 40,
+    "data": "70GB",
+    "expiry": "28 days",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Unlimited standard international talk to 20 destinations",
+      "Data banking up to 350GB"
+    ],
+    "highlight": true
+  },
+  {
+    "id": "prepaid-flex-150",
+    "name": "Optus Prepaid Epic Data $150",
+    "price": 150,
+    "data": "260GB",
+    "expiry": "186 days",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Long expiry, ideal for tablets & backup",
+      "Data banking up to 500GB"
+    ]
+  }
+]

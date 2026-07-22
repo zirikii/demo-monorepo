@@ -1,0 +1,58 @@
+[
+  {
+    "id": "plan-small",
+    "name": "Optus Choice Small",
+    "price": 49,
+    "data": "50GB",
+    "dataNote": "Data-free streaming on Optus Sport",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Unlimited standard international talk to 35 destinations",
+      "No lock-in contract"
+    ],
+    "tag": "SIM only"
+  },
+  {
+    "id": "plan-medium",
+    "name": "Optus Choice Plus",
+    "price": 69,
+    "data": "180GB",
+    "dataNote": "Includes 6 months of Optus SubHub credit",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Unlimited standard international talk to 35 destinations",
+      "Optus Sport included",
+      "5G access at no extra cost"
+    ],
+    "tag": "Most popular",
+    "highlight": true
+  },
+  {
+    "id": "plan-large",
+    "name": "Optus Choice Premium",
+    "price": 89,
+    "data": "360GB",
+    "dataNote": "Fastest available 5G speeds",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Unlimited standard international talk to 35 destinations",
+      "Optus Sport & Sport Premium",
+      "Priority network access",
+      "Include family members and share data"
+    ],
+    "tag": "SIM only"
+  },
+  {
+    "id": "plan-xl",
+    "name": "Optus Choice Ultimate",
+    "price": 109,
+    "data": "500GB",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Unlimited standard international talk & text to 35 destinations",
+      "Optus Sport Premium & SubHub bundle",
+      "International roaming daily pass credit"
+    ],
+    "tag": "SIM only"
+  }
+]

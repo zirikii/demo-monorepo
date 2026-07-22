@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ent-sport",
+    "name": "Optus Sport",
+    "price": "Included on eligible plans",
+    "blurb": "Every Premier League match live, plus LaLiga, the Matildas, and J.League. Stream on up to 3 devices.",
+    "category": "Sport"
+  },
+  {
+    "id": "ent-sport-premium",
+    "name": "Optus Sport Premium",
+    "price": "$5/mth add-on",
+    "blurb": "Add 4K streaming, extra concurrent screens and expanded competitions to your Optus Sport subscription.",
+    "category": "Sport"
+  },
+  {
+    "id": "ent-subhub",
+    "name": "Optus SubHub",
+    "price": "Manage in one place",
+    "blurb": "Bundle Netflix, Paramount+, BINGE and more on one Optus bill and save with rotating SubHub offers.",
+    "category": "Bundle"
+  },
+  {
+    "id": "ent-netflix",
+    "name": "Netflix via SubHub",
+    "price": "From $7.99/mth",
+    "blurb": "Add Netflix to your Optus SubHub and manage it alongside your mobile and internet services.",
+    "category": "Streaming"
+  },
+  {
+    "id": "ent-paramount",
+    "name": "Paramount+ via SubHub",
+    "price": "From $6.99/mth",
+    "blurb": "Stream live sport, movies and Originals, added straight to your Optus account.",
+    "category": "Streaming"
+  },
+  {
+    "id": "ent-binge",
+    "name": "BINGE via SubHub",
+    "price": "From $10/mth",
+    "blurb": "Add BINGE for the best of HBO, Max Originals and blockbuster movies through SubHub.",
+    "category": "Streaming"
+  }
+]
