@@ -1,0 +1,66 @@
+[
+  {
+    "id": "plan-small",
+    "name": "Small",
+    "price": 49,
+    "data": "50GB",
+    "dataNote": "+ data that rolls over up to 200GB",
+    "network": "5G",
+    "contract": "SIM only",
+    "features": [
+      "Unlimited standard national talk & text",
+      "5G access at no extra cost",
+      "Data-free Optus Sport streaming",
+      "No lock-in contract"
+    ],
+    "tag": "Everyday"
+  },
+  {
+    "id": "plan-medium",
+    "name": "Medium",
+    "price": 59,
+    "data": "100GB",
+    "dataNote": "+ rollover up to 200GB",
+    "network": "5G",
+    "contract": "SIM only",
+    "features": [
+      "Unlimited standard national talk & text",
+      "5G access at no extra cost",
+      "Optus Sport included",
+      "Unlimited talk & text to 35 selected countries"
+    ],
+    "tag": "Most popular",
+    "highlight": true
+  },
+  {
+    "id": "plan-large",
+    "name": "Large",
+    "price": 75,
+    "data": "260GB",
+    "dataNote": "+ rollover up to 500GB",
+    "network": "5G",
+    "contract": "SIM only",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Faster 5G speeds",
+      "Optus Sport included",
+      "Byte-Size day passes for international roaming"
+    ]
+  },
+  {
+    "id": "plan-xlarge",
+    "name": "Extra Large",
+    "price": 99,
+    "data": "360GB",
+    "dataNote": "+ rollover up to 500GB",
+    "network": "5G",
+    "contract": "SIM only",
+    "features": [
+      "Unlimited standard national talk & text",
+      "Uncapped 5G speeds",
+      "Optus Sport & SubHub perks",
+      "Two international roaming day passes each month"
+    ],
+    "tag": "Best value"
+  }
+]

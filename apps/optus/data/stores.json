@@ -1,0 +1,52 @@
+[
+  {
+    "id": "st-syd-george",
+    "name": "Optus George St",
+    "city": "Sydney",
+    "state": "NSW",
+    "address": "449 George St, Sydney NSW 2000",
+    "hours": "Mon–Fri 9am–6pm, Sat 9am–5pm",
+    "flagship": true
+  },
+  {
+    "id": "st-melb-bourke",
+    "name": "Optus Bourke St Mall",
+    "city": "Melbourne",
+    "state": "VIC",
+    "address": "246 Bourke St, Melbourne VIC 3000",
+    "hours": "Mon–Sat 9am–6pm, Sun 10am–5pm",
+    "flagship": true
+  },
+  {
+    "id": "st-bris-queen",
+    "name": "Optus Queen St Mall",
+    "city": "Brisbane",
+    "state": "QLD",
+    "address": "Shop 12, Queen St Mall, Brisbane QLD 4000",
+    "hours": "Mon–Fri 9am–5:30pm, Sat 9am–4pm"
+  },
+  {
+    "id": "st-perth-hay",
+    "name": "Optus Hay St",
+    "city": "Perth",
+    "state": "WA",
+    "address": "743 Hay St, Perth WA 6000",
+    "hours": "Mon–Fri 9am–5:30pm, Sat 9am–4pm"
+  },
+  {
+    "id": "st-adel-rundle",
+    "name": "Optus Rundle Mall",
+    "city": "Adelaide",
+    "state": "SA",
+    "address": "Shop 5, Rundle Mall, Adelaide SA 5000",
+    "hours": "Mon–Fri 9am–5:30pm, Sat 9am–4pm"
+  },
+  {
+    "id": "st-canberra-civic",
+    "name": "Optus Canberra Centre",
+    "city": "Canberra",
+    "state": "ACT",
+    "address": "148 Bunda St, Canberra ACT 2601",
+    "hours": "Mon–Fri 9am–5:30pm, Sat 9am–4pm"
+  }
+]

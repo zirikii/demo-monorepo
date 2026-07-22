@@ -1,0 +1,46 @@
+[
+  {
+    "id": "pp-30",
+    "name": "Epic Data $30",
+    "price": 30,
+    "data": "40GB",
+    "expiry": "28 days",
+    "features": ["Unlimited national talk & text", "5G ready", "Data banking up to 200GB"],
+    "tag": "28 day"
+  },
+  {
+    "id": "pp-40",
+    "name": "Epic Data $40",
+    "price": 40,
+    "data": "60GB",
+    "expiry": "28 days",
+    "features": [
+      "Unlimited national talk & text",
+      "Unlimited standard international talk to 30 countries",
+      "Data banking up to 200GB"
+    ],
+    "tag": "Most popular"
+  },
+  {
+    "id": "pp-70",
+    "name": "Epic Value $70",
+    "price": 70,
+    "data": "80GB",
+    "expiry": "84 days",
+    "features": [
+      "Unlimited national talk & text",
+      "5G ready",
+      "Great for longer stays and travellers"
+    ],
+    "tag": "84 day"
+  },
+  {
+    "id": "pp-160",
+    "name": "Epic Value $160",
+    "price": 160,
+    "data": "240GB",
+    "expiry": "365 days",
+    "features": ["Unlimited national talk & text", "Data banking", "Best long-expiry value"],
+    "tag": "12 month"
+  }
+]

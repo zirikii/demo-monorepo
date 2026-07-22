@@ -1,0 +1,9 @@
+[
+  {
+    "id": "u-admin",
+    "email": "admin@optus-demo.au",
+    "name": "Alex Demo",
+    "password": "demo",
+    "createdAt": "2026-01-05T00:00:00.000Z"
+  }
+]

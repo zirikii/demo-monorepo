@@ -1,0 +1,15 @@
+{
+  "team": [
+    { "id": "tm-1", "name": "Alex Demo", "email": "admin@optus-demo.au", "role": "Account holder" },
+    { "id": "tm-2", "name": "Priya Sharma", "email": "priya@optus-demo.au", "role": "Admin" },
+    { "id": "tm-3", "name": "Jordan Lee", "email": "jordan@optus-demo.au", "role": "Member" },
+    { "id": "tm-4", "name": "Sam Nguyen", "email": "sam@optus-demo.au", "role": "Member" }
+  ],
+  "integrations": [
+    { "id": "int-sport", "name": "Optus Sport", "description": "Stream Premier League, LaLiga and the Matildas.", "connected": true },
+    { "id": "int-subhub", "name": "SubHub", "description": "Manage Netflix, Disney+ and more in one bill.", "connected": false },
+    { "id": "int-payid", "name": "Auto recharge", "description": "Automatically recharge prepaid before it expires.", "connected": true },
+    { "id": "int-alerts", "name": "Usage alerts", "description": "Get notified at 50%, 85% and 100% of your data.", "connected": true },
+    { "id": "int-family", "name": "Family plan sharing", "description": "Share data and manage kids' usage limits.", "connected": false }
+  ]
+}

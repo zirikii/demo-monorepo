@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Optus Sport stadium backdrop" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#101820"/>
+      <stop offset="1" stop-color="#1F5E62"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#s)"/>
+  <ellipse cx="800" cy="680" rx="900" ry="260" fill="#39A8AF" opacity="0.35"/>
+  <ellipse cx="800" cy="720" rx="520" ry="150" fill="#FFFFFF" opacity="0.06"/>
+  <g fill="#FECD03" opacity="0.85">
+    <circle cx="800" cy="360" r="46"/>
+  </g>
+  <g stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="4" fill="none">
+    <path d="M800 406 l-70 120 h140 z"/>
+  </g>
+</svg>

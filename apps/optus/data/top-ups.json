@@ -1,0 +1,4 @@
+[
+  { "id": "tu-1", "amount": 40, "method": "Visa ···· 4021", "createdAt": "2026-07-10T09:15:00.000Z", "note": "Epic Data $40 recharge" },
+  { "id": "tu-2", "amount": 30, "method": "Apple Pay", "createdAt": "2026-06-12T18:42:00.000Z", "note": "Epic Data $30 recharge" }
+]

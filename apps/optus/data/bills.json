@@ -1,0 +1,9 @@
+[
+  { "id": "bill-2026-07", "period": "Jul 2026", "amount": 59, "status": "Due", "dueDate": "2026-08-05", "service": "Mobile · Medium" },
+  { "id": "bill-2026-06", "period": "Jun 2026", "amount": 59, "status": "Paid", "dueDate": "2026-07-05", "service": "Mobile · Medium" },
+  { "id": "bill-2026-05", "period": "May 2026", "amount": 148, "status": "Paid", "dueDate": "2026-06-05", "service": "Mobile + Internet Family" },
+  { "id": "bill-2026-04", "period": "Apr 2026", "amount": 148, "status": "Paid", "dueDate": "2026-05-05", "service": "Mobile + Internet Family" },
+  { "id": "bill-2026-03", "period": "Mar 2026", "amount": 89, "status": "Paid", "dueDate": "2026-04-05", "service": "Internet Family" },
+  { "id": "bill-2026-02", "period": "Feb 2026", "amount": 89, "status": "Paid", "dueDate": "2026-03-05", "service": "Internet Family" },
+  { "id": "bill-2026-01", "period": "Jan 2026", "amount": 89, "status": "Paid", "dueDate": "2026-02-05", "service": "Internet Family" }
+]

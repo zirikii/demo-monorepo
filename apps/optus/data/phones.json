@@ -1,0 +1,65 @@
+[
+  {
+    "id": "ph-iphone15",
+    "brand": "Apple",
+    "name": "iPhone 15",
+    "priceOutright": 1499,
+    "price24": 62.46,
+    "price36": 41.64,
+    "colours": ["Black", "Blue", "Pink", "Green"],
+    "storage": "128GB",
+    "tag": "Popular"
+  },
+  {
+    "id": "ph-galaxy-s24",
+    "brand": "Samsung",
+    "name": "Galaxy S24",
+    "priceOutright": 1399,
+    "price24": 58.29,
+    "price36": 38.86,
+    "colours": ["Onyx Black", "Marble Grey", "Cobalt Violet"],
+    "storage": "256GB"
+  },
+  {
+    "id": "ph-pixel-8",
+    "brand": "Google",
+    "name": "Pixel 8",
+    "priceOutright": 1199,
+    "price24": 49.96,
+    "price36": 33.31,
+    "colours": ["Obsidian", "Hazel", "Rose"],
+    "storage": "128GB",
+    "tag": "Great camera"
+  },
+  {
+    "id": "ph-iphone15-pro",
+    "brand": "Apple",
+    "name": "iPhone 15 Pro",
+    "priceOutright": 1849,
+    "price24": 77.04,
+    "price36": 51.36,
+    "colours": ["Natural Titanium", "Blue Titanium", "Black Titanium"],
+    "storage": "256GB"
+  },
+  {
+    "id": "ph-galaxy-a55",
+    "brand": "Samsung",
+    "name": "Galaxy A55 5G",
+    "priceOutright": 699,
+    "price24": 29.13,
+    "price36": 19.42,
+    "colours": ["Awesome Navy", "Awesome Lilac"],
+    "storage": "128GB",
+    "tag": "Budget"
+  },
+  {
+    "id": "ph-nothing-2a",
+    "brand": "Nothing",
+    "name": "Phone (2a)",
+    "priceOutright": 549,
+    "price24": 22.88,
+    "price36": 15.25,
+    "colours": ["Black", "White"],
+    "storage": "128GB"
+  }
+]
