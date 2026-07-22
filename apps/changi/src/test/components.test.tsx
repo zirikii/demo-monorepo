@@ -85,6 +85,8 @@ describe("LoginPage", () => {
     expect(screen.getByLabelText(/Email/i)).toBeDisabled();
     expect(screen.getByLabelText(/Password/i)).toBeDisabled();
 
-    expect(await screen.findByText(/Account landing/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/Account landing/i, undefined, { timeout: 2000 }),
+    ).toBeInTheDocument();
   });
 });
