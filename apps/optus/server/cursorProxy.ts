@@ -9,6 +9,7 @@ import {
   sdkMessageToSse,
   type SseEvent,
 } from "./cursorSdkHelpers";
+import { trackRequestAbort } from "./requestAbort";
 
 type JsonBody = Record<string, unknown>;
 
@@ -211,25 +212,26 @@ export function cursorApiPlugin(): Plugin {
               100,
             );
 
-            const agent = await Agent.create({
-              apiKey,
-              name,
-              model: { id: modelId },
-              cloud: {
-                repos: [{ url: repoUrl, startingRef }],
-                autoCreatePR: false,
-              },
-            });
-
-            let aborted = false;
-            const onAbort = () => {
-              aborted = true;
-            };
-            req.on("close", onAbort);
-
+            // Must attach before Agent.create — abort during create used to be missed
+            // when close fired before the listener existed, then agent.send still ran.
+            const abort = trackRequestAbort(req);
             try {
+              if (abort.isAborted()) return;
+
+              const agent = await Agent.create({
+                apiKey,
+                name,
+                model: { id: modelId },
+                cloud: {
+                  repos: [{ url: repoUrl, startingRef }],
+                  autoCreatePR: false,
+                },
+              });
+
+              if (abort.isAborted()) return;
+
               const run = await agent.send(promptText);
-              if (aborted) {
+              if (abort.isAborted()) {
                 await run.cancel().catch(() => undefined);
                 return;
               }
@@ -246,7 +248,7 @@ export function cursorApiPlugin(): Plugin {
                 sdk: "@cursor/sdk",
               });
             } finally {
-              req.off("close", onAbort);
+              abort.dispose();
             }
           }
 
