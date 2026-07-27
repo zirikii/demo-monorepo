@@ -1,0 +1,49 @@
+---
+description: Card images must fill the media area edge-to-edge with no letterboxing gaps
+globs: **/*.{tsx,jsx}
+alwaysApply: false
+---
+
+# Full-bleed card images
+
+Card photos must touch all four edges of the media area. Fix **layout CSS and source assets** — `object-cover` alone cannot fix padded image files.
+
+## Required layout
+
+```tsx
+<article className="overflow-hidden rounded-2xl">
+  <div className="aspect-square overflow-hidden bg-muted">
+    <img
+      src={item.image}
+      alt={item.title}
+      className="block h-full w-full object-cover"
+      loading="lazy"
+    />
+  </div>
+  <div className="p-3">{/* text */}</div>
+</article>
+```
+
+| Element | Classes / styles |
+|---------|------------------|
+| Card | `overflow-hidden` when corners are rounded |
+| Media wrapper | `aspect-square` or `aspect-video` + `overflow-hidden` |
+| Image | `block h-full w-full object-cover` |
+
+## Avoid
+
+- `object-contain` on card hero images (shows gaps)
+- Fixed `width`/`height` on `<img>` without a sized parent
+- Assuming CDN `fit=crop` means the file is full-bleed — verify the saved asset
+
+## When CSS is correct but the photo still looks tiny
+
+The JPG/PNG likely has baked-in white/black padding (common with Scene7/CDN assets). Trim or re-fetch the asset; do not add more CSS.
+
+| Symptom | Fix |
+|---------|-----|
+| Small photo in colored square | Trim or re-fetch padded source file |
+| Thin gap below image | Add `block` on `<img>` |
+| Image past rounded corners | Add `overflow-hidden` on card and wrapper |
+
+Before finishing, visually confirm at least two cards and hard-refresh if assets changed.

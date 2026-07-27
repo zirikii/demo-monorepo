@@ -26,7 +26,8 @@ export function HappeningsSection() {
               <img
                 src={item.image}
                 alt={item.title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                className="block h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                loading="lazy"
               />
             </div>
             <div className="space-y-2 p-5">
