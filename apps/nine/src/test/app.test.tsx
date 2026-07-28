@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "@/App";
 
@@ -12,13 +12,18 @@ describe("app routes", () => {
     expect(screen.getByText(/Get the newsletter/i)).toBeInTheDocument();
   });
 
-  it("Sport page shows Latest chip and NaN timestamps (demo bug)", async () => {
+  it("Sport page shows Latest articles newest-first with valid timestamps", async () => {
     window.history.pushState({}, "", "/sport");
     render(<App />);
     expect(screen.getByRole("heading", { level: 1, name: /Sport/i })).toBeInTheDocument();
     expect(screen.getByTestId("sport-sort-latest")).toBeInTheDocument();
-    const nanLabels = await screen.findAllByText(/NaN hours ago/i);
-    expect(nanLabels.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/NaN hours ago/i)).not.toBeInTheDocument();
+
+    const storyGrid = screen.getByTestId("sport-story-grid");
+    const storyHeadings = within(storyGrid).getAllByRole("heading", { level: 3 });
+    const firstHeading = storyHeadings[0];
+    if (!firstHeading) throw new Error("Expected at least one sport story");
+    expect(firstHeading).toHaveTextContent(/State of Origin III/i);
   });
 
   it("can open login", async () => {

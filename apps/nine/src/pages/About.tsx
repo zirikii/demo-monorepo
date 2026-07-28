@@ -19,10 +19,6 @@ export function AboutPage() {
           Entertainment and Shopping — plus TV companion sites. This demo mirrors that information architecture
           with seeded Australian headlines.
         </p>
-        <p>
-          One page (<strong className="text-nine-ink">Sport</strong>) intentionally ships with a sorting /
-          timestamp bug for Bugbot and QA demos. See the app README and linked Jira ticket.
-        </p>
       </div>
     </PageLayout>
   );

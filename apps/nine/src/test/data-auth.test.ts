@@ -10,7 +10,6 @@ import {
 import {
   getArticle,
   getByPillar,
-  getSportArticlesBuggyLatest,
   searchArticles,
 } from "@/data/articles";
 
@@ -63,12 +62,12 @@ describe("articles data", () => {
     expect(news[0].publishedAt >= news[1].publishedAt).toBe(true);
   });
 
-  it("documents intentional Sport Latest bug (oldest first)", () => {
-    const buggy = getSportArticlesBuggyLatest();
-    const correct = getByPillar("sport");
-    expect(buggy.length).toBe(correct.length);
-    expect(buggy[0].slug).not.toBe(correct[0].slug);
-    expect(buggy[0].publishedAt <= buggy[buggy.length - 1].publishedAt).toBe(true);
+  it("returns sport newest-first", () => {
+    const sport = getByPillar("sport");
+    expect(sport.length).toBeGreaterThan(2);
+    const [first, second] = sport;
+    if (!first || !second) throw new Error("Expected at least two sport articles");
+    expect(first.publishedAt >= second.publishedAt).toBe(true);
   });
 
   it("searches by title", () => {
