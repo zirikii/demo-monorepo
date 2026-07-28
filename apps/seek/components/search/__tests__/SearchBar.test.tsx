@@ -56,6 +56,23 @@ describe("SearchBar keyword suggestions", () => {
     expect(push).toHaveBeenCalledWith("/jobs?keywords=Registered+Nurse");
   });
 
+  it("moves the active option with repeated ArrowDown across multiple matches", async () => {
+    const user = userEvent.setup();
+    render(<SearchBar />);
+    const input = screen.getByRole("combobox", { name: /enter keywords/i });
+    // "nurse" matches at least two seeded suggestions (e.g. Registered/Enrolled Nurse).
+    await user.type(input, "nurse");
+    const options = screen.getAllByRole("option");
+    expect(options.length).toBeGreaterThan(1);
+
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getAllByRole("option")[0]!).toHaveAttribute("aria-selected", "true");
+
+    await user.keyboard("{ArrowDown}");
+    expect(screen.getAllByRole("option")[0]!).toHaveAttribute("aria-selected", "false");
+    expect(screen.getAllByRole("option")[1]!).toHaveAttribute("aria-selected", "true");
+  });
+
   it("closes the suggestion list on Escape", async () => {
     const user = userEvent.setup();
     render(<SearchBar />);
