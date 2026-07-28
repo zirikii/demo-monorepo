@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Bell, Sparkles, Target } from "lucide-react";
+import { ArrowRight, Bell, BriefcaseBusiness, Building2, Sparkles, Target } from "lucide-react";
 import { getContent, listContent } from "@/lib/content/markdown";
 import { getEmployers } from "@/lib/data/employers";
 import { QUICK_SEARCH_CHIPS, CLASSIFICATIONS } from "@/lib/constants/taxonomy";
@@ -23,6 +23,19 @@ interface ArticleFrontmatter {
 
 const valuePropIcons = [Target, Bell, Sparkles];
 
+const workflowCards = [
+  {
+    icon: BriefcaseBusiness,
+    title: "122 mock roles",
+    body: "Filter by title, location, work type and salary.",
+  },
+  {
+    icon: Building2,
+    title: "Company discovery",
+    body: "Explore fictional employer profiles and open roles.",
+  },
+];
+
 export default async function MarketingHome() {
   const [hero, employers, articles] = await Promise.all([
     getContent<HeroFrontmatter>("landing", "hero"),
@@ -35,18 +48,16 @@ export default async function MarketingHome() {
   return (
     <div>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-seek-navy">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-30"
-          style={{
-            background:
-              "radial-gradient(60% 60% at 80% 10%, rgba(230,2,120,0.55) 0%, rgba(46,56,73,0) 60%)",
-          }}
-        />
+      <section className="relative overflow-hidden bg-seek-blue">
+        <div className="pointer-events-none absolute -right-24 top-8 h-72 w-72 rounded-full bg-seek-pink/35 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 left-12 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         <div className="container-page relative py-16 sm:py-24">
           <div className="max-w-3xl">
+            <p className="mb-4 inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-sm font-semibold text-white ring-1 ring-white/20">
+              SEEK jobs marketplace demo
+            </p>
             <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
-              {fm?.headline ?? "Australia's no. 1 jobs site"}
+              {fm?.headline ?? "Find your next job on SEEK"}
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-white/80">{fm?.subhead}</p>
           </div>
@@ -57,6 +68,19 @@ export default async function MarketingHome() {
 
           <div className="mt-6">
             <QuickSearchChips chips={QUICK_SEARCH_CHIPS} />
+          </div>
+
+          <div className="mt-8 grid max-w-4xl gap-3 text-white sm:grid-cols-3">
+            {[
+              ["122,000+", "fictional roles across Australia"],
+              ["14", "top-level classifications"],
+              ["Daily", "mock job alerts and saved searches"],
+            ].map(([value, label]) => (
+              <div key={value} className="rounded-xl bg-white/10 p-4 ring-1 ring-white/15">
+                <p className="text-2xl font-bold">{value}</p>
+                <p className="mt-1 text-sm text-white/75">{label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -84,6 +108,22 @@ export default async function MarketingHome() {
       {/* Value props */}
       <section className="bg-surface-subtle py-14">
         <div className="container-page">
+          <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-wide text-seek-pink">
+                SEEK account tools
+              </p>
+              <h2 className="mt-2 text-2xl font-bold text-seek-navy">
+                Everything candidates expect after signing in
+              </h2>
+            </div>
+            <Link
+              href="/oauth/register"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-seek-pink hover:underline"
+            >
+              Create a free profile <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
           <div className="grid gap-6 md:grid-cols-3">
             {(fm?.valueProps ?? []).map((vp, i) => {
               const Icon = valuePropIcons[i % valuePropIcons.length] ?? Target;
@@ -97,6 +137,34 @@ export default async function MarketingHome() {
                     <p className="mt-1.5 text-sm text-ink-secondary">{vp.body}</p>
                   </CardContent>
                 </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="container-page py-14">
+        <div className="grid gap-4 rounded-2xl border border-line bg-white p-6 shadow-card md:grid-cols-[1.15fr_0.85fr] md:p-8">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-wide text-seek-pink">
+              Job seeker workflow
+            </p>
+            <h2 className="mt-2 text-2xl font-bold text-seek-navy">
+              Search, save, apply, and track every opportunity
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-ink-secondary">
+              The authenticated demo mirrors SEEK candidate habits with saved roles, application
+              history, profile strength, alert frequency, and settings that persist to local JSON.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-1">
+            {workflowCards.map(({ icon: ItemIcon, title, body }) => {
+              return (
+                <div key={title} className="rounded-xl bg-surface-subtle p-4">
+                  <ItemIcon className="h-5 w-5 text-seek-pink" aria-hidden="true" />
+                  <p className="mt-3 font-semibold text-seek-navy">{title}</p>
+                  <p className="mt-1 text-sm text-ink-secondary">{body}</p>
+                </div>
               );
             })}
           </div>

@@ -46,32 +46,42 @@ export function SearchBar({
       aria-label="Search jobs"
     >
       <div className="flex flex-1 items-center gap-2 border-line px-3 sm:border-r">
-        <Search className="h-5 w-5 shrink-0 text-ink-muted" />
-        <input
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-          placeholder="Enter keywords"
-          aria-label="Enter keywords"
-          className={cn(
-            "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
-            big ? "h-12 text-base" : "h-10 text-sm",
-          )}
-        />
+        <Search className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true" />
+        <label className="min-w-0 flex-1">
+          <span className="block text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            What
+          </span>
+          <input
+            value={keywords}
+            onChange={(e) => setKeywords(e.target.value)}
+            placeholder="Job title, keywords, or company"
+            aria-label="What"
+            className={cn(
+              "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
+              big ? "h-9 text-base" : "h-7 text-sm",
+            )}
+          />
+        </label>
       </div>
 
       <div className="flex flex-1 items-center gap-2 px-3">
-        <MapPin className="h-5 w-5 shrink-0 text-ink-muted" />
-        <input
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter suburb, city, or region"
-          aria-label="Enter suburb, city, or region"
-          list="seek-locations"
-          className={cn(
-            "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
-            big ? "h-12 text-base" : "h-10 text-sm",
-          )}
-        />
+        <MapPin className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true" />
+        <label className="min-w-0 flex-1">
+          <span className="block text-xs font-semibold uppercase tracking-wide text-ink-muted">
+            Where
+          </span>
+          <input
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Suburb, city, or region"
+            aria-label="Where"
+            list="seek-locations"
+            className={cn(
+              "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
+              big ? "h-9 text-base" : "h-7 text-sm",
+            )}
+          />
+        </label>
         <datalist id="seek-locations">
           {AU_LOCATIONS.map((loc) => (
             <option key={loc} value={loc} />

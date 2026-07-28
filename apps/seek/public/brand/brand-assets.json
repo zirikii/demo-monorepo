@@ -1,11 +1,12 @@
 {
   "disclaimer": "Unofficial demo. Not affiliated with, endorsed by, or sponsored by SEEK Limited. The look-and-feel is referenced here purely for UI/UX fidelity in a non-commercial demo. All brand assets below are recreated approximations, not official files.",
   "brandColors": {
+    "seekBlue": "#0D3880",
     "markNavy": "#1F3C88",
     "accentPink": "#E60278"
   },
   "createdOn": "2026-06-25",
-  "updatedOn": "2026-06-26",
+  "updatedOn": "2026-07-28",
   "assets": [
     {
       "filename": "logo.svg",

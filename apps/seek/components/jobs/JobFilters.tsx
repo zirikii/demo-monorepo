@@ -28,10 +28,11 @@ export function JobFilters() {
   const workType = params.get("workType") ?? "";
   const salaryMin = params.get("salaryMin") ?? "";
   const dateListed = params.get("dateListed") ?? "any";
+  const sort = params.get("sort") ?? "relevance";
 
   function update(key: string, value: string | null) {
     const next = new URLSearchParams(params.toString());
-    if (!value || value === ALL || value === "any" || value === "0") {
+    if (!value || value === ALL || value === "any" || value === "0" || value === "relevance") {
       next.delete(key);
     } else {
       next.set(key, value);
@@ -48,7 +49,9 @@ export function JobFilters() {
     router.push(`/jobs${next.toString() ? `?${next.toString()}` : ""}`);
   }
 
-  const hasFilters = Boolean(classification || workType || salaryMin || (dateListed && dateListed !== "any"));
+  const hasFilters = Boolean(
+    classification || workType || salaryMin || (dateListed && dateListed !== "any"),
+  );
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -103,6 +106,16 @@ export function JobFilters() {
               {d.label}
             </SelectItem>
           ))}
+        </SelectContent>
+      </Select>
+
+      <Select value={sort} onValueChange={(v) => update("sort", v)}>
+        <SelectTrigger className="h-10 w-auto min-w-[150px]">
+          <SelectValue placeholder="Sort" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="relevance">Sort by relevance</SelectItem>
+          <SelectItem value="date">Sort by date</SelectItem>
         </SelectContent>
       </Select>
 

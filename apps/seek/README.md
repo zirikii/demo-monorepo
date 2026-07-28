@@ -30,32 +30,32 @@ persistence**. No real backends, databases or external services.
   **applied-jobs tracker** (`@tanstack/react-table` with sorting + pagination), a **profile/resume
   builder**, and **settings** (notifications + privacy toggles).
 - **Accessible & responsive** — semantic HTML, keyboard-navigable dialogs/menus/save flags, mobile
-  nav drawers, SEEK Pink `#E60278` / Navy `#2E3849` theming.
+  nav drawers, SEEK Blue `#0D3880`, Pink `#E60278` and Navy `#2E3849` theming.
 
 ## 🧱 Tech stack
 
-| Layer | Technology |
-|------|-----------|
-| Framework | Next.js 15 (App Router) + React 19 + TypeScript (strict) |
-| Styling | Tailwind CSS v3 with Braid-inspired design tokens |
-| Components | shadcn/ui-style primitives (Radix UI) restyled to SEEK |
-| Icons | lucide-react |
-| Forms | react-hook-form + zod |
-| Tables | @tanstack/react-table |
-| Auth | Mock signed HTTP-only cookie (`jose` HS256) + middleware |
-| Data | Local JSON files (`data/*.json`) via `fs/promises`, atomic writes |
-| Content | Markdown (`content/**`) with frontmatter via `gray-matter` + `react-markdown` |
-| Tests | Vitest + React Testing Library |
-| E2E / demo video | Playwright (records the walkthrough) |
+| Layer            | Technology                                                                    |
+| ---------------- | ----------------------------------------------------------------------------- |
+| Framework        | Next.js 15 (App Router) + React 19 + TypeScript (strict)                      |
+| Styling          | Tailwind CSS v3 with Braid-inspired design tokens                             |
+| Components       | shadcn/ui-style primitives (Radix UI) restyled to SEEK                        |
+| Icons            | lucide-react                                                                  |
+| Forms            | react-hook-form + zod                                                         |
+| Tables           | @tanstack/react-table                                                         |
+| Auth             | Mock signed HTTP-only cookie (`jose` HS256) + middleware                      |
+| Data             | Local JSON files (`data/*.json`) via `fs/promises`, atomic writes             |
+| Content          | Markdown (`content/**`) with frontmatter via `gray-matter` + `react-markdown` |
+| Tests            | Vitest + React Testing Library                                                |
+| E2E / demo video | Playwright (records the walkthrough)                                          |
 
 ## 🚀 Getting started
 
-Prerequisites: **Node.js 20+** and npm.
+Prerequisites: **Node.js 20+** and pnpm 10+.
 
 ```bash
 cp .env.example .env.local   # then set DEMO_AUTH_SECRET to any value
-npm install
-npm run dev
+pnpm install
+pnpm --filter seek-marketplace-demo dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
@@ -69,16 +69,16 @@ Demo mode accepts **any** email/password. The login form is pre-filled with:
 
 ## 📜 Available scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start the dev server |
-| `npm run build` | Production build |
-| `npm run start` | Start the production server |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | TypeScript type-check (no emit) |
-| `npm run test` | Run the Vitest suite |
-| `npm run format` | Prettier write |
-| `npm run video` | Record the Playwright walkthrough video (requires a running server) |
+| Script                                          | Description                                                         |
+| ----------------------------------------------- | ------------------------------------------------------------------- |
+| `pnpm --filter seek-marketplace-demo dev`       | Start the dev server                                                |
+| `pnpm --filter seek-marketplace-demo build`     | Production build                                                    |
+| `pnpm --filter seek-marketplace-demo start`     | Start the production server                                         |
+| `pnpm --filter seek-marketplace-demo lint`      | ESLint                                                              |
+| `pnpm --filter seek-marketplace-demo typecheck` | TypeScript type-check (no emit)                                     |
+| `pnpm --filter seek-marketplace-demo test`      | Run the Vitest suite                                                |
+| `pnpm --filter seek-marketplace-demo format`    | Prettier write                                                      |
+| `pnpm --filter seek-marketplace-demo video`     | Record the Playwright walkthrough video (requires a running server) |
 
 ### Regenerating assets & seed data
 

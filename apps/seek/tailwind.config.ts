@@ -3,7 +3,8 @@ import animate from "tailwindcss-animate";
 
 /**
  * SEEK-inspired (Braid-flavoured) design tokens.
- * Brand colours are intentionally exact: SEEK Pink #E60278 and SEEK Navy #2E3849.
+ * Brand colours are intentionally exact where public guidance exists:
+ * SEEK Blue #0D3880, SEEK Pink #E60278, and SEEK Navy #2E3849.
  */
 const config: Config = {
   darkMode: ["class"],
@@ -25,6 +26,9 @@ const config: Config = {
       colors: {
         // Brand
         seek: {
+          blue: "#0D3880",
+          "blue-dark": "#092B63",
+          "blue-light": "#E7EEF8",
           pink: "#E60278",
           "pink-dark": "#C2005F",
           "pink-light": "#FCE5F1",

@@ -48,13 +48,13 @@ describe("JobCard", () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) }) as never;
   });
 
-  it("renders title, employer, salary and badges", () => {
+  it("renders title, employer, salary and SEEK-style badges", () => {
     renderCard();
     expect(screen.getByText("Senior Software Engineer")).toBeInTheDocument();
     expect(screen.getByText("Acme Corp")).toBeInTheDocument();
     expect(screen.getByText("$140,000 – $170,000")).toBeInTheDocument();
     expect(screen.getByText("Full time")).toBeInTheDocument();
-    expect(screen.getByText("Featured")).toBeInTheDocument();
+    expect(screen.getByText("Promoted")).toBeInTheDocument();
   });
 
   it("toggles save state and calls the API", async () => {
@@ -70,10 +70,9 @@ describe("JobCard", () => {
         expect.objectContaining({ method: "POST" }),
       );
     });
-    expect(screen.getByRole("button", { name: /remove Senior Software Engineer/i })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    expect(
+      screen.getByRole("button", { name: /remove Senior Software Engineer/i }),
+    ).toHaveAttribute("aria-pressed", "true");
   });
 
   it("shows an Applied badge when the job has been applied to", () => {

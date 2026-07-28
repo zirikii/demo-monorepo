@@ -59,7 +59,7 @@ export function JobCard({ job, onSelect, selected, showBullets = true }: JobCard
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <Badge tone="neutral">{job.workType}</Badge>
         <Badge tone="neutral">{job.classification}</Badge>
-        {job.featured ? <Badge tone="brand">Featured</Badge> : null}
+        {job.featured ? <Badge tone="brand">Promoted</Badge> : null}
         {isNew ? <Badge tone="positive">New</Badge> : null}
         {applied ? (
           <Badge tone="info" className="inline-flex items-center gap-1">
