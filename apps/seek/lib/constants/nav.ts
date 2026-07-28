@@ -34,6 +34,7 @@ export const MARKETING_NAV: { label: string; href: string }[] = [
   { label: "Jobs", href: "/jobs" },
   { label: "Companies", href: "/companies" },
   { label: "Career advice", href: "/career-advice" },
+  { label: "Employers", href: "/employers" },
 ];
 
 export const PROFILE_MENU: NavItem[] = [

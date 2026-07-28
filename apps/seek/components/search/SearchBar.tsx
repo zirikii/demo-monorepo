@@ -38,55 +38,72 @@ export function SearchBar({
     <form
       onSubmit={onSubmit}
       className={cn(
-        "flex w-full flex-col gap-2 rounded-xl bg-white p-2 shadow-panel sm:flex-row sm:items-center",
-        big ? "sm:rounded-full" : "rounded-lg",
+        "flex w-full flex-col gap-2 rounded-xl border border-line bg-white p-2 shadow-panel sm:flex-row sm:items-stretch",
+        big ? "sm:rounded-2xl sm:p-3" : "rounded-lg",
         className,
       )}
       role="search"
       aria-label="Search jobs"
     >
-      <div className="flex flex-1 items-center gap-2 border-line px-3 sm:border-r">
-        <Search className="h-5 w-5 shrink-0 text-ink-muted" />
-        <input
-          value={keywords}
-          onChange={(e) => setKeywords(e.target.value)}
-          placeholder="Enter keywords"
-          aria-label="Enter keywords"
-          className={cn(
-            "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
-            big ? "h-12 text-base" : "h-10 text-sm",
-          )}
-        />
+      <div
+        className={cn(
+          "flex flex-1 flex-col justify-center border-line px-3 sm:border-r",
+          big ? "py-1" : "",
+        )}
+      >
+        <label htmlFor="seek-what" className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+          What
+        </label>
+        <div className="flex items-center gap-2">
+          <Search className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true" />
+          <input
+            id="seek-what"
+            value={keywords}
+            onChange={(e) => setKeywords(e.target.value)}
+            placeholder="Enter keywords"
+            aria-label="What — job title, keywords, or company"
+            className={cn(
+              "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
+              big ? "h-10 text-base" : "h-9 text-sm",
+            )}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-1 items-center gap-2 px-3">
-        <MapPin className="h-5 w-5 shrink-0 text-ink-muted" />
-        <input
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter suburb, city, or region"
-          aria-label="Enter suburb, city, or region"
-          list="seek-locations"
-          className={cn(
-            "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
-            big ? "h-12 text-base" : "h-10 text-sm",
-          )}
-        />
-        <datalist id="seek-locations">
-          {AU_LOCATIONS.map((loc) => (
-            <option key={loc} value={loc} />
-          ))}
-        </datalist>
+      <div className={cn("flex flex-1 flex-col justify-center px-3", big ? "py-1" : "")}>
+        <label htmlFor="seek-where" className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+          Where
+        </label>
+        <div className="flex items-center gap-2">
+          <MapPin className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true" />
+          <input
+            id="seek-where"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            placeholder="Enter suburb, city, or region"
+            aria-label="Where — suburb, city, or region"
+            list="seek-locations"
+            className={cn(
+              "w-full bg-transparent text-ink placeholder:text-ink-muted focus:outline-none",
+              big ? "h-10 text-base" : "h-9 text-sm",
+            )}
+          />
+          <datalist id="seek-locations">
+            {AU_LOCATIONS.map((loc) => (
+              <option key={loc} value={loc} />
+            ))}
+          </datalist>
+        </div>
       </div>
 
       <button
         type="submit"
         className={cn(
-          "focus-ring inline-flex items-center justify-center gap-2 rounded-full bg-seek-pink font-semibold text-white transition-colors hover:bg-seek-pink-dark",
-          big ? "h-12 px-8 text-base" : "h-10 px-6 text-sm",
+          "focus-ring inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-seek-pink font-semibold text-white transition-colors hover:bg-seek-pink-dark",
+          big ? "h-14 px-10 text-base sm:self-center" : "h-11 px-6 text-sm sm:self-center",
         )}
       >
-        <Search className="h-5 w-5" />
+        <Search className="h-5 w-5" aria-hidden="true" />
         SEEK
       </button>
     </form>

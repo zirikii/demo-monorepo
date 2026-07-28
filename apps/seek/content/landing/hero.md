@@ -1,6 +1,6 @@
 ---
-headline: "Australia's no. 1 jobs site"
-subhead: "Find your next role from thousands of jobs across every industry — and take the next step in your career today."
+headline: "Perform a job search"
+subhead: "Australia's no. 1 jobs site — find roles that match your skills across every industry and location."
 valueProps:
   - title: "Smarter job matches"
     body: "Personalised recommendations help you discover roles that fit your skills, experience and preferences."

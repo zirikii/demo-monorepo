@@ -49,6 +49,9 @@ export function MarketingHeader({ user }: { user: SessionUser | null }) {
               <Button asChild variant="primary" size="sm">
                 <Link href="/oauth/register">Register</Link>
               </Button>
+              <Button asChild variant="secondary" size="sm">
+                <Link href="/employers">Advertise a job</Link>
+              </Button>
             </>
           )}
         </div>
@@ -89,6 +92,9 @@ export function MarketingHeader({ user }: { user: SessionUser | null }) {
                     </Button>
                     <Button asChild variant="primary">
                       <Link href="/oauth/register">Register</Link>
+                    </Button>
+                    <Button asChild variant="ghost">
+                      <Link href="/employers">Advertise a job</Link>
                     </Button>
                   </>
                 )}

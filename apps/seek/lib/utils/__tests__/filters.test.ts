@@ -14,6 +14,9 @@ const employer: Employer = {
   size: "100+",
   rating: 4,
   reviewCount: 10,
+  culture: "Collaborative.",
+  perks: ["Hybrid"],
+  reviews: [],
 };
 
 function makeJob(overrides: Partial<JobWithEmployer> = {}): JobWithEmployer {

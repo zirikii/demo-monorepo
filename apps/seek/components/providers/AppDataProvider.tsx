@@ -44,15 +44,23 @@ export function AppDataProvider({
       });
 
       try {
+        const res = currentlySaved
+          ? await fetch(`/api/saved?jobId=${encodeURIComponent(jobId)}`, { method: "DELETE" })
+          : await fetch("/api/saved", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ jobId }),
+            });
+
+        if (res.status === 401) {
+          window.location.href = `/oauth/login?redirect=${encodeURIComponent(`/jobs/${jobId}`)}`;
+          return;
+        }
+        if (!res.ok) throw new Error("save failed");
+
         if (currentlySaved) {
-          await fetch(`/api/saved?jobId=${encodeURIComponent(jobId)}`, { method: "DELETE" });
           toast({ title: "Removed from saved", description: jobTitle });
         } else {
-          await fetch("/api/saved", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ jobId }),
-          });
           toast({ title: "Job saved", description: jobTitle, variant: "success" });
         }
       } catch {

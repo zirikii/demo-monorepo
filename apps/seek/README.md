@@ -15,17 +15,21 @@ persistence**. No real backends, databases or external services.
 
 ## ✨ Features
 
-- **Marketing landing** with a SEEK-style hero, the prominent **dual search bar** (keyword +
-  location), quick-search chips, classification grid, employer grid and career-advice teasers.
+- **Marketing landing** with a SEEK-style **What / Where** dual search bar, quick-search
+  chips, classification grid, employer grid (with open-job counts) and career-advice teasers.
+  Job search is **public** (no login required), matching seek.com.au.
+- **Employers / advertise** (`/employers`) — Classic / StandOut / Premium pricing tiers (demo
+  prices only) for hiring managers.
 - **Mock authentication** — sign in with any credentials (demo mode), signed HTTP-only cookie via
-  [`jose`](https://github.com/panva/jose), routes protected by `middleware.ts`.
+  [`jose`](https://github.com/panva/jose), candidate routes protected by `middleware.ts`.
 - **Candidate dashboard** — recommended jobs, activity stats, a live **profile-strength** meter and
   saved-search quick links.
 - **Job search** — the signature **split view**: paginated result cards on the left, a sticky
   **Job Details View (JDV)** on the right. Filters for classification, work type, salary and date
   listed (URL-synced). Deep links to `/jobs/[jobId]` work directly.
-- **Save flags** that toggle and persist, with a nav badge and a **Quick Apply** drawer that records
-  applications.
+- **Company profiles** with culture, perks, sample reviews and open roles.
+- **Save flags** that toggle and persist (guests are prompted to sign in), with a nav badge and a
+  **Quick Apply** drawer that records applications.
 - **Saved jobs** with private per-job notes, **saved searches & alerts** (Off/Daily/Weekly), an
   **applied-jobs tracker** (`@tanstack/react-table` with sorting + pagination), a **profile/resume
   builder**, and **settings** (notifications + privacy toggles).
@@ -92,11 +96,11 @@ node scripts/generate-seed-data.mjs      # data/*.json seed
 
 ```
 app/
-  (marketing)/        # landing, career-advice, companies, legal
+  (marketing)/        # landing, career-advice, companies, employers/pricing, legal
+  (browse)/           # public job search + job detail (no login required)
   oauth/              # login + register (mock auth)
   (app)/              # authenticated candidate area (protected by middleware)
-    dashboard/  jobs/  jobs/[jobId]/  saved-jobs/
-    saved-searches/  applied/  profile/  settings/
+    dashboard/  saved-jobs/  saved-searches/  applied/  profile/  settings/
   api/                # route handlers reading/writing data/*.json
 components/
   ui/                 # shadcn-style primitives (button, dialog, table, …)
@@ -109,7 +113,7 @@ data/                 # JSON seed + live persistence
 public/brand/         # recreated SEEK wordmark + favicon (+ brand-assets.json)
 public/employers/     # generated employer letter-marks
 scripts/              # asset + seed generators, walkthrough recorder
-middleware.ts         # protects (app) routes
+middleware.ts         # protects candidate (app) routes; /jobs stays public
 ```
 
 ## 💾 How persistence works
@@ -122,8 +126,9 @@ settings all persist to disk. To reset the demo, regenerate the seed with
 
 ## 🔐 Authentication (mock)
 
-`middleware.ts` guards the `(app)` routes. Unauthenticated visits redirect to
-`/oauth/login?redirect=…`. The session is a signed HS256 JWT stored in an HTTP-only cookie
+`middleware.ts` guards candidate routes (`/dashboard`, saved, applied, profile, settings).
+Unauthenticated visits redirect to `/oauth/login?redirect=…`. **Job search (`/jobs`) is public**,
+matching seek.com.au. The session is a signed HS256 JWT stored in an HTTP-only cookie
 (`DEMO_AUTH_SECRET`). This is **not** real authentication — any credentials are accepted in demo
 mode.
 

@@ -14,10 +14,10 @@ const columns: { heading: string; links: { label: string; href: string }[] }[] =
   {
     heading: "For employers",
     links: [
-      { label: "Post a job", href: "/" },
-      { label: "Products & prices", href: "/" },
-      { label: "Recruitment advice", href: "/" },
-      { label: "Talent search", href: "/" },
+      { label: "Advertise a job", href: "/employers" },
+      { label: "Products & prices", href: "/employers#pricing" },
+      { label: "Company profiles", href: "/companies" },
+      { label: "Register", href: "/oauth/register" },
     ],
   },
   {

@@ -10,7 +10,35 @@
     "location": "Melbourne VIC",
     "size": "10,000+ employees",
     "rating": 3.9,
-    "reviewCount": 1820
+    "reviewCount": 1820,
+    "culture": "Bupa fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_001_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Bupa. Managers were approachable and there were real opportunities to grow within healthcare & medical.",
+        "meta": "Melbourne VIC · Full time"
+      },
+      {
+        "id": "emp_001_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Melbourne VIC · Full time"
+      }
+    ]
   },
   {
     "id": "emp_002",
@@ -23,7 +51,35 @@
     "location": "Melbourne VIC",
     "size": "10,000+ employees",
     "rating": 3.8,
-    "reviewCount": 2410
+    "reviewCount": 2410,
+    "culture": "ANZ fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_002_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at ANZ. Managers were approachable and there were real opportunities to grow within banking & financial services.",
+        "meta": "Melbourne VIC · Full time"
+      },
+      {
+        "id": "emp_002_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Melbourne VIC · Full time"
+      }
+    ]
   },
   {
     "id": "emp_003",
@@ -36,7 +92,35 @@
     "location": "Sydney NSW",
     "size": "5,000+ employees",
     "rating": 3.7,
-    "reviewCount": 1340
+    "reviewCount": 1340,
+    "culture": "Optus fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_003_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Optus. Managers were approachable and there were real opportunities to grow within information & communication technology.",
+        "meta": "Sydney NSW · Full time"
+      },
+      {
+        "id": "emp_003_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Sydney NSW · Full time"
+      }
+    ]
   },
   {
     "id": "emp_004",
@@ -49,7 +133,35 @@
     "location": "Sydney NSW",
     "size": "10,000+ employees",
     "rating": 4,
-    "reviewCount": 3110
+    "reviewCount": 3110,
+    "culture": "CommBank fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_004_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at CommBank. Managers were approachable and there were real opportunities to grow within banking & financial services.",
+        "meta": "Sydney NSW · Full time"
+      },
+      {
+        "id": "emp_004_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Sydney NSW · Full time"
+      }
+    ]
   },
   {
     "id": "emp_005",
@@ -62,7 +174,35 @@
     "location": "Melbourne VIC",
     "size": "5,000+ employees",
     "rating": 4.1,
-    "reviewCount": 760
+    "reviewCount": 760,
+    "culture": "Mercy Health fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_005_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Mercy Health. Managers were approachable and there were real opportunities to grow within healthcare & medical.",
+        "meta": "Melbourne VIC · Full time"
+      },
+      {
+        "id": "emp_005_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Melbourne VIC · Full time"
+      }
+    ]
   },
   {
     "id": "emp_006",
@@ -75,7 +215,35 @@
     "location": "Sydney NSW",
     "size": "5,000+ employees",
     "rating": 3.6,
-    "reviewCount": 540
+    "reviewCount": 540,
+    "culture": "Skyline Air fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_006_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Skyline Air. Managers were approachable and there were real opportunities to grow within hospitality & tourism.",
+        "meta": "Sydney NSW · Full time"
+      },
+      {
+        "id": "emp_006_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 3,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Sydney NSW · Full time"
+      }
+    ]
   },
   {
     "id": "emp_007",
@@ -88,7 +256,35 @@
     "location": "Brisbane QLD",
     "size": "10,000+ employees",
     "rating": 3.5,
-    "reviewCount": 2980
+    "reviewCount": 2980,
+    "culture": "Fresh Grocer fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_007_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Fresh Grocer. Managers were approachable and there were real opportunities to grow within retail & consumer products.",
+        "meta": "Brisbane QLD · Full time"
+      },
+      {
+        "id": "emp_007_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 3,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Brisbane QLD · Full time"
+      }
+    ]
   },
   {
     "id": "emp_008",
@@ -101,7 +297,35 @@
     "location": "Perth WA",
     "size": "5,000+ employees",
     "rating": 3.9,
-    "reviewCount": 690
+    "reviewCount": 690,
+    "culture": "Ironbark Resources fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_008_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Ironbark Resources. Managers were approachable and there were real opportunities to grow within engineering.",
+        "meta": "Perth WA · Full time"
+      },
+      {
+        "id": "emp_008_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Perth WA · Full time"
+      }
+    ]
   },
   {
     "id": "emp_009",
@@ -114,7 +338,35 @@
     "location": "Sydney NSW",
     "size": "201-500 employees",
     "rating": 4.4,
-    "reviewCount": 320
+    "reviewCount": 320,
+    "culture": "Stackforge fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_009_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 5,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Stackforge. Managers were approachable and there were real opportunities to grow within information & communication technology.",
+        "meta": "Sydney NSW · Full time"
+      },
+      {
+        "id": "emp_009_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Sydney NSW · Full time"
+      }
+    ]
   },
   {
     "id": "emp_010",
@@ -127,7 +379,35 @@
     "location": "Melbourne VIC",
     "size": "51-200 employees",
     "rating": 4.5,
-    "reviewCount": 180
+    "reviewCount": 180,
+    "culture": "Designhive fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_010_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 5,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Designhive. Managers were approachable and there were real opportunities to grow within marketing & communications.",
+        "meta": "Melbourne VIC · Full time"
+      },
+      {
+        "id": "emp_010_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Melbourne VIC · Full time"
+      }
+    ]
   },
   {
     "id": "emp_011",
@@ -140,7 +420,35 @@
     "location": "Canberra ACT",
     "size": "5,000+ employees",
     "rating": 3.6,
-    "reviewCount": 980
+    "reviewCount": 980,
+    "culture": "Telecorp fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_011_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Telecorp. Managers were approachable and there were real opportunities to grow within information & communication technology.",
+        "meta": "Canberra ACT · Full time"
+      },
+      {
+        "id": "emp_011_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 3,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Canberra ACT · Full time"
+      }
+    ]
   },
   {
     "id": "emp_012",
@@ -153,7 +461,35 @@
     "location": "Sydney NSW",
     "size": "1,000+ employees",
     "rating": 4,
-    "reviewCount": 450
+    "reviewCount": 450,
+    "culture": "Pinnacle Advisory fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_012_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Pinnacle Advisory. Managers were approachable and there were real opportunities to grow within accounting.",
+        "meta": "Sydney NSW · Full time"
+      },
+      {
+        "id": "emp_012_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Sydney NSW · Full time"
+      }
+    ]
   },
   {
     "id": "emp_013",
@@ -166,7 +502,35 @@
     "location": "Sydney NSW",
     "size": "10,000+ employees",
     "rating": 3.8,
-    "reviewCount": 4120
+    "reviewCount": 4120,
+    "culture": "NSW Health fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_013_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at NSW Health. Managers were approachable and there were real opportunities to grow within healthcare & medical.",
+        "meta": "Sydney NSW · Full time"
+      },
+      {
+        "id": "emp_013_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Sydney NSW · Full time"
+      }
+    ]
   },
   {
     "id": "emp_014",
@@ -179,7 +543,35 @@
     "location": "Brisbane QLD",
     "size": "201-500 employees",
     "rating": 3.7,
-    "reviewCount": 260
+    "reviewCount": 260,
+    "culture": "Talentbridge fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_014_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Talentbridge. Managers were approachable and there were real opportunities to grow within sales.",
+        "meta": "Brisbane QLD · Full time"
+      },
+      {
+        "id": "emp_014_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Brisbane QLD · Full time"
+      }
+    ]
   },
   {
     "id": "emp_015",
@@ -192,7 +584,35 @@
     "location": "Adelaide SA",
     "size": "1,000+ employees",
     "rating": 4.2,
-    "reviewCount": 340
+    "reviewCount": 340,
+    "culture": "Brightpath Education fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_015_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 5,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Brightpath Education. Managers were approachable and there were real opportunities to grow within education & training.",
+        "meta": "Adelaide SA · Full time"
+      },
+      {
+        "id": "emp_015_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Adelaide SA · Full time"
+      }
+    ]
   },
   {
     "id": "emp_016",
@@ -205,6 +625,34 @@
     "location": "Gold Coast QLD",
     "size": "1,000+ employees",
     "rating": 3.9,
-    "reviewCount": 410
+    "reviewCount": 410,
+    "culture": "Coastline Care fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.",
+    "perks": [
+      "Flexible / hybrid working",
+      "Learning & development budget",
+      "Extra leave options",
+      "Employee wellbeing program",
+      "Career progression pathways"
+    ],
+    "reviews": [
+      {
+        "id": "emp_016_rev_1",
+        "author": "Former employee",
+        "role": "Team member",
+        "rating": 4,
+        "title": "Supportive team and clear goals",
+        "body": "I enjoyed the people and the pace at Coastline Care. Managers were approachable and there were real opportunities to grow within healthcare & medical.",
+        "meta": "Gold Coast QLD · Full time"
+      },
+      {
+        "id": "emp_016_rev_2",
+        "author": "Current employee",
+        "role": "Specialist",
+        "rating": 4,
+        "title": "Good benefits, busy periods",
+        "body": "Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.",
+        "meta": "Gold Coast QLD · Full time"
+      }
+    ]
   }
 ]

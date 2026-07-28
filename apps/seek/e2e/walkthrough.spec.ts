@@ -27,7 +27,7 @@ test("SEEK demo — full candidate walkthrough", async ({ page }) => {
 
   // 1) Marketing landing -------------------------------------------------------
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /Australia's no\. 1 jobs site/i })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Perform a job search/i })).toBeVisible();
   await beat(page, 1200);
 
   await safe("hero search", async () => {

@@ -174,19 +174,53 @@ const employers = [
     rating: 3.9,
     reviewCount: 410,
   },
-].map((e, i) => ({
-  id: `emp_${String(i + 1).padStart(3, "0")}`,
-  slug: e.slug,
-  name: e.name,
-  logo: `/employers/${e.slug}.svg`,
-  industry: e.industry,
-  tagline: e.tagline,
-  about: `${e.name} is a leading ${e.industry.toLowerCase()} organisation. ${e.tagline} We're proud of our inclusive, supportive culture and our commitment to developing our people. (Fictional employer used for demo purposes only — not affiliated with any real company.)`,
-  location: e.location,
-  size: e.size,
-  rating: e.rating,
-  reviewCount: e.reviewCount,
-}));
+].map((e, i) => {
+  const id = `emp_${String(i + 1).padStart(3, "0")}`;
+  const culture = `${e.name} fosters collaboration, continuous learning and a healthy work–life balance. Teams are encouraged to speak up, experiment and support each other — especially across hybrid and regional offices.`;
+  const perks = [
+    "Flexible / hybrid working",
+    "Learning & development budget",
+    "Extra leave options",
+    "Employee wellbeing program",
+    "Career progression pathways",
+  ];
+  const reviews = [
+    {
+      id: `${id}_rev_1`,
+      author: "Former employee",
+      role: "Team member",
+      rating: Math.min(5, Math.round(e.rating + 0.3)),
+      title: "Supportive team and clear goals",
+      body: `I enjoyed the people and the pace at ${e.name}. Managers were approachable and there were real opportunities to grow within ${e.industry.toLowerCase()}.`,
+      meta: `${e.location} · Full time`,
+    },
+    {
+      id: `${id}_rev_2`,
+      author: "Current employee",
+      role: "Specialist",
+      rating: Math.max(3, Math.round(e.rating - 0.2)),
+      title: "Good benefits, busy periods",
+      body: `Strong benefits and interesting work. Peak seasons can be intense, but the culture is respectful and inclusive.`,
+      meta: `${e.location} · Full time`,
+    },
+  ];
+  return {
+    id,
+    slug: e.slug,
+    name: e.name,
+    logo: `/employers/${e.slug}.svg`,
+    industry: e.industry,
+    tagline: e.tagline,
+    about: `${e.name} is a leading ${e.industry.toLowerCase()} organisation. ${e.tagline} We're proud of our inclusive, supportive culture and our commitment to developing our people. (Fictional employer used for demo purposes only — not affiliated with any real company.)`,
+    location: e.location,
+    size: e.size,
+    rating: e.rating,
+    reviewCount: e.reviewCount,
+    culture,
+    perks,
+    reviews,
+  };
+});
 
 const empId = (slug) => employers.find((e) => e.slug === slug).id;
 

@@ -16,6 +16,9 @@ const employer: Employer = {
   size: "100+",
   rating: 4,
   reviewCount: 10,
+  culture: "Collaborative and inclusive.",
+  perks: ["Hybrid working"],
+  reviews: [],
 };
 
 const job: JobWithEmployer = {

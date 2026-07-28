@@ -2,10 +2,12 @@ import { NextResponse, type NextRequest } from "next/server";
 import { decodeSession } from "@/lib/auth/session";
 import { SESSION_COOKIE } from "@/lib/constants";
 
-/** URL path prefixes that require an authenticated candidate session. */
+/**
+ * Candidate-only surfaces. Job search (`/jobs`) stays public — matching
+ * seek.com.au — so landing What/Where search works without signing in.
+ */
 const PROTECTED_PREFIXES = [
   "/dashboard",
-  "/jobs",
   "/saved-jobs",
   "/saved-searches",
   "/applied",
