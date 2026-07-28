@@ -5,7 +5,7 @@ import { getEmployers } from "@/lib/data/employers";
 import { QUICK_SEARCH_CHIPS, CLASSIFICATIONS } from "@/lib/constants/taxonomy";
 import { SearchBar } from "@/components/search/SearchBar";
 import { QuickSearchChips } from "@/components/marketing/QuickSearchChips";
-import { EmployerLogo } from "@/components/common/EmployerLogo";
+import { EmployerCarousel } from "@/components/marketing/EmployerCarousel";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface HeroFrontmatter {
@@ -81,6 +81,64 @@ export default async function MarketingHome() {
         </div>
       </section>
 
+      {/* Find the best job matches (personalised teaser) */}
+      <section className="bg-surface-subtle py-14">
+        <div className="container-page">
+          <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+            <div className="grid items-center gap-8 p-8 md:grid-cols-[1.2fr_1fr] md:p-10">
+              <div>
+                <p className="inline-flex items-center gap-1.5 rounded-full bg-seek-pink-light px-3 py-1 text-xs font-semibold text-seek-pink-dark">
+                  <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+                  Personalised for you
+                </p>
+                <h2 className="mt-4 text-2xl font-bold text-seek-navy sm:text-3xl">
+                  Find the best job matches
+                </h2>
+                <p className="mt-2 max-w-xl text-ink-secondary">
+                  Sign in to see roles matched to your profile, skills and search history — plus
+                  saved jobs, alerts and one-click Quick Apply.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-3">
+                  <Link
+                    href="/oauth/register"
+                    className="focus-ring inline-flex h-11 items-center justify-center rounded-full bg-seek-pink px-6 font-semibold text-white transition-colors hover:bg-seek-pink-dark"
+                  >
+                    Create your free profile
+                  </Link>
+                  <Link
+                    href="/oauth/login"
+                    className="focus-ring inline-flex h-11 items-center justify-center rounded-full border border-line px-6 font-semibold text-seek-navy transition-colors hover:border-seek-pink hover:text-seek-pink"
+                  >
+                    Sign in
+                  </Link>
+                </div>
+              </div>
+              <div className="rounded-xl bg-surface-subtle p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                  Recommended searches
+                </p>
+                <ul className="mt-3 flex flex-col gap-2">
+                  {QUICK_SEARCH_CHIPS.slice(0, 5).map((chip) => (
+                    <li key={chip}>
+                      <Link
+                        href={`/jobs?keywords=${encodeURIComponent(chip)}`}
+                        className="focus-ring group flex items-center justify-between rounded-lg border border-line bg-white px-4 py-2.5 text-sm font-medium text-seek-navy transition-all hover:border-seek-pink hover:shadow-card"
+                      >
+                        <span className="line-clamp-1">{chip}</span>
+                        <ArrowRight
+                          className="h-4 w-4 shrink-0 text-ink-muted transition-colors group-hover:text-seek-pink"
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Value props */}
       <section className="bg-surface-subtle py-14">
         <div className="container-page">
@@ -103,28 +161,8 @@ export default async function MarketingHome() {
         </div>
       </section>
 
-      {/* Employer grid */}
-      <section className="container-page py-14">
-        <h2 className="text-2xl font-bold text-seek-navy">Find your next employer</h2>
-        <p className="mt-1 text-ink-secondary">
-          Discover companies hiring now across Australia. (All employers shown are fictional.)
-        </p>
-        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {employers.map((emp) => (
-            <Link
-              key={emp.id}
-              href={`/companies/${emp.slug}`}
-              className="focus-ring flex items-center gap-3 rounded-lg border border-line bg-white p-4 shadow-card transition-all hover:border-line-strong hover:shadow-card-hover"
-            >
-              <EmployerLogo src={emp.logo} name={emp.name} size={44} />
-              <div className="min-w-0">
-                <p className="truncate font-semibold text-seek-navy">{emp.name}</p>
-                <p className="truncate text-xs text-ink-muted">{emp.industry}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* Find your next employer (carousel) */}
+      <EmployerCarousel employers={employers} />
 
       {/* Career advice */}
       <section className="bg-surface-subtle py-14">
