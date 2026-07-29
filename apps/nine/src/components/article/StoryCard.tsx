@@ -13,7 +13,7 @@ export function StoryCard({
 }: {
   article: Article;
   compact?: boolean;
-  /** Override relative time (used by buggy Sport page) */
+  /** Override relative time when a parent needs custom display text. */
   timeLabel?: string;
   className?: string;
 }) {
