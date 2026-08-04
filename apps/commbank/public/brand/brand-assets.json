@@ -1,0 +1,22 @@
+{
+  "brand": "CommBank / Commonwealth Bank of Australia",
+  "disclaimer": "Unofficial demo assets. Not affiliated with Commonwealth Bank of Australia.",
+  "assets": [
+    {
+      "file": "commbank-logo.svg",
+      "role": "primary-logo",
+      "intendedSource": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
+      "note": "Official CDN may be egress-blocked; geometric fallback matches public yellow-diamond + CommBank wordmark. Re-run scripts/fetch-brand-assets.sh when CDN is reachable."
+    },
+    {
+      "file": "commbank-logo-mark.svg",
+      "role": "mark",
+      "intendedSource": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg"
+    },
+    {
+      "file": "favicon.svg",
+      "role": "favicon",
+      "intendedSource": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg"
+    }
+  ]
+}
