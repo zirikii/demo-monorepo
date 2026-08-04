@@ -22,6 +22,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
 | nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
 | optus (Vite + React 19) | `pnpm dev:optus` | 5178 | Optus NOC + `@cursor/sdk` cloud agents; optional `CURSOR_API_KEY`; Node 22.13+ |
+| commbank (Vite + React 19) | `pnpm dev:commbank` | 5179 | commbank.com.au clone + mock NetBank; no env needed |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -47,9 +48,10 @@ it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus + `@demo/ui`
+- Lint: `pnpm lint` (root) runs across
+  kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank + `@demo/ui`
   typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, and spark (run `pnpm test`
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, and commbank (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
