@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
-import { Smartphone } from "lucide-react";
 import { appFeatures, awards } from "@/data/site";
+import { AppMockup } from "./AppMockup";
 
 export function AppPromo() {
   return (
     <section className="bg-surface-tint py-12 sm:py-16">
-      <div className="container-cba grid gap-10 lg:grid-cols-[1fr_1.2fr]">
+      <div className="container-cba grid gap-10 lg:grid-cols-2 xl:grid-cols-[1fr_240px_1fr]">
         <div>
-          <Smartphone aria-hidden="true" className="h-8 w-8 text-ink" />
-          <h2 className="mt-4 text-2xl font-extrabold sm:text-3xl">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">
             Australia&rsquo;s best banking app
             <span aria-hidden="true" className="mt-2 block h-1 w-16 bg-cba-yellow" />
           </h2>
@@ -30,6 +29,10 @@ export function AppPromo() {
           >
             Explore the CommBank app
           </Link>
+        </div>
+
+        <div className="hidden xl:block">
+          <AppMockup />
         </div>
 
         <ul className="grid gap-4 sm:grid-cols-2">
