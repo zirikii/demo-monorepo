@@ -95,14 +95,14 @@ export function SiteHeader() {
                     aria-haspopup="true"
                     onClick={() => setOpenMenu(open ? null : item.id)}
                     className={cn(
-                      "focus-ring relative flex items-center gap-1 px-3 py-4 text-sm font-semibold transition-colors",
+                      "focus-ring relative flex items-center gap-0.5 whitespace-nowrap px-2.5 py-4 text-[13px] font-semibold transition-colors",
                       active || open ? "text-black" : "text-ink-soft hover:text-black",
                     )}
                   >
                     {item.label}
                     <ChevronDown
                       aria-hidden="true"
-                      className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")}
+                      className={cn("h-3 w-3 shrink-0 transition-transform", open && "rotate-180")}
                     />
                     {active || open ? (
                       <span

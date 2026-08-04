@@ -41,7 +41,7 @@ test.describe("vision walkthrough", () => {
     await expect(page.getByRole("heading", { level: 1, name: "Log on" })).toBeVisible();
     await page.screenshot({ path: path.join(shots, "05-logon.png"), fullPage: true });
 
-    await page.getByRole("button", { name: "Log on" }).click();
+    await page.locator("form").getByRole("button", { name: "Log on" }).click();
     await expect(page).toHaveURL(/\/netbank$/);
     await expect(page.getByText("Net position")).toBeVisible();
     await page.screenshot({ path: path.join(shots, "06-netbank.png"), fullPage: true });

@@ -23,7 +23,7 @@ export function QuickLinks() {
     <section className="border-b border-line bg-surface py-8">
       <div className="container-page">
         <h2 className="sr-only">Quick links</h2>
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
           {links.map(({ label, to, Icon }) => (
             <li key={to}>
               <Link
