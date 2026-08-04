@@ -2,21 +2,23 @@
   "fetched": "2026-08-04",
   "disclaimer": "Unofficial demo assets. Commonwealth Bank of Australia brand artwork is used for visual fidelity only. Not affiliated with or endorsed by Commonwealth Bank of Australia.",
   "canonicalSource": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
-  "note": "commbank.com.au is unreachable from the restricted build environment, so the same artwork was pulled from public mirrors. Run scripts/fetch-brand-assets.sh to re-fetch.",
+  "note": "commbank.com.au is unreachable from the restricted build environment, so the same artwork was pulled from public mirrors. Run scripts/fetch-brand-assets.sh to reproduce every file in this folder.",
   "files": [
     {
       "file": "logo.svg",
-      "description": "Full CommBank lockup — black wordmark with the yellow diamond mark.",
-      "source": "https://raw.githubusercontent.com/cissa-unimelb/cissa_website/master/static/assets/images/sponsors/commbank.svg"
+      "description": "Full CommBank lockup — black wordmark with the yellow diamond mark. Used in the site header.",
+      "source": "https://raw.githubusercontent.com/dreinicke27/cdevoy-portfolio/main/src/assets/commbank.svg",
+      "derivation": "The source is monochrome (#838383 diamond body, #383838 facet and wordmark). Recoloured to the official palette — diamond #fecb26, facet #000000, wordmark #000000 — and the viewBox tightened to the artwork bounds."
     },
     {
       "file": "logo-white.svg",
-      "description": "Reversed lockup for the black footer.",
-      "source": "Derived from logo.svg by recolouring the wordmark path to #ffffff (see scripts/fetch-brand-assets.sh)"
+      "description": "Reversed lockup for the black footer and NetBank header.",
+      "source": "Derived from the same wordmark source as logo.svg",
+      "derivation": "Wordmark set to #ffffff. The facet uses the app's --color-cba-yellow-dark (#e0b000) because a black facet would disappear against a black background."
     },
     {
       "file": "diamond.svg",
-      "description": "Flat black/yellow diamond mark used at compact sizes.",
+      "description": "Flat black and yellow diamond mark used at compact sizes.",
       "source": "https://raw.githubusercontent.com/shortedapp/asx-company-images/master/companies/C/CBA/CBAalt.svg"
     },
     {
@@ -28,6 +30,7 @@
   "palette": {
     "cbaYellow": "#fecb26",
     "cbaYellowBright": "#ffcc00",
+    "cbaYellowDark": "#e0b000",
     "black": "#000000"
   }
 }

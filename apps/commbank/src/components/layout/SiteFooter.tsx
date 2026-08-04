@@ -40,9 +40,9 @@ export function SiteFooter() {
             <img
               src="/brand/logo-white.svg"
               alt="CommBank"
-              width={168}
-              height={29}
-              className="h-6 w-auto"
+              width={171}
+              height={53}
+              className="h-9 w-auto"
             />
             <p className="mt-4 max-w-2xl text-[13px] leading-relaxed text-surface/60">
               This is an unofficial demo build of commbank.com.au created for engineering

@@ -63,25 +63,32 @@
   }
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/*
+ * These element defaults must live in `@layer base`. Unlayered CSS beats every
+ * layered rule regardless of specificity, so an unlayered `a { color: inherit }`
+ * would silently defeat text-colour utilities on every link in the app.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-body {
-  margin: 0;
-  font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: var(--color-surface);
-  -webkit-font-smoothing: antialiased;
-}
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
 
-#root {
-  min-height: 100vh;
-}
+  #root {
+    min-height: 100vh;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 :root {

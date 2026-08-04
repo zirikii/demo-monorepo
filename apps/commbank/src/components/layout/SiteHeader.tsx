@@ -80,9 +80,9 @@ export function SiteHeader() {
           <img
             src="/brand/logo.svg"
             alt="CommBank"
-            width={168}
-            height={29}
-            className="h-6 w-auto sm:h-7"
+            width={171}
+            height={53}
+            className="h-8 w-auto sm:h-9"
           />
         </Link>
 

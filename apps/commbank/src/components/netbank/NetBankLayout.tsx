@@ -23,7 +23,13 @@ export function NetBankLayout({
       <header className="bg-ink text-surface">
         <div className="container-cba flex flex-wrap items-center gap-4 py-3">
           <Link to="/" aria-label="CommBank home" className="focus-cba shrink-0">
-            <img src="/brand/logo-white.svg" alt="CommBank" className="h-6 w-auto" />
+            <img
+              src="/brand/logo-white.svg"
+              alt="CommBank"
+              width={171}
+              height={53}
+              className="h-8 w-auto"
+            />
           </Link>
           <span className="rounded-full bg-surface/10 px-3 py-1 text-[12px] font-bold uppercase tracking-wider text-cba-yellow">
             NetBank
