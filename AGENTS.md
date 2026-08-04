@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This is a pnpm workspace (`pnpm-workspace.yaml`) with four independent demo apps under
+This is a pnpm workspace (`pnpm-workspace.yaml`) with independent demo apps under
 `apps/*` plus a shared `@demo/ui` package under `packages/*`. Node 20+ and pnpm 10+ are
 required. `pnpm install` at the repo root installs every workspace project. Standard
 per-app scripts and features are documented in the root `README.md` and each app's
@@ -22,6 +22,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
 | nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
 | optus (Vite + React 19) | `pnpm dev:optus` | 5178 | Optus NOC + `@cursor/sdk` cloud agents; optional `CURSOR_API_KEY`; Node 22.13+ |
+| commbank (Vite + React 19) | `pnpm dev:commbank` | 5179 | Public site + local-only mock NetBank; no env needed |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -34,7 +35,7 @@ per-app scripts and features are documented in the root `README.md` and each app
   `scripts/serve.js`. Override the port with `PORT`. See `apps/nab/AGENTS.md` for its
   Adobe Client Data Layer behavior.
 
-### Env files (Next apps)
+### Env files
 
 `apps/naukri`, `apps/seek`, and `apps/spark` read `DEMO_AUTH_SECRET` but fall back to
 `"change-me"`, so `.env.local` is **optional** for dev — the apps boot without it. Copy
@@ -45,17 +46,20 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
 through `@cursor/sdk` in Vite middleware (`/api/cursor/*`). The pipeline UI works without
 it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
+`apps/commbank` needs no env file. Its mock NetBank accepts any non-empty credentials and stores
+only a base64-encoded fictional profile in localStorage; never use real banking credentials.
+
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus + `@demo/ui`
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank + `@demo/ui`
   typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, and spark (run `pnpm test`
+- Tests: the React app unit suites, including commbank, use Vitest (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
   `apps/nab/AGENTS.md`.
-- Build: `pnpm build` builds all four apps.
+- Build: `pnpm build` builds all apps.
 
 ### Git remotes & pushing (GitHub + Bitbucket)
 

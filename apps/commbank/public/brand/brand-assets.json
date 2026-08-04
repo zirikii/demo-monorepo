@@ -1,0 +1,15 @@
+{
+  "fetched": "2026-08-04",
+  "disclaimer": "Unofficial demo assets for visual fidelity only. CommBank is a trademark of Commonwealth Bank of Australia. This project is not affiliated with or endorsed by CommBank.",
+  "files": [
+    {
+      "file": "commbank-logo.svg",
+      "source": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
+      "status": "Faithful local fallback created because the source was unavailable in the build environment"
+    },
+    {
+      "file": "favicon.svg",
+      "source": "Derived locally from the current CommBank yellow and black diamond mark"
+    }
+  ]
+}

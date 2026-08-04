@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 60" role="img" aria-labelledby="title">
+  <title id="title">CommBank</title>
+  <g transform="translate(3 3)">
+    <path fill="#FECA0A" d="M27 0 54 27 27 54 0 27Z"/>
+    <path fill="#23201F" d="m27 8 19 19-19 19-8-8 11-11-11-11Z"/>
+  </g>
+  <text x="70" y="41" fill="#23201F" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" letter-spacing="-1.2">CommBank</text>
+</svg>

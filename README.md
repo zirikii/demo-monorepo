@@ -1,6 +1,6 @@
 # demo-monorepo
 
-A pnpm workspace that bundles four independent demo apps together and gives them
+A pnpm workspace that bundles independent demo apps together and gives them
 a single shared UI package (`@demo/ui`) to pull from.
 
 ## What's inside
@@ -17,7 +17,8 @@ demo-monorepo/
 │   ├── squiz/    # Vite + React 19 marketing site (Tailwind v4, TS)
 │   ├── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
 │   ├── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
-│   └── optus/    # Vite + React 19 Optus NOC agentic remediation demo (Tailwind v4, TS)
+│   ├── optus/    # Vite + React 19 Optus NOC agentic remediation demo (Tailwind v4, TS)
+│   └── commbank/ # Vite + React 19 CommBank public site + NetBank demo (Tailwind v4, TS)
 └── packages/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
@@ -46,6 +47,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | changi | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | optus | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
+| commbank | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
 See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
@@ -57,10 +59,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / … / changi / nine / optus
+pnpm dev:kddi      # or dev:nab / … / nine / optus / commbank
 
 # build one app
-pnpm build:seek    # or build:kddi / … / build:changi / build:nine / build:optus
+pnpm build:seek    # or build:kddi / … / build:nine / build:optus / build:commbank
 
 # build every app
 pnpm build
