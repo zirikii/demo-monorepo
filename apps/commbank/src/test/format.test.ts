@@ -9,8 +9,10 @@ import {
   formatSignedCurrency,
   maskAccountNumber,
   maskCardNumber,
+  parseDateOnly,
   pluralise,
   slugify,
+  todayIso,
 } from "@/lib/format";
 
 describe("currency formatting", () => {
@@ -50,6 +52,44 @@ describe("rate and number formatting", () => {
     expect(pluralise(1, "result")).toBe("1 result");
     expect(pluralise(3, "result")).toBe("3 results");
     expect(pluralise(2, "branch", "branches")).toBe("2 branches");
+  });
+});
+
+describe("date-only values", () => {
+  // These are calendar days, not instants. Mixing UTC and local parsing shifts them
+  // by a day either side of UTC, so both halves are asserted in local terms.
+  it("parses a date-only string as a local calendar day, not UTC midnight", () => {
+    const parsed = parseDateOnly("2026-08-03");
+
+    expect(parsed.getFullYear()).toBe(2026);
+    expect(parsed.getMonth()).toBe(7);
+    expect(parsed.getDate()).toBe(3);
+    expect(parsed.getHours()).toBe(0);
+  });
+
+  it("tolerates a malformed date-only string without throwing", () => {
+    expect(() => parseDateOnly("")).not.toThrow();
+  });
+
+  it("stamps today using the local calendar day just after local midnight", () => {
+    // 00:30 local is still the previous day in UTC east of Greenwich, which is how an
+    // early-morning Sydney transfer used to be filed under the day before.
+    expect(todayIso(new Date(2026, 7, 5, 0, 30))).toBe("2026-08-05");
+  });
+
+  it("stamps today using the local calendar day just before local midnight", () => {
+    // 23:30 local has already rolled over in UTC west of Greenwich.
+    expect(todayIso(new Date(2026, 7, 5, 23, 30))).toBe("2026-08-05");
+  });
+
+  it("zero-pads single-digit months and days", () => {
+    expect(todayIso(new Date(2026, 0, 9, 12, 0))).toBe("2026-01-09");
+  });
+
+  it("round-trips a stamped day back through the formatter", () => {
+    const stamped = todayIso(new Date(2026, 7, 5, 0, 30));
+
+    expect(formatDate(stamped)).toMatch(/05 Aug 2026/);
   });
 });
 

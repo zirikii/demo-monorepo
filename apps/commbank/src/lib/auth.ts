@@ -1,3 +1,5 @@
+import { todayIso } from "./format";
+
 export type DemoUser = {
   clientNumber: string;
   name: string;
@@ -67,7 +69,7 @@ export function registerCustomer(name: string, email: string): DemoUser {
     name: name.trim() || "New Customer",
     email: email.trim().toLowerCase() || "new.customer@example.com",
     yelloTier: "Base",
-    customerSince: new Date().toISOString().slice(0, 10),
+    customerSince: todayIso(),
   };
   writeSession(user);
   return user;

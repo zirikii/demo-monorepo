@@ -32,6 +32,27 @@ const DATE_DAY = new Intl.DateTimeFormat("en-AU", {
   month: "short",
 });
 
+/**
+ * Transactions, articles and customer records store a calendar day as `YYYY-MM-DD`,
+ * not an instant. ECMAScript parses a bare date-only string as UTC midnight, which
+ * renders as the previous day anywhere west of UTC, so build the Date from its parts
+ * and let it sit at local midnight instead.
+ */
+export function parseDateOnly(iso: string): Date {
+  const [year = 0, month = 1, day = 1] = iso.split("-").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+/**
+ * Today's calendar day in the visitor's own timezone. `toISOString()` would give the
+ * UTC day, filing an early-morning Sydney transfer under the day before.
+ */
+export function todayIso(now = new Date()): string {
+  const month = `${now.getMonth() + 1}`.padStart(2, "0");
+  const day = `${now.getDate()}`.padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
 /** Formats a dollar amount, e.g. `$1,234.50`. Negatives render as `-$12.00`. */
 export function formatCurrency(amount: number): string {
   return AUD.format(amount);
@@ -62,15 +83,15 @@ export function formatPercent(rate: number, fractionDigits = 2): string {
 }
 
 export function formatDate(iso: string): string {
-  return DATE_SHORT.format(new Date(iso));
+  return DATE_SHORT.format(parseDateOnly(iso));
 }
 
 export function formatDateLong(iso: string): string {
-  return DATE_LONG.format(new Date(iso));
+  return DATE_LONG.format(parseDateOnly(iso));
 }
 
 export function formatDayLabel(iso: string): string {
-  return DATE_DAY.format(new Date(iso));
+  return DATE_DAY.format(parseDateOnly(iso));
 }
 
 /** Masks an account number the way NetBank does: `06 2000 •••• 4471`. */

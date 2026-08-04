@@ -1,3 +1,4 @@
+import { parseDateOnly } from "@/lib/format";
 import type { Article } from "./types";
 
 export const articles: Article[] = [
@@ -135,4 +136,4 @@ export function getArticle(slug: string): Article | undefined {
 
 export const latestArticles = articles
   .slice()
-  .sort((a, b) => new Date(b.published).getTime() - new Date(a.published).getTime());
+  .sort((a, b) => parseDateOnly(b.published).getTime() - parseDateOnly(a.published).getTime());

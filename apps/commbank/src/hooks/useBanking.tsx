@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 import { seedAccounts, seedCards, seedTransactions } from "@/data/netbank";
 import type { Account, PaymentCard, Transaction } from "@/data/types";
+import { todayIso } from "@/lib/format";
 import { readJson, writeJson } from "@/lib/storage";
 
 const ACCOUNTS_KEY = "commbank-demo-accounts";
@@ -28,10 +29,6 @@ const BankingContext = createContext<BankingContextValue | null>(null);
 
 function nextId(prefix: string): string {
   return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
-}
-
-function today(): string {
-  return new Date().toISOString().slice(0, 10);
 }
 
 export function BankingProvider({ children }: { children: ReactNode }) {
@@ -85,7 +82,7 @@ export function BankingProvider({ children }: { children: ReactNode }) {
         }),
       );
 
-      const stamp = today();
+      const stamp = todayIso();
       const label = description.trim() || "Transfer";
       persistTransactions([
         {
@@ -141,7 +138,7 @@ export function BankingProvider({ children }: { children: ReactNode }) {
         {
           id: nextId("tx"),
           accountId,
-          date: today(),
+          date: todayIso(),
           description: reference ? `${payeeName} — ${reference}` : payeeName,
           merchant: payeeName,
           category: "Transfers",
