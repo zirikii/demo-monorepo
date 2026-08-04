@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="CommBank diamond">
+  <title>CommBank diamond</title>
+  <defs>
+    <linearGradient id="cbaFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFD84D" />
+      <stop offset="0.55" stop-color="#FFCC00" />
+      <stop offset="1" stop-color="#F5C000" />
+    </linearGradient>
+  </defs>
+  <path d="M50 3 97 50 50 97 3 50Z" fill="url(#cbaFace)" />
+  <path d="M50 3 97 50 50 97 68 50Z" fill="#E5B300" fill-opacity="0.34" />
+  <path d="M3 50 50 3 68 50 50 97Z" fill="#FFFFFF" fill-opacity="0.14" />
+</svg>

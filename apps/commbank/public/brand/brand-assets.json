@@ -1,0 +1,34 @@
+{
+  "fetched": "2026-08-04",
+  "disclaimer": "Unofficial demo assets. Not affiliated with, endorsed by, or connected to the Commonwealth Bank of Australia. Brand marks are reproduced for visual fidelity in a non-commercial UI demo only.",
+  "note": "commbank.com.au is not on this environment's network allowlist, so the official SVG could not be downloaded during the build. The diamond and wordmark below are vector reproductions built from the published CommBank web brand guidelines (yellow #FFCC00, black #000000) and the 2020 identity refresh, in which the black corner stripe and the conjoined 'mm' ligature were retired. Run scripts/fetch-brand-assets.sh from a network where commbank.com.au is reachable to replace them with the official files.",
+  "files": [
+    {
+      "file": "logo.svg",
+      "source": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
+      "origin": "reproduction"
+    },
+    {
+      "file": "logo-reversed.svg",
+      "source": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
+      "origin": "reproduction, white wordmark for dark surfaces"
+    },
+    {
+      "file": "diamond.svg",
+      "source": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
+      "origin": "reproduction, standalone diamond mark"
+    },
+    {
+      "file": "favicon.svg",
+      "source": "https://www.commbank.com.au/favicon.ico",
+      "origin": "reproduction, diamond on a black tile"
+    }
+  ],
+  "palette": {
+    "yellow": "#FFCC00",
+    "yellowBright": "#FFD84D",
+    "yellowDeep": "#E5B300",
+    "black": "#000000",
+    "ink": "#23201F"
+  }
+}

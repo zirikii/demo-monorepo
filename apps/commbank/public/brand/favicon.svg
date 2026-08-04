@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CommBank">
+  <title>CommBank</title>
+  <rect width="64" height="64" rx="10" fill="#000000" />
+  <path d="M32 11 53 32 32 53 11 32Z" fill="#FFCC00" />
+  <path d="M32 11 53 32 32 53 43 32Z" fill="#E5B300" fill-opacity="0.4" />
+</svg>
