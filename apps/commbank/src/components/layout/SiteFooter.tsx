@@ -53,7 +53,7 @@ export function SiteFooter() {
               <h2 className="font-semibold text-cba-yellow">{group.title}</h2>
               <ul className="mt-3 space-y-2 text-sm text-white/80">
                 {group.links.map(([label, to]) => (
-                  <li key={to}><Link className="hover:text-white" to={to}>{label}</Link></li>
+                  <li key={`${label}-${to}`}><Link className="hover:text-white" to={to}>{label}</Link></li>
                 ))}
               </ul>
             </div>
