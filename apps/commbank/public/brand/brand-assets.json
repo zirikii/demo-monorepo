@@ -1,0 +1,33 @@
+{
+  "fetched": "2026-08-04",
+  "disclaimer": "Unofficial demo assets. Commonwealth Bank of Australia brand artwork is used for visual fidelity only. Not affiliated with or endorsed by Commonwealth Bank of Australia.",
+  "canonicalSource": "https://www.commbank.com.au/content/dam/commbank/commBank-logo.svg",
+  "note": "commbank.com.au is unreachable from the restricted build environment, so the same artwork was pulled from public mirrors. Run scripts/fetch-brand-assets.sh to re-fetch.",
+  "files": [
+    {
+      "file": "logo.svg",
+      "description": "Full CommBank lockup — black wordmark with the yellow diamond mark.",
+      "source": "https://raw.githubusercontent.com/cissa-unimelb/cissa_website/master/static/assets/images/sponsors/commbank.svg"
+    },
+    {
+      "file": "logo-white.svg",
+      "description": "Reversed lockup for the black footer.",
+      "source": "Derived from logo.svg by recolouring the wordmark path to #ffffff (see scripts/fetch-brand-assets.sh)"
+    },
+    {
+      "file": "diamond.svg",
+      "description": "Flat black/yellow diamond mark used at compact sizes.",
+      "source": "https://raw.githubusercontent.com/shortedapp/asx-company-images/master/companies/C/CBA/CBAalt.svg"
+    },
+    {
+      "file": "favicon.svg",
+      "description": "Gradient diamond mark used as the browser favicon.",
+      "source": "https://raw.githubusercontent.com/2factorauth/twofactorauth/master/img/c/commbank.com.au.svg"
+    }
+  ],
+  "palette": {
+    "cbaYellow": "#fecb26",
+    "cbaYellowBright": "#ffcc00",
+    "black": "#000000"
+  }
+}
