@@ -22,6 +22,6 @@ describe("transaction filtering", () => {
 
     expect(screen.getAllByText("Woolworths Town Hall").length).toBeGreaterThan(0);
     expect(screen.queryByText("Coles Broadway")).not.toBeInTheDocument();
-    expect(screen.getByText(/transactions/)).toBeInTheDocument();
+    expect(screen.getByText("2 transactions")).toBeInTheDocument();
   });
 });

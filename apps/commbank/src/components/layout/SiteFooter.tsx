@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Linkedin, MessageCircle, Phone } from "lucide-react";
+import { AtSign, Globe2, MessageCircle, Phone, Radio } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const groups = [
@@ -42,9 +42,9 @@ export function SiteFooter() {
             access accounts, move money or provide financial advice.
           </p>
           <div className="mt-6 flex gap-3" aria-label="Display-only social links">
-            <Facebook aria-hidden="true" className="h-5 w-5" />
-            <Instagram aria-hidden="true" className="h-5 w-5" />
-            <Linkedin aria-hidden="true" className="h-5 w-5" />
+            <Globe2 aria-hidden="true" className="h-5 w-5" />
+            <AtSign aria-hidden="true" className="h-5 w-5" />
+            <Radio aria-hidden="true" className="h-5 w-5" />
           </div>
         </div>
         <div className="grid gap-8 sm:grid-cols-3">

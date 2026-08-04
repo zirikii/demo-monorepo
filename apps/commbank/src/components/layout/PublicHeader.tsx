@@ -72,7 +72,7 @@ export function PublicHeader() {
             <NavLink
               key={item.to}
               to={item.to}
-              className={({ isActive }) =>
+              className={({ isActive }: { isActive: boolean }) =>
                 cn(
                   "rounded-lg px-3 py-2 text-sm font-semibold hover:bg-cba-neutral",
                   isActive && "bg-cba-neutral",

@@ -85,7 +85,7 @@ function NetBankLayout() {
                     end={end}
                     onClick={() => setOpen(false)}
                     to={to}
-                    className={({ isActive }) =>
+                    className={({ isActive }: { isActive: boolean }) =>
                       cn(
                         "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium",
                         isActive ? "bg-cba-yellow text-cba-ink" : "hover:bg-cba-neutral",
