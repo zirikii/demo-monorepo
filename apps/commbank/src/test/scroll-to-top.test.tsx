@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Link, MemoryRouter, Route, Routes } from "react-router-dom";
@@ -107,5 +109,24 @@ describe("ScrollToTop", () => {
     renderApp("/calculators#repayments");
 
     expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "instant", block: "start" });
+  });
+
+  /**
+   * The assertions above check which argument is passed, not what the browser does with
+   * it, and that blind spot already shipped a bug once: `behavior: "auto"` defers to the
+   * CSS `scroll-behavior`, so with a smooth global default every "jump" quietly animated
+   * while these tests stayed green. jsdom cannot observe that, so pin the coupling
+   * between the stylesheet and the component instead.
+   */
+  it("never asks for the 'auto' behaviour, which the smooth global CSS would animate", () => {
+    // Vite serves import.meta.url over http, so resolve from the Vitest root instead.
+    const read = (path: string) => readFileSync(resolve(process.cwd(), path), "utf8");
+    const css = read("src/index.css");
+    const source = read("src/components/layout/ScrollToTop.tsx");
+    const withoutComments = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*/g, "");
+
+    expect(css).toMatch(/scroll-behavior:\s*smooth/);
+    expect(withoutComments).toMatch(/["']instant["']/);
+    expect(withoutComments).not.toMatch(/["']auto["']/);
   });
 });

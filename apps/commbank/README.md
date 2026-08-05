@@ -109,9 +109,16 @@ bright yellow `#ffcc00`, black `#000000`, plus the ink, surface and tone ramps.
 | ---------------- | ------------------------------------------ |
 | `pnpm dev`       | Vite on 5179                               |
 | `pnpm build`     | `tsc -b` then production build             |
-| `pnpm test`      | Vitest unit suite (60 tests)               |
+| `pnpm test`      | Vitest unit suite                          |
+| `pnpm test:tz`   | The same suite under six timezones         |
 | `pnpm lint`      | ESLint                                     |
 | `pnpm typecheck` | `tsc -b --noEmit`                          |
 | `pnpm brand`     | Re-fetch brand assets into `public/brand/` |
+
+`pnpm test:tz` exists because transactions, articles and customer records are date-only
+`YYYY-MM-DD` values. Mixing UTC and local handling of those is correct exactly at UTC+0
+and wrong either side of it, so a UTC-only run is blind to it — which is how an earlier
+revision shipped transaction dates that were a day out in Sydney and Los Angeles. The
+matrix spans UTC+14 (Kiritimati) to UTC−11 (Midway).
 
 `PROMPT.md` holds the build spec this app was generated from.

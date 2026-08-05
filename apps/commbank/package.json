@@ -13,6 +13,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"*.{ts,json,md}\"",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:tz": "bash scripts/test-timezones.sh",
     "brand": "bash scripts/fetch-brand-assets.sh"
   },
   "dependencies": {
