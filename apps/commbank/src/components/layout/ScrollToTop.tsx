@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
@@ -6,12 +6,18 @@ import { useLocation } from "react-router-dom";
  * browser's native anchor jump, so both cross-page and same-page hash links need
  * handling here. Anchor targets rely on scroll-margin-top to clear the sticky
  * header. Keyed on `location.key` so re-clicking the same anchor scrolls again.
+ *
+ * This is a layout effect on purpose: in a plain effect the browser paints the top
+ * of the destination page before the scroll lands, so a hash navigation visibly
+ * flashes the wrong position first.
  */
 export function ScrollToTop() {
   const { pathname, hash, key } = useLocation();
-  const previousPathname = useRef(pathname);
+  // Null rather than the current pathname, so the first render counts as arriving on
+  // a new page and a shared or refreshed hash URL jumps instead of animating.
+  const previousPathname = useRef<string | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const changedPage = previousPathname.current !== pathname;
     previousPathname.current = pathname;
 

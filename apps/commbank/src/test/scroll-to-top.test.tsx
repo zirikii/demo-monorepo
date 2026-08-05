@@ -99,9 +99,11 @@ describe("ScrollToTop", () => {
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "auto" });
   });
 
-  it("honours a hash on the very first render, for deep links", () => {
+  it("jumps rather than animates to a hash on the very first render", () => {
+    // A shared or refreshed deep link arrives on a page the visitor has not seen, so
+    // it should land instantly like any other page change.
     renderApp("/calculators#repayments");
 
-    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "auto", block: "start" });
   });
 });
