@@ -7,9 +7,11 @@ import { useLocation } from "react-router-dom";
  * handling here. Anchor targets rely on scroll-margin-top to clear the sticky
  * header.
  *
- * This is a layout effect on purpose: in a plain effect the browser paints the top
- * of the destination page before the scroll lands, so a hash navigation visibly
- * flashes the wrong position first.
+ * The scroll runs in a layout effect so it lands in the same commit as the render.
+ * React already flushes passive effects before paint for click-driven updates, so this
+ * is not what keeps menu navigation from flashing the top of the page — measuring
+ * painted frames showed a plain effect behaving identically. It matters for navigation
+ * that does not come from a discrete event, where a passive effect can run after paint.
  */
 export function ScrollToTop() {
   const { pathname, hash, key } = useLocation();
