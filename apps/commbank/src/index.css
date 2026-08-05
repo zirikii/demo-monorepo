@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import "@fontsource/public-sans/400.css";
+@import "@fontsource/public-sans/500.css";
+@import "@fontsource/public-sans/600.css";
+@import "@fontsource/public-sans/700.css";
+@import "@fontsource/public-sans/800.css";
+
+@theme {
+  /* CommBank yellow, sampled from the official logo SVG in public/brand/logo.svg */
+  --color-cba-yellow: #fecb26;
+  --color-cba-yellow-bright: #ffcc00;
+  --color-cba-yellow-dark: #e0b000;
+  --color-cba-yellow-tint: #fff8e0;
+
+  --color-ink: #000000;
+  --color-ink-strong: #1d1d1d;
+  --color-ink-soft: #4a4a4a;
+  --color-ink-faint: #767676;
+  --color-ink-ghost: #9b9b9b;
+
+  --color-surface: #ffffff;
+  --color-surface-tint: #f5f5f5;
+  --color-surface-deep: #ebebeb;
+  --color-line: #d8d8d8;
+  --color-line-soft: #e6e6e6;
+
+  --color-positive: #008a3e;
+  --color-critical: #c8102e;
+  --color-info: #0057b8;
+  --color-caution: #a86500;
+
+  --font-sans: "Public Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --radius-cba: 4px;
+  --radius-cba-md: 8px;
+  --radius-cba-lg: 16px;
+
+  --shadow-cba: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-cba-lift: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-cba-menu: 0 16px 40px rgba(0, 0, 0, 0.16);
+
+  --animate-fade-up: cba-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: cba-fade-in 0.25s ease-out both;
+}
+
+@keyframes cba-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cba-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * These element defaults must live in `@layer base`. Unlayered CSS beats every
+ * layered rule regardless of specificity, so an unlayered `a { color: inherit }`
+ * would silently defeat text-colour utilities on every link in the app.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* The header is sticky, so anchor targets must reserve room for it or they land
+   * underneath it. Components with their own scroll-mt-* utility still win. */
+  [id] {
+    scroll-margin-top: 7rem;
+  }
+}
+
+:root {
+  --demo-accent: #fecb26;
+}
+
+@utility container-cba {
+  margin-inline: auto;
+  max-width: 1180px;
+  padding-inline: 1rem;
+}
+
+@utility focus-cba {
+  outline: none;
+  &:focus-visible {
+    outline: 3px solid var(--color-info);
+    outline-offset: 2px;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
