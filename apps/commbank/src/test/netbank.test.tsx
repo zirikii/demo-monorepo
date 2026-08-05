@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import App from "@/App";
 import { seedAccounts } from "@/data/netbank";
 import { AuthProvider } from "@/hooks/useAuth";
-import { BankingProvider } from "@/hooks/useBanking";
+import { BankingProvider, useBanking } from "@/hooks/useBanking";
 import { RequireAuth } from "@/components/netbank/RequireAuth";
 import { NetBankTransferPage } from "@/pages/netbank/Transfer";
 import { encodeSession } from "@/lib/auth";
@@ -144,6 +144,93 @@ describe("NetBank transfers", () => {
     await user.click(screen.getByRole("button", { name: "Transfer" }));
 
     expect(screen.getByText("Choose two different accounts.")).toBeInTheDocument();
+  });
+});
+
+describe("double-submitted money movement", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    signIn();
+  });
+
+  /** Fires two transfers in a single tick, the way an impatient double-click does. */
+  function DoubleTransfer() {
+    const { accounts, transactions, transfer } = useBanking();
+    const saver = accounts.find((account) => account.id === "netbank-saver");
+    const rows = transactions.filter((row) => row.description.includes("Double"));
+
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={() => {
+            transfer("smart-access", "netbank-saver", 100, "Double");
+            transfer("smart-access", "netbank-saver", 100, "Double");
+          }}
+        >
+          Send twice
+        </button>
+        <p data-testid="saver-balance">{saver?.balance.toFixed(2)}</p>
+        <p data-testid="row-count">{rows.length}</p>
+      </div>
+    );
+  }
+
+  it("applies both transfers and keeps both sets of transaction rows", async () => {
+    const user = userEvent.setup();
+    render(
+      <AuthProvider>
+        <BankingProvider>
+          <DoubleTransfer />
+        </BankingProvider>
+      </AuthProvider>,
+    );
+
+    expect(screen.getByTestId("saver-balance")).toHaveTextContent("18740.22");
+
+    await user.click(screen.getByRole("button", { name: "Send twice" }));
+
+    // Both must land. Reading balances from the render closure applied each $100 to the
+    // same starting figure and the second write dropped the first one's rows.
+    expect(screen.getByTestId("saver-balance")).toHaveTextContent("18940.22");
+    expect(screen.getByTestId("row-count")).toHaveTextContent("4");
+  });
+
+  it("stops the second transfer when the first one spends the available balance", async () => {
+    const results: boolean[] = [];
+
+    function SpendItTwice() {
+      const { accounts, transfer } = useBanking();
+      const everyday = accounts.find((account) => account.id === "smart-access");
+      return (
+        <div>
+          <button
+            type="button"
+            onClick={() => {
+              results.push(transfer("smart-access", "netbank-saver", 4218.63, "All of it").ok);
+              results.push(transfer("smart-access", "netbank-saver", 4218.63, "All of it").ok);
+            }}
+          >
+            Drain twice
+          </button>
+          <p data-testid="everyday-balance">{everyday?.balance.toFixed(2)}</p>
+        </div>
+      );
+    }
+
+    const user = userEvent.setup();
+    render(
+      <AuthProvider>
+        <BankingProvider>
+          <SpendItTwice />
+        </BankingProvider>
+      </AuthProvider>,
+    );
+
+    await user.click(screen.getByRole("button", { name: "Drain twice" }));
+
+    expect(results).toEqual([true, false]);
+    expect(screen.getByTestId("everyday-balance")).toHaveTextContent("0.00");
   });
 });
 

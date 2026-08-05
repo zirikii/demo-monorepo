@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { seedAccounts, seedCards, seedTransactions } from "@/data/netbank";
 import type { Account, PaymentCard, Transaction } from "@/data/types";
 import { todayIso } from "@/lib/format";
@@ -27,8 +35,13 @@ type BankingContextValue = {
 
 const BankingContext = createContext<BankingContextValue | null>(null);
 
+// A counter rather than randomness, because a double submit mints ids within the same
+// millisecond and duplicates would collide as React keys.
+let idCounter = 0;
+
 function nextId(prefix: string): string {
-  return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+  idCounter += 1;
+  return `${prefix}-${Date.now().toString(36)}-${idCounter}`;
 }
 
 export function BankingProvider({ children }: { children: ReactNode }) {
@@ -38,14 +51,22 @@ export function BankingProvider({ children }: { children: ReactNode }) {
   );
   const [cards, setCards] = useState<PaymentCard[]>(() => readJson(CARDS_KEY, seedCards));
 
-  const persistAccounts = useCallback((next: Account[]) => {
-    setAccounts(next);
-    writeJson(ACCOUNTS_KEY, next);
-  }, []);
+  /**
+   * Money movement validates and writes against these refs rather than the values
+   * captured in the render closure. Two submits in the same tick would otherwise both
+   * be checked against the pre-click balances, and the second write would clobber the
+   * first one's transaction rows.
+   */
+  const accountsRef = useRef(accounts);
+  const transactionsRef = useRef(transactions);
 
-  const persistTransactions = useCallback((next: Transaction[]) => {
-    setTransactions(next);
-    writeJson(TRANSACTIONS_KEY, next);
+  const commit = useCallback((nextAccounts: Account[], nextTransactions: Transaction[]) => {
+    accountsRef.current = nextAccounts;
+    transactionsRef.current = nextTransactions;
+    setAccounts(nextAccounts);
+    setTransactions(nextTransactions);
+    writeJson(ACCOUNTS_KEY, nextAccounts);
+    writeJson(TRANSACTIONS_KEY, nextTransactions);
   }, []);
 
   const transfer = useCallback<BankingContextValue["transfer"]>(
@@ -55,15 +76,19 @@ export function BankingProvider({ children }: { children: ReactNode }) {
         return { ok: false, error: "Enter an amount greater than $0." };
       }
 
-      const from = accounts.find((account) => account.id === fromId);
-      const to = accounts.find((account) => account.id === toId);
+      const current = accountsRef.current;
+      const from = current.find((account) => account.id === fromId);
+      const to = current.find((account) => account.id === toId);
       if (!from || !to) return { ok: false, error: "Select both a from and a to account." };
       if (amount > from.available) {
         return { ok: false, error: "You don't have enough available funds in that account." };
       }
 
-      persistAccounts(
-        accounts.map((account) => {
+      const stamp = todayIso();
+      const label = description.trim() || "Transfer";
+
+      commit(
+        current.map((account) => {
           if (account.id === fromId) {
             return {
               ...account,
@@ -80,35 +105,32 @@ export function BankingProvider({ children }: { children: ReactNode }) {
           }
           return account;
         }),
+        [
+          {
+            id: nextId("tx"),
+            accountId: fromId,
+            date: stamp,
+            description: `${label} to ${to.name}`,
+            merchant: "CommBank",
+            category: "Transfers",
+            amount: -amount,
+          },
+          {
+            id: nextId("tx"),
+            accountId: toId,
+            date: stamp,
+            description: `${label} from ${from.name}`,
+            merchant: "CommBank",
+            category: "Transfers",
+            amount,
+          },
+          ...transactionsRef.current,
+        ],
       );
-
-      const stamp = todayIso();
-      const label = description.trim() || "Transfer";
-      persistTransactions([
-        {
-          id: nextId("tx"),
-          accountId: fromId,
-          date: stamp,
-          description: `${label} to ${to.name}`,
-          merchant: "CommBank",
-          category: "Transfers",
-          amount: -amount,
-        },
-        {
-          id: nextId("tx"),
-          accountId: toId,
-          date: stamp,
-          description: `${label} from ${from.name}`,
-          merchant: "CommBank",
-          category: "Transfers",
-          amount,
-        },
-        ...transactions,
-      ]);
 
       return { ok: true };
     },
-    [accounts, transactions, persistAccounts, persistTransactions],
+    [commit],
   );
 
   const payBill = useCallback<BankingContextValue["payBill"]>(
@@ -116,14 +138,16 @@ export function BankingProvider({ children }: { children: ReactNode }) {
       if (!Number.isFinite(amount) || amount <= 0) {
         return { ok: false, error: "Enter an amount greater than $0." };
       }
-      const from = accounts.find((account) => account.id === accountId);
+
+      const current = accountsRef.current;
+      const from = current.find((account) => account.id === accountId);
       if (!from) return { ok: false, error: "Select an account to pay from." };
       if (amount > from.available) {
         return { ok: false, error: "You don't have enough available funds in that account." };
       }
 
-      persistAccounts(
-        accounts.map((account) =>
+      commit(
+        current.map((account) =>
           account.id === accountId
             ? {
                 ...account,
@@ -132,25 +156,24 @@ export function BankingProvider({ children }: { children: ReactNode }) {
               }
             : account,
         ),
+        [
+          {
+            id: nextId("tx"),
+            accountId,
+            date: todayIso(),
+            description: reference ? `${payeeName} — ${reference}` : payeeName,
+            merchant: payeeName,
+            category: "Transfers",
+            amount: -amount,
+            pending: true,
+          },
+          ...transactionsRef.current,
+        ],
       );
-
-      persistTransactions([
-        {
-          id: nextId("tx"),
-          accountId,
-          date: todayIso(),
-          description: reference ? `${payeeName} — ${reference}` : payeeName,
-          merchant: payeeName,
-          category: "Transfers",
-          amount: -amount,
-          pending: true,
-        },
-        ...transactions,
-      ]);
 
       return { ok: true };
     },
-    [accounts, transactions, persistAccounts, persistTransactions],
+    [commit],
   );
 
   const toggleCardLock = useCallback((cardId: string) => {
@@ -169,11 +192,10 @@ export function BankingProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const reset = useCallback(() => {
-    persistAccounts(seedAccounts);
-    persistTransactions(seedTransactions);
+    commit(seedAccounts, seedTransactions);
     setCards(seedCards);
     writeJson(CARDS_KEY, seedCards);
-  }, [persistAccounts, persistTransactions]);
+  }, [commit]);
 
   const value = useMemo(
     () => ({ accounts, transactions, cards, transfer, payBill, toggleCardLock, reset }),
