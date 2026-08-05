@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
  * React Router never scrolls on navigation, and a pushState does not trigger the
  * browser's native anchor jump, so both cross-page and same-page hash links need
  * handling here. Anchor targets rely on scroll-margin-top to clear the sticky
- * header. Keyed on `location.key` so re-clicking the same anchor scrolls again.
+ * header.
  *
  * This is a layout effect on purpose: in a plain effect the browser paints the top
  * of the destination page before the scroll lands, so a hash navigation visibly
@@ -21,9 +21,10 @@ export function ScrollToTop() {
     const changedPage = previousPathname.current !== pathname;
     previousPathname.current = pathname;
 
-    // Animating across a page the visitor has not seen yet reads as a glitch, so
-    // only same-page anchors scroll smoothly.
-    const behavior: ScrollBehavior = changedPage ? "auto" : "smooth";
+    // "instant" rather than "auto": auto defers to the CSS scroll-behavior, which is
+    // smooth here, so it would animate. Animating across a page the visitor has not
+    // seen yet reads as a glitch, so only same-page anchors scroll smoothly.
+    const behavior: ScrollBehavior = changedPage ? "instant" : "smooth";
     const target = hash ? document.getElementById(hash.slice(1)) : null;
 
     if (target) {

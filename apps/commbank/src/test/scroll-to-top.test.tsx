@@ -42,6 +42,8 @@ describe("ScrollToTop", () => {
     Element.prototype.scrollIntoView = scrollIntoView;
   });
 
+  // "instant" matters as much as the target: `auto` defers to the CSS scroll-behavior,
+  // which is smooth in this app, so asking for `auto` would animate every navigation.
   it("scrolls to the top when a navigation has no hash", async () => {
     const user = userEvent.setup();
     renderApp();
@@ -49,7 +51,7 @@ describe("ScrollToTop", () => {
 
     await user.click(screen.getByRole("link", { name: "Calculators, no hash" }));
 
-    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "auto" });
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "instant" });
     expect(scrollIntoView).not.toHaveBeenCalled();
   });
 
@@ -62,7 +64,7 @@ describe("ScrollToTop", () => {
 
     // Landing at the top instead of the section was the reported bug.
     expect(window.scrollTo).not.toHaveBeenCalled();
-    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "auto", block: "start" });
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "instant", block: "start" });
   });
 
   it("scrolls same-page anchors smoothly even though the pathname is unchanged", async () => {
@@ -96,7 +98,7 @@ describe("ScrollToTop", () => {
     await user.click(screen.getByRole("link", { name: "Calculators, missing section" }));
 
     expect(scrollIntoView).not.toHaveBeenCalled();
-    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "auto" });
+    expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: "instant" });
   });
 
   it("jumps rather than animates to a hash on the very first render", () => {
@@ -104,6 +106,6 @@ describe("ScrollToTop", () => {
     // it should land instantly like any other page change.
     renderApp("/calculators#repayments");
 
-    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "auto", block: "start" });
+    expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "instant", block: "start" });
   });
 });
