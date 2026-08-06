@@ -31,8 +31,9 @@ test.describe("vision screenshots", () => {
 
     await page.goto("/sport");
     await expect(page.getByRole("heading", { level: 1, name: /Sport/i })).toBeVisible();
-    await expect(page.getByText(/NaN hours ago/i).first()).toBeVisible();
-    await shot(page, "03-sport-bug");
+    await expect(page.getByText(/NaN hours ago/i)).toHaveCount(0);
+    await expect(page.getByRole("heading", { level: 3, name: /State of Origin III/i })).toBeVisible();
+    await shot(page, "03-sport");
 
     await page.goto("/entertainment");
     await expect(page.getByRole("heading", { level: 1, name: /Entertainment/i })).toBeVisible();
