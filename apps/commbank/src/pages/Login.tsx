@@ -7,11 +7,13 @@ import { TextField } from "@/components/ui/Field";
 import { useAuth } from "@/hooks/useAuth";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
-const serviceNames: Record<string, string> = {
-  netbank: "NetBank",
-  commbiz: "CommBiz",
-  commsec: "CommSec",
-};
+type ServiceConfig = { name: string; tagline: string };
+
+const serviceConfig = {
+  NetBank: { name: "NetBank", tagline: "Everyday personal banking" },
+  CommBiz: { name: "CommBiz", tagline: "Business banking" },
+  CommSec: { name: "CommSec", tagline: "Investing and share trading" },
+} satisfies Record<string, ServiceConfig>;
 
 export function LoginPage() {
   useDocumentTitle("Log on to NetBank");
@@ -19,7 +21,8 @@ export function LoginPage() {
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
 
-  const service = serviceNames[searchParams.get("service") ?? "netbank"] ?? "NetBank";
+  const serviceKey = (searchParams.get("service") ?? "netbank") as keyof typeof serviceConfig;
+  const service = serviceConfig[serviceKey];
   const redirect = searchParams.get("redirect") ?? "/netbank";
 
   const [clientNumber, setClientNumber] = useState("12345678");
@@ -32,8 +35,9 @@ export function LoginPage() {
           <div className="rounded-cba-lg bg-surface p-8 shadow-cba">
             <div className="flex items-center gap-2">
               <Lock aria-hidden="true" className="h-5 w-5 text-ink" />
-              <h1 className="text-2xl font-extrabold text-ink">Log on to {service}</h1>
+              <h1 className="text-2xl font-extrabold text-ink">Log on to {service.name}</h1>
             </div>
+            <p className="mt-1 text-[14px] text-ink-faint">{service.tagline}</p>
 
             <div className="mt-5 flex gap-3 rounded-cba-md bg-cba-yellow-tint p-4">
               <Info aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-ink" />
@@ -71,7 +75,7 @@ export function LoginPage() {
             </form>
 
             <p className="mt-6 text-[14px] text-ink-soft">
-              Don&rsquo;t have {service} yet?{" "}
+              Don&rsquo;t have {service.name} yet?{" "}
               <Link to="/register" className="font-bold text-ink underline underline-offset-4">
                 Register now
               </Link>
