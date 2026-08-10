@@ -9,7 +9,7 @@ export function HeroCarousel() {
   if (!slide) return null;
 
   return (
-    <section aria-label="Featured offers" className="bg-cba-yellow">
+    <section aria-label="Featured offers" className="bg-[#6b21a8]">
       <div className="container-cba grid gap-8 py-12 sm:py-16 lg:grid-cols-[1.35fr_1fr] lg:items-center">
         <div key={slide.id} className="animate-fade-up">
           <p className="text-[13px] font-bold uppercase tracking-wider text-ink/70">
