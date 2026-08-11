@@ -254,8 +254,9 @@ describe("app routing", () => {
 
     render(<App />);
 
+    const main = screen.getByRole("main");
     expect(screen.getByRole("heading", { name: "Log on to NetBank" })).toBeInTheDocument();
-    expect(screen.getByText("Everyday personal banking")).toBeInTheDocument();
+    expect(within(main).getByText("Everyday personal banking")).toBeInTheDocument();
   });
 
   it("renders service-specific log on pages from query params", () => {
@@ -263,7 +264,8 @@ describe("app routing", () => {
 
     render(<App />);
 
+    const main = screen.getByRole("main");
     expect(screen.getByRole("heading", { name: "Log on to CommBiz" })).toBeInTheDocument();
-    expect(screen.getByText("Business banking")).toBeInTheDocument();
+    expect(within(main).getByText("Business banking")).toBeInTheDocument();
   });
 });
