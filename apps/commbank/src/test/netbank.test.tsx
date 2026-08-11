@@ -248,4 +248,22 @@ describe("app routing", () => {
     expect(screen.getByRole("heading", { name: "Rates & calculators" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Insurance & more" })).toBeInTheDocument();
   });
+
+  it("renders the default log on page without crashing", () => {
+    window.history.pushState({}, "", "/login");
+
+    render(<App />);
+
+    expect(screen.getByRole("heading", { name: "Log on to NetBank" })).toBeInTheDocument();
+    expect(screen.getByText("Everyday personal banking")).toBeInTheDocument();
+  });
+
+  it("renders service-specific log on pages from query params", () => {
+    window.history.pushState({}, "", "/login?service=commbiz");
+
+    render(<App />);
+
+    expect(screen.getByRole("heading", { name: "Log on to CommBiz" })).toBeInTheDocument();
+    expect(screen.getByText("Business banking")).toBeInTheDocument();
+  });
 });
