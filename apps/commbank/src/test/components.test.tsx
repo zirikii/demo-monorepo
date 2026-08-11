@@ -7,6 +7,7 @@ import { RepaymentsCalculator } from "@/components/calculators/RepaymentsCalcula
 import { ProductCard } from "@/components/products/ProductCard";
 import { AuthProvider } from "@/hooks/useAuth";
 import { getProduct } from "@/data/products";
+import { LoginPage } from "@/pages/Login";
 
 function renderWithRouter(ui: React.ReactNode, route = "/") {
   return render(
@@ -51,6 +52,22 @@ describe("SiteHeader", () => {
     expect(screen.getByRole("link", { name: /NetBank/ })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /CommBiz/ })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /CommSec/ })).toBeInTheDocument();
+  });
+});
+
+describe("LoginPage", () => {
+  it("renders the default NetBank log-on page", () => {
+    renderWithRouter(<LoginPage />, "/login");
+
+    expect(screen.getByRole("heading", { name: "Log on to NetBank" })).toBeInTheDocument();
+    expect(screen.getByText("Everyday personal banking")).toBeInTheDocument();
+  });
+
+  it("renders the CommBiz log-on page from the service query", () => {
+    renderWithRouter(<LoginPage />, "/login?service=commbiz");
+
+    expect(screen.getByRole("heading", { name: "Log on to CommBiz" })).toBeInTheDocument();
+    expect(screen.getByText("Business banking")).toBeInTheDocument();
   });
 });
 
