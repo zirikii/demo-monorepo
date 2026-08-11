@@ -7,13 +7,13 @@ import { TextField } from "@/components/ui/Field";
 import { useAuth } from "@/hooks/useAuth";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
-type ServiceConfig = { name: string; tagline: string };
-
 const serviceConfig = {
-  NetBank: { name: "NetBank", tagline: "Everyday personal banking" },
-  CommBiz: { name: "CommBiz", tagline: "Business banking" },
-  CommSec: { name: "CommSec", tagline: "Investing and share trading" },
-} satisfies Record<string, ServiceConfig>;
+  netbank: { name: "NetBank", tagline: "Everyday personal banking" },
+  commbiz: { name: "CommBiz", tagline: "Business banking" },
+  commsec: { name: "CommSec", tagline: "Investing and share trading" },
+} as const;
+
+type ServiceKey = keyof typeof serviceConfig;
 
 export function LoginPage() {
   useDocumentTitle("Log on to NetBank");
@@ -21,7 +21,8 @@ export function LoginPage() {
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
 
-  const serviceKey = (searchParams.get("service") ?? "netbank") as keyof typeof serviceConfig;
+  const raw = (searchParams.get("service") ?? "netbank").toLowerCase();
+  const serviceKey: ServiceKey = raw in serviceConfig ? (raw as ServiceKey) : "netbank";
   const service = serviceConfig[serviceKey];
   const redirect = searchParams.get("redirect") ?? "/netbank";
 
