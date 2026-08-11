@@ -60,14 +60,14 @@ describe("LoginPage", () => {
     renderWithRouter(<LoginPage />, "/login");
 
     expect(screen.getByRole("heading", { name: "Log on to NetBank" })).toBeInTheDocument();
-    expect(screen.getByText("Everyday personal banking")).toBeInTheDocument();
+    expect(screen.getByText("Everyday personal banking", { selector: "p" })).toBeInTheDocument();
   });
 
   it("renders the CommBiz log-on page from the service query", () => {
     renderWithRouter(<LoginPage />, "/login?service=commbiz");
 
     expect(screen.getByRole("heading", { name: "Log on to CommBiz" })).toBeInTheDocument();
-    expect(screen.getByText("Business banking")).toBeInTheDocument();
+    expect(screen.getByText("Business banking", { selector: "p" })).toBeInTheDocument();
   });
 });
 

@@ -21,8 +21,11 @@ export function LoginPage() {
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
 
-  const serviceKey = searchParams.get("service") ?? "netbank";
-  const service = serviceConfig[serviceKey] ?? serviceConfig.netbank;
+  const serviceKey = searchParams.get("service")?.toLowerCase();
+  const service =
+    serviceKey === "commbiz" || serviceKey === "commsec"
+      ? serviceConfig[serviceKey]
+      : serviceConfig.netbank;
   const redirect = searchParams.get("redirect") ?? "/netbank";
 
   const [clientNumber, setClientNumber] = useState("12345678");
