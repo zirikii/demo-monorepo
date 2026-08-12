@@ -1,0 +1,17 @@
+{
+  "brand": "Employment Hero",
+  "source": "User-supplied official logo reference and Employment Hero website asset paths",
+  "retrieved": "2026-08-12",
+  "assets": [
+    {
+      "file": "logo.svg",
+      "url": "https://employmenthero.com/wp-content/themes/employmentherocom2025/assets/images/eh-logo-full.svg",
+      "usage": "Primary horizontal header and footer wordmark; locally recreated from the supplied official black logo because cloud egress blocked the CDN download"
+    },
+    {
+      "file": "favicon.svg",
+      "url": "https://employmenthero.com/wp-content/themes/employmentherocom2025/assets/images/small-logo.svg",
+      "usage": "Browser icon; compact treatment based on the supplied official mark"
+    }
+  ]
+}

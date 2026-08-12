@@ -1,0 +1,152 @@
+@import "tailwindcss";
+@import "@fontsource/dm-sans/400.css";
+@import "@fontsource/dm-sans/500.css";
+@import "@fontsource/dm-sans/600.css";
+@import "@fontsource/dm-sans/700.css";
+
+@theme {
+  /* Employment Hero 2025 site palette, sampled from the supplied logo and current marketing surfaces. */
+  --color-ink: #111111;
+  --color-ink-soft: #4b4a50;
+  --color-ink-faint: #77747d;
+  --color-white: #ffffff;
+  --color-neutral-soft: #f5f4f1;
+  --color-line: #dedbd5;
+
+  --color-violet: #c6b8ff;
+  --color-violet-deep: #8f74ed;
+  --color-violet-soft: #eeeaff;
+  --color-coral: #ff7f6e;
+  --color-coral-soft: #ffe3de;
+  --color-green: #98e85d;
+  --color-green-soft: #e6f9d7;
+  --color-blue: #73b9ff;
+  --color-blue-soft: #e0f0ff;
+  --color-yellow: #ffd65c;
+  --color-yellow-soft: #fff3c8;
+  --color-positive: #247a3d;
+  --color-critical: #c43b31;
+
+  --font-sans: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --radius-hero: 12px;
+  --radius-hero-lg: 24px;
+  --radius-hero-xl: 36px;
+  --shadow-soft: 0 2px 12px rgba(17, 17, 17, 0.07);
+  --shadow-product: 0 24px 70px rgba(43, 37, 75, 0.16);
+  --shadow-menu: 0 24px 70px rgba(17, 17, 17, 0.16);
+  --animate-fade-up: hero-fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  [id] {
+    scroll-margin-top: 7rem;
+  }
+}
+
+:root {
+  --demo-accent: #c6b8ff;
+}
+
+@utility container-hero {
+  margin-inline: auto;
+  max-width: 1240px;
+  padding-inline: 1rem;
+}
+
+@utility focus-hero {
+  outline: none;
+  &:focus-visible {
+    outline: 3px solid var(--color-violet-deep);
+    outline-offset: 3px;
+  }
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.tone-violet {
+  background: var(--color-violet-soft);
+}
+
+.tone-coral {
+  background: var(--color-coral-soft);
+}
+
+.tone-green {
+  background: var(--color-green-soft);
+}
+
+.tone-blue {
+  background: var(--color-blue-soft);
+}
+
+.tone-yellow {
+  background: var(--color-yellow-soft);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

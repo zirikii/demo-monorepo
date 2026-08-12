@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This is a pnpm workspace (`pnpm-workspace.yaml`) with four independent demo apps under
+This is a pnpm workspace (`pnpm-workspace.yaml`) with independent demo apps under
 `apps/*` plus a shared `@demo/ui` package under `packages/*`. Node 20+ and pnpm 10+ are
 required. `pnpm install` at the repo root installs every workspace project. Standard
 per-app scripts and features are documented in the root `README.md` and each app's
@@ -10,19 +10,20 @@ per-app scripts and features are documented in the root `README.md` and each app
 
 ### Apps, dev commands, and ports
 
-| App | Root dev script | Default port | Notes |
-| --- | --- | --- | --- |
-| kddi (Vite + React 19) | `pnpm dev:kddi` | 5173 | NOC dashboard; no env needed |
-| naukri (Next.js 14) | `pnpm dev:naukri` | 3000 | Job portal |
-| seek (Next.js 15) | `pnpm dev:seek` | 3000 | Marketplace |
-| spark (Next.js 15) | `pnpm dev:spark` | 3000 | Spark NZ Travel & Move / MySpark demo |
-| nab (static site) | `pnpm dev:nab` | 8080 | Builds then serves generated HTML |
-| paytm (Vite + React 19) | `pnpm dev:paytm` | 5174 | Payments site |
-| squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
-| changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
-| nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
-| optus (Vite + React 19) | `pnpm dev:optus` | 5178 | Optus NOC + `@cursor/sdk` cloud agents; optional `CURSOR_API_KEY`; Node 22.13+ |
-| commbank (Vite + React 19) | `pnpm dev:commbank` | 5179 | commbank.com.au clone + mock NetBank; no env needed |
+| App                               | Root dev script            | Default port | Notes                                                                          |
+| --------------------------------- | -------------------------- | ------------ | ------------------------------------------------------------------------------ |
+| kddi (Vite + React 19)            | `pnpm dev:kddi`            | 5173         | NOC dashboard; no env needed                                                   |
+| naukri (Next.js 14)               | `pnpm dev:naukri`          | 3000         | Job portal                                                                     |
+| seek (Next.js 15)                 | `pnpm dev:seek`            | 3000         | Marketplace                                                                    |
+| spark (Next.js 15)                | `pnpm dev:spark`           | 3000         | Spark NZ Travel & Move / MySpark demo                                          |
+| nab (static site)                 | `pnpm dev:nab`             | 8080         | Builds then serves generated HTML                                              |
+| paytm (Vite + React 19)           | `pnpm dev:paytm`           | 5174         | Payments site                                                                  |
+| squiz (Vite + React 19)           | `pnpm dev:squiz`           | 5175         | Marketing site                                                                 |
+| changi (Vite + React 19)          | `pnpm dev:changi`          | 5176         | Airport traveller site; no env needed                                          |
+| nine (Vite + React 19)            | `pnpm dev:nine`            | 5177         | nine.com.au news hub demo; intentional Sport bug                               |
+| optus (Vite + React 19)           | `pnpm dev:optus`           | 5178         | Optus NOC + `@cursor/sdk` cloud agents; optional `CURSOR_API_KEY`; Node 22.13+ |
+| commbank (Vite + React 19)        | `pnpm dev:commbank`        | 5179         | commbank.com.au clone + mock NetBank; no env needed                            |
+| employment-hero (Vite + React 19) | `pnpm dev:employment-hero` | 5180         | Employment Hero website + Employment OS preview; intentional login bug         |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -48,23 +49,23 @@ it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank + `@demo/ui`
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employment-hero + `@demo/ui`
   typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, and commbank (run `pnpm test`
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, and employment-hero (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
-  `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
+  `test` script is a Playwright _walkthrough recorder_ (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
   `apps/nab/AGENTS.md`.
-- Build: `pnpm build` builds all four apps.
+- Build: `pnpm build` builds all apps.
 
 ### Git remotes & pushing (GitHub + Bitbucket)
 
 This repo is mirrored on **both GitHub and Bitbucket**, and a given session's `origin`
 may point at either one. The Cursor cloud environment injects credentials into the
-*global* git config using GitHub's username convention
+_global_ git config using GitHub's username convention
 (`https://x-access-token:<token>@bitbucket.org/` via `insteadOf`). **Bitbucket rejects the
-`x-access-token` username** — it needs `x-token-auth` with the *same* token value — so a
+`x-access-token` username** — it needs `x-token-auth` with the _same_ token value — so a
 push to a Bitbucket `origin` can fail with `Authentication failed` even though the token is
 valid. GitHub pushes are unaffected.
 
