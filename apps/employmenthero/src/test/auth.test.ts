@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import { DEMO_CREDENTIALS } from "@/data/site";
 import {
   clearSession,
   decodeSession,
   encodeSession,
   findAccount,
+  loginWithCredentials,
   readSession,
   signUp,
   writeSession,
@@ -70,6 +72,20 @@ describe("account lookup", () => {
 
   it("never leaks the stored password hash", () => {
     expect(findAccount("demo@employmenthero.com")).not.toHaveProperty("passwordHash");
+  });
+});
+
+describe("login", () => {
+  it("accepts the pre-filled demo credentials", () => {
+    const user = loginWithCredentials(DEMO_CREDENTIALS.email, DEMO_CREDENTIALS.password);
+
+    expect(user).toMatchObject({ email: DEMO_CREDENTIALS.email, landing: "/platform" });
+    expect(readSession()).toEqual(user);
+  });
+
+  it("rejects an incorrect password", () => {
+    expect(loginWithCredentials(DEMO_CREDENTIALS.email, "wrong-password")).toBeNull();
+    expect(readSession()).toBeNull();
   });
 });
 

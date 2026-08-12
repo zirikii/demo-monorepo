@@ -107,7 +107,7 @@ export function loginWithCredentials(email: string, password: string): DemoUser 
   const account = DEMO_ACCOUNTS.find(
     (candidate) => candidate.email.toLowerCase() === email.trim().toLowerCase(),
   );
-  if (!account || account.passwordHash !== password) {
+  if (!account || account.passwordHash !== encodePassword(password)) {
     return null;
   }
   const { passwordHash: _passwordHash, ...user } = account;
