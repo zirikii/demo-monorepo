@@ -33,10 +33,7 @@ export function PlatformEmployeeDetailPage() {
             <div>
               <p className="font-display text-xl font-bold text-eh-ink">{employee.name}</p>
               <p className="text-sm text-eh-ink-faint">{employee.email}</p>
-              <Badge
-                tone={employee.status === "Active" ? "positive" : "purple"}
-                className="mt-2"
-              >
+              <Badge tone={employee.status === "Active" ? "positive" : "purple"} className="mt-2">
                 {employee.status}
               </Badge>
             </div>
@@ -52,7 +49,10 @@ export function PlatformEmployeeDetailPage() {
               { label: "Start date", value: formatDate(employee.startDate) },
               { label: "Base salary", value: formatCurrencyWhole(employee.salary) },
             ].map((row) => (
-              <div key={row.label} className="flex justify-between gap-4 border-b border-eh-line-soft pb-3">
+              <div
+                key={row.label}
+                className="flex justify-between gap-4 border-b border-eh-line-soft pb-3"
+              >
                 <dt className="text-eh-ink-faint">{row.label}</dt>
                 <dd className="text-right font-medium text-eh-ink">{row.value}</dd>
               </div>

@@ -58,11 +58,7 @@ export function EarnedWageAccessPage() {
       </PageHero>
 
       <Section>
-        <SectionHeading
-          eyebrow="How it works"
-          title="Four steps, no paperwork"
-          align="center"
-        />
+        <SectionHeading eyebrow="How it works" title="Four steps, no paperwork" align="center" />
         <div className="mt-12 grid gap-6 md:grid-cols-4">
           {[
             {

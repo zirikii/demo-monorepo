@@ -110,7 +110,10 @@ export function PlatformLayout({
           </div>
         </header>
 
-        <nav aria-label="Platform sections" className="flex gap-1 overflow-x-auto border-b border-eh-line bg-white px-4 py-2 lg:hidden">
+        <nav
+          aria-label="Platform sections"
+          className="flex gap-1 overflow-x-auto border-b border-eh-line bg-white px-4 py-2 lg:hidden"
+        >
           {navItems.map((item) => (
             <NavLink
               key={item.to}
@@ -119,7 +122,9 @@ export function PlatformLayout({
               className={({ isActive }: { isActive: boolean }) =>
                 cn(
                   "focus-eh rounded-full px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition",
-                  isActive ? "bg-eh-purple text-white" : "text-eh-ink-soft hover:bg-eh-surface-tint",
+                  isActive
+                    ? "bg-eh-purple text-white"
+                    : "text-eh-ink-soft hover:bg-eh-surface-tint",
                 )
               }
             >

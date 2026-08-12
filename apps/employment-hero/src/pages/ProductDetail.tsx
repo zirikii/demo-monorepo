@@ -53,7 +53,11 @@ export function ProductDetailPage() {
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-start">
           <div>
-            <SectionHeading eyebrow="Why teams use it" title={product.tagline} blurb={product.summary} />
+            <SectionHeading
+              eyebrow="Why teams use it"
+              title={product.tagline}
+              blurb={product.summary}
+            />
             <ul className="mt-8 space-y-4">
               {product.bullets.map((bullet) => (
                 <li

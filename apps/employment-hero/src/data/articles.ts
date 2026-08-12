@@ -161,7 +161,8 @@ export const articles: Article[] = [
     slug: "reading-a-payslip",
     title: "How to read your payslip",
     category: "HR & People Ops",
-    excerpt: "Gross, net, YTD, and where your superannuation actually goes. A plain guide for employees.",
+    excerpt:
+      "Gross, net, YTD, and where your superannuation actually goes. A plain guide for employees.",
     author: "Sophie Nguyen",
     authorRole: "Onboarding Specialist",
     publishedAt: "2026-01-29",
@@ -253,7 +254,5 @@ export function getArticlesByAudience(audience: Article["audience"]): Article[] 
 }
 
 export function getLatestArticles(count: number): Article[] {
-  return [...articles]
-    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
-    .slice(0, count);
+  return [...articles].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, count);
 }

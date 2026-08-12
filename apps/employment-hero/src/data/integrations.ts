@@ -29,7 +29,8 @@ export const integrations: Integration[] = [
   {
     name: "Microsoft 365",
     category: "Productivity",
-    description: "Provision mailboxes, licences and group membership on the new starter's first day.",
+    description:
+      "Provision mailboxes, licences and group membership on the new starter's first day.",
   },
   {
     name: "Slack",

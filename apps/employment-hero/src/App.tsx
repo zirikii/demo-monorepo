@@ -26,12 +26,7 @@ import {
   PartnerNetworkPage,
   ReferralPartnerPage,
 } from "./pages/Partners";
-import {
-  AboutUsPage,
-  CareersPage,
-  HeroFoundationPage,
-  MediaCentrePage,
-} from "./pages/Company";
+import { AboutUsPage, CareersPage, HeroFoundationPage, MediaCentrePage } from "./pages/Company";
 import { ContactPage, RequestDemoPage } from "./pages/Contact";
 import { ImplementationHubPage, SupportPage } from "./pages/Support";
 import { AccessibilityPage, PrivacyPage, TermsPage } from "./pages/Legal";

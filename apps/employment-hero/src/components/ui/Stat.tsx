@@ -21,12 +21,7 @@ export function Stat({
       >
         {value}
       </p>
-      <p
-        className={cn(
-          "mt-1 text-sm",
-          tone === "light" ? "text-white/75" : "text-eh-ink-faint",
-        )}
-      >
+      <p className={cn("mt-1 text-sm", tone === "light" ? "text-white/75" : "text-eh-ink-faint")}>
         {label}
       </p>
     </div>

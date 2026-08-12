@@ -145,7 +145,10 @@ export function JobDetailPage() {
               <ul className="mt-4 space-y-2.5">
                 {job.responsibilities.map((item) => (
                   <li key={item} className="flex gap-3 text-sm text-eh-ink-soft">
-                    <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-eh-purple" />
+                    <span
+                      aria-hidden="true"
+                      className="mt-2 size-1.5 shrink-0 rounded-full bg-eh-purple"
+                    />
                     {item}
                   </li>
                 ))}
@@ -157,7 +160,10 @@ export function JobDetailPage() {
               <ul className="mt-4 space-y-2.5">
                 {job.requirements.map((item) => (
                   <li key={item} className="flex gap-3 text-sm text-eh-ink-soft">
-                    <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-eh-purple" />
+                    <span
+                      aria-hidden="true"
+                      className="mt-2 size-1.5 shrink-0 rounded-full bg-eh-purple"
+                    />
                     {item}
                   </li>
                 ))}

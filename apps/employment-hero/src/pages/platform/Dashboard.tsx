@@ -23,7 +23,11 @@ export function PlatformDashboardPage() {
   const tiles = [
     { label: "Employees", value: String(employees.length), to: "/platform/people" },
     { label: "Leave to approve", value: String(pendingLeave.length), to: "/platform/leave" },
-    { label: "Candidates in flight", value: String(activeCandidates.length), to: "/platform/hiring" },
+    {
+      label: "Candidates in flight",
+      value: String(activeCandidates.length),
+      to: "/platform/hiring",
+    },
     { label: "Onboarding", value: String(onboarding.length), to: "/platform/people" },
   ];
 
@@ -136,7 +140,9 @@ export function PlatformDashboardPage() {
                 })}
               </ul>
             ) : (
-              <p className="mt-3 text-sm text-eh-ink-faint">Nothing waiting. Everything is up to date.</p>
+              <p className="mt-3 text-sm text-eh-ink-faint">
+                Nothing waiting. Everything is up to date.
+              </p>
             )}
           </section>
         </div>

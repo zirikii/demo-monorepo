@@ -42,7 +42,12 @@ function EnquiryForm({ variant }: { variant: "contact" | "demo" }) {
         <Field label="First name" required defaultValue="Ava" />
         <Field label="Last name" required defaultValue="Thompson" />
       </div>
-      <Field label="Work email" type="email" required defaultValue="ava.thompson@brightpath.com.au" />
+      <Field
+        label="Work email"
+        type="email"
+        required
+        defaultValue="ava.thompson@brightpath.com.au"
+      />
       <Field label="Phone" type="tel" defaultValue="0400 000 000" />
       <Field label="Company" required defaultValue="Brightpath Group" />
       <SelectField label="Team size" defaultValue="11-50">
@@ -60,7 +65,10 @@ function EnquiryForm({ variant }: { variant: "contact" | "demo" }) {
           <option value="heroforce">HeroForce and global employment</option>
         </SelectField>
       ) : (
-        <TextAreaField label="How can we help?" placeholder="Tell us what you are trying to solve" />
+        <TextAreaField
+          label="How can we help?"
+          placeholder="Tell us what you are trying to solve"
+        />
       )}
       <Button type="submit" className="w-full">
         {variant === "demo" ? "Request a demo" : "Send message"}

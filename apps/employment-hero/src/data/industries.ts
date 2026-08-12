@@ -130,7 +130,8 @@ export const industries: Industry[] = [
   {
     slug: "not-for-profit",
     name: "Not for profit",
-    blurb: "Mixed volunteer and paid workforces, tight budgets, and grant reporting that never ends.",
+    blurb:
+      "Mixed volunteer and paid workforces, tight budgets, and grant reporting that never ends.",
     award: "Social, Community, Home Care and Disability Services Award",
     challenges: [
       "Salary packaging and fringe benefits",
@@ -227,7 +228,8 @@ export const solutions: Solution[] = [
   {
     slug: "compliance-management",
     name: "Compliance management",
-    blurb: "Know that every policy is signed, every licence is current and every pay run is defensible.",
+    blurb:
+      "Know that every policy is signed, every licence is current and every pay run is defensible.",
     steps: [
       {
         title: "Publish the policy",

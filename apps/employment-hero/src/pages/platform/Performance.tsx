@@ -37,7 +37,10 @@ export function PlatformPerformancePage() {
                   aria-valuemax={100}
                   aria-label={`${cycle.name} completion`}
                 >
-                  <div className="h-full rounded-full bg-eh-purple" style={{ width: `${progress}%` }} />
+                  <div
+                    className="h-full rounded-full bg-eh-purple"
+                    style={{ width: `${progress}%` }}
+                  />
                 </div>
               </div>
             </section>

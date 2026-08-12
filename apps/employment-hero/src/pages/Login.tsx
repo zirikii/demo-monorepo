@@ -121,7 +121,10 @@ export function LoginPage() {
 
           <p className="mt-8 text-sm text-eh-ink-soft">
             Do not have an account?{" "}
-            <Link to="/start-free" className="focus-eh font-semibold text-eh-purple hover:underline">
+            <Link
+              to="/start-free"
+              className="focus-eh font-semibold text-eh-purple hover:underline"
+            >
               Start free
             </Link>
           </p>

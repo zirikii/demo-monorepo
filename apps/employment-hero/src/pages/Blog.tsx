@@ -68,7 +68,9 @@ export function ArticlePage() {
 
   if (!article) return <Navigate to="/blog" replace />;
 
-  const more = getLatestArticles(4).filter((item) => item.slug !== article.slug).slice(0, 3);
+  const more = getLatestArticles(4)
+    .filter((item) => item.slug !== article.slug)
+    .slice(0, 3);
 
   return (
     <SiteLayout>
@@ -104,8 +106,8 @@ export function ArticlePage() {
             ))}
 
             <div className="mt-10 rounded-eh-lg border border-eh-line bg-eh-surface-tint p-6 text-sm leading-relaxed text-eh-ink-faint">
-              This article is demo content written for an unofficial clone of employmenthero.com.
-              It is general information only and is not legal, financial or employment advice.
+              This article is demo content written for an unofficial clone of employmenthero.com. It
+              is general information only and is not legal, financial or employment advice.
             </div>
           </div>
         </Section>

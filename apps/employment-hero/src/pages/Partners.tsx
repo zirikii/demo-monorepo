@@ -224,7 +224,10 @@ export function PartnerDirectoryPage() {
         </div>
         <p className="mt-8 text-sm text-eh-ink-faint">
           Not listed yet?{" "}
-          <Link to="/partner-network" className="focus-eh font-semibold text-eh-purple hover:underline">
+          <Link
+            to="/partner-network"
+            className="focus-eh font-semibold text-eh-purple hover:underline"
+          >
             Join the partner network
           </Link>
           .

@@ -13,10 +13,7 @@ export function PlatformHiringPage() {
   const { candidates, advanceCandidate } = useWorkspace();
 
   return (
-    <PlatformLayout
-      title="Hiring"
-      subtitle={`${candidates.length} candidates across 4 open roles`}
-    >
+    <PlatformLayout title="Hiring" subtitle={`${candidates.length} candidates across 4 open roles`}>
       <div className="grid gap-4 lg:grid-cols-5">
         {stages.map((stage) => {
           const inStage = candidates.filter((candidate) => candidate.stage === stage);

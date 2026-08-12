@@ -38,9 +38,18 @@ export const milestones = [
   { year: "2018", event: "Payroll launches, bringing award interpretation into the platform." },
   { year: "2021", event: "The employee app ships, putting payslips and leave on the phone." },
   { year: "2022", event: "Passed 100,000 businesses on the platform." },
-  { year: "2024", event: "SmartMatch launches and the candidate pool passes one million profiles." },
-  { year: "2025", event: "Employment OS and HeroForce bring managed employment to 180+ countries." },
-  { year: "2026", event: "Hero AI agents move from assisting to acting across hiring and payroll." },
+  {
+    year: "2024",
+    event: "SmartMatch launches and the candidate pool passes one million profiles.",
+  },
+  {
+    year: "2025",
+    event: "Employment OS and HeroForce bring managed employment to 180+ countries.",
+  },
+  {
+    year: "2026",
+    event: "Hero AI agents move from assisting to acting across hiring and payroll.",
+  },
 ];
 
 export const values = [
@@ -107,7 +116,8 @@ export const webinars: Webinar[] = [
   {
     slug: "hiring-without-job-ads",
     title: "Hiring without job ads",
-    blurb: "How SmartMatch builds a shortlist, what it gets wrong, and where a human still has to look.",
+    blurb:
+      "How SmartMatch builds a shortlist, what it gets wrong, and where a human still has to look.",
     presenter: "Daniel Okafor",
     presenterRole: "Director of Talent Products",
     date: "2026-08-19",
@@ -117,7 +127,8 @@ export const webinars: Webinar[] = [
   {
     slug: "award-interpretation-explained",
     title: "Award interpretation, explained properly",
-    blurb: "Penalty rates, allowances, broken shifts and the traps that produce accidental underpayment.",
+    blurb:
+      "Penalty rates, allowances, broken shifts and the traps that produce accidental underpayment.",
     presenter: "Marcus Webb",
     presenterRole: "Employment Relations Adviser",
     date: "2026-06-24",
@@ -137,7 +148,8 @@ export const webinars: Webinar[] = [
   {
     slug: "eofy-payroll-clinic",
     title: "EOFY payroll clinic",
-    blurb: "A live run through finalisation, reconciliation and the questions payroll teams ask every June.",
+    blurb:
+      "A live run through finalisation, reconciliation and the questions payroll teams ask every June.",
     presenter: "Priya Raman",
     presenterRole: "Head of Payroll Compliance",
     date: "2026-05-28",

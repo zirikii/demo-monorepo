@@ -38,11 +38,7 @@ export function ProductsPage() {
       </Section>
 
       <Section tone="purple">
-        <SectionHeading
-          title="What the platform handles at scale"
-          align="center"
-          tone="light"
-        />
+        <SectionHeading title="What the platform handles at scale" align="center" tone="light" />
         <dl className="mt-12 grid grid-cols-2 gap-8 md:grid-cols-4">
           {heroStats.map((stat) => (
             <Stat key={stat.label} value={stat.value} label={stat.label} tone="light" />

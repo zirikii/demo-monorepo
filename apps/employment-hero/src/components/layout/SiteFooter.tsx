@@ -54,8 +54,8 @@ export function SiteFooter() {
 
         <div className="mt-8 flex flex-col gap-4 border-t border-white/12 pt-6 text-xs text-white/60 md:flex-row md:items-center md:justify-between">
           <p>
-            Unofficial demo build. Not affiliated with, endorsed by, or connected to Employment
-            Hero Pty Ltd.
+            Unofficial demo build. Not affiliated with, endorsed by, or connected to Employment Hero
+            Pty Ltd.
           </p>
           <div className="flex flex-wrap gap-4">
             {legalLinks.map((link) => (

@@ -36,17 +36,17 @@ localStorage persistence. No real external services.
 
 ## Target tech stack (match sibling Vite apps)
 
-| Layer      | Technology                                            |
-| ---------- | ----------------------------------------------------- |
-| Framework  | Vite 6 + React 19 + TypeScript (strict)               |
-| Styling    | Tailwind v4 via `@tailwindcss/vite`, `@theme` tokens  |
-| Routing    | `react-router-dom` v7 `BrowserRouter`                 |
-| Icons      | `lucide-react`                                        |
-| State      | React context + hooks                                 |
-| Data       | Local TypeScript seed modules                         |
-| Auth       | Mock session — base64 JSON in `localStorage`          |
-| Tests      | Vitest + React Testing Library                        |
-| Lint       | ESLint 9 flat config (copy the `nine`/`commbank` one) |
+| Layer     | Technology                                            |
+| --------- | ----------------------------------------------------- |
+| Framework | Vite 6 + React 19 + TypeScript (strict)               |
+| Styling   | Tailwind v4 via `@tailwindcss/vite`, `@theme` tokens  |
+| Routing   | `react-router-dom` v7 `BrowserRouter`                 |
+| Icons     | `lucide-react`                                        |
+| State     | React context + hooks                                 |
+| Data      | Local TypeScript seed modules                         |
+| Auth      | Mock session — base64 JSON in `localStorage`          |
+| Tests     | Vitest + React Testing Library                        |
+| Lint      | ESLint 9 flat config (copy the `nine`/`commbank` one) |
 
 Explicitly DO NOT integrate real databases, cloud providers, CMS APIs, OAuth, or payment
 providers.

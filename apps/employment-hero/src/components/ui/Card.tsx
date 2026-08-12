@@ -19,5 +19,7 @@ export function CardTitle({ className, children }: { className?: string; childre
 }
 
 export function CardBody({ className, children }: { className?: string; children: ReactNode }) {
-  return <p className={cn("mt-2 text-sm leading-relaxed text-eh-ink-soft", className)}>{children}</p>;
+  return (
+    <p className={cn("mt-2 text-sm leading-relaxed text-eh-ink-soft", className)}>{children}</p>
+  );
 }

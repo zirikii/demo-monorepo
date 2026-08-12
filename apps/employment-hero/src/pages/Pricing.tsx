@@ -51,9 +51,7 @@ export function PricingPage() {
               key={plan.id}
               className={cn(
                 "flex flex-col rounded-eh-lg border bg-white p-7 transition",
-                plan.highlighted
-                  ? "border-eh-purple shadow-eh-purple"
-                  : "border-eh-line shadow-eh",
+                plan.highlighted ? "border-eh-purple shadow-eh-purple" : "border-eh-line shadow-eh",
               )}
             >
               {plan.highlighted ? (
@@ -148,7 +146,10 @@ export function PricingPage() {
                   </tr>
                   {group.rows.map((row) => (
                     <tr key={row.feature} className="border-b border-eh-line-soft">
-                      <th scope="row" className="py-3.5 pr-4 text-left font-normal text-eh-ink-soft">
+                      <th
+                        scope="row"
+                        className="py-3.5 pr-4 text-left font-normal text-eh-ink-soft"
+                      >
                         {row.feature}
                       </th>
                       {row.plans.map((included, index) => (

@@ -94,7 +94,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              aria-label="Search"
+              aria-label={searchOpen ? "Close search" : "Open search"}
               aria-expanded={searchOpen}
               onClick={() => setSearchOpen((open) => !open)}
               className="focus-eh grid size-10 place-items-center rounded-full text-eh-ink transition hover:bg-eh-surface-tint"
@@ -131,7 +131,12 @@ export function SiteHeader() {
               ) : null}
             </div>
 
-            <ButtonLink to="/request-a-demo" variant="secondary" size="sm" className="hidden xl:inline-flex">
+            <ButtonLink
+              to="/request-a-demo"
+              variant="secondary"
+              size="sm"
+              className="hidden xl:inline-flex"
+            >
               Request a demo
             </ButtonLink>
             <ButtonLink to="/start-free" size="sm" className="hidden sm:inline-flex">
