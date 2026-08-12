@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@import "@fontsource/figtree/400.css";
+@import "@fontsource/figtree/500.css";
+@import "@fontsource/figtree/600.css";
+@import "@fontsource/figtree/700.css";
+@import "@fontsource/figtree/800.css";
+@import "@fontsource/figtree/900.css";
+
+@theme {
+  /* Employment Hero purple family. #7622d7 is the Purple Heart brand accent; the
+   * deep violet carries the full-bleed campaign bands the marketing site is known for. */
+  --color-eh-purple: #7622d7;
+  --color-eh-purple-dark: #5a17ad;
+  --color-eh-purple-deep: #2b0a52;
+  --color-eh-purple-night: #1a0635;
+  --color-eh-violet: #a06bf0;
+  --color-eh-violet-soft: #d9c3fb;
+  --color-eh-tint: #f4ecfe;
+  --color-eh-tint-strong: #e9dcfd;
+
+  --color-ink: #212529;
+  --color-ink-strong: #101114;
+  --color-ink-soft: #4c5158;
+  --color-ink-faint: #6f7680;
+  --color-ink-ghost: #9aa1aa;
+
+  --color-surface: #ffffff;
+  --color-surface-tint: #f8f7fb;
+  --color-surface-deep: #efedf5;
+  --color-line: #e3e1eb;
+  --color-line-soft: #f0eef6;
+
+  --color-positive: #0f9d6f;
+  --color-positive-tint: #e4f7f0;
+  --color-critical: #d93a4a;
+  --color-critical-tint: #fdeaec;
+  --color-caution: #b26a00;
+  --color-caution-tint: #fdf2e0;
+  --color-info: #2563c9;
+  --color-info-tint: #e8f0fd;
+
+  --font-sans: "Figtree", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --radius-eh-sm: 8px;
+  --radius-eh: 14px;
+  --radius-eh-lg: 22px;
+  --radius-eh-xl: 32px;
+
+  --shadow-eh: 0 2px 10px rgba(28, 12, 56, 0.06);
+  --shadow-eh-lift: 0 14px 38px rgba(28, 12, 56, 0.12);
+  --shadow-eh-menu: 0 24px 60px rgba(28, 12, 56, 0.18);
+
+  --animate-eh-rise: eh-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-eh-fade: eh-fade 0.28s ease-out both;
+}
+
+@keyframes eh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes eh-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Element defaults must live in `@layer base`. Unlayered CSS beats every layered rule
+ * regardless of specificity, so an unlayered `a { color: inherit }` would silently defeat
+ * text-colour utilities on every link in the app.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* The marketing header is sticky, so anchor targets must reserve room for it or they
+   * land underneath it. Components with their own scroll-mt-* utility still win. */
+  [id] {
+    scroll-margin-top: 7rem;
+  }
+}
+
+:root {
+  --demo-accent: #7622d7;
+}
+
+@utility container-eh {
+  margin-inline: auto;
+  max-width: 1200px;
+  padding-inline: 1.25rem;
+}
+
+@utility container-eh-wide {
+  margin-inline: auto;
+  max-width: 1360px;
+  padding-inline: 1.25rem;
+}
+
+@utility focus-eh {
+  outline: none;
+  &:focus-visible {
+    outline: 3px solid var(--color-eh-purple);
+    outline-offset: 2px;
+  }
+}
+
+@utility text-balance-eh {
+  text-wrap: balance;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

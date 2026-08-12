@@ -1,0 +1,51 @@
+{
+  "fetched": "2026-08-12",
+  "disclaimer": "Unofficial demo assets. Employment Hero brand artwork is referenced for visual fidelity only. Not affiliated with, endorsed by, or connected to Employment Hero Pty Ltd.",
+  "canonicalSources": [
+    "https://employmenthero.com/wp-content/themes/employmentherocom2025/assets/images/eh-logo-full.svg",
+    "https://employmenthero.com/wp-content/themes/employmentherocom2025/assets/images/small-logo.svg",
+    "https://employmenthero.com/wp-content/uploads/2025/04/EH-Horizontal-Logo-Black-cropped.svg",
+    "https://employmenthero.com/favicon.ico",
+    "https://partners.employmenthero.com/resources/employment-hero-brand-guidelines"
+  ],
+  "note": "employmenthero.com, its CDN, Brandfetch and every public logo mirror are unreachable from the restricted build environment (connection reset on egress). The circular mark below was therefore hand-authored to match the reference lockup supplied with the build request: a solid dark disc carrying a white single-stroke lowercase 'e'. Run scripts/fetch-brand-assets.sh from an unrestricted network to replace these placeholders with the official artwork.",
+  "files": [
+    {
+      "file": "mark.svg",
+      "description": "Primary circular mark — near-black disc with a white single-stroke 'e'. Used in the site header lockup.",
+      "source": "Hand-authored from the supplied reference lockup",
+      "colors": ["#131316", "#ffffff"]
+    },
+    {
+      "file": "mark-white.svg",
+      "description": "Reversed mark for the deep-violet footer and dark campaign bands.",
+      "source": "Derived from mark.svg",
+      "colors": ["#ffffff", "#131316"]
+    },
+    {
+      "file": "mark-purple.svg",
+      "description": "Brand-purple mark used on tinted surfaces and in the Employment OS platform sidebar.",
+      "source": "Derived from mark.svg",
+      "colors": ["#7622d7", "#ffffff"]
+    },
+    {
+      "file": "favicon.svg",
+      "description": "Rounded-square app icon used as the browser favicon.",
+      "source": "Derived from mark.svg",
+      "colors": ["#7622d7", "#ffffff"]
+    }
+  ],
+  "wordmark": {
+    "component": "src/components/brand/BrandLogo.tsx",
+    "note": "The 'employment hero' wordmark is rendered as live text in the app typeface rather than as an outlined SVG so it stays crisp at every size and inherits colour from its container.",
+    "typeface": "Figtree (open-source stand-in for Employment Hero's commercial Saiga)"
+  },
+  "palette": {
+    "purple": "#7622d7",
+    "purpleDeep": "#2b0a52",
+    "purpleDark": "#5a17ad",
+    "violet": "#a06bf0",
+    "purpleTint": "#f4ecfe",
+    "ink": "#212529"
+  }
+}
