@@ -16,17 +16,17 @@ export function Logo({
   to?: string;
 }) {
   return (
-    <Link to={to} className={cn("focus-eh inline-flex items-center gap-2.5", className)}>
+    <Link to={to} className={cn("focus-eh inline-flex shrink-0 items-center gap-2.5", className)}>
       <img
         src={tone === "light" ? "/brand/symbol-white.svg" : "/brand/symbol.svg"}
         alt="Employment Hero"
-        width={36}
-        height={36}
-        className="size-9"
+        width={34}
+        height={34}
+        className="size-8.5"
       />
       <span
         className={cn(
-          "font-display text-xl leading-none font-semibold tracking-tight whitespace-nowrap",
+          "font-display text-lg leading-none font-semibold tracking-tight whitespace-nowrap",
           tone === "light" ? "text-white" : "text-eh-ink",
         )}
       >

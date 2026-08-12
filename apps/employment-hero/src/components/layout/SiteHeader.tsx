@@ -59,10 +59,10 @@ export function SiteHeader() {
       </div>
 
       <div className="border-b border-eh-line">
-        <div className="container-eh flex h-18 items-center justify-between gap-4 py-3">
+        <div className="container-eh flex h-18 items-center justify-between gap-3 py-3">
           <Logo />
 
-          <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+          <nav aria-label="Primary" className="hidden shrink-0 items-center gap-0.5 lg:flex">
             {navAudiences.map((audience) => (
               <button
                 key={audience.id}
@@ -70,7 +70,7 @@ export function SiteHeader() {
                 aria-expanded={openMenu === audience.id}
                 onClick={() => setOpenMenu(openMenu === audience.id ? null : audience.id)}
                 className={cn(
-                  "focus-eh inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-semibold whitespace-nowrap transition",
+                  "focus-eh inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-semibold whitespace-nowrap transition",
                   openMenu === audience.id
                     ? "bg-eh-purple-tint text-eh-purple"
                     : "text-eh-ink hover:bg-eh-surface-tint",
@@ -85,13 +85,13 @@ export function SiteHeader() {
             ))}
             <Link
               to="/pricing"
-              className="focus-eh rounded-full px-3.5 py-2 text-sm font-semibold whitespace-nowrap text-eh-ink transition hover:bg-eh-surface-tint"
+              className="focus-eh rounded-full px-3 py-2 text-sm font-semibold whitespace-nowrap text-eh-ink transition hover:bg-eh-surface-tint"
             >
               Pricing
             </Link>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1.5">
             <button
               type="button"
               aria-label={searchOpen ? "Close search" : "Open search"}
