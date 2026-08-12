@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Youtube } from "lucide-react";
+import { Link2, Play } from "lucide-react";
 
 const footerGroups = [
   {
@@ -100,14 +100,14 @@ export function SiteFooter() {
               className="focus-hero rounded"
               aria-label="LinkedIn"
             >
-              <Linkedin aria-hidden="true" className="h-4 w-4" />
+              <Link2 aria-hidden="true" className="h-4 w-4" />
             </a>
             <a
               href="https://www.youtube.com/@EmploymentHero"
               className="focus-hero rounded"
               aria-label="YouTube"
             >
-              <Youtube aria-hidden="true" className="h-4 w-4" />
+              <Play aria-hidden="true" className="h-4 w-4" />
             </a>
           </div>
         </div>

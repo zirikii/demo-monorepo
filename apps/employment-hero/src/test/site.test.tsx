@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import { ProductMockup } from "@/components/marketing/ProductMockup";
 import { PricingPage } from "@/pages/Pricing";
 import { ResourcesPage } from "@/pages/Resources";
-import { portalConfig } from "@/pages/Login";
+import { portalConfig } from "@/data/portal";
 import { employees, products } from "@/data/site";
 
 describe("Employment Hero demo data", () => {

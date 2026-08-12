@@ -28,7 +28,7 @@ All company, people, payroll, candidate, customer, and usage data is fictional. 
 
 The `/login` route intentionally reproduces the CommBank demo’s portal-key casing bug. Login destinations use display-cased configuration keys, while the route looks them up with lower-case query values. The unsafe assertion hides the mismatch from TypeScript, then the page throws while reading the missing portal at runtime. This deliberate low-priority defect is tracked in Jira for the bug-fixing demo flow.
 
-The Employment OS preview remains directly available at `/platform/dashboard`, so the rest of the demo can be explored without authentication.
+The defect is tracked in [DR-21](https://fe-anysphere-demo.atlassian.net/browse/DR-21). The Employment OS preview remains directly available at `/platform/dashboard`, so the rest of the demo can be explored without authentication.
 
 ## Scripts
 

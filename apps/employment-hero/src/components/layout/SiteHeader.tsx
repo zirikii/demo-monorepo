@@ -6,6 +6,12 @@ import { primaryNav } from "@/data/site";
 import { cn } from "@/lib/cn";
 import { ButtonLink } from "@/components/ui/Button";
 
+const mobileNav = primaryNav.flatMap((item) =>
+  item.children
+    ? item.children.map(({ label, href }) => ({ label, href }))
+    : [{ label: item.label, href: item.href }],
+);
+
 export function SiteHeader() {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -178,18 +184,16 @@ export function SiteHeader() {
       {mobileOpen ? (
         <nav aria-label="Mobile" className="border-t border-line bg-white p-4 lg:hidden">
           <div className="grid gap-1">
-            {primaryNav
-              .flatMap((item) => item.children ?? [item])
-              .map((item) => (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="focus-hero rounded-hero px-4 py-3 text-sm font-bold hover:bg-violet-soft"
-                >
-                  {item.label}
-                </Link>
-              ))}
+            {mobileNav.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                onClick={() => setMobileOpen(false)}
+                className="focus-hero rounded-hero px-4 py-3 text-sm font-bold hover:bg-violet-soft"
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
               to="/login"
               onClick={() => setMobileOpen(false)}
