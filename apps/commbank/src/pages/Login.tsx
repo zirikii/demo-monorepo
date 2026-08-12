@@ -9,11 +9,11 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 type ServiceConfig = { name: string; tagline: string };
 
-const serviceConfig = {
+const serviceConfig: Record<string, ServiceConfig> = {
   netbank: { name: "NetBank", tagline: "Everyday personal banking" },
   commbiz: { name: "CommBiz", tagline: "Business banking" },
   commsec: { name: "CommSec", tagline: "Investing and share trading" },
-} satisfies Record<string, ServiceConfig>;
+};
 
 export function LoginPage() {
   useDocumentTitle("Log on to NetBank");
