@@ -1,0 +1,18 @@
+{
+  "brand": "Employment Hero",
+  "slug": "employment-hero",
+  "palette": {
+    "purple": "#7622D7",
+    "purpleHover": "#5E1BB0",
+    "purpleTint": "#F3E9FF",
+    "ink": "#212529",
+    "white": "#FFFFFF"
+  },
+  "assets": [
+    {"file": "logo.svg", "source": "Recreated from official horizontal lockup provided by requester (circular two-heads mark + lowercase wordmark)", "usage": "Header on light backgrounds"},
+    {"file": "logo-white.svg", "source": "Same lockup in white", "usage": "Hero / dark purple backgrounds"},
+    {"file": "mark.svg", "source": "Official mark geometry from attached logo", "usage": "Compact / portal"},
+    {"file": "favicon.svg", "source": "Mark on brand purple tile", "usage": "Browser tab"}
+  ],
+  "notes": "employmenthero.com CDN blocked by cloud egress; assets self-hosted from attached official logo description/geometry."
+}

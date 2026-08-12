@@ -18,7 +18,8 @@ demo-monorepo/
 │   ├── changi/   # Vite + React 19 Changi Airport site (Tailwind v4, TS)
 │   ├── nine/     # Vite + React 19 nine.com.au news hub (Tailwind v4, TS)
 │   ├── optus/    # Vite + React 19 Optus NOC agentic remediation demo (Tailwind v4, TS)
-│   └── commbank/ # Vite + React 19 commbank.com.au website + NetBank (Tailwind v4, TS)
+│   ├── commbank/ # Vite + React 19 commbank.com.au website + NetBank (Tailwind v4, TS)
+│   └── employment-hero/ # Vite + React 19 employmenthero.com marketing + portal (Tailwind v4, TS)
 └── packages/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
@@ -48,6 +49,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | nine | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | optus | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | commbank | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
+| employment-hero | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
 See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
@@ -59,10 +61,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / … / changi / nine / optus / commbank
+pnpm dev:kddi      # or dev:nab / … / changi / nine / optus / commbank / employment-hero
 
 # build one app
-pnpm build:seek    # or build:kddi / … / build:nine / build:optus / build:commbank
+pnpm build:seek    # or build:kddi / … / build:nine / build:optus / build:commbank / build:employment-hero
 
 # build every app
 pnpm build
