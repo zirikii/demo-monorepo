@@ -1,0 +1,14 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#7622D7"/>
+  <circle cx="1010" cy="120" r="220" fill="#8E4BE0" opacity="0.5"/>
+  <circle cx="150" cy="560" r="180" fill="#5B15AA" opacity="0.5"/>
+  <g transform="translate(96 210) scale(1.5)">
+    <path d="M32 0h.9c11.2.1 17 .7 21.1 4.1 1.4 1.1 2.7 2.5 3.9 3.9 3.4 4.1 4 9.9 4.1 21.1v5.8c-.1 11.2-.7 17-4.1 21.1a24 24 0 0 1-3.9 3.9c-4.1 3.4-9.9 4-21.1 4.1h-5.8c-11.2-.1-17-.7-21.1-4.1a24 24 0 0 1-3.9-3.9C1.7 51.9 1.1 46.1 1 34.9v-5.8C1.1 17.9 1.7 12.1 5.1 8a24 24 0 0 1 3.9-3.9C13.1.7 18.9.1 30.1 0H32Z" fill="#fff"/>
+    <circle cx="29" cy="24" r="8.4" fill="#7622D7"/>
+    <path d="M13.6 50.6c0-8.5 6.9-15.4 15.4-15.4s15.4 6.9 15.4 15.4a2.4 2.4 0 0 1-2.4 2.4H16a2.4 2.4 0 0 1-2.4-2.4Z" fill="#7622D7"/>
+    <path d="M41.5 11.9a1.9 1.9 0 0 1 2.4-1.2 22.4 22.4 0 0 1 14.7 18.5 1.9 1.9 0 1 1-3.8.4 18.6 18.6 0 0 0-12.2-15.3 1.9 1.9 0 0 1-1.1-2.4Z" fill="#7622D7"/>
+  </g>
+  <text x="96" y="400" fill="#fff" font-family="Poppins, 'Trebuchet MS', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2">Employment.</text>
+  <text x="96" y="486" fill="#fff" font-family="Poppins, 'Trebuchet MS', 'Segoe UI', Helvetica, Arial, sans-serif" font-size="76" font-weight="700" letter-spacing="-2">Intelligently Run.</text>
+  <text x="96" y="548" fill="#E4D2F8" font-family="Inter, Helvetica, Arial, sans-serif" font-size="28">Unofficial demo  not affiliated with Employment Hero</text>
+</svg>

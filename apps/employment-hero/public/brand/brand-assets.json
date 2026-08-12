@@ -1,0 +1,38 @@
+{
+  "brand": "Employment Hero",
+  "disclaimer": "Unofficial demo. Not affiliated with, endorsed by, or connected to Employment Hero Pty Ltd. Artwork here is a recreation used only to make the demo legible.",
+  "provenance": {
+    "status": "recreated",
+    "reason": "employmenthero.com and every logo CDN (worldvectorlogo, brandfetch, clearbit, seeklogo, licdn) are unreachable from the cloud build environment — the egress proxy resets the connection. The artwork below was redrawn from the Employment Hero logo supplied with the build task.",
+    "canonicalUpstream": [
+      "https://employmenthero.com/wp-content/themes/employmentherocom2025/assets/images/eh-logo-full.svg",
+      "https://employmenthero.com/wp-content/themes/employmentherocom2025/assets/images/small-logo.svg",
+      "https://employmenthero.com/uk/wp-content/uploads/sites/2/2025/03/EH-Horizontal-Logo-Black-cropped.svg"
+    ],
+    "refetch": "pnpm --filter employment-hero-demo brand"
+  },
+  "files": {
+    "symbol.svg": "Rounded-square hero symbol in near-black, matching the supplied lockup.",
+    "symbol-purple.svg": "Hero symbol in Purple Heart, used on light surfaces in the platform.",
+    "symbol-white.svg": "Reversed hero symbol for purple and near-black surfaces.",
+    "logo.svg": "Full horizontal lockup — symbol plus the lowercase wordmark.",
+    "logo-white.svg": "Reversed full lockup for dark footers and the platform shell.",
+    "favicon.svg": "Browser favicon — hero symbol on Purple Heart.",
+    "og-image.svg": "1200x630 social card."
+  },
+  "palette": {
+    "purple": "#7622D7",
+    "purpleDeep": "#5B15AA",
+    "purpleLift": "#8E4BE0",
+    "purpleTint": "#F3EBFD",
+    "ink": "#212529",
+    "surface": "#FFFFFF",
+    "lime": "#C6F24E",
+    "amber": "#FFB43D",
+    "sky": "#2AA7FF"
+  },
+  "typography": {
+    "display": "Poppins — free stand-in for Employment Hero's Saiga wordmark typeface",
+    "body": "Inter — free stand-in for Untitled Sans, used across their product UI"
+  }
+}
