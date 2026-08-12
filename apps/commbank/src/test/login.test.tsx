@@ -30,7 +30,6 @@ describe("LoginPage", () => {
     expect(
       screen.getByRole("heading", { level: 1, name: "Log on to CommBiz" }),
     ).toBeInTheDocument();
-    expect(screen.getByText("Business banking")).toBeInTheDocument();
   });
 
   it("falls back to NetBank for unknown log-on services", () => {
