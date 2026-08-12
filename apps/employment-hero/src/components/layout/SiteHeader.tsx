@@ -70,7 +70,7 @@ export function SiteHeader() {
                 aria-expanded={openMenu === audience.id}
                 onClick={() => setOpenMenu(openMenu === audience.id ? null : audience.id)}
                 className={cn(
-                  "focus-eh inline-flex items-center gap-1 rounded-full px-4 py-2 text-sm font-semibold transition",
+                  "focus-eh inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-semibold whitespace-nowrap transition",
                   openMenu === audience.id
                     ? "bg-eh-purple-tint text-eh-purple"
                     : "text-eh-ink hover:bg-eh-surface-tint",
@@ -85,7 +85,7 @@ export function SiteHeader() {
             ))}
             <Link
               to="/pricing"
-              className="focus-eh rounded-full px-4 py-2 text-sm font-semibold text-eh-ink transition hover:bg-eh-surface-tint"
+              className="focus-eh rounded-full px-3.5 py-2 text-sm font-semibold whitespace-nowrap text-eh-ink transition hover:bg-eh-surface-tint"
             >
               Pricing
             </Link>
@@ -107,7 +107,7 @@ export function SiteHeader() {
                 type="button"
                 aria-expanded={openMenu === "login"}
                 onClick={() => setOpenMenu(openMenu === "login" ? null : "login")}
-                className="focus-eh inline-flex items-center gap-1 rounded-full border border-eh-line px-4 py-2 text-sm font-semibold text-eh-ink transition hover:border-eh-purple hover:text-eh-purple"
+                className="focus-eh inline-flex items-center gap-1 rounded-full border border-eh-line px-4 py-2 text-sm font-semibold whitespace-nowrap text-eh-ink transition hover:border-eh-purple hover:text-eh-purple"
               >
                 Log in
                 <ChevronDown size={15} />

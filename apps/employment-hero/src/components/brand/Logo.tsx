@@ -26,7 +26,7 @@ export function Logo({
       />
       <span
         className={cn(
-          "font-display text-xl leading-none font-semibold tracking-tight",
+          "font-display text-xl leading-none font-semibold tracking-tight whitespace-nowrap",
           tone === "light" ? "text-white" : "text-eh-ink",
         )}
       >

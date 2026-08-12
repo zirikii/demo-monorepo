@@ -21,7 +21,7 @@ const sizes: Record<Size, string> = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition focus-eh disabled:cursor-not-allowed disabled:opacity-60";
+  "focus-eh inline-flex items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap transition disabled:cursor-not-allowed disabled:opacity-60";
 
 export type ButtonProps = {
   variant?: Variant;
