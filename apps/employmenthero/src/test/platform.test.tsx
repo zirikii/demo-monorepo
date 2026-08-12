@@ -42,7 +42,7 @@ describe("Employment OS dashboard", () => {
   it("summarises headcount and the pay run exceptions", () => {
     renderPlatform(<PlatformDashboard />);
 
-    const headcountTile = screen.getByText("Headcount").closest("div.rounded-eh-lg");
+    const headcountTile = screen.getByText("Headcount").closest<HTMLElement>("div.rounded-eh-lg");
     expect(headcountTile).not.toBeNull();
     expect(within(headcountTile!).getByText(String(EMPLOYEES.length))).toBeInTheDocument();
     expect(screen.getByText("No superannuation fund recorded")).toBeInTheDocument();

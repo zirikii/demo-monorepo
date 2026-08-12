@@ -33,7 +33,7 @@ describe("Pricing page", () => {
 
     for (const plan of PRICING_PLANS) {
       const heading = screen.getByRole("heading", { level: 2, name: plan.name });
-      const card = heading.closest("div.rounded-eh-lg");
+      const card = heading.closest<HTMLElement>("div.rounded-eh-lg");
       expect(card).not.toBeNull();
       expect(within(card!).getByText(plan.price)).toBeInTheDocument();
       expect(within(card!).getByText(plan.priceNote)).toBeInTheDocument();
