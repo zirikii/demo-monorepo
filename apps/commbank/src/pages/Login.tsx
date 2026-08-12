@@ -9,8 +9,10 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
 type ServiceConfig = { name: string; tagline: string };
 
+const defaultService: ServiceConfig = { name: "NetBank", tagline: "Everyday personal banking" };
+
 const serviceConfig: Record<string, ServiceConfig> = {
-  netbank: { name: "NetBank", tagline: "Everyday personal banking" },
+  netbank: defaultService,
   commbiz: { name: "CommBiz", tagline: "Business banking" },
   commsec: { name: "CommSec", tagline: "Investing and share trading" },
 };
@@ -22,7 +24,7 @@ export function LoginPage() {
   const { login } = useAuth();
 
   const serviceKey = searchParams.get("service")?.toLowerCase() ?? "netbank";
-  const service = serviceConfig[serviceKey] ?? serviceConfig.netbank;
+  const service = serviceConfig[serviceKey] ?? defaultService;
   const redirect = searchParams.get("redirect") ?? "/netbank";
 
   const [clientNumber, setClientNumber] = useState("12345678");
