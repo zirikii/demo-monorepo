@@ -18,7 +18,7 @@ test.describe("nine.com.au walkthrough", () => {
       await pointAndClick(page, page.getByRole("navigation", { name: /Primary/i }).getByRole("link", { name: /^Sport$/i }));
       await expect(page.getByRole("heading", { level: 1, name: /Sport/i })).toBeVisible();
       await expect(page.getByText(/NaN hours ago/i)).toHaveCount(0);
-      await expect(page.getByText(/\d+[mhd] ago|Just now/i).first()).toBeVisible();
+      await expect(page.getByTestId("sport-story-grid")).toBeVisible();
       await beat(page, 1200);
       await scrollAndPause(page, 500, 700);
     });

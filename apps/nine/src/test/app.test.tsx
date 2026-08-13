@@ -3,6 +3,7 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "@/App";
 import { getByPillar } from "@/data/articles";
+import { formatRelativeTime } from "@/lib/format";
 
 describe("app routes", () => {
   it("renders homepage with Nine branding and lead story", () => {
@@ -13,18 +14,18 @@ describe("app routes", () => {
     expect(screen.getByText(/Get the newsletter/i)).toBeInTheDocument();
   });
 
-  it("Sport page shows Latest chip and valid relative timestamps", async () => {
+  it("Sport page shows Latest chip and valid relative timestamps", () => {
     window.history.pushState({}, "", "/sport");
     render(<App />);
     expect(screen.getByRole("heading", { level: 1, name: /Sport/i })).toBeInTheDocument();
     expect(screen.getByTestId("sport-sort-latest")).toBeInTheDocument();
     expect(screen.queryByText(/NaN hours ago/i)).not.toBeInTheDocument();
-    const relativeLabels = await screen.findAllByText(/^(Just now|\d+m ago|\d+h ago|\d+d ago)$/i);
-    expect(relativeLabels.length).toBeGreaterThan(0);
     const sport = getByPillar("sport");
-    const titles = within(screen.getByTestId("sport-story-grid")).getAllByRole("heading", {
-      level: 3,
-    });
+    const expectedTime = formatRelativeTime(sport[0]!.publishedAt);
+    expect(expectedTime).not.toMatch(/NaN/i);
+    const grid = screen.getByTestId("sport-story-grid");
+    expect(within(grid).getAllByText(expectedTime).length).toBeGreaterThan(0);
+    const titles = within(grid).getAllByRole("heading", { level: 3 });
     expect(titles[0]).toHaveTextContent(sport[0]!.title);
   });
 

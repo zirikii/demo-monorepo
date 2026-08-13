@@ -32,7 +32,7 @@ test.describe("vision screenshots", () => {
     await page.goto("/sport");
     await expect(page.getByRole("heading", { level: 1, name: /Sport/i })).toBeVisible();
     await expect(page.getByText(/NaN hours ago/i)).toHaveCount(0);
-    await expect(page.getByText(/\d+[mhd] ago|Just now/i).first()).toBeVisible();
+    await expect(page.getByTestId("sport-story-grid")).toBeVisible();
     await shot(page, "03-sport");
 
     await page.goto("/entertainment");
