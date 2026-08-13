@@ -20,8 +20,8 @@ export function AboutPage() {
           with seeded Australian headlines.
         </p>
         <p>
-          One page (<strong className="text-nine-ink">Sport</strong>) intentionally ships with a sorting /
-          timestamp bug for Bugbot and QA demos. See the app README and linked Jira ticket.
+          The Sport hub at <strong className="text-nine-ink">/sport</strong> sorts Latest newest-first and
+          renders relative timestamps from each story’s ISO <code>publishedAt</code>.
         </p>
       </div>
     </PageLayout>
