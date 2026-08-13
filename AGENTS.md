@@ -20,7 +20,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | paytm (Vite + React 19) | `pnpm dev:paytm` | 5174 | Payments site |
 | squiz (Vite + React 19) | `pnpm dev:squiz` | 5175 | Marketing site |
 | changi (Vite + React 19) | `pnpm dev:changi` | 5176 | Airport traveller site; no env needed |
-| nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; intentional Sport bug |
+| nine (Vite + React 19) | `pnpm dev:nine` | 5177 | nine.com.au news hub demo; no env needed |
 | optus (Vite + React 19) | `pnpm dev:optus` | 5178 | Optus NOC + `@cursor/sdk` cloud agents; optional `CURSOR_API_KEY`; Node 22.13+ |
 | commbank (Vite + React 19) | `pnpm dev:commbank` | 5179 | commbank.com.au clone + mock NetBank; no env needed |
 | employmenthero (Vite + React 19) | `pnpm dev:employmenthero` | 5180 | employmenthero.com clone + mock Employment OS dashboard; no env needed |
