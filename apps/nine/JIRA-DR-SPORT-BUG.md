@@ -1,5 +1,8 @@
-# Jira ticket draft — DR (bug)
+# Jira ticket draft — DR (bug) — resolved
 
+> Originally tracked as an intentional Sport hub demo bug. Fixed by passing ISO
+> `publishedAt` into `formatRelativeTime` and sorting Latest via `getByPillar("sport")`.
+>
 > Paste into https://fe-anysphere-demo.atlassian.net/jira/software/projects/DR/boards/877
 > Add label: **bug**
 
