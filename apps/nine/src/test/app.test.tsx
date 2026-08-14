@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "@/App";
 import { getByPillar } from "@/data/articles";
@@ -23,9 +23,11 @@ describe("app routes", () => {
 
     const sport = getByPillar("sport");
     expect(sport.length).toBeGreaterThan(0);
-    expect(await screen.findByText(sport[0]!.title)).toBeInTheDocument();
+    const grid = screen.getByTestId("sport-story-grid");
+    const headings = within(grid).getAllByRole("heading", { level: 3 });
+    expect(headings[0]).toHaveTextContent(sport[0]!.title);
     for (const article of sport) {
-      const labels = await screen.findAllByText(formatRelativeTime(article.publishedAt));
+      const labels = within(grid).getAllByText(formatRelativeTime(article.publishedAt));
       expect(labels.length).toBeGreaterThan(0);
     }
   });
