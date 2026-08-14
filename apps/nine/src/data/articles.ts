@@ -635,12 +635,3 @@ export function relatedArticles(article: Article, limit = 4): Article[] {
     .slice(0, limit);
 }
 
-/**
- * DEMO BUG (intentional): Sport hub "Latest" sort is ascending (oldest first)
- * instead of descending. Used only by the Sport page. See Jira DR ticket.
- */
-export function getSportArticlesBuggyLatest(): Article[] {
-  return articles
-    .filter((a) => a.pillar === "sport")
-    .sort((a, b) => a.publishedAt.localeCompare(b.publishedAt));
-}
