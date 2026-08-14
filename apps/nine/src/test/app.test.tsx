@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "@/App";
+import { getByPillar } from "@/data/articles";
+import { formatRelativeTime } from "@/lib/format";
 
 describe("app routes", () => {
   it("renders homepage with Nine branding and lead story", () => {
@@ -12,13 +14,23 @@ describe("app routes", () => {
     expect(screen.getByText(/Get the newsletter/i)).toBeInTheDocument();
   });
 
-  it("Sport page shows Latest chip and NaN timestamps (demo bug)", async () => {
+  it("Sport page shows Latest chip, newest-first order, and valid timestamps", async () => {
     window.history.pushState({}, "", "/sport");
     render(<App />);
     expect(screen.getByRole("heading", { level: 1, name: /Sport/i })).toBeInTheDocument();
     expect(screen.getByTestId("sport-sort-latest")).toBeInTheDocument();
-    const nanLabels = await screen.findAllByText(/NaN hours ago/i);
-    expect(nanLabels.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/NaN hours ago/i)).not.toBeInTheDocument();
+
+    const sport = getByPillar("sport");
+    expect(sport.length).toBeGreaterThan(1);
+    expect(sport[0]!.publishedAt >= sport[1]!.publishedAt).toBe(true);
+
+    const headings = screen.getAllByRole("heading", { level: 3 });
+    expect(headings[0]).toHaveTextContent(sport[0]!.title);
+
+    for (const article of sport) {
+      expect(screen.getAllByText(formatRelativeTime(article.publishedAt)).length).toBeGreaterThan(0);
+    }
   });
 
   it("can open login", async () => {

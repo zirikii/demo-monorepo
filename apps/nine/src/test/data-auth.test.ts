@@ -7,12 +7,7 @@ import {
   clearSession,
   readSession,
 } from "@/lib/auth";
-import {
-  getArticle,
-  getByPillar,
-  getSportArticlesBuggyLatest,
-  searchArticles,
-} from "@/data/articles";
+import { getArticle, getByPillar, searchArticles } from "@/data/articles";
 
 describe("formatRelativeTime", () => {
   it("formats recent hours", () => {
@@ -63,12 +58,10 @@ describe("articles data", () => {
     expect(news[0].publishedAt >= news[1].publishedAt).toBe(true);
   });
 
-  it("documents intentional Sport Latest bug (oldest first)", () => {
-    const buggy = getSportArticlesBuggyLatest();
-    const correct = getByPillar("sport");
-    expect(buggy.length).toBe(correct.length);
-    expect(buggy[0].slug).not.toBe(correct[0].slug);
-    expect(buggy[0].publishedAt <= buggy[buggy.length - 1].publishedAt).toBe(true);
+  it("returns sport newest-first", () => {
+    const sport = getByPillar("sport");
+    expect(sport.length).toBeGreaterThan(1);
+    expect(sport[0]!.publishedAt >= sport[1]!.publishedAt).toBe(true);
   });
 
   it("searches by title", () => {

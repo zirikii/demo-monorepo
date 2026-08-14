@@ -13,7 +13,7 @@ export function StoryCard({
 }: {
   article: Article;
   compact?: boolean;
-  /** Override relative time (used by buggy Sport page) */
+  /** Override relative time when a caller already formatted the label */
   timeLabel?: string;
   className?: string;
 }) {
