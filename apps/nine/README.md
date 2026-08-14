@@ -13,15 +13,12 @@ pnpm dev:nine    # http://localhost:5177
 
 Demo credentials (any work): `reader@example.com` / `demo`
 
-## Intentional demo bug
+## Sport timestamps
 
-The **Sport** page (`/sport`) ships with a deliberate bug for QA / Bugbot demos:
-
-1. **Latest sort is inverted** — oldest stories appear first while the chip says “Latest”.
-2. **Timestamps show `NaN hours ago`** — `formatRelativeTime` is fed a locale date string.
-
-See `src/pages/Sport.tsx` and `getSportArticlesBuggyLatest()` in `src/data/articles.ts`.
-A Jira ticket in project **DR** (bug label) tracks the fix — link noted in the PR.
+The **Sport** page (`/sport`) uses `getByPillar("sport")` so Latest is newest-first, and
+`StoryCard` formats ISO `publishedAt` via `formatRelativeTime`. Seed dates are relative to
+`2026-07-16T03:00:00Z`, so later wall-clock dates show en-AU calendar labels rather than
+`3h ago`.
 
 ## Scripts
 
@@ -45,6 +42,6 @@ Colours from Nine for Brands: cyan `#00BEFF`, ink `#070720`, corporate blue `#00
 src/
   components/  brand, layout, article, home, ui
   data/        articles, nav, shows, deals, horoscopes
-  pages/       Home, Sport (buggy), sections, auth, …
+  pages/       Home, Sport, sections, auth, …
   lib/         cn, auth, format
 ```
