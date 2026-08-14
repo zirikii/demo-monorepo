@@ -1,4 +1,10 @@
-# Jira ticket draft — DR (bug)
+# Jira ticket draft — DR (bug) — resolved
+
+Sport Latest sort and timestamps now use `getByPillar("sport")` and ISO `publishedAt`.
+
+---
+
+# Original ticket draft
 
 > Paste into https://fe-anysphere-demo.atlassian.net/jira/software/projects/DR/boards/877
 > Add label: **bug**
