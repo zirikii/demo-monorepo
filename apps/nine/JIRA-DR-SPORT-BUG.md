@@ -38,3 +38,6 @@ On the nine.com.au demo (`apps/nine`), the Sport section page at `/sport` has tw
 1. Delete `getSportArticlesBuggyLatest` and use `getByPillar("sport")`
 2. Pass `article.publishedAt` (ISO) to `formatRelativeTime` / drop `timeLabel` override
 3. Update the Sport page test to assert correct relative times (not NaN)
+
+## Status
+Resolved: Sport uses `getByPillar("sport")` and `StoryCard` formats ISO `publishedAt`.
