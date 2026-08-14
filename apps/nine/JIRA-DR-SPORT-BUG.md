@@ -2,6 +2,8 @@
 
 > Paste into https://fe-anysphere-demo.atlassian.net/jira/software/projects/DR/boards/877
 > Add label: **bug**
+>
+> Status: resolved in code — Sport now uses `getByPillar("sport")` and ISO `publishedAt`.
 
 ## Summary
 Sport hub “Latest” sort is inverted and relative timestamps render as “NaN hours ago”
