@@ -1,5 +1,7 @@
 # Jira ticket draft — DR (bug)
 
+> Status: **fixed** in this repo. Sport Latest is newest-first and timestamps use ISO `publishedAt`.
+>
 > Paste into https://fe-anysphere-demo.atlassian.net/jira/software/projects/DR/boards/877
 > Add label: **bug**
 
