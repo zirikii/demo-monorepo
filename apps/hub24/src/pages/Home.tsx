@@ -64,7 +64,9 @@ export default function HomePage() {
       <section className="bg-hub-navy text-white">
         <div className="container-hub grid gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_1fr] lg:items-center">
           <div className="animate-hub-rise flex flex-col gap-6">
-            <Badge tone="inverse">Australia&rsquo;s best platform, six years running</Badge>
+            <Badge tone="inverse" className="w-fit">
+              Australia&rsquo;s best platform, six years running
+            </Badge>
             <h1 className="text-balance-hub text-4xl leading-[1.03] font-extrabold tracking-tight md:text-6xl">
               {SITE.tagline}
             </h1>

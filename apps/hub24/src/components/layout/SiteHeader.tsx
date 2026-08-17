@@ -134,7 +134,7 @@ export function SiteHeader() {
                 onMouseEnter={() => setOpenMenu(menu.label)}
                 onFocus={() => setOpenMenu(menu.label)}
                 className={cn(
-                  "focus-hub flex items-center gap-1 rounded-full px-3.5 py-2 text-[0.95rem] font-bold transition",
+                  "focus-hub flex items-center gap-1 rounded-full px-3.5 py-2 text-[0.95rem] font-bold whitespace-nowrap transition",
                   openMenu === menu.label
                     ? "bg-hub-tint text-hub-blue"
                     : "text-ink hover:text-hub-blue",
@@ -153,7 +153,7 @@ export function SiteHeader() {
                 to={link.to}
                 className={({ isActive }: { isActive: boolean }) =>
                   cn(
-                    "focus-hub rounded-full px-3.5 py-2 text-[0.95rem] font-bold transition",
+                    "focus-hub rounded-full px-3.5 py-2 text-[0.95rem] font-bold whitespace-nowrap transition",
                     isActive ? "text-hub-blue" : "text-ink hover:text-hub-blue",
                   )
                 }
@@ -163,15 +163,15 @@ export function SiteHeader() {
             ))}
           </nav>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex shrink-0 items-center gap-2">
             <DemoRibbon
               label="Unofficial demo"
-              className="hidden border-line text-ink-faint xl:inline-flex"
+              className="hidden border-line whitespace-nowrap text-ink-faint 2xl:inline-flex"
             />
 
             <a
               href={`tel:${SITE.phones.advisers.replace(/\s/g, "")}`}
-              className="focus-hub hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-bold text-ink-soft hover:text-hub-blue xl:inline-flex"
+              className="focus-hub hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-bold whitespace-nowrap text-ink-soft hover:text-hub-blue 2xl:inline-flex"
             >
               <Phone aria-hidden className="h-4 w-4" />
               {SITE.phones.advisers}
@@ -190,7 +190,7 @@ export function SiteHeader() {
                 type="button"
                 aria-expanded={loginOpen}
                 onClick={() => setLoginOpen((open) => !open)}
-                className="focus-hub flex items-center gap-1 rounded-full px-3.5 py-2 text-[0.95rem] font-bold text-ink transition hover:text-hub-blue"
+                className="focus-hub flex items-center gap-1 rounded-full px-3.5 py-2 text-[0.95rem] font-bold whitespace-nowrap text-ink transition hover:text-hub-blue"
               >
                 Log in
                 <ChevronDown
@@ -216,7 +216,11 @@ export function SiteHeader() {
               ) : null}
             </div>
 
-            <ButtonLink to="/contact-us#demo" size="sm" className="hidden sm:inline-flex">
+            <ButtonLink
+              to="/contact-us#demo"
+              size="sm"
+              className="hidden whitespace-nowrap sm:inline-flex"
+            >
               Talk to us
             </ButtonLink>
 
