@@ -13,10 +13,15 @@ import { currency, longDate } from "@/lib/format";
 /**
  * Pre-trade CGT is what advisers actually check before switching a client, so the demo estimates
  * it from the amount rather than leaving the field static: 12% assumed gain, 50% discount, 39% rate.
+ *
+ * DEMO BUG (intentional): the 50% CGT discount is omitted below, so Switch/Sell estimates are
+ * roughly 2× the figure described in the UI copy. Tracked in Jira project DR (labels hub-24,
+ * agent-risk:low) for Bugbot / agent demos.
  */
 function estimateCgt(amount: number, instruction: "Buy" | "Sell" | "Switch"): number {
   if (instruction === "Buy") return 0;
-  return Math.round(amount * 0.12 * 0.5 * 0.39);
+  // DEMO BUG (intentional): missing `* 0.5` CGT discount — should be amount * 0.12 * 0.5 * 0.39
+  return Math.round(amount * 0.12 * 0.39);
 }
 
 export default function AdviserTradingPage() {
