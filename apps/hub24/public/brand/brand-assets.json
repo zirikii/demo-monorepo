@@ -1,0 +1,26 @@
+{
+  "brand": "HUB24",
+  "disclaimer": "Unofficial demo. Logos are used only to recreate the public marketing site look and feel. Not affiliated with HUB24 Limited.",
+  "fetchedAt": "2026-08-17",
+  "network": "hub24.com.au was egress-blocked in the authoring environment (TLS reset). Official files will replace these stand-ins when scripts/fetch-brand-assets.sh can reach the CDN.",
+  "assets": [
+    {
+      "file": "logo-light.svg",
+      "role": "Header / dark-surface wordmark",
+      "source": "https://www.hub24.com.au/wp-content/uploads/2021/10/hub24-logo-light.svg",
+      "status": "stand-in-pending-fetch"
+    },
+    {
+      "file": "logo-dark.svg",
+      "role": "Light-surface wordmark",
+      "source": "https://www.hub24.com.au/wp-content/uploads/2021/10/hub24-logo-dark.svg",
+      "status": "stand-in-pending-fetch"
+    },
+    {
+      "file": "favicon.svg",
+      "role": "Browser tab icon",
+      "source": "Derived from the HUB24 wordmark (navy tile + 24)",
+      "status": "derived"
+    }
+  ]
+}

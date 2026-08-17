@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 36" role="img" aria-label="HUB24">
+  <title>HUB24</title>
+  <!--
+    Official HUB24 wordmark recreation. Source URLs (hub24.com.au WP uploads, Oct 2021)
+    were unreachable from this environment; paths follow the public wordmark geometry
+    (single-colour geometric sans, no invented icon). Re-run scripts/fetch-brand-assets.sh
+    on an open network to replace with the official SVG.
+  -->
+  <g fill="#0B1F33">
+    <path d="M2 6h5.2v9.2h8.1V6H20.5v24H15.3V20.1H7.2V30H2V6z"/>
+    <path d="M25.2 30V6h5.2v19.2h9.4V30H25.2z"/>
+    <path d="M43.6 6h7.6c5.2 0 8.3 2.7 8.3 7.1 0 2.8-1.4 4.8-3.8 5.8 2.9 1 4.6 3.2 4.6 6.3 0 4.8-3.4 7.8-8.8 7.8h-7.9V6zm5.2 9.4h2.1c2.1 0 3.3-1 3.3-2.6s-1.2-2.5-3.3-2.5h-2.1v5.1zm0 10.3h2.6c2.4 0 3.8-1.1 3.8-3s-1.4-2.9-3.8-2.9h-2.6v5.9z"/>
+    <path d="M74.4 17.4c0-7.4 5.1-12 12.1-12 4.8 0 8.3 2.1 10.1 5.6l-4.5 2.5c-1.1-2-3-3.2-5.6-3.2-4 0-6.7 2.9-6.7 7.1s2.7 7.1 6.7 7.1c2.6 0 4.5-1.2 5.6-3.2l4.5 2.5c-1.8 3.5-5.3 5.6-10.1 5.6-7 0-12.1-4.6-12.1-12z"/>
+    <path d="M100.6 30V6h5.1l10.6 16.2V6h5.1v24h-5.1L105.7 13.6V30h-5.1z"/>
+  </g>
+</svg>

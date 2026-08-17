@@ -24,6 +24,7 @@
     "dev:optus": "pnpm --filter optus-noc-demo dev",
     "dev:commbank": "pnpm --filter commbank-website-demo dev",
     "dev:employmenthero": "pnpm --filter employment-hero-website-demo dev",
+    "dev:hub24": "pnpm --filter hub24-website-demo dev",
     "build:kddi": "pnpm --filter kddi-noc-dashboard build",
     "build:nab": "pnpm --filter nab-landing build",
     "build:naukri": "pnpm --filter naukri-job-portal build",
@@ -36,6 +37,7 @@
     "build:optus": "pnpm --filter optus-noc-demo build",
     "build:commbank": "pnpm --filter commbank-website-demo build",
     "build:employmenthero": "pnpm --filter employment-hero-website-demo build",
+    "build:hub24": "pnpm --filter hub24-website-demo build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore"
   },
   "devDependencies": {
