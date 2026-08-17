@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HUB24">
+  <title>HUB24</title>
+  <rect width="64" height="64" rx="14" fill="#ffffff" />
+  <g fill="#0b2545" transform="translate(8.3 17) scale(0.3)">
+    <path
+      d="M4 30a31 31 0 0 1 62 1c0 13-7 22-19 33L24 80h46v20H2V82l40-36c7-6 10-11 10-18a16 16 0 0 0-32 1Z"
+    />
+    <g transform="translate(84 0)">
+      <path fill-rule="evenodd" d="M46 0h22v62h6v19h-6v19H46V81H0V62ZM46 20v42H17Z" />
+    </g>
+  </g>
+</svg>

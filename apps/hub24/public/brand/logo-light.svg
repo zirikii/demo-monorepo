@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 443 100" role="img" aria-label="HUB24">
+  <title>HUB24</title>
+  <g fill="#ffffff">
+    <path d="M0 0h22v39h40V0h22v100H62V61H22v39H0Z" />
+    <g transform="translate(98 0)">
+      <path d="M0 0h22v58a20 20 0 0 0 40 0V0h22v58a42 42 0 0 1-84 0Z" />
+    </g>
+    <g transform="translate(196 0)">
+      <path
+        fill-rule="evenodd"
+        d="M0 0h46a25 25 0 0 1 0 50h4a25 25 0 0 1 0 50H0ZM22 15h24a10 10 0 0 1 0 20H22ZM22 65h28a10 10 0 0 1 0 20H22Z"
+      />
+    </g>
+  </g>
+  <g fill="#21c9c0">
+    <g transform="translate(285 0)">
+      <path
+        d="M4 30a31 31 0 0 1 62 1c0 13-7 22-19 33L24 80h46v20H2V82l40-36c7-6 10-11 10-18a16 16 0 0 0-32 1Z"
+      />
+    </g>
+    <g transform="translate(369 0)">
+      <path fill-rule="evenodd" d="M46 0h22v62h6v19h-6v19H46V81H0V62ZM46 20v42H17Z" />
+    </g>
+  </g>
+</svg>

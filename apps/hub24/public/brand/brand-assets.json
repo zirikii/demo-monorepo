@@ -1,0 +1,50 @@
+{
+  "fetched": "2026-08-17",
+  "disclaimer": "Unofficial demo assets. This project is not affiliated with, endorsed by, or connected to HUB24 Limited (ASX:HUB).",
+  "canonicalSources": [
+    "https://www.hub24.com.au/wp-content/uploads/2021/10/hub24-logo-light.svg",
+    "https://www.hub24.com.au/wp-content/uploads/2021/10/hub24-logo-dark.svg"
+  ],
+  "note": "hub24.com.au is outside the network allowlist of the environment this demo was authored in, so every SVG below was hand-authored to approximate the HUB24 lockup. Run `pnpm brand` from an unrestricted network to replace logo-dark.svg and logo-light.svg with the official artwork; the script writes the canonical files straight over these placeholders.",
+  "files": [
+    {
+      "file": "logo-dark.svg",
+      "description": "Dark lockup for light backgrounds — navy HUB, teal 24.",
+      "replacedBy": "hub24-logo-dark.svg",
+      "source": "Hand-authored approximation"
+    },
+    {
+      "file": "logo-light.svg",
+      "description": "Reversed lockup for navy backgrounds — white HUB, bright teal 24.",
+      "replacedBy": "hub24-logo-light.svg",
+      "source": "Hand-authored approximation"
+    },
+    {
+      "file": "mark.svg",
+      "description": "Square 24 tile on teal, used for compact placements.",
+      "source": "Hand-authored approximation"
+    },
+    {
+      "file": "mark-white.svg",
+      "description": "Square 24 tile on white for dark surfaces.",
+      "source": "Hand-authored approximation"
+    },
+    {
+      "file": "favicon.svg",
+      "description": "Browser tab mark — navy tile, teal 24.",
+      "source": "Hand-authored approximation"
+    }
+  ],
+  "typography": {
+    "display": "Outfit (open-source stand-in for HUB24's geometric brand face)",
+    "body": "Inter"
+  },
+  "palette": {
+    "navy": "#0b2545",
+    "navyDeep": "#071a33",
+    "teal": "#00a3a1",
+    "tealBright": "#21c9c0",
+    "aqua": "#7fe3dc",
+    "tint": "#e6f6f5"
+  }
+}
