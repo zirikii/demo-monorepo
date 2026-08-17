@@ -6,6 +6,7 @@ import App from "@/App";
 import { AuthProvider } from "@/hooks/useAuth";
 import { RequireAuth } from "@/components/adviser/RequireAuth";
 import AdviserClientDetailPage from "@/pages/adviser/ClientDetail";
+import AdviserReportingPage from "@/pages/adviser/Reporting";
 import AdviserTradingPage from "@/pages/adviser/Trading";
 import LoginPage from "@/pages/Login";
 import { writeSession } from "@/lib/auth";
@@ -39,6 +40,14 @@ function renderRoutes(path: string) {
             element={
               <RequireAuth>
                 <AdviserTradingPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/adviserhub/reporting"
+            element={
+              <RequireAuth>
+                <AdviserReportingPage />
               </RequireAuth>
             }
           />
@@ -113,6 +122,34 @@ describe("client detail", () => {
     expect(screen.getByText("HUB24 Super — holdings")).toBeInTheDocument();
     const holdings = screen.getByRole("table", { name: /Holdings for HUB-884202/i });
     expect(within(holdings).getByText("Meridian Balanced Managed Portfolio")).toBeInTheDocument();
+  });
+});
+
+describe("engage reporting", () => {
+  it("adds and removes preview sections as chips are toggled", async () => {
+    const user = userEvent.setup();
+    writeSession(ADVISER);
+    renderRoutes("/adviserhub/reporting");
+
+    expect(screen.queryByRole("heading", { name: "Tax estimate" })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Tax estimate", pressed: false }));
+    expect(screen.getByRole("heading", { name: "Tax estimate" })).toBeInTheDocument();
+    expect(screen.getByText("Estimated CGT if realised")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Tax estimate", pressed: true }));
+    expect(screen.queryByRole("heading", { name: "Tax estimate" })).not.toBeInTheDocument();
+  });
+
+  it("renders every section the chip library offers", async () => {
+    const user = userEvent.setup();
+    writeSession(ADVISER);
+    renderRoutes("/adviserhub/reporting");
+
+    for (const section of ["Income", "Contributions", "Non-custodial assets"]) {
+      await user.click(screen.getByRole("button", { name: section, pressed: false }));
+      expect(screen.getByRole("heading", { name: section })).toBeInTheDocument();
+    }
   });
 });
 

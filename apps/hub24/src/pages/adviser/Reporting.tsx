@@ -25,6 +25,14 @@ const PERFORMANCE = [
   { label: "Aug", value: 116 },
 ];
 
+/** Engage reports combine platform data with balances the client holds elsewhere. */
+const NON_CUSTODIAL = [
+  { label: "Principal residence", value: 1_850_000 },
+  { label: "Investment property", value: 720_000 },
+  { label: "Cash accounts held away", value: 96_400 },
+  { label: "Separately held shares", value: 142_800 },
+];
+
 const SECTION_LIBRARY = [
   "Wealth summary",
   "Performance",
@@ -49,6 +57,13 @@ export default function AdviserReportingPage() {
   const allocation = client
     ? allocationFor(client).map((entry) => ({ label: entry.assetClass, value: entry.value }))
     : [];
+  const transactions = client?.accounts.flatMap((account) => account.transactions) ?? [];
+  const income = transactions.filter((transaction) => transaction.type === "Income");
+  const contributions = transactions.filter((transaction) => transaction.type === "Contribution");
+  const unrealised =
+    client?.accounts
+      .flatMap((account) => account.holdings)
+      .reduce((sum, holding) => sum + holding.unrealisedGain, 0) ?? 0;
 
   function toggleSection(section: string) {
     setSections((current) =>
@@ -220,6 +235,92 @@ export default function AdviserReportingPage() {
                   </li>
                 ))}
               </ul>
+            </section>
+          ) : null}
+
+          {sections.includes("Income") ? (
+            <section>
+              <h3 className="text-sm font-extrabold tracking-[0.1em] text-ink-faint uppercase">
+                Income
+              </h3>
+              <ul className="mt-3 flex flex-col divide-y divide-line-soft">
+                {income.map((transaction) => (
+                  <li
+                    key={transaction.date + transaction.description}
+                    className="flex justify-between gap-4 py-2 first:pt-0 last:pb-0"
+                  >
+                    <span className="text-ink-soft">{transaction.description}</span>
+                    <span className="font-bold text-ink-strong">
+                      {currency(transaction.amount)}
+                    </span>
+                  </li>
+                ))}
+                {income.length === 0 ? (
+                  <li className="py-2 text-ink-faint">
+                    No income received in the reporting period.
+                  </li>
+                ) : null}
+              </ul>
+            </section>
+          ) : null}
+
+          {sections.includes("Contributions") ? (
+            <section>
+              <h3 className="text-sm font-extrabold tracking-[0.1em] text-ink-faint uppercase">
+                Contributions
+              </h3>
+              <p className="mt-3 text-2xl font-extrabold text-ink-strong">
+                {currency(contributions.reduce((sum, transaction) => sum + transaction.amount, 0))}
+              </p>
+              <p className="text-sm text-ink-faint">
+                Across {contributions.length} contribution{contributions.length === 1 ? "" : "s"} in
+                the reporting period.
+              </p>
+            </section>
+          ) : null}
+
+          {sections.includes("Tax estimate") ? (
+            <section>
+              <h3 className="text-sm font-extrabold tracking-[0.1em] text-ink-faint uppercase">
+                Tax estimate
+              </h3>
+              <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-hub border border-line p-4">
+                  <dt className="text-sm text-ink-faint">Unrealised gain</dt>
+                  <dd className="text-lg font-extrabold text-ink-strong">{currency(unrealised)}</dd>
+                </div>
+                <div className="rounded-hub border border-line p-4">
+                  <dt className="text-sm text-ink-faint">Estimated CGT if realised</dt>
+                  <dd className="text-lg font-extrabold text-ink-strong">
+                    {currency(Math.round(unrealised * 0.5 * 0.39))}
+                  </dd>
+                </div>
+              </dl>
+              <p className="mt-2 text-sm text-ink-faint">
+                Assumes the 50% discount and a 39% marginal rate. Demo estimate, not tax advice.
+              </p>
+            </section>
+          ) : null}
+
+          {sections.includes("Non-custodial assets") ? (
+            <section>
+              <h3 className="text-sm font-extrabold tracking-[0.1em] text-ink-faint uppercase">
+                Non-custodial assets
+              </h3>
+              <ul className="mt-3 flex flex-col divide-y divide-line-soft">
+                {NON_CUSTODIAL.map((asset) => (
+                  <li
+                    key={asset.label}
+                    className="flex justify-between gap-4 py-2 first:pt-0 last:pb-0"
+                  >
+                    <span className="text-ink-soft">{asset.label}</span>
+                    <span className="font-bold text-ink-strong">{currency(asset.value)}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-2 text-sm text-ink-faint">
+                Client-declared balances held away from the platform.
+              </p>
             </section>
           ) : null}
 
