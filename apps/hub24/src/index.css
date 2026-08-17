@@ -1,0 +1,153 @@
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+@theme {
+  /* HUB24 group palette. The public HUB24 Design System describes a blue primary with a
+   * teal secondary and darker blues reserved for navigation headers and dark surfaces;
+   * hub24.com.au itself is unreachable from this build environment, so these values are a
+   * documented approximation rather than an export of the official tokens. */
+  --color-hub-blue: #0057b8;
+  --color-hub-blue-dark: #00408c;
+  --color-hub-blue-soft: #4b8fe0;
+  --color-hub-navy: #06263f;
+  --color-hub-navy-deep: #04192a;
+  --color-hub-teal: #00a3ad;
+  --color-hub-teal-dark: #007d85;
+  --color-hub-teal-soft: #7fd4d8;
+  --color-hub-tint: #eef4fb;
+  --color-hub-tint-strong: #dbe7f6;
+  --color-hub-teal-tint: #e5f5f6;
+
+  --color-ink: #142330;
+  --color-ink-strong: #0a141d;
+  --color-ink-soft: #445565;
+  --color-ink-faint: #64748b;
+  --color-ink-ghost: #94a3b3;
+
+  --color-surface: #ffffff;
+  --color-surface-tint: #f5f8fb;
+  --color-surface-deep: #e9eff5;
+  --color-line: #d9e2ea;
+  --color-line-soft: #eef3f7;
+
+  --color-positive: #0f8a5f;
+  --color-positive-tint: #e3f6ee;
+  --color-critical: #c9333f;
+  --color-critical-tint: #fdeaec;
+  --color-caution: #a76a00;
+  --color-caution-tint: #fdf3e2;
+  --color-info: #0057b8;
+  --color-info-tint: #e8f1fc;
+
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --radius-hub-sm: 6px;
+  --radius-hub: 12px;
+  --radius-hub-lg: 20px;
+  --radius-hub-xl: 28px;
+
+  --shadow-hub: 0 2px 10px rgba(6, 38, 63, 0.07);
+  --shadow-hub-lift: 0 16px 40px rgba(6, 38, 63, 0.14);
+  --shadow-hub-menu: 0 24px 60px rgba(6, 38, 63, 0.18);
+
+  --animate-hub-rise: hub-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-hub-fade: hub-fade 0.28s ease-out both;
+}
+
+@keyframes hub-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hub-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/*
+ * Element defaults must live in `@layer base`. Unlayered CSS beats every layered rule
+ * regardless of specificity, so an unlayered `a { color: inherit }` would silently defeat
+ * text-colour utilities on every link in the app.
+ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* The marketing header is sticky, so anchor targets must reserve room for it or they
+   * land underneath it. Components with their own scroll-mt-* utility still win. */
+  [id] {
+    scroll-margin-top: 7rem;
+  }
+}
+
+:root {
+  --demo-accent: #0057b8;
+}
+
+@utility container-hub {
+  margin-inline: auto;
+  max-width: 1200px;
+  padding-inline: 1.25rem;
+}
+
+@utility container-hub-wide {
+  margin-inline: auto;
+  max-width: 1360px;
+  padding-inline: 1.25rem;
+}
+
+@utility focus-hub {
+  outline: none;
+  &:focus-visible {
+    outline: 3px solid var(--color-hub-teal);
+    outline-offset: 2px;
+  }
+}
+
+@utility text-balance-hub {
+  text-wrap: balance;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
