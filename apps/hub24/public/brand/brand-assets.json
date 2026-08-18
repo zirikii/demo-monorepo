@@ -1,0 +1,52 @@
+{
+  "fetched": "2026-08-17",
+  "disclaimer": "Unofficial demo assets. HUB24 brand artwork is referenced for visual fidelity only. Not affiliated with, endorsed by, or connected to HUB24 Limited (ASX:HUB).",
+  "canonicalSources": [
+    "https://www.hub24.com.au/wp-content/uploads/2021/10/hub24-logo-light.svg",
+    "https://www.hub24.com.au/wp-content/uploads/2021/10/hub24-logo-dark.svg",
+    "https://www.hub24.com.au/favicon.ico",
+    "https://hds.hub24.com.au/tokens/color"
+  ],
+  "note": "hub24.com.au, hds.hub24.com.au and every public logo mirror are unreachable from the restricted build environment (egress allowlist rejects the domain, connection reset on curl). The wordmark artwork below was therefore hand-authored to match the HUB24 lockup: an all-caps 'HUB' in HUB24 navy followed by '24' in the teal secondary. Run scripts/fetch-brand-assets.sh from an unrestricted network to replace these stand-ins with the official SVGs.",
+  "files": [
+    {
+      "file": "hub24-logo-dark.svg",
+      "description": "Dark wordmark for light backgrounds — navy 'HUB' plus teal '24'.",
+      "source": "Hand-authored stand-in for hub24-logo-dark.svg",
+      "colors": ["#06263f", "#00a3ad"]
+    },
+    {
+      "file": "hub24-logo-light.svg",
+      "description": "Reversed wordmark for the navy header, footer and campaign bands.",
+      "source": "Hand-authored stand-in for hub24-logo-light.svg",
+      "colors": ["#ffffff", "#7fd4d8"]
+    },
+    {
+      "file": "mark.svg",
+      "description": "Square app mark used in the AdviserHUB sidebar lockup.",
+      "source": "Derived from the wordmark stand-in",
+      "colors": ["#06263f", "#ffffff", "#00a3ad"]
+    },
+    {
+      "file": "favicon.svg",
+      "description": "Rounded-square browser favicon.",
+      "source": "Derived from the wordmark stand-in",
+      "colors": ["#0057b8", "#ffffff"]
+    }
+  ],
+  "wordmark": {
+    "component": "src/components/brand/BrandLogo.tsx",
+    "note": "The header lockup renders the wordmark as live text in the app typeface so it stays crisp at every size and can invert on dark surfaces. The SVG files above cover the favicon and any static-image usage.",
+    "typeface": "Inter (open-source stand-in for the HUB24 brand typeface)"
+  },
+  "palette": {
+    "blue": "#0057b8",
+    "blueDark": "#00408c",
+    "navy": "#06263f",
+    "navyDeep": "#04192a",
+    "teal": "#00a3ad",
+    "tealSoft": "#7fd4d8",
+    "tint": "#eef4fb",
+    "ink": "#142330"
+  }
+}
