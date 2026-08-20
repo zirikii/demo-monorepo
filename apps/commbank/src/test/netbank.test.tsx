@@ -239,7 +239,22 @@ describe("app routing", () => {
     window.localStorage.clear();
   });
 
+  it.each([
+    ["/login", "Log on to NetBank"],
+    ["/login?service=commbiz", "Log on to CommBiz"],
+    ["/login?service=commsec", "Log on to CommSec"],
+    ["/login?service=unknown", "Log on to NetBank"],
+  ])("renders the log on page at %s", (path, heading) => {
+    window.history.pushState({}, "", path);
+
+    render(<App />);
+
+    expect(screen.getByRole("heading", { level: 1, name: heading })).toBeInTheDocument();
+  });
+
   it("renders the homepage hero and quick links", () => {
+    window.history.pushState({}, "", "/");
+
     render(<App />);
 
     expect(
