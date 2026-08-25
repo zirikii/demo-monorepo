@@ -48,7 +48,9 @@ describe("Home page", () => {
     expect(
       screen.getByRole("heading", { name: /Unleash your teams and their agents/ }),
     ).toBeInTheDocument();
-    expect(screen.getAllByRole("link", { name: "Get started with Jira" }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole("link", { name: "Get started with Jira" }).length).toBeGreaterThan(
+      0,
+    );
   });
 });
 

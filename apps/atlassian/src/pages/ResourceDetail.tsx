@@ -17,10 +17,7 @@ export default function ResourceDetailPage() {
         eyebrow={resource.type}
         title={resource.title}
         body={`${formatLongDate(resource.publishedOn)} · ${readingTime(resource.body.join(" "))}`}
-        crumbs={[
-          { label: "Resources", to: "/resources" },
-          { label: resource.title },
-        ]}
+        crumbs={[{ label: "Resources", to: "/resources" }, { label: resource.title }]}
       />
       <Section>
         <div className="mx-auto flex max-w-3xl flex-col gap-5">

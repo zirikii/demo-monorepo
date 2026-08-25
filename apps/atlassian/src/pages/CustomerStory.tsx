@@ -22,10 +22,7 @@ export default function CustomerStoryPage() {
         eyebrow={`${story.industry} · ${story.region}`}
         title={story.company}
         body={story.summary}
-        crumbs={[
-          { label: "Customers", to: "/customers" },
-          { label: story.company },
-        ]}
+        crumbs={[{ label: "Customers", to: "/customers" }, { label: story.company }]}
       />
       <Section>
         <blockquote className="max-w-3xl text-2xl font-semibold tracking-tight text-ink-strong">

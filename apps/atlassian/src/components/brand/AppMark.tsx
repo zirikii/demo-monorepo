@@ -114,13 +114,19 @@ const STANDINS: Record<string, StandInMark> = {
   "jira-service-management": {
     fill: ATL_LIGHT,
     glyph: (fill) => (
-      <path fill={fill} d="M7 6h18v4.8H7V6Zm0 8.1h18V25c0 .9-.6 1.5-1.5 1.5h-15c-.9 0-1.5-.6-1.5-1.5V14.1Z" />
+      <path
+        fill={fill}
+        d="M7 6h18v4.8H7V6Zm0 8.1h18V25c0 .9-.6 1.5-1.5 1.5h-15c-.9 0-1.5-.6-1.5-1.5V14.1Z"
+      />
     ),
   },
   "jira-product-discovery": {
     fill: "#8F7EE7",
     glyph: (fill) => (
-      <path fill={fill} d="M16 3.5 28.5 16 16 28.5 3.5 16 16 3.5Zm0 8.2L11.7 16 16 20.3 20.3 16 16 11.7Z" />
+      <path
+        fill={fill}
+        d="M16 3.5 28.5 16 16 28.5 3.5 16 16 3.5Zm0 8.2L11.7 16 16 20.3 20.3 16 16 11.7Z"
+      />
     ),
   },
   trello: {
@@ -140,7 +146,10 @@ const STANDINS: Record<string, StandInMark> = {
   talent: {
     fill: "#6B5CE7",
     glyph: (fill) => (
-      <path fill={fill} d="M16 5.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm-10 21c.9-4.8 5-7.7 10-7.7s9.1 2.9 10 7.7H6Z" />
+      <path
+        fill={fill}
+        d="M16 5.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm-10 21c.9-4.8 5-7.7 10-7.7s9.1 2.9 10 7.7H6Z"
+      />
     ),
   },
   "jira-align": {
@@ -158,7 +167,10 @@ const STANDINS: Record<string, StandInMark> = {
   assets: {
     fill: ATL_LIGHT,
     glyph: (fill) => (
-      <path fill={fill} d="M4.5 8.9 16 3.2l11.5 5.7v14.2L16 28.8 4.5 23.1V8.9Zm11.5 3.2 6.5-3.2L16 5.6 9.5 8.9l6.5 3.2Z" />
+      <path
+        fill={fill}
+        d="M4.5 8.9 16 3.2l11.5 5.7v14.2L16 28.8 4.5 23.1V8.9Zm11.5 3.2 6.5-3.2L16 5.6 9.5 8.9l6.5 3.2Z"
+      />
     ),
   },
   "rovo-dev": {
@@ -170,14 +182,15 @@ const STANDINS: Record<string, StandInMark> = {
   dx: {
     fill: "#1F845A",
     glyph: (fill) => (
-      <path fill={fill} d="M5.5 7h8.9c4.9 0 8 3.2 8 7.7s-3.1 7.8-8 7.8H5.5V7Zm4.3 4.3v7h4.3c2.3 0 3.7-1.4 3.7-3.6s-1.4-3.4-3.7-3.4h-4.3Zm13.7-4.3h3l-2 15.5h-3l2-15.5Z" />
+      <path
+        fill={fill}
+        d="M5.5 7h8.9c4.9 0 8 3.2 8 7.7s-3.1 7.8-8 7.8H5.5V7Zm4.3 4.3v7h4.3c2.3 0 3.7-1.4 3.7-3.6s-1.4-3.4-3.7-3.4h-4.3Zm13.7-4.3h3l-2 15.5h-3l2-15.5Z"
+      />
     ),
   },
   pipelines: {
     fill: ATL_LIGHT,
-    glyph: (fill) => (
-      <path fill={fill} d="M6 4.5h5.7V12l6 6h8.3v8h-7.9v-6L12 13.9H6V4.5Z" />
-    ),
+    glyph: (fill) => <path fill={fill} d="M6 4.5h5.7V12l6 6h8.3v8h-7.9v-6L12 13.9H6V4.5Z" />,
   },
   feedback: {
     fill: "#8F7EE7",

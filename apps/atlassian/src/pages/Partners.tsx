@@ -14,12 +14,16 @@ export default function PartnersPage() {
       />
       <Section>
         <ul className="grid gap-4 md:grid-cols-3">
-          {["Harbourline Advisory", "Ledgerline Cloud", "Northbridge Atlassian Practice"].map((name) => (
-            <li key={name} className="rounded-atl-lg border border-line p-6">
-              <h2 className="text-xl font-extrabold">{name}</h2>
-              <p className="mt-2 text-sm text-ink-soft">Platinum Solution Partner · Cloud, Data Center, Guard</p>
-            </li>
-          ))}
+          {["Harbourline Advisory", "Ledgerline Cloud", "Northbridge Atlassian Practice"].map(
+            (name) => (
+              <li key={name} className="rounded-atl-lg border border-line p-6">
+                <h2 className="text-xl font-extrabold">{name}</h2>
+                <p className="mt-2 text-sm text-ink-soft">
+                  Platinum Solution Partner · Cloud, Data Center, Guard
+                </p>
+              </li>
+            ),
+          )}
         </ul>
       </Section>
       <CtaBand primaryLabel="Contact us" primaryTo="/contact" />

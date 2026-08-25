@@ -30,7 +30,8 @@ export const SERVICE_REQUESTS: ServiceRequest[] = [
     requester: "Alex Nguyen",
     assignee: "Jordan Hale",
     sla: "2h remaining",
-    description: "Harbour Digital cannot reach the partner portal over VPN since 07:40. Linked to PORTAL-155 feature gates.",
+    description:
+      "Harbour Digital cannot reach the partner portal over VPN since 07:40. Linked to PORTAL-155 feature gates.",
   },
   {
     key: "ITSM-22",
@@ -60,7 +61,8 @@ export const SERVICE_REQUESTS: ServiceRequest[] = [
     requester: "Nadia Fischer",
     assignee: "Sam Okonkwo",
     sla: "Met",
-    description: "Related to PORTAL-088 passkeys. Users on Safari 17 were bouncing between reset emails.",
+    description:
+      "Related to PORTAL-088 passkeys. Users on Safari 17 were bouncing between reset emails.",
   },
 ];
 

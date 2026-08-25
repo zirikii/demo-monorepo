@@ -31,10 +31,7 @@ export default function ProductDetailPage() {
         eyebrow={product.family}
         title={product.heroHeadline}
         body={product.heroBody}
-        crumbs={[
-          { label: "Products", to: "/software" },
-          { label: product.name },
-        ]}
+        crumbs={[{ label: "Products", to: "/software" }, { label: product.name }]}
         actions={
           <>
             <ButtonLink to="/try">Get started</ButtonLink>

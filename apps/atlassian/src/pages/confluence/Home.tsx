@@ -10,9 +10,7 @@ import { formatDate } from "@/lib/format";
 import { createPage, readPages } from "@/lib/confluence";
 
 const APP = getProductApp("confluence");
-const NAV = [
-  { label: "Space", to: "/confluence", end: true },
-];
+const NAV = [{ label: "Space", to: "/confluence", end: true }];
 
 export default function ConfluenceHomePage() {
   const { user } = useAuth();

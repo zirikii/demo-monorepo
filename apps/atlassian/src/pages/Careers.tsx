@@ -5,7 +5,11 @@ import { ButtonLink } from "@/components/ui/Button";
 
 const ROLES = [
   { title: "Staff Product Designer, Jira", location: "Sydney · Hybrid", team: "Design" },
-  { title: "Principal Engineer, Teamwork Graph", location: "San Francisco · Hybrid", team: "Platform" },
+  {
+    title: "Principal Engineer, Teamwork Graph",
+    location: "San Francisco · Hybrid",
+    team: "Platform",
+  },
   { title: "Rovo Agent Engineer", location: "Bengaluru · Hybrid", team: "AI" },
   { title: "Enterprise Account Executive", location: "Singapore · Remote", team: "Sales" },
 ];
@@ -22,7 +26,10 @@ export default function CareersPage() {
       <Section>
         <ul className="flex flex-col divide-y divide-line rounded-atl-lg border border-line">
           {ROLES.map((role) => (
-            <li key={role.title} className="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
+            <li
+              key={role.title}
+              className="flex flex-wrap items-center justify-between gap-4 px-6 py-5"
+            >
               <div>
                 <h2 className="font-extrabold">{role.title}</h2>
                 <p className="text-sm text-ink-faint">

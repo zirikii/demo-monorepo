@@ -35,7 +35,13 @@ export function RovoPanel({ compact = false }: { compact?: boolean }) {
         <Sparkles aria-hidden className="h-4 w-4 text-rovo" />
         <p className="text-sm font-extrabold text-ink-strong">Rovo</p>
       </div>
-      <div className={compact ? "flex max-h-72 flex-col gap-3 overflow-auto p-4" : "flex flex-1 flex-col gap-3 overflow-auto p-4"}>
+      <div
+        className={
+          compact
+            ? "flex max-h-72 flex-col gap-3 overflow-auto p-4"
+            : "flex flex-1 flex-col gap-3 overflow-auto p-4"
+        }
+      >
         {messages.map((message, index) => (
           <p
             key={`${message.from}-${index}`}

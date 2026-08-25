@@ -40,10 +40,7 @@ export function addPageComment(input: {
   return next;
 }
 
-export function updatePage(
-  id: string,
-  patch: { title?: string; body?: string },
-): ConfluencePage[] {
+export function updatePage(id: string, patch: { title?: string; body?: string }): ConfluencePage[] {
   const next = readPages().map((page) =>
     page.id === id
       ? {

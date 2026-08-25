@@ -19,7 +19,10 @@ export default function ContactPage() {
       />
       <Section>
         {sent ? (
-          <p role="status" className="rounded-atl-lg bg-positive-tint p-6 font-semibold text-positive">
+          <p
+            role="status"
+            className="rounded-atl-lg bg-positive-tint p-6 font-semibold text-positive"
+          >
             Message captured locally. Nobody will reply — this is a demo form.
           </p>
         ) : (
@@ -37,7 +40,11 @@ export default function ContactPage() {
               <TextInput id="company" required defaultValue="Northline Payments" />
             </Field>
             <Field label="How can we help?" htmlFor="message">
-              <TextArea id="message" required defaultValue="We want a Teamwork Collection trial for 80 people." />
+              <TextArea
+                id="message"
+                required
+                defaultValue="We want a Teamwork Collection trial for 80 people."
+              />
             </Field>
             <Button type="submit">Send message</Button>
           </form>

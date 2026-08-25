@@ -64,12 +64,23 @@ function PageDetail({ page: initial }: { page: ConfluencePageRecord }) {
   return (
     <ProductLayout app={APP} title={`${page.title} · Confluence`} nav={NAV}>
       {editing ? (
-        <form className="mx-auto max-w-3xl rounded-atl-sm border border-line bg-white p-6" onSubmit={onSave}>
+        <form
+          className="mx-auto max-w-3xl rounded-atl-sm border border-line bg-white p-6"
+          onSubmit={onSave}
+        >
           <Field label="Title" htmlFor="edit-title">
-            <TextInput id="edit-title" value={title} onChange={(event) => setTitle(event.target.value)} />
+            <TextInput
+              id="edit-title"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
           </Field>
           <Field label="Body" htmlFor="edit-body" className="mt-3">
-            <TextArea id="edit-body" value={body} onChange={(event) => setBody(event.target.value)} />
+            <TextArea
+              id="edit-body"
+              value={body}
+              onChange={(event) => setBody(event.target.value)}
+            />
           </Field>
           <div className="mt-4 flex gap-2">
             <Button type="submit" shape="box">

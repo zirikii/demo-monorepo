@@ -32,7 +32,10 @@ export default function AdminHubPage() {
         <h2 className="text-base font-extrabold text-ink-strong">Directory</h2>
         <ul className="mt-4 divide-y divide-line">
           {DIRECTORY_USERS.map((person) => (
-            <li key={person.email} className="flex flex-wrap items-baseline justify-between gap-2 py-3">
+            <li
+              key={person.email}
+              className="flex flex-wrap items-baseline justify-between gap-2 py-3"
+            >
               <span>
                 <span className="block font-semibold text-ink-strong">{person.name}</span>
                 <span className="text-sm text-ink-faint">{person.email}</span>

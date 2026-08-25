@@ -54,7 +54,9 @@ function MegaMenuPanel({ menu, onNavigate }: { menu: MegaMenu; onNavigate: () =>
                         ) : null}
                       </span>
                       {link.description ? (
-                        <span className="mt-0.5 block text-sm text-ink-faint">{link.description}</span>
+                        <span className="mt-0.5 block text-sm text-ink-faint">
+                          {link.description}
+                        </span>
                       ) : null}
                     </Link>
                   </li>
@@ -132,7 +134,9 @@ export function SiteHeader() {
               onFocus={() => setOpenMenu(menu.label)}
               className={cn(
                 "focus-atl flex items-center gap-1 rounded-atl px-3.5 py-2 text-[0.95rem] font-normal transition",
-                openMenu === menu.label ? "bg-atl-tint text-atl-blue" : "text-ink hover:text-atl-blue",
+                openMenu === menu.label
+                  ? "bg-atl-tint text-atl-blue"
+                  : "text-ink hover:text-atl-blue",
               )}
             >
               {menu.label}
@@ -159,7 +163,10 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto flex items-center gap-2">
-          <DemoRibbon label="Unofficial demo" className="hidden border-line text-ink-faint xl:inline-flex" />
+          <DemoRibbon
+            label="Unofficial demo"
+            className="hidden border-line text-ink-faint xl:inline-flex"
+          />
 
           <Link
             to="/resources"
@@ -177,7 +184,10 @@ export function SiteHeader() {
               className="focus-atl flex items-center gap-1 rounded-atl-sm px-3.5 py-2 text-[0.95rem] font-medium text-ink transition hover:bg-surface-deep"
             >
               Sign in
-              <ChevronDown aria-hidden className={cn("h-4 w-4 transition", loginOpen && "rotate-180")} />
+              <ChevronDown
+                aria-hidden
+                className={cn("h-4 w-4 transition", loginOpen && "rotate-180")}
+              />
             </button>
             {loginOpen ? (
               <div className="animate-atl-fade absolute right-0 z-40 mt-2 max-h-[min(28rem,70vh)] w-72 overflow-y-auto rounded-atl-lg border border-line bg-white shadow-atl-menu">
@@ -187,7 +197,9 @@ export function SiteHeader() {
                     to={option.to}
                     className="focus-atl block border-b border-line-soft px-5 py-4 transition last:border-b-0 hover:bg-atl-tint"
                   >
-                    <span className="block text-[0.95rem] font-bold text-ink-strong">{option.label}</span>
+                    <span className="block text-[0.95rem] font-bold text-ink-strong">
+                      {option.label}
+                    </span>
                     <span className="block text-sm text-ink-faint">{option.description}</span>
                   </Link>
                 ))}
@@ -206,7 +218,11 @@ export function SiteHeader() {
             onClick={() => setMobileOpen((open) => !open)}
             className="focus-atl rounded-atl p-2 text-ink lg:hidden"
           >
-            {mobileOpen ? <X aria-hidden className="h-6 w-6" /> : <Menu aria-hidden className="h-6 w-6" />}
+            {mobileOpen ? (
+              <X aria-hidden className="h-6 w-6" />
+            ) : (
+              <Menu aria-hidden className="h-6 w-6" />
+            )}
           </button>
         </div>
       </div>
@@ -227,19 +243,28 @@ export function SiteHeader() {
                   {menu.label}
                 </Link>
                 <ul className="flex flex-col gap-1 border-l border-line pl-4">
-                  {menu.columns.flatMap((column) => column.links).map((link) => (
-                    <li key={link.to + link.label}>
-                      <Link to={link.to} className="focus-atl block py-1.5 text-[0.95rem] text-ink-soft">
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
+                  {menu.columns
+                    .flatMap((column) => column.links)
+                    .map((link) => (
+                      <li key={link.to + link.label}>
+                        <Link
+                          to={link.to}
+                          className="focus-atl block py-1.5 text-[0.95rem] text-ink-soft"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
                 </ul>
               </div>
             ))}
             <div className="flex flex-col gap-2 border-t border-line pt-4">
               {SIMPLE_NAV.map((link) => (
-                <Link key={link.to} to={link.to} className="focus-atl text-lg font-extrabold text-ink-strong">
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="focus-atl text-lg font-extrabold text-ink-strong"
+                >
                   {link.label}
                 </Link>
               ))}

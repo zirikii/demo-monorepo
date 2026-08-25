@@ -34,7 +34,9 @@ export function PageHero({
   return (
     <header className={cn("py-14 md:py-20", TONES[tone], className)}>
       <div className="container-atl">
-        {crumbs ? <Breadcrumb items={crumbs} tone={dark ? "dark" : "light"} className="mb-6" /> : null}
+        {crumbs ? (
+          <Breadcrumb items={crumbs} tone={dark ? "dark" : "light"} className="mb-6" />
+        ) : null}
         <div className={cn("grid items-center gap-10", aside && "lg:grid-cols-[1.15fr_0.85fr]")}>
           <div className="flex flex-col gap-5">
             {eyebrow ? (

@@ -27,7 +27,9 @@ export default function SolutionsPage() {
                 </p>
                 <h2 className="text-2xl font-extrabold">{solution.name}</h2>
                 <p className="text-sm leading-relaxed text-ink-soft">{solution.intro}</p>
-                <p className="mt-auto pt-4 text-sm font-bold text-atl-blue">Explore {solution.name}</p>
+                <p className="mt-auto pt-4 text-sm font-bold text-atl-blue">
+                  Explore {solution.name}
+                </p>
               </Link>
             </li>
           ))}

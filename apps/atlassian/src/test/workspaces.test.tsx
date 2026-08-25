@@ -36,7 +36,9 @@ describe("product workspaces", () => {
     ["/admin", /^Admin$/, "admin"],
   ] as const)("sends anonymous %s to that product login", (path, _heading, portal) => {
     renderPath(path);
-    expect(screen.getByRole("heading", { name: `Log in to ${headingName(portal)}` })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: `Log in to ${headingName(portal)}` }),
+    ).toBeInTheDocument();
   });
 
   it("opens Confluence, comments, and keeps the comment after a remount", async () => {

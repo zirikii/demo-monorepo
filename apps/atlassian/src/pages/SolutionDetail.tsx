@@ -23,10 +23,7 @@ export default function SolutionDetailPage() {
         eyebrow={solution.audience}
         title={solution.headline}
         body={solution.intro}
-        crumbs={[
-          { label: "Solutions", to: "/solutions" },
-          { label: solution.name },
-        ]}
+        crumbs={[{ label: "Solutions", to: "/solutions" }, { label: solution.name }]}
         actions={<ButtonLink to="/try">Get started</ButtonLink>}
       />
       <Section>

@@ -8,9 +8,7 @@ import { searchGraph } from "@/data/rovo";
 import { readAgents, setAgentEnabled } from "@/lib/rovo";
 
 const APP = getProductApp("rovo");
-const NAV = [
-  { label: "Studio", to: "/rovo", end: true },
-];
+const NAV = [{ label: "Studio", to: "/rovo", end: true }];
 
 export default function RovoStudioPage() {
   const [query, setQuery] = useState("");
@@ -45,7 +43,9 @@ export default function RovoStudioPage() {
                   <span className="text-[0.65rem] font-bold tracking-wide text-ink-faint uppercase">
                     {hit.kind}
                   </span>
-                  <span className="mt-0.5 block text-sm font-semibold text-atl-blue">{hit.title}</span>
+                  <span className="mt-0.5 block text-sm font-semibold text-atl-blue">
+                    {hit.title}
+                  </span>
                 </Link>
               </li>
             ))}

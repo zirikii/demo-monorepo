@@ -95,35 +95,165 @@ export default function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
 
-          <Route path="/jira" element={<Guarded><BoardPage /></Guarded>} />
-          <Route path="/jira/backlog" element={<Guarded><BacklogPage /></Guarded>} />
-          <Route path="/jira/issues/:key" element={<Guarded><IssuePage /></Guarded>} />
-          <Route path="/jira/settings" element={<Guarded><SettingsPage /></Guarded>} />
-          <Route path="/jira/rovo" element={<Guarded><JiraRovoPage /></Guarded>} />
-
-          <Route path="/confluence" element={<Guarded><ConfluenceHomePage /></Guarded>} />
-          <Route path="/confluence/pages/:id" element={<Guarded><ConfluencePage /></Guarded>} />
-
-          <Route path="/jsm" element={<Guarded><JsmQueuesPage /></Guarded>} />
-          <Route path="/jsm/requests/:key" element={<Guarded><JsmRequestPage /></Guarded>} />
-
-          <Route path="/jpd" element={<Guarded><JpdIdeasPage /></Guarded>} />
-          <Route path="/jpd/ideas/:key" element={<Guarded><JpdIdeaPage /></Guarded>} />
-
-          <Route path="/bitbucket" element={<Guarded><BitbucketReposPage /></Guarded>} />
-          <Route path="/bitbucket/:repo" element={<Guarded><BitbucketRepoPage /></Guarded>} />
           <Route
-            path="/bitbucket/:repo/pull-requests/:id"
-            element={<Guarded><BitbucketPullRequestPage /></Guarded>}
+            path="/jira"
+            element={
+              <Guarded>
+                <BoardPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/jira/backlog"
+            element={
+              <Guarded>
+                <BacklogPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/jira/issues/:key"
+            element={
+              <Guarded>
+                <IssuePage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/jira/settings"
+            element={
+              <Guarded>
+                <SettingsPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/jira/rovo"
+            element={
+              <Guarded>
+                <JiraRovoPage />
+              </Guarded>
+            }
           />
 
-          <Route path="/trello" element={<Guarded><TrelloBoardPage /></Guarded>} />
+          <Route
+            path="/confluence"
+            element={
+              <Guarded>
+                <ConfluenceHomePage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/confluence/pages/:id"
+            element={
+              <Guarded>
+                <ConfluencePage />
+              </Guarded>
+            }
+          />
 
-          <Route path="/loom" element={<Guarded><LoomLibraryPage /></Guarded>} />
-          <Route path="/loom/:id" element={<Guarded><LoomWatchPage /></Guarded>} />
+          <Route
+            path="/jsm"
+            element={
+              <Guarded>
+                <JsmQueuesPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/jsm/requests/:key"
+            element={
+              <Guarded>
+                <JsmRequestPage />
+              </Guarded>
+            }
+          />
 
-          <Route path="/rovo" element={<Guarded><RovoStudioPage /></Guarded>} />
-          <Route path="/admin" element={<Guarded><AdminHubPage /></Guarded>} />
+          <Route
+            path="/jpd"
+            element={
+              <Guarded>
+                <JpdIdeasPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/jpd/ideas/:key"
+            element={
+              <Guarded>
+                <JpdIdeaPage />
+              </Guarded>
+            }
+          />
+
+          <Route
+            path="/bitbucket"
+            element={
+              <Guarded>
+                <BitbucketReposPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/bitbucket/:repo"
+            element={
+              <Guarded>
+                <BitbucketRepoPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/bitbucket/:repo/pull-requests/:id"
+            element={
+              <Guarded>
+                <BitbucketPullRequestPage />
+              </Guarded>
+            }
+          />
+
+          <Route
+            path="/trello"
+            element={
+              <Guarded>
+                <TrelloBoardPage />
+              </Guarded>
+            }
+          />
+
+          <Route
+            path="/loom"
+            element={
+              <Guarded>
+                <LoomLibraryPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/loom/:id"
+            element={
+              <Guarded>
+                <LoomWatchPage />
+              </Guarded>
+            }
+          />
+
+          <Route
+            path="/rovo"
+            element={
+              <Guarded>
+                <RovoStudioPage />
+              </Guarded>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <Guarded>
+                <AdminHubPage />
+              </Guarded>
+            }
+          />
 
           <Route path="/products" element={<Navigate to="/software" replace />} />
           <Route path="/about" element={<Navigate to="/company" replace />} />

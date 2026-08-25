@@ -43,7 +43,9 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-line-soft pt-8">
-          <span className="text-xs font-bold tracking-[0.14em] text-ink-strong uppercase">Region</span>
+          <span className="text-xs font-bold tracking-[0.14em] text-ink-strong uppercase">
+            Region
+          </span>
           {REGIONS.map((region) => (
             <Link
               key={region.code}

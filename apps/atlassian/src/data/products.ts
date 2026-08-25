@@ -214,8 +214,7 @@ export const PRODUCTS: Product[] = [
     name: "Jira Product Discovery",
     family: "Product",
     tagline: "Build the right thing",
-    summary:
-      "Capture feedback, prioritise ideas, and create roadmaps tied to delivery in Jira.",
+    summary: "Capture feedback, prioritise ideas, and create roadmaps tied to delivery in Jira.",
     heroHeadline: "Ideas connected to delivery",
     heroBody:
       "Product teams collect insights, score opportunities, and push committed work into Jira without a second system of record.",
@@ -319,26 +318,51 @@ export const PRODUCTS: Product[] = [
   },
   extraApp("focus", "Focus", "Strategy", "Connect strategy to goals, work, people, and funds."),
   extraApp("talent", "Talent", "Strategy", "Plan and assemble a future-ready workforce."),
-  extraApp("jira-align", "Jira Align", "Strategy", "Align planning and delivery to strategy across the enterprise."),
+  extraApp(
+    "jira-align",
+    "Jira Align",
+    "Strategy",
+    "Align planning and delivery to strategy across the enterprise.",
+  ),
   extraApp(
     "customer-service-management",
     "Customer Service Management",
     "Service",
     "AI-powered customer service with the context to improve every interaction.",
   ),
-  extraApp("assets", "Assets", "Service", "See dependencies so you can troubleshoot incidents and reduce change risk."),
-  extraApp("rovo-dev", "Rovo Dev", "Software", "AI-enabled productivity and quality for the software delivery lifecycle."),
-  extraApp("dx", "DX", "Software", "Measure and improve productivity, quality, and speed for every software team."),
-  extraApp("pipelines", "Pipelines", "Software", "Orchestrate software delivery for one team or the whole organisation."),
-  extraApp("feedback", "Feedback", "Product", "Capture customer and teammate feedback next to the ideas it should change."),
+  extraApp(
+    "assets",
+    "Assets",
+    "Service",
+    "See dependencies so you can troubleshoot incidents and reduce change risk.",
+  ),
+  extraApp(
+    "rovo-dev",
+    "Rovo Dev",
+    "Software",
+    "AI-enabled productivity and quality for the software delivery lifecycle.",
+  ),
+  extraApp(
+    "dx",
+    "DX",
+    "Software",
+    "Measure and improve productivity, quality, and speed for every software team.",
+  ),
+  extraApp(
+    "pipelines",
+    "Pipelines",
+    "Software",
+    "Orchestrate software delivery for one team or the whole organisation.",
+  ),
+  extraApp(
+    "feedback",
+    "Feedback",
+    "Product",
+    "Capture customer and teammate feedback next to the ideas it should change.",
+  ),
 ];
 
-function extraApp(
-  slug: string,
-  name: string,
-  family: Product["family"],
-  summary: string,
-): Product {
+function extraApp(slug: string, name: string, family: Product["family"], summary: string): Product {
   return {
     slug,
     name,
@@ -350,7 +374,10 @@ function extraApp(
     bullets: [summary],
     features: [
       { title: `Part of the ${family} Collection`, body: summary },
-      { title: "On the Teamwork Graph", body: "Context from Jira, Confluence, and Rovo is available in the flow of work." },
+      {
+        title: "On the Teamwork Graph",
+        body: "Context from Jira, Confluence, and Rovo is available in the flow of work.",
+      },
     ],
     metrics: [{ value: family, label: "Collection" }],
     faqs: [

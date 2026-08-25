@@ -31,7 +31,10 @@ export default function JpdIdeasPage() {
             {ideas.map((idea) => (
               <tr key={idea.key} className="border-t border-line">
                 <td className="px-4 py-3">
-                  <Link to={`/jpd/ideas/${idea.key}`} className="focus-atl font-semibold text-atl-blue">
+                  <Link
+                    to={`/jpd/ideas/${idea.key}`}
+                    className="focus-atl font-semibold text-atl-blue"
+                  >
                     {idea.key}
                   </Link>
                 </td>

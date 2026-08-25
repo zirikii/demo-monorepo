@@ -24,10 +24,7 @@ export default function CollectionDetailPage() {
         eyebrow={`${collection.name} Collection`}
         title={collection.headline}
         body={collection.body}
-        crumbs={[
-          { label: "Products", to: "/software" },
-          { label: collection.name },
-        ]}
+        crumbs={[{ label: "Products", to: "/software" }, { label: collection.name }]}
         actions={<ButtonLink to="/try">Get started</ButtonLink>}
         aside={
           <div className="flex flex-wrap items-center gap-3">
@@ -38,7 +35,9 @@ export default function CollectionDetailPage() {
         }
       />
       <Section>
-        <p className="text-sm font-semibold text-ink-faint">Includes {collection.includes.join(" · ")}</p>
+        <p className="text-sm font-semibold text-ink-faint">
+          Includes {collection.includes.join(" · ")}
+        </p>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {products.map((product) => (
             <ProductTile key={product.slug} product={product} />

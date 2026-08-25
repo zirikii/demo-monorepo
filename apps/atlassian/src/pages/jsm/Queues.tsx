@@ -47,8 +47,12 @@ export default function JsmQueuesPage() {
               to={`/jsm/requests/${request.key}`}
               className="focus-atl flex flex-wrap items-center gap-3 px-4 py-3 hover:bg-surface-tint"
             >
-              <span className="w-20 shrink-0 text-sm font-semibold text-atl-blue">{request.key}</span>
-              <span className="min-w-0 flex-1 font-semibold text-ink-strong">{request.summary}</span>
+              <span className="w-20 shrink-0 text-sm font-semibold text-atl-blue">
+                {request.key}
+              </span>
+              <span className="min-w-0 flex-1 font-semibold text-ink-strong">
+                {request.summary}
+              </span>
               <span className="text-xs font-semibold text-ink-faint">{request.type}</span>
               <span className="text-xs font-semibold text-ink-soft">{request.status}</span>
               <span className="text-xs text-ink-faint">{request.sla}</span>

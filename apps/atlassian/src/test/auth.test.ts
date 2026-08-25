@@ -113,7 +113,12 @@ describe("sign up", () => {
   });
 
   it("falls back to a placeholder team name", () => {
-    const user = signUp({ name: "Jo Blogs", email: "jo@blogs.demo", password: "secret1", company: "  " });
+    const user = signUp({
+      name: "Jo Blogs",
+      email: "jo@blogs.demo",
+      password: "secret1",
+      company: "  ",
+    });
     expect(user.company).toBe("My team");
   });
 });

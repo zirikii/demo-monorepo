@@ -48,7 +48,9 @@ export function GraphStage({ caption }: { caption: string }) {
         ))}
       </svg>
       <div className="absolute right-6 bottom-6 left-6 border border-atl-blue/20 bg-white/92 p-4 shadow-atl">
-        <p className="text-xs font-bold tracking-[0.12em] text-atl-blue uppercase">Pulling in context…</p>
+        <p className="text-xs font-bold tracking-[0.12em] text-atl-blue uppercase">
+          Pulling in context…
+        </p>
         <p className="mt-2 text-sm leading-relaxed text-ink-soft">{caption}</p>
       </div>
     </div>

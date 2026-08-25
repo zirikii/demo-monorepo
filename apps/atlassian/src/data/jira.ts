@@ -35,7 +35,8 @@ export const ISSUES: JiraIssue[] = [
     key: "PORTAL-155",
     type: "Task",
     summary: "Wire feature gates for portal v2",
-    description: "Expose the new nav and billing card behind `portal.v2.nav` and `portal.v2.billing`.",
+    description:
+      "Expose the new nav and billing card behind `portal.v2.nav` and `portal.v2.billing`.",
     status: "In progress",
     priority: "Medium",
     assignee: "Jordan Hale",
@@ -71,7 +72,8 @@ export const ISSUES: JiraIssue[] = [
     key: "PORTAL-118",
     type: "Epic",
     summary: "Account microservice extraction",
-    description: "Split account reads out of the monolith. FIN-300 in the finance program tracks the cutover.",
+    description:
+      "Split account reads out of the monolith. FIN-300 in the finance program tracks the cutover.",
     status: "In progress",
     priority: "High",
     assignee: "Maya Chen",
@@ -85,7 +87,8 @@ export const ISSUES: JiraIssue[] = [
     key: "PORTAL-170",
     type: "Story",
     summary: "Campaign ad refresh landing page",
-    description: "Marketing needs the Q3 creative on the public signup page before the Monday push.",
+    description:
+      "Marketing needs the Q3 creative on the public signup page before the Monday push.",
     status: "To do",
     priority: "Medium",
     assignee: "Nadia Fischer",
@@ -113,7 +116,8 @@ export const ISSUES: JiraIssue[] = [
     key: "PORTAL-133",
     type: "Story",
     summary: "Redesign portal empty states",
-    description: "Empty dashboards still show the v1 illustration. Replace with the new design system empties.",
+    description:
+      "Empty dashboards still show the v1 illustration. Replace with the new design system empties.",
     status: "To do",
     priority: "Low",
     assignee: "Sam Okonkwo",
@@ -127,7 +131,8 @@ export const ISSUES: JiraIssue[] = [
     key: "PORTAL-098",
     type: "Bug",
     summary: "CSV export drops timezone on scheduled reports",
-    description: "Nightly report uses UTC for the filename and local time for the rows. Finance flagged the mismatch.",
+    description:
+      "Nightly report uses UTC for the filename and local time for the rows. Finance flagged the mismatch.",
     status: "Done",
     priority: "Medium",
     assignee: "Jordan Hale",
@@ -155,7 +160,8 @@ export const ISSUES: JiraIssue[] = [
     key: "PORTAL-088",
     type: "Story",
     summary: "Self-serve password reset with passkeys",
-    description: "Support volume on password resets is still too high. Offer passkeys on the reset confirmation page.",
+    description:
+      "Support volume on password resets is still too high. Offer passkeys on the reset confirmation page.",
     status: "Done",
     priority: "High",
     assignee: "Sam Okonkwo",

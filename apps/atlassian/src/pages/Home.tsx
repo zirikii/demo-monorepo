@@ -113,14 +113,69 @@ export default function HomePage() {
           preserveAspectRatio="none"
           className="pointer-events-none absolute inset-0 h-full w-full opacity-70"
         >
-          <line x1="8" y1="22" x2="28" y2="14" stroke="#357DE8" strokeOpacity="0.18" strokeWidth="0.18" />
-          <line x1="28" y1="14" x2="62" y2="12" stroke="#BF63F3" strokeOpacity="0.16" strokeWidth="0.18" />
-          <line x1="62" y1="12" x2="86" y2="28" stroke="#357DE8" strokeOpacity="0.14" strokeWidth="0.18" />
-          <line x1="16" y1="68" x2="41" y2="78" stroke="#F2AC00" strokeOpacity="0.16" strokeWidth="0.18" />
-          <line x1="41" y1="78" x2="74" y2="64" stroke="#82B536" strokeOpacity="0.14" strokeWidth="0.18" />
-          <line x1="74" y1="64" x2="92" y2="72" stroke="#BF63F3" strokeOpacity="0.14" strokeWidth="0.18" />
+          <line
+            x1="8"
+            y1="22"
+            x2="28"
+            y2="14"
+            stroke="#357DE8"
+            strokeOpacity="0.18"
+            strokeWidth="0.18"
+          />
+          <line
+            x1="28"
+            y1="14"
+            x2="62"
+            y2="12"
+            stroke="#BF63F3"
+            strokeOpacity="0.16"
+            strokeWidth="0.18"
+          />
+          <line
+            x1="62"
+            y1="12"
+            x2="86"
+            y2="28"
+            stroke="#357DE8"
+            strokeOpacity="0.14"
+            strokeWidth="0.18"
+          />
+          <line
+            x1="16"
+            y1="68"
+            x2="41"
+            y2="78"
+            stroke="#F2AC00"
+            strokeOpacity="0.16"
+            strokeWidth="0.18"
+          />
+          <line
+            x1="41"
+            y1="78"
+            x2="74"
+            y2="64"
+            stroke="#82B536"
+            strokeOpacity="0.14"
+            strokeWidth="0.18"
+          />
+          <line
+            x1="74"
+            y1="64"
+            x2="92"
+            y2="72"
+            stroke="#BF63F3"
+            strokeOpacity="0.14"
+            strokeWidth="0.18"
+          />
           {HERO_STARS.map((star) => (
-            <circle key={`${star.cx}-${star.cy}`} cx={star.cx} cy={star.cy} r={star.r} fill="#357DE8" fillOpacity="0.35" />
+            <circle
+              key={`${star.cx}-${star.cy}`}
+              cx={star.cx}
+              cy={star.cy}
+              r={star.r}
+              fill="#357DE8"
+              fillOpacity="0.35"
+            />
           ))}
         </svg>
         <div className="container-atl relative flex flex-col items-center gap-7 text-center">
@@ -201,7 +256,9 @@ export default function HomePage() {
                     {collectionProducts.map((product) => (
                       <li key={product.slug} className="flex items-center gap-2.5">
                         <AppMark slug={product.slug} size={36} />
-                        <span className="text-sm font-semibold text-ink-strong">{product.name}</span>
+                        <span className="text-sm font-semibold text-ink-strong">
+                          {product.name}
+                        </span>
                       </li>
                     ))}
                   </ul>
@@ -245,7 +302,9 @@ export default function HomePage() {
                   <span className="inline-flex w-fit rounded-[20px] bg-white/20 px-2.5 py-0.5 text-[0.65rem] font-bold tracking-[0.12em] uppercase">
                     {resource.type === "Guide" ? "Video" : resource.type}
                   </span>
-                  <h3 className="text-xl font-semibold leading-snug md:text-2xl">{resource.title}</h3>
+                  <h3 className="text-xl font-semibold leading-snug md:text-2xl">
+                    {resource.title}
+                  </h3>
                 </Link>
               </li>
             ))}
@@ -300,7 +359,10 @@ export default function HomePage() {
           </div>
           <ul className="grid gap-6 md:grid-cols-3">
             {TRUST_PILLARS.map((item) => (
-              <li key={item.title} className="border border-line bg-white p-7 transition hover:shadow-atl-lift">
+              <li
+                key={item.title}
+                className="border border-line bg-white p-7 transition hover:shadow-atl-lift"
+              >
                 <span className={cn("inline-flex p-3", item.tint)}>
                   <item.icon aria-hidden className={cn("h-6 w-6", item.ink)} />
                 </span>

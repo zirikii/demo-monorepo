@@ -52,7 +52,9 @@ export default function BacklogPage() {
           <span className="text-xs font-semibold text-ink-faint">{filtered.length}</span>
         </header>
         {filtered.length === 0 ? (
-          <p className="px-4 py-8 text-center text-sm text-ink-faint">No work items match that search.</p>
+          <p className="px-4 py-8 text-center text-sm text-ink-faint">
+            No work items match that search.
+          </p>
         ) : (
           <ul>
             {filtered.map((issue) => (
@@ -88,7 +90,9 @@ export default function BacklogPage() {
                 >
                   {initials(issue.assignee)}
                 </span>
-                <span className="w-6 shrink-0 text-right text-xs font-bold text-ink-soft">{issue.points}</span>
+                <span className="w-6 shrink-0 text-right text-xs font-bold text-ink-soft">
+                  {issue.points}
+                </span>
               </li>
             ))}
           </ul>

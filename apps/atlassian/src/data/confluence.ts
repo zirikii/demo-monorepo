@@ -66,6 +66,9 @@ export const CONFLUENCE_PAGES: ConfluencePage[] = [
   },
 ];
 
-export function getConfluencePage(id: string, pages = CONFLUENCE_PAGES): ConfluencePage | undefined {
+export function getConfluencePage(
+  id: string,
+  pages = CONFLUENCE_PAGES,
+): ConfluencePage | undefined {
   return pages.find((page) => page.id === id);
 }

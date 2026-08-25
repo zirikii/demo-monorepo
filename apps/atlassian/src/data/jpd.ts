@@ -22,7 +22,8 @@ export const DISCOVERY_IDEAS: DiscoveryIdea[] = [
     effort: 5,
     votes: 12,
     owner: "Sam Okonkwo",
-    description: "Support volume on password resets is still too high. Delivery lives on PORTAL-088.",
+    description:
+      "Support volume on password resets is still too high. Delivery lives on PORTAL-088.",
   },
   {
     key: "DISC-9",
@@ -32,7 +33,8 @@ export const DISCOVERY_IDEAS: DiscoveryIdea[] = [
     effort: 8,
     votes: 7,
     owner: "Maya Chen",
-    description: "Partners skip the consumer path. Evidence from last week's calls. Delivery spine is PORTAL-142.",
+    description:
+      "Partners skip the consumer path. Evidence from last week's calls. Delivery spine is PORTAL-142.",
   },
   {
     key: "DISC-15",

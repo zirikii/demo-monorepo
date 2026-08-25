@@ -112,7 +112,9 @@ describe("Jira issue", () => {
 
   it("renders the work item summary", () => {
     renderJira("/jira/issues/PORTAL-142");
-    expect(screen.getByRole("heading", { name: "Add 300k-account onboarding path" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Add 300k-account onboarding path" }),
+    ).toBeInTheDocument();
   });
 
   it("persists a status change so the board can pick it up", async () => {
@@ -145,7 +147,9 @@ describe("Jira settings", () => {
     await user.click(toggle);
 
     expect(toggle).toHaveAttribute("aria-checked", "false");
-    expect(JSON.parse(window.localStorage.getItem("atlassian-demo-settings") ?? "{}")).toMatchObject({
+    expect(
+      JSON.parse(window.localStorage.getItem("atlassian-demo-settings") ?? "{}"),
+    ).toMatchObject({
       emailNotifications: false,
     });
   });
@@ -173,9 +177,9 @@ describe("Jira create and comments", () => {
       summary: string;
       status: string;
     }[];
-    expect(stored.some((issue) => issue.summary === "Write launch FAQ" && issue.status === "To do")).toBe(
-      true,
-    );
+    expect(
+      stored.some((issue) => issue.summary === "Write launch FAQ" && issue.status === "To do"),
+    ).toBe(true);
   });
 });
 

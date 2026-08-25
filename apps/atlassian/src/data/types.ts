@@ -25,12 +25,7 @@ export interface MegaMenu {
 }
 
 export type ProductFamily =
-  | "Teamwork"
-  | "Strategy"
-  | "Service"
-  | "Software"
-  | "Product"
-  | "Platform";
+  "Teamwork" | "Strategy" | "Service" | "Software" | "Product" | "Platform";
 
 export interface Product {
   slug: string;

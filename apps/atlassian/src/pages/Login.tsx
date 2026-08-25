@@ -103,12 +103,7 @@ export default function LoginPage() {
           </div>
         ) : null}
 
-        <form
-          key={portal}
-          onSubmit={onSubmit}
-          noValidate
-          className="mt-6 flex flex-col gap-4"
-        >
+        <form key={portal} onSubmit={onSubmit} noValidate className="mt-6 flex flex-col gap-4">
           <Field label="Email" htmlFor="email" error={errors.email?.message}>
             <TextInput
               id="email"
@@ -141,7 +136,10 @@ export default function LoginPage() {
         </form>
 
         <p className="mt-5 text-center text-sm">
-          <Link to="/support" className="focus-atl font-semibold text-atl-blue-deep hover:underline">
+          <Link
+            to="/support"
+            className="focus-atl font-semibold text-atl-blue-deep hover:underline"
+          >
             Can&apos;t log in?
           </Link>
         </p>

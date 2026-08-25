@@ -110,7 +110,9 @@ export function JiraLayout({
                 className={({ isActive }: { isActive: boolean }) =>
                   cn(
                     "focus-atl block rounded-atl-sm px-2 py-1.5 text-sm font-medium",
-                    isActive ? "bg-atl-tint text-atl-blue-deep" : "text-ink-soft hover:bg-line-soft",
+                    isActive
+                      ? "bg-atl-tint text-atl-blue-deep"
+                      : "text-ink-soft hover:bg-line-soft",
                   )
                 }
               >
@@ -123,11 +125,7 @@ export function JiraLayout({
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="flex h-12 shrink-0 items-center gap-1 border-b border-line bg-white px-2">
-          <button
-            type="button"
-            aria-label="Collapse sidebar"
-            className={ICON_BTN}
-          >
+          <button type="button" aria-label="Collapse sidebar" className={ICON_BTN}>
             <PanelLeft aria-hidden className="h-4.5 w-4.5" />
           </button>
           <AppSwitcher />
@@ -173,11 +171,7 @@ export function JiraLayout({
               <RovoLogo size={16} />
               Ask Rovo
             </Link>
-            <Link
-              to="/jira/settings"
-              aria-label="Project settings"
-              className={ICON_BTN}
-            >
+            <Link to="/jira/settings" aria-label="Project settings" className={ICON_BTN}>
               <Settings aria-hidden className="h-4.5 w-4.5" />
             </Link>
             <AccountMenu

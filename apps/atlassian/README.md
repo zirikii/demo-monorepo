@@ -7,7 +7,7 @@ for **Jira**, **Confluence**, **Jira Service Management**, **Jira Product Discov
 **Bitbucket**, **Trello**, **Loom**, **Rovo**, and **Admin**.
 
 Jira board cards cannot be dragged between columns — that limitation is intentional for
-demos. Status still changes from the work item page. Trello cards *can* move between lists.
+demos. Status still changes from the work item page. Trello cards _can_ move between lists.
 
 > **Not affiliated with, endorsed by, or connected to Atlassian Pty Ltd.** Every teammate,
 > work item, customer story and figure in this build is invented. Nothing is transmitted
@@ -22,26 +22,26 @@ pnpm dev:atlassian
 
 The dev server runs on <http://localhost:5183>. No environment variables are required.
 
-| Script            | What it does                               |
-| ----------------- | ------------------------------------------ |
-| `pnpm dev`        | Vite dev server on port 5183               |
-| `pnpm build`      | Typecheck then production build            |
-| `pnpm preview`    | Serve the production build on port 5183    |
-| `pnpm lint`       | ESLint across the app                      |
-| `pnpm typecheck`  | `tsc -b --noEmit`                          |
-| `pnpm test`       | Vitest unit and component suites           |
-| `pnpm brand`      | Re-fetch brand artwork into `public/brand` |
+| Script           | What it does                               |
+| ---------------- | ------------------------------------------ |
+| `pnpm dev`       | Vite dev server on port 5183               |
+| `pnpm build`     | Typecheck then production build            |
+| `pnpm preview`   | Serve the production build on port 5183    |
+| `pnpm lint`      | ESLint across the app                      |
+| `pnpm typecheck` | `tsc -b --noEmit`                          |
+| `pnpm test`      | Vitest unit and component suites           |
+| `pnpm brand`     | Re-fetch brand artwork into `public/brand` |
 
 ## Demo credentials
 
 The login form is pre-filled and the credentials are also printed on the page.
 
-| Portal | Email                    | Password       | Lands on        |
-| ------ | ------------------------ | -------------- | --------------- |
-| Jira   | `demo@atlassian.com`     | `teamwork2026` | `/jira`         |
-| Confluence, JSM, JPD, Bitbucket, Trello, Loom | `demo@atlassian.com` | `teamwork2026` | that product’s path |
-| Admin  | `admin@atlassian.com`    | `admin2026`    | `/admin`        |
-| Rovo   | `rovo@atlassian.com`     | `agents2026`   | `/rovo`         |
+| Portal                                        | Email                 | Password       | Lands on            |
+| --------------------------------------------- | --------------------- | -------------- | ------------------- |
+| Jira                                          | `demo@atlassian.com`  | `teamwork2026` | `/jira`             |
+| Confluence, JSM, JPD, Bitbucket, Trello, Loom | `demo@atlassian.com`  | `teamwork2026` | that product’s path |
+| Admin                                         | `admin@atlassian.com` | `admin2026`    | `/admin`            |
+| Rovo                                          | `rovo@atlassian.com`  | `agents2026`   | `/rovo`             |
 
 Any of the three accounts can sign in on any product login. The `portal` query param
 chooses the landing app. Sign-up at `/signup` still drops you into Jira.

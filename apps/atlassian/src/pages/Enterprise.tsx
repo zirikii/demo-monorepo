@@ -17,9 +17,18 @@ export default function EnterprisePage() {
       <Section>
         <ul className="grid gap-6 md:grid-cols-3">
           {[
-            { title: "Atlassian Guard", body: "Company-wide visibility, security policies, and control across Cloud." },
-            { title: "Unlimited sites", body: "Isolate brands or regions without losing a shared user directory." },
-            { title: "Enterprise support", body: "24/7 coverage with named contacts and priority incident response." },
+            {
+              title: "Atlassian Guard",
+              body: "Company-wide visibility, security policies, and control across Cloud.",
+            },
+            {
+              title: "Unlimited sites",
+              body: "Isolate brands or regions without losing a shared user directory.",
+            },
+            {
+              title: "Enterprise support",
+              body: "24/7 coverage with named contacts and priority incident response.",
+            },
           ].map((item) => (
             <li key={item.title} className="rounded-atl-lg border border-line p-6">
               <h2 className="text-xl font-extrabold">{item.title}</h2>

@@ -58,14 +58,19 @@ export default function TrelloBoardPage() {
                           ))}
                         </p>
                       ) : null}
-                      <label className="mt-3 block text-xs font-semibold text-ink-faint" htmlFor={`move-${card.id}`}>
+                      <label
+                        className="mt-3 block text-xs font-semibold text-ink-faint"
+                        htmlFor={`move-${card.id}`}
+                      >
                         Move to
                       </label>
                       <select
                         id={`move-${card.id}`}
                         aria-label={`Move ${card.title}`}
                         value={card.list}
-                        onChange={(event) => setCards(moveCard(card.id, event.target.value as TrelloList))}
+                        onChange={(event) =>
+                          setCards(moveCard(card.id, event.target.value as TrelloList))
+                        }
                         className="focus-atl mt-1 h-8 w-full rounded-atl border border-line bg-white px-2 text-sm"
                       >
                         {TRELLO_LISTS.map((option) => (

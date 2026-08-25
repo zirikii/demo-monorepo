@@ -66,11 +66,31 @@ export const PRODUCTS_MENU: MegaMenu = {
     {
       heading: "Collections",
       links: [
-        { label: "Teamwork Collection", to: "/collections/teamwork", description: "Jira, Confluence, Loom" },
-        { label: "Strategy Collection", to: "/collections/strategy", description: "Focus, Talent, Align" },
-        { label: "Service Collection", to: "/collections/service", description: "JSM, CSM, Assets" },
-        { label: "Software Collection", to: "/collections/software", description: "Rovo Dev, DX, Pipelines" },
-        { label: "Product Collection", to: "/collections/product", description: "JPD, Feedback, Rovo" },
+        {
+          label: "Teamwork Collection",
+          to: "/collections/teamwork",
+          description: "Jira, Confluence, Loom",
+        },
+        {
+          label: "Strategy Collection",
+          to: "/collections/strategy",
+          description: "Focus, Talent, Align",
+        },
+        {
+          label: "Service Collection",
+          to: "/collections/service",
+          description: "JSM, CSM, Assets",
+        },
+        {
+          label: "Software Collection",
+          to: "/collections/software",
+          description: "Rovo Dev, DX, Pipelines",
+        },
+        {
+          label: "Product Collection",
+          to: "/collections/product",
+          description: "JPD, Feedback, Rovo",
+        },
       ],
     },
   ],
@@ -95,19 +115,43 @@ export const SOLUTIONS_MENU: MegaMenu = {
     {
       heading: "By team",
       links: [
-        { label: "Software teams", to: "/solutions/software", description: "Plan, build, and ship together" },
+        {
+          label: "Software teams",
+          to: "/solutions/software",
+          description: "Plan, build, and ship together",
+        },
         { label: "IT teams", to: "/solutions/it", description: "Service, incidents, and assets" },
-        { label: "Product managers", to: "/solutions/product", description: "Discovery through delivery" },
-        { label: "Business teams", to: "/solutions/business", description: "Marketing, HR, legal, finance" },
-        { label: "Leadership", to: "/solutions/leadership", description: "Strategy connected to execution" },
+        {
+          label: "Product managers",
+          to: "/solutions/product",
+          description: "Discovery through delivery",
+        },
+        {
+          label: "Business teams",
+          to: "/solutions/business",
+          description: "Marketing, HR, legal, finance",
+        },
+        {
+          label: "Leadership",
+          to: "/solutions/leadership",
+          description: "Strategy connected to execution",
+        },
       ],
     },
     {
       heading: "By need",
       links: [
-        { label: "Agile & DevOps", to: "/solutions/software", description: "Boards, roadmaps, CI/CD" },
+        {
+          label: "Agile & DevOps",
+          to: "/solutions/software",
+          description: "Boards, roadmaps, CI/CD",
+        },
         { label: "ITSM", to: "/solutions/it", description: "Requests, changes, and SLAs" },
-        { label: "Knowledge management", to: "/software/confluence", description: "Docs, whiteboards, search" },
+        {
+          label: "Knowledge management",
+          to: "/software/confluence",
+          description: "Docs, whiteboards, search",
+        },
         { label: "Work management", to: "/software/jira", description: "Projects for every team" },
       ],
     },
@@ -130,7 +174,11 @@ export const RESOURCES_MENU: MegaMenu = {
       heading: "Learn",
       links: [
         { label: "Resource library", to: "/resources", description: "Reports, ebooks, and events" },
-        { label: "Customer stories", to: "/customers", description: "How teams ship faster with AI" },
+        {
+          label: "Customer stories",
+          to: "/customers",
+          description: "How teams ship faster with AI",
+        },
         { label: "Community", to: "/community", description: "Ask, learn, and share" },
         { label: "Partners", to: "/partners", description: "Consulting and customization" },
       ],

@@ -24,7 +24,9 @@ export default function MarketplacePage() {
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {APPS.map((app) => (
             <li key={app.name} className="rounded-atl-lg border border-line p-6">
-              <p className="text-xs font-bold tracking-[0.12em] text-ink-ghost uppercase">{app.category}</p>
+              <p className="text-xs font-bold tracking-[0.12em] text-ink-ghost uppercase">
+                {app.category}
+              </p>
               <h2 className="mt-2 text-xl font-extrabold">{app.name}</h2>
               <p className="mt-2 text-sm text-ink-faint">{app.rating} / 5</p>
             </li>

@@ -27,7 +27,9 @@ export default function ResourcesPage() {
                 </span>
                 <h2 className="text-xl font-extrabold">{resource.title}</h2>
                 <p className="text-sm leading-relaxed text-ink-soft">{resource.excerpt}</p>
-                <p className="mt-auto pt-2 text-xs text-ink-faint">{formatDate(resource.publishedOn)}</p>
+                <p className="mt-auto pt-2 text-xs text-ink-faint">
+                  {formatDate(resource.publishedOn)}
+                </p>
               </Link>
             </li>
           ))}

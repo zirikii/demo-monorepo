@@ -40,10 +40,7 @@ export default function PricingPage() {
         eyebrow="Jira Cloud"
         title="Plans for every team"
         body="Transparent pricing for every team. Start free. Upgrade when you need advanced roadmaps, Rovo agents, or enterprise controls."
-        crumbs={[
-          { label: "Jira", to: "/software/jira" },
-          { label: "Pricing" },
-        ]}
+        crumbs={[{ label: "Jira", to: "/software/jira" }, { label: "Pricing" }]}
       />
 
       <Section>
@@ -88,7 +85,9 @@ export default function PricingPage() {
               key={plan.id}
               className={cn(
                 "flex flex-col gap-4 rounded-atl-lg border p-6",
-                plan.highlight ? "border-atl-blue bg-atl-tint shadow-atl-lift" : "border-line bg-white",
+                plan.highlight
+                  ? "border-atl-blue bg-atl-tint shadow-atl-lift"
+                  : "border-line bg-white",
               )}
             >
               {plan.highlight ? (
@@ -98,7 +97,9 @@ export default function PricingPage() {
               ) : null}
               <h2 className="text-2xl font-extrabold">{plan.name}</h2>
               <p>
-                <span className="text-3xl font-extrabold">{planPriceLabel(plan, users, interval)}</span>
+                <span className="text-3xl font-extrabold">
+                  {planPriceLabel(plan, users, interval)}
+                </span>
                 <span className="ml-1 text-sm text-ink-faint">{plan.priceNote}</span>
               </p>
               <p className="text-sm text-ink-soft">{plan.positioning}</p>
@@ -115,7 +116,10 @@ export default function PricingPage() {
         </div>
       </Section>
 
-      <CtaBand title="Not sure which plan?" body="Start a trial on Premium. Downgrade anytime in this demo." />
+      <CtaBand
+        title="Not sure which plan?"
+        body="Start a trial on Premium. Downgrade anytime in this demo."
+      />
     </PageLayout>
   );
 }

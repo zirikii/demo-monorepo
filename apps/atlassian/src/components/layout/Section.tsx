@@ -29,7 +29,9 @@ export function Section({
 }: SectionProps) {
   return (
     <section id={id} className={cn("py-16 md:py-24", TONES[tone], className)}>
-      <div className={cn(wide ? "container-atl-wide" : "container-atl", innerClassName)}>{children}</div>
+      <div className={cn(wide ? "container-atl-wide" : "container-atl", innerClassName)}>
+        {children}
+      </div>
     </section>
   );
 }

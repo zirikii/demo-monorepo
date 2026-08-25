@@ -39,7 +39,9 @@ export const TextInput = forwardRef<HTMLInputElement, ComponentPropsWithoutRef<"
 
 export const TextArea = forwardRef<HTMLTextAreaElement, ComponentPropsWithoutRef<"textarea">>(
   function TextArea({ className, ...props }, ref) {
-    return <textarea ref={ref} className={cn(CONTROL, "min-h-32 resize-y", className)} {...props} />;
+    return (
+      <textarea ref={ref} className={cn(CONTROL, "min-h-32 resize-y", className)} {...props} />
+    );
   },
 );
 
