@@ -1,6 +1,6 @@
 # demo-monorepo
 
-A pnpm workspace that bundles four independent demo apps together and gives them
+A pnpm workspace that bundles independent demo apps together and gives them
 a single shared UI package (`@demo/ui`) to pull from.
 
 ## What's inside
@@ -20,7 +20,8 @@ demo-monorepo/
 │   ├── optus/    # Vite + React 19 Optus NOC agentic remediation demo (Tailwind v4, TS)
 │   ├── commbank/ # Vite + React 19 commbank.com.au website + NetBank (Tailwind v4, TS)
 │   ├── employmenthero/ # Vite + React 19 employmenthero.com + Employment OS (Tailwind v4, TS)
-│   └── hub24/    # Vite + React 19 hub24.com.au + AdviserHUB platform (Tailwind v4, TS)
+│   ├── hub24/    # Vite + React 19 hub24.com.au + AdviserHUB platform (Tailwind v4, TS)
+│   └── atlassian/ # Vite + React 19 atlassian.com + mock product workspaces (Tailwind v4, TS)
 └── packages/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
@@ -52,6 +53,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | commbank | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | employmenthero | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | hub24 | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
+| atlassian | `cn` + `asset` (`src/lib/cn.ts`, `src/lib/asset.ts`) + `<DemoRibbon>` in header |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
 See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
@@ -63,10 +65,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / … / optus / commbank / employmenthero / hub24
+pnpm dev:kddi      # or dev:nab / … / optus / commbank / employmenthero / hub24 / atlassian
 
 # build one app
-pnpm build:seek    # or build:kddi / … / build:commbank / build:employmenthero / build:hub24
+pnpm build:seek    # or build:kddi / … / build:commbank / build:employmenthero / build:hub24 / build:atlassian
 
 # build every app
 pnpm build
@@ -77,7 +79,13 @@ Node 20+ and pnpm 10+ are required (`packageManager` is pinned in the root
 
 ## Cursor skills
 
-Agent skills for this monorepo — including `mock-company-repo` and the
-per-app convention skills — live in
+Agent alignment skills — including `mock-company-repo` and the per-app convention
+skills — live in the sibling
 [demo-monorepo-plugin](https://github.com/zirikii/demo-monorepo-plugin).
 Install that plugin locally or attach the repo when launching a cloud agent.
+
+The Atlassian app also ships project-local skills under `.cursor/skills/`:
+`tdd-multiagent`, plus `verify-jira`, `verify-confluence`, `verify-jsm`,
+`verify-jpd`, `verify-bitbucket`, `verify-trello`, `verify-loom`, `verify-rovo`,
+and `verify-admin`. TDD hooks for `test-writer` / `implementer` live in
+`.cursor/hooks.json`.

@@ -1,0 +1,31 @@
+{
+  "brand": "Atlassian",
+  "sources": [
+    "https://www.atlassian.com/",
+    "https://atlassian.design/foundations/logos",
+    "User-supplied logo artwork (Atlassian, Jira, Confluence, Bitbucket, Loom, Community lockups)"
+  ],
+  "note": "mark.svg / mark-white.svg / favicon.svg use the official two-peak Atlassian 'A' geometry with the classic #0052CC to #2684FF gradient, matching the supplied lockup artwork. Product marks (Jira, Confluence, Bitbucket, Loom) are inlined in src/components/brand/AppMark.tsx with the same official geometry. community.svg is a stylised four-colour pinwheel hexagon approximating the Atlassian Community mark. Official Charlie Sans is not licensed for this demo; Plus Jakarta Sans stands in for wordmarks.",
+  "assets": [
+    {
+      "file": "mark.svg",
+      "treatment": "brand",
+      "source": "Official Atlassian two-peak mark, blue gradient (per supplied artwork)"
+    },
+    {
+      "file": "mark-white.svg",
+      "treatment": "inverse",
+      "source": "White rendition of the official mark for dark surfaces"
+    },
+    {
+      "file": "favicon.svg",
+      "treatment": "app-icon",
+      "source": "Official mark reversed out of a #0052CC tile"
+    },
+    {
+      "file": "community.svg",
+      "treatment": "brand",
+      "source": "Stylised Atlassian Community pinwheel hexagon (blue/purple/yellow/green brand-mark palette)"
+    }
+  ]
+}

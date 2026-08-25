@@ -23,6 +23,12 @@ test-results/
 # nab generated static-server artifacts
 apps/nab/shots/walkthrough/
 
+# Atlassian TDD hook artifacts
+.cursor/hooks/debug/
+.cursor/hooks/last-run.md
+.cursor/hooks/last-run.json
+.cursor/hooks/last-run-snapshot.json
+
 # logs
 *.log
 npm-debug.log*

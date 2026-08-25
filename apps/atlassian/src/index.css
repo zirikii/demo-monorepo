@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
+@theme {
+  /* atlassian.com marketing palette. #357DE8 is the interactive blue used on
+   * links, tabs, and pill CTAs; #0C66E4 is the in-product CTA used on Cloud
+   * buttons inside the mock Jira workspace. */
+  --color-atl-blue: #357de8;
+  --color-atl-blue-hover: #2369d4;
+  --color-atl-blue-deep: #0c66e4;
+  --color-atl-blue-night: #09326c;
+  --color-atl-sky: #85b8ff;
+  --color-atl-tint: #e9f2ff;
+  --color-atl-tint-strong: #cce0ff;
+
+  /* Full-section brand surfaces (colour as environment, not accents). */
+  --color-atl-cobalt: #1558bc;
+  --color-atl-forest: #4c6b1f;
+  --color-atl-ember: #c75300;
+  --color-atl-plum: #803fa5;
+
+  /* Illustration / SVG brand-mark pigments only — never surfaces or text. */
+  --color-mark-blue: #357de8;
+  --color-mark-yellow: #f2ac00;
+  --color-mark-purple: #bf63f3;
+  --color-mark-green: #82b536;
+
+  /* Legacy ADS navy, kept for the in-product mock Jira chrome. */
+  --color-atl-navy: #172b4d;
+  --color-atl-navy-deep: #091e42;
+  --color-atl-navy-soft: #1d3763;
+
+  --color-ink: #292a2e;
+  --color-ink-strong: #101214;
+  --color-ink-soft: #505258;
+  --color-ink-faint: #6c6e75;
+  --color-ink-ghost: #8c8f97;
+
+  --color-surface: #ffffff;
+  --color-surface-tint: #f8f8f8;
+  --color-surface-deep: #f1f2f4;
+  --color-line: #dfe1e6;
+  --color-line-soft: #ebecf0;
+
+  --color-positive: #1f845a;
+  --color-positive-tint: #dcfff1;
+  --color-critical: #c9372c;
+  --color-critical-tint: #ffeceb;
+  --color-caution: #946f00;
+  --color-caution-tint: #fff7d6;
+  --color-info: #0c66e4;
+  --color-info-tint: #e9f2ff;
+
+  --color-jira: #2684ff;
+  --color-confluence: #2684ff;
+  --color-loom: #625df5;
+  --color-rovo: #1d9e75;
+  --color-jsm: #2684ff;
+  --color-jpd: #8f7ee7;
+  --color-bitbucket: #2684ff;
+  --color-trello: #0052cc;
+
+  --font-sans: "Plus Jakarta Sans", "Charlie Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* atlassian.com radius scale: 3px nav pills / sign-in, 8px menus and tabs,
+   * 20px chips, pill (radius-full) CTAs. Cards are sharp-cornered. */
+  --radius-atl-sm: 3px;
+  --radius-atl: 3px;
+  --radius-atl-lg: 8px;
+  --radius-atl-xl: 20px;
+
+  --shadow-atl: 0 1px 1px rgba(9, 30, 66, 0.08), 0 0 1px rgba(9, 30, 66, 0.16);
+  --shadow-atl-lift: 0 8px 16px rgba(9, 30, 66, 0.1), 0 0 1px rgba(9, 30, 66, 0.16);
+  --shadow-atl-menu: 0 16px 32px rgba(9, 30, 66, 0.16);
+
+  --animate-atl-rise: atl-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-atl-fade: atl-fade 0.22s ease-out both;
+}
+
+@keyframes atl-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes atl-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  [id] {
+    scroll-margin-top: 7rem;
+  }
+}
+
+:root {
+  --demo-accent: #357de8;
+}
+
+@utility container-atl {
+  margin-inline: auto;
+  max-width: 1180px;
+  padding-inline: 1.25rem;
+}
+
+@utility container-atl-wide {
+  margin-inline: auto;
+  max-width: 1320px;
+  padding-inline: 1.25rem;
+}
+
+@utility focus-atl {
+  outline: none;
+  &:focus-visible {
+    outline: 2px solid var(--color-atl-blue);
+    outline-offset: 2px;
+  }
+}
+
+@utility text-balance-atl {
+  text-wrap: balance;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

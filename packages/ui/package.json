@@ -15,6 +15,7 @@
     ".": "./src/index.ts",
     "./cn": "./src/cn.ts",
     "./cx": "./src/cx.ts",
+    "./asset": "./src/asset.ts",
     "./tokens": "./src/tokens.ts",
     "./tokens.css": "./tokens.css",
     "./components/demo-ribbon": "./src/components/demo-ribbon.tsx"

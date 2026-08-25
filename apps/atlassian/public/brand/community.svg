@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Stylised Atlassian Community hexagon: four brand-mark colours in a pinwheel -->
+  <path fill="#357DE8" d="M10.9 1.62 4.28 5.44a3 3 0 0 0-1.5 2.6v6.99l8.12-4.69V1.62z"/>
+  <path fill="#BF63F3" d="M13.1 1.62v8.72l8.12 4.69V8.04a3 3 0 0 0-1.5-2.6L13.1 1.62z"/>
+  <path fill="#F2AC00" d="M13.1 22.38l6.62-3.82a3 3 0 0 0 1.5-2.6v-.47l-8.12-4.69v11.58z"/>
+  <path fill="#82B536" d="M10.9 22.38V10.8l-8.12 4.69v.47a3 3 0 0 0 1.5 2.6l6.62 3.82z"/>
+</svg>
