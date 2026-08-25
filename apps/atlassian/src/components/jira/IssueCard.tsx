@@ -1,18 +1,14 @@
-import type { DragEvent } from "react";
+import type { DragEvent, MouseEvent, PointerEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IssueTypeGlyph } from "./IssueTypeGlyph";
 import type { JiraIssue } from "@/data/types";
+import { cn } from "@/lib/cn";
 import { initials } from "@/lib/format";
 
-export function IssueCard({ issue }: { issue: JiraIssue }) {
+function IssueCardFace({ issue }: { issue: JiraIssue }) {
   return (
-    <Link
-      to={`/jira/issues/${issue.key}`}
-      draggable={false}
-      onDragStart={(event: DragEvent<HTMLAnchorElement>) => event.preventDefault()}
-      className="focus-atl block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl transition hover:bg-surface-tint"
-    >
+    <>
       <p className="text-sm text-ink-strong">{issue.summary}</p>
       {issue.labels.length > 0 ? (
         <span className="mt-2 flex flex-wrap gap-1">
@@ -42,6 +38,49 @@ export function IssueCard({ issue }: { issue: JiraIssue }) {
           {initials(issue.assignee)}
         </span>
       </span>
+    </>
+  );
+}
+
+const CARD_FACE =
+  "block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl";
+
+export function IssueCard({
+  issue,
+  dragging = false,
+  ghost = false,
+  onPointerDown,
+  onClick,
+}: {
+  issue: JiraIssue;
+  dragging?: boolean;
+  ghost?: boolean;
+  onPointerDown?: (event: PointerEvent<HTMLAnchorElement>) => void;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+}) {
+  if (ghost) {
+    return (
+      <div className={cn(CARD_FACE, "shadow-atl-lift ring-1 ring-atl-blue/40")}>
+        <IssueCardFace issue={issue} />
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      to={`/jira/issues/${issue.key}`}
+      draggable={false}
+      aria-grabbed={dragging || undefined}
+      onDragStart={(event: DragEvent<HTMLAnchorElement>) => event.preventDefault()}
+      onPointerDown={onPointerDown}
+      onClick={onClick}
+      className={cn(
+        CARD_FACE,
+        "focus-atl touch-none cursor-grab select-none transition hover:bg-surface-tint",
+        dragging && "opacity-40",
+      )}
+    >
+      <IssueCardFace issue={issue} />
     </Link>
   );
 }

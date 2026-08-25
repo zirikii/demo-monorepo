@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -90,6 +90,67 @@ describe("Jira board", () => {
 
     expect(screen.queryByText("PORTAL-142")).not.toBeInTheDocument();
   });
+
+  it("opens a work item when a card is clicked without dragging", async () => {
+    const user = userEvent.setup();
+    renderJira("/jira");
+
+    await user.click(screen.getByRole("link", { name: /PORTAL-170/ }));
+
+    expect(screen.getByRole("heading", { name: "Campaign ad refresh landing page" })).toBeInTheDocument();
+  });
+
+  it("drags a card into another column and keeps the status after remount", () => {
+    const { unmount } = renderJira("/jira");
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    const inProgress = screen.getByRole("region", { name: "In progress" });
+
+    expect(within(screen.getByRole("region", { name: "To do" })).getByRole("link", { name: /PORTAL-170/ })).toBeInTheDocument();
+
+    const originalFromPoint = document.elementFromPoint;
+    document.elementFromPoint = () => inProgress;
+
+    const pointer = (target: EventTarget, type: string, init: PointerEventInit) => {
+      target.dispatchEvent(
+        new PointerEvent(type, {
+          bubbles: true,
+          cancelable: true,
+          pointerId: 1,
+          pointerType: "mouse",
+          isPrimary: true,
+          ...init,
+        }),
+      );
+    };
+
+    act(() => {
+      pointer(card, "pointerdown", { clientX: 24, clientY: 24, button: 0, buttons: 1 });
+      pointer(window, "pointermove", { clientX: 48, clientY: 24, buttons: 1 });
+    });
+    expect(inProgress).toHaveClass("bg-atl-tint-strong");
+    act(() => {
+      pointer(window, "pointerup", { clientX: 420, clientY: 80, button: 0 });
+    });
+    document.elementFromPoint = originalFromPoint;
+
+    expect(
+      within(screen.getByRole("region", { name: "In progress" })).getByRole("link", { name: /PORTAL-170/ }),
+    ).toBeInTheDocument();
+    expect(within(screen.getByRole("region", { name: "To do" })).queryByRole("link", { name: /PORTAL-170/ })).not.toBeInTheDocument();
+
+    const stored = JSON.parse(window.localStorage.getItem("atlassian-demo-issues") ?? "[]") as {
+      key: string;
+      status: string;
+    }[];
+    expect(stored.find((issue) => issue.key === "PORTAL-170")?.status).toBe("In progress");
+
+    unmount();
+    renderJira("/jira");
+
+    expect(
+      within(screen.getByRole("region", { name: "In progress" })).getByRole("link", { name: /PORTAL-170/ }),
+    ).toBeInTheDocument();
+  });
 });
 
 describe("Jira backlog", () => {
@@ -157,12 +218,9 @@ describe("Jira create and comments", () => {
     writeSession(USER);
   });
 
-  it("creates a work item from a column and leaves cards undraggable", async () => {
+  it("creates a work item from a column", async () => {
     const user = userEvent.setup();
     renderJira("/jira");
-
-    const card = screen.getByRole("link", { name: /PORTAL-170/ });
-    expect(card).toHaveAttribute("draggable", "false");
 
     await user.click(screen.getByRole("button", { name: "Create in To do" }));
     await user.type(screen.getByLabelText("Summary"), "Write launch FAQ");

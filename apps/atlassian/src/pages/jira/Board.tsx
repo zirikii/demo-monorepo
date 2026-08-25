@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Filter,
   Megaphone,
@@ -14,8 +15,10 @@ import { JiraLayout } from "@/components/jira/JiraLayout";
 import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
+import { useBoardCardDrag } from "@/hooks/useBoardCardDrag";
+import { cn } from "@/lib/cn";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
@@ -38,6 +41,9 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
+  const { drag, ghostRef, onCardPointerDown, onCardClick } = useBoardCardDrag(({ key, status }) => {
+    setIssues(updateIssueStatus(key, status));
+  });
   const showReleaseRisk = readJson("atlassian-demo-settings", { releaseInsights: false }).releaseInsights;
 
   const boardPeople = useMemo(() => {
@@ -160,21 +166,44 @@ export default function BoardPage() {
         <div className="mt-4 flex items-start gap-3 overflow-x-auto pb-4">
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
+            const isOrigin = drag?.issue.status === status;
+            const isDropTarget = Boolean(drag && drag.dropStatus === status && !isOrigin);
+            const isDropReady = Boolean(drag && !isOrigin && !isDropTarget);
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                aria-label={status}
+                data-board-column={status}
+                className={cn(
+                  "min-h-48 w-64 shrink-0 rounded-atl-lg p-1.5 transition-[background-color,box-shadow,ring-color] duration-150",
+                  isDropTarget && "bg-atl-tint-strong ring-2 ring-atl-blue ring-inset",
+                  isDropReady && "bg-atl-tint ring-1 ring-atl-sky ring-inset",
+                  !drag && "bg-surface-deep",
+                  isOrigin && "bg-surface-deep",
+                )}
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
                 </header>
-                {columnIssues.length > 0 ? (
-                  <ul className="flex flex-col gap-1.5">
-                    {columnIssues.map((issue) => (
-                      <li key={issue.key}>
-                        <IssueCard issue={issue} />
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
+                <ul className="flex min-h-16 flex-col gap-1.5">
+                  {columnIssues.map((issue) => (
+                    <li key={issue.key}>
+                      <IssueCard
+                        issue={issue}
+                        dragging={drag?.issue.key === issue.key}
+                        onPointerDown={(event) => onCardPointerDown(issue, event)}
+                        onClick={onCardClick}
+                      />
+                    </li>
+                  ))}
+                  {isDropTarget ? (
+                    <li
+                      aria-hidden
+                      className="rounded-atl-lg border-2 border-dashed border-atl-blue bg-atl-sky/50 px-3 py-6"
+                    />
+                  ) : null}
+                </ul>
                 <button
                   type="button"
                   aria-label={`Create in ${status}`}
@@ -189,6 +218,21 @@ export default function BoardPage() {
           })}
         </div>
       )}
+      {drag
+        ? createPortal(
+            <div
+              ref={ghostRef}
+              className="pointer-events-none fixed top-0 left-0 z-[80] origin-top-left cursor-grabbing"
+              style={{
+                width: drag.width,
+                transform: `translate(${drag.x - drag.offsetX}px, ${drag.y - drag.offsetY}px) rotate(3deg)`,
+              }}
+            >
+              <IssueCard issue={drag.issue} ghost />
+            </div>,
+            document.body,
+          )
+        : null}
 
       <CreateIssueDialog
         open={createStatus !== null}

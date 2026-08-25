@@ -9,7 +9,7 @@ Project-local skill for the mock **Admin** workspace in `apps/atlassian`. Market
 
 Do not create or follow a `verify-atlassian` skill. This one is Admin-workspace scoped.
 
-Jira board cards cannot move between columns — that is an intentional demo limitation owned by `verify-jira`. Do not “fix” it from this skill.
+Jira board card moves are owned by `verify-jira`. Do not prove or change them from this skill.
 
 ## Launch
 
