@@ -38,20 +38,6 @@ The login form is pre-filled for whichever portal you pick and accepts only thes
 Sessions are base64-encoded JSON in `localStorage` — obfuscation for a demo, not security.
 All three accounts land on `/adviserhub`.
 
-## Intentional demo bug
-
-AdviserHUB **Trading** (`/adviserhub/trading`) ships with a deliberate pre-trade CGT bug for
-agent / Bugbot demos:
-
-- The UI copy says the estimate assumes a **12% embedded gain, 50% CGT discount, and 39% rate**.
-- `estimateCgt()` omits the `* 0.5` discount, so Switch/Sell estimates are ~**2× too high**
-  (default $50,000 Switch shows **$2,340** instead of **$1,170**).
-- Buy still correctly shows **$0**.
-
-See the `DEMO BUG (intentional)` comments in `src/pages/adviser/Trading.tsx`. Tracked as
-[DR-23](https://fe-anysphere-demo.atlassian.net/browse/DR-23) (labels `hub-24`, `agent-risk:low`)
-— details also in `JIRA-DR-TRADING-CGT-BUG.md`.
-
 ## Routes
 
 **Marketing**
@@ -133,5 +119,5 @@ settings preferences.
 `pnpm --filter hub24-website-demo test` runs six Vitest suites covering formatters, the mock
 session and credential handling, data integrity (unique slugs, resolvable nav links, portfolio
 weights summing to 100), component behaviour and accessibility state, marketing page rendering
-and filtering, and the AdviserHUB flows (auth redirect, login, account switching, intentional
-pre-trade CGT overstatement, cash validation).
+and filtering, and the AdviserHUB flows (auth redirect, login, account switching, pre-trade CGT
+estimate, cash validation).
