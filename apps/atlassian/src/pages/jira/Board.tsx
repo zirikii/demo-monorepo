@@ -44,7 +44,9 @@ export default function BoardPage() {
   const { drag, ghostRef, onCardPointerDown, onCardClick } = useBoardCardDrag(({ key, status }) => {
     setIssues(updateIssueStatus(key, status));
   });
-  const showReleaseRisk = readJson("atlassian-demo-settings", { releaseInsights: false }).releaseInsights;
+  const showReleaseRisk = readJson("atlassian-demo-settings", {
+    releaseInsights: false,
+  }).releaseInsights;
 
   const boardPeople = useMemo(() => {
     const names = [user?.name ?? "You"];
@@ -68,10 +70,7 @@ export default function BoardPage() {
   }, [issues, query, typeFilter]);
 
   return (
-    <JiraLayout
-      title={`Board · ${SPRINT.name}`}
-      onCreate={() => setCreateStatus("To do")}
-    >
+    <JiraLayout title={`Board · ${SPRINT.name}`} onCreate={() => setCreateStatus("To do")}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold text-ink-strong">{SPRINT.name}</h2>

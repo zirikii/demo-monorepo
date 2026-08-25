@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import type { IssueStatus, JiraIssue } from "@/data/types";
 
 const DRAG_THRESHOLD_PX = 8;

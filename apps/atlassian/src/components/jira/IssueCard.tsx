@@ -42,8 +42,7 @@ function IssueCardFace({ issue }: { issue: JiraIssue }) {
   );
 }
 
-const CARD_FACE =
-  "block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl";
+const CARD_FACE = "block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl";
 
 export function IssueCard({
   issue,
