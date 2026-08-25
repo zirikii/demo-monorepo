@@ -2,7 +2,7 @@
 
 ## Cursor Cloud specific instructions
 
-This is a pnpm workspace (`pnpm-workspace.yaml`) with four independent demo apps under
+This is a pnpm workspace (`pnpm-workspace.yaml`) with independent demo apps under
 `apps/*` plus a shared `@demo/ui` package under `packages/*`. Node 20+ and pnpm 10+ are
 required. `pnpm install` at the repo root installs every workspace project. Standard
 per-app scripts and features are documented in the root `README.md` and each app's
@@ -25,6 +25,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | commbank (Vite + React 19) | `pnpm dev:commbank` | 5179 | commbank.com.au clone + mock NetBank; no env needed |
 | employmenthero (Vite + React 19) | `pnpm dev:employmenthero` | 5180 | employmenthero.com clone + mock Employment OS dashboard; no env needed |
 | hub24 (Vite + React 19) | `pnpm dev:hub24` | 5181 | hub24.com.au clone + mock AdviserHUB platform; no env needed |
+| atlassian (Vite + React 19) | `pnpm dev:atlassian` | 5183 | Marketing site + mock product workspaces; no env needed |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -50,15 +51,15 @@ it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian
   + `@demo/ui` typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero and hub24 (run `pnpm test`
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24 and atlassian (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
   nab walkthrough / seek `video` recorder. Treat nab's `test` as optional, per
   `apps/nab/AGENTS.md`.
-- Build: `pnpm build` builds all four apps.
+- Build: `pnpm build` builds every app.
 
 ### Git remotes & pushing (GitHub + Bitbucket)
 

@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "hooks": {
+    "subagentStart": [
+      {
+        "command": ".cursor/hooks/atlassian-tdd-start.sh",
+        "matcher": "^(?:implementer|test-writer)$",
+        "timeout": 10
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": ".cursor/hooks/atlassian-unit-tests.sh",
+        "matcher": "^(?:implementer|test-writer)$",
+        "loop_limit": 8,
+        "timeout": 300
+      }
+    ]
+  }
+}

@@ -10,6 +10,7 @@ class-merging behaviour, design tokens, and shared components stay consistent.
 | `@demo/ui` | Everything below, re-exported |
 | `@demo/ui/cn` | `cn(...)` — `clsx` + `tailwind-merge` class merger (used by the Tailwind apps) |
 | `@demo/ui/cx` | `cx(...)` — dependency-free class-name joiner |
+| `@demo/ui/asset` | `asset(path, base)` — prefix a public file with the app's deploy base |
 | `@demo/ui/tokens` | `tokens` object of colours, radii, and font stacks |
 | `@demo/ui/tokens.css` | The same tokens as `--demo-*` CSS custom properties |
 | `@demo/ui/components/demo-ribbon` | `<DemoRibbon>` pill component |
@@ -19,6 +20,8 @@ class-merging behaviour, design tokens, and shared components stay consistent.
 - **naukri** & **seek** (Next.js + Tailwind) re-export `cn` from here via their
   local `lib/utils/cn.ts`, and list `@demo/ui` in `transpilePackages`.
 - **kddi** (Vite + React) re-exports `cx` from here via `src/lib/cx.js`.
+- **atlassian** and the other Vite marketing demos re-export `cn`; atlassian
+  also wraps `asset` for public files under Vite's `base`.
 - **nab** (static HTML) copies `tokens.css` into `css/tokens.css` during its
   build (`npm run sync-tokens`) and links it from every page.
 
