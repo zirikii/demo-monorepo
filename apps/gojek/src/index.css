@@ -1,0 +1,80 @@
+@import "tailwindcss";
+@import "@fontsource/outfit/400.css";
+@import "@fontsource/outfit/500.css";
+@import "@fontsource/outfit/600.css";
+@import "@fontsource/outfit/700.css";
+@import "@fontsource/outfit/800.css";
+
+@theme {
+  --color-go-green: #00aa13;
+  --color-go-green-hover: #008f10;
+  --color-go-green-tint: #06330a;
+  --color-go-pink: #df1995;
+  --color-go-charcoal: #25282a;
+
+  --color-go-bg: #000000;
+  --color-go-surface: #0d0d0d;
+  --color-go-card: #141414;
+  --color-go-line: #2a2a2a;
+  --color-go-ink: #ffffff;
+  --color-go-muted: rgb(255 255 255 / 0.62);
+  --color-go-faint: rgb(255 255 255 / 0.4);
+
+  --color-go-ride: #00aa13;
+  --color-go-food: #ee2737;
+  --color-go-pay: #00aed6;
+  --color-go-daily: #f37021;
+  --color-go-biz: #7b2d8e;
+  --color-go-play: #df1995;
+
+  --font-sans: "Outfit", "Maison Neue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --radius-go: 4px;
+  --radius-go-lg: 12px;
+
+  --shadow-go: 0 16px 40px rgb(0 0 0 / 0.45);
+}
+
+:root {
+  color-scheme: dark;
+  --demo-accent: #00aa13;
+}
+
+html {
+  background: #000;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-go-bg);
+  color: var(--color-go-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+::selection {
+  background: #00aa13;
+  color: #000;
+}
+
+.focus-go:focus-visible {
+  outline: 2px solid #00aa13;
+  outline-offset: 3px;
+}

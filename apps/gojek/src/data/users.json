@@ -1,0 +1,16 @@
+[
+  {
+    "email": "demo@gojek.io",
+    "name": "Aisha Rahman",
+    "role": "Backend engineer",
+    "hub": "Jakarta",
+    "team": "GoSend"
+  },
+  {
+    "email": "admin@example.com",
+    "name": "Dimas Pratama",
+    "role": "Hiring coordinator",
+    "hub": "Singapore",
+    "team": "People"
+  }
+]

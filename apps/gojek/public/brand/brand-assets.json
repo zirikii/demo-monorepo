@@ -1,0 +1,46 @@
+{
+  "brand": "Gojek",
+  "site": "https://www.gojek.io/",
+  "disclaimer": "Unofficial demo assets. Not affiliated with Gojek, GoTo, or PT Gojek Indonesia.",
+  "assets": [
+    {
+      "file": "logo-white.svg",
+      "role": "Header lockup on dark surfaces",
+      "source": "Official gojek.io header SVG supplied with the build request (Solv + wordmark, white fills)",
+      "fill": "#ffffff"
+    },
+    {
+      "file": "logo-green.svg",
+      "role": "Lockup on light / login surfaces",
+      "source": "Same official path data as logo-white.svg with brand green fills",
+      "fill": "#00AA13"
+    },
+    {
+      "file": "logo-black.svg",
+      "role": "Lockup on pale surfaces",
+      "source": "Same official path data as logo-white.svg with brand charcoal fills",
+      "fill": "#25282A"
+    },
+    {
+      "file": "solv.svg",
+      "role": "Solv logomark",
+      "source": "First two paths of the official gojek.io header lockup",
+      "fill": "#00AA13"
+    },
+    {
+      "file": "favicon.svg",
+      "role": "Browser tab icon",
+      "source": "Solv mark on black rounded square",
+      "fill": "#00AA13"
+    }
+  ],
+  "fallbacks": [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Gojek_logo_2022.svg",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Gojek_logo_2019_white_text.svg"
+  ],
+  "colors": {
+    "gojekGreen": "#00AA13",
+    "charcoal": "#25282A",
+    "entertainmentPink": "#DF1995"
+  }
+}
