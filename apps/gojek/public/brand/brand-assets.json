@@ -1,0 +1,30 @@
+{
+  "brand": "Gojek",
+  "sources": [
+    "User-supplied Gojek lockup SVG (provided with the build request)",
+    "https://asphalt.gojek.io/pages/foundations_colors.html (Gojek green #00AA13)"
+  ],
+  "note": "gojek.io is blocked by the restricted build environment this demo was authored in, so the lockup shipped here is the SVG supplied with the build request. gojek-logo-dark.svg and mark.svg are recolours of that same geometry; favicon.svg reverses the mark out of a #00AA13 tile. Gojek's proprietary display typeface is not licensed for this demo — Plus Jakarta Sans stands in throughout.",
+  "assets": [
+    {
+      "file": "gojek-logo-white.svg",
+      "treatment": "inverse",
+      "source": "Supplied lockup, white fill — used on the dark header and footer"
+    },
+    {
+      "file": "gojek-logo-dark.svg",
+      "treatment": "brand",
+      "source": "Same lockup recoloured to near-black ink for light surfaces"
+    },
+    {
+      "file": "mark.svg",
+      "treatment": "brand",
+      "source": "Circular mark from the supplied lockup in Gojek green"
+    },
+    {
+      "file": "favicon.svg",
+      "treatment": "app-icon",
+      "source": "Mark reversed out of a #00AA13 rounded tile"
+    }
+  ]
+}
