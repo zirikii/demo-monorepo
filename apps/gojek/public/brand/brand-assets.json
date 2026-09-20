@@ -1,0 +1,20 @@
+{
+  "brand": "Gojek",
+  "site": "https://www.gojek.io/",
+  "note": "Unofficial demo. Wordmark + Solv mark recreated as inline SVG from the public gojek.io header logo. Colors from Gojek's published brand guidelines.",
+  "green": "#00AA13",
+  "palette": {
+    "transportGreen": "#00AA13",
+    "foodRed": "#EE2737",
+    "paymentsBlue": "#00AED6",
+    "dailyOrange": "#EF6A00",
+    "businessPurple": "#93328E",
+    "entertainmentPink": "#DF1995"
+  },
+  "assets": [
+    { "file": "logo-green.svg", "usage": "Wordmark on light backgrounds (sticky header)" },
+    { "file": "logo-white.svg", "usage": "Wordmark on dark / hero backgrounds and footer" },
+    { "file": "solv-green.svg", "usage": "Icon-only Solv mark" },
+    { "file": "favicon.svg", "usage": "Browser tab favicon (rounded green tile + white Solv)" }
+  ]
+}
