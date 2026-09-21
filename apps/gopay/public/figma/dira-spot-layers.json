@@ -1,0 +1,559 @@
+{
+  "note": "Figma exports each 40x40 Dira topic illustration as stacked single-path SVGs. Layers are listed in paint order; insetPct is percent of the 40x40 box (top/right/bottom/left), i.e. absolute layers inside a relative 40x40 container.",
+  "box": 40,
+  "spots": {
+    "topup": {
+      "label": "Top up",
+      "layers": [
+        {
+          "file": "dira-spot-topup-1.svg",
+          "insetPct": {
+            "top": 35.51,
+            "right": 26.82,
+            "bottom": 15.11,
+            "left": 20
+          }
+        },
+        {
+          "file": "dira-spot-topup-2.svg",
+          "insetPct": {
+            "top": 28.77,
+            "right": 43.74,
+            "bottom": 65.09,
+            "left": 51.95
+          }
+        },
+        {
+          "file": "dira-spot-topup-3.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 18.41,
+            "bottom": 53.31,
+            "left": 36.93
+          }
+        },
+        {
+          "file": "dira-spot-topup-4.svg",
+          "insetPct": {
+            "top": 23.08,
+            "right": 45.23,
+            "bottom": 66.33,
+            "left": 43.43
+          }
+        },
+        {
+          "file": "dira-spot-topup-5.svg",
+          "insetPct": {
+            "top": 29.76,
+            "right": 47.45,
+            "bottom": 50.83,
+            "left": 33.09
+          }
+        },
+        {
+          "file": "dira-spot-topup-6.svg",
+          "insetPct": {
+            "top": 48.6,
+            "right": 26.83,
+            "bottom": 15.12,
+            "left": 20.01
+          }
+        },
+        {
+          "file": "dira-spot-topup-7.svg",
+          "insetPct": {
+            "top": 34.63,
+            "right": 45.07,
+            "bottom": 56.68,
+            "left": 40.2
+          }
+        }
+      ]
+    },
+    "withdraw": {
+      "label": "Withdraw money",
+      "layers": [
+        {
+          "file": "dira-spot-withdraw-1.svg",
+          "insetPct": {
+            "top": 67.25,
+            "right": 26.58,
+            "bottom": 25.91,
+            "left": 58.41
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-2.svg",
+          "insetPct": {
+            "top": 57.57,
+            "right": 31.81,
+            "bottom": 23.11,
+            "left": 31.82
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-3.svg",
+          "insetPct": {
+            "top": 64.38,
+            "right": 15,
+            "bottom": 15.2,
+            "left": 31.82
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-4.svg",
+          "insetPct": {
+            "top": 69.48,
+            "right": 33.7,
+            "bottom": 25.29,
+            "left": 49.14
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-5.svg",
+          "insetPct": {
+            "top": 57.35,
+            "right": 68.18,
+            "bottom": 19.27,
+            "left": 15
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-6.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 16.46,
+            "bottom": 46.13,
+            "left": 32.3
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-7.svg",
+          "insetPct": {
+            "top": 17.18,
+            "right": 26.12,
+            "bottom": 48.03,
+            "left": 41.57
+          }
+        },
+        {
+          "file": "dira-spot-withdraw-8.svg",
+          "insetPct": {
+            "top": 26.81,
+            "right": 35.04,
+            "bottom": 57.61,
+            "left": 50.49
+          }
+        }
+      ]
+    },
+    "scam": {
+      "label": "Scam/Phising",
+      "layers": [
+        {
+          "file": "dira-spot-scam-1.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 19.63,
+            "bottom": 15,
+            "left": 19.5
+          }
+        },
+        {
+          "file": "dira-spot-scam-2.svg",
+          "insetPct": {
+            "top": 63.35,
+            "right": 47.44,
+            "bottom": 29.04,
+            "left": 45.03
+          }
+        },
+        {
+          "file": "dira-spot-scam-3.svg",
+          "insetPct": {
+            "top": 31.57,
+            "right": 43.4,
+            "bottom": 42.91,
+            "left": 46.8
+          }
+        }
+      ]
+    },
+    "account": {
+      "label": "Account",
+      "layers": [
+        {
+          "file": "dira-spot-account-1.svg",
+          "insetPct": {
+            "top": 16.61,
+            "right": 20.91,
+            "bottom": 15,
+            "left": 17.5
+          }
+        },
+        {
+          "file": "dira-spot-account-2.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 19.86,
+            "bottom": 20.53,
+            "left": 23.58
+          }
+        },
+        {
+          "file": "dira-spot-account-3.svg",
+          "insetPct": {
+            "top": 67.2,
+            "right": 26.62,
+            "bottom": 28.56,
+            "left": 61.38
+          }
+        },
+        {
+          "file": "dira-spot-account-4.svg",
+          "insetPct": {
+            "top": 56.48,
+            "right": 44.69,
+            "bottom": 37.62,
+            "left": 33.75
+          }
+        },
+        {
+          "file": "dira-spot-account-5.svg",
+          "insetPct": {
+            "top": 55,
+            "right": 16.18,
+            "bottom": 15,
+            "left": 53.82
+          }
+        },
+        {
+          "file": "dira-spot-account-6.svg",
+          "insetPct": {
+            "top": 72.89,
+            "right": 23.1,
+            "bottom": 19.71,
+            "left": 60.74
+          }
+        },
+        {
+          "file": "dira-spot-account-7.svg",
+          "insetPct": {
+            "top": 59.71,
+            "right": 25.07,
+            "bottom": 28.29,
+            "left": 62.93
+          }
+        },
+        {
+          "file": "dira-spot-account-8.svg",
+          "insetPct": {
+            "top": 45.66,
+            "right": 27.79,
+            "bottom": 46.88,
+            "left": 32.82
+          }
+        },
+        {
+          "file": "dira-spot-account-9.svg",
+          "insetPct": {
+            "top": 30.73,
+            "right": 28.78,
+            "bottom": 64.02,
+            "left": 49.02
+          }
+        },
+        {
+          "file": "dira-spot-account-10.svg",
+          "insetPct": {
+            "top": 25.06,
+            "right": 54.32,
+            "bottom": 57.03,
+            "left": 30.66
+          }
+        },
+        {
+          "file": "dira-spot-account-11.svg",
+          "insetPct": {
+            "top": 22.93,
+            "right": 29.44,
+            "bottom": 71.82,
+            "left": 48.36
+          }
+        }
+      ]
+    },
+    "transaction": {
+      "label": "Transaction Issue",
+      "layers": [
+        {
+          "file": "dira-spot-transaction-1.svg",
+          "insetPct": {
+            "top": 41.61,
+            "right": 15.22,
+            "bottom": 22.41,
+            "left": 31.42
+          }
+        },
+        {
+          "file": "dira-spot-transaction-2.svg",
+          "insetPct": {
+            "top": 59.11,
+            "right": 56.58,
+            "bottom": 22.09,
+            "left": 29.47
+          }
+        },
+        {
+          "file": "dira-spot-transaction-3.svg",
+          "insetPct": {
+            "top": 41.61,
+            "right": 15.22,
+            "bottom": 22.09,
+            "left": 25.8
+          }
+        },
+        {
+          "file": "dira-spot-transaction-4.svg",
+          "insetPct": {
+            "top": 41.61,
+            "right": 15.22,
+            "bottom": 46.69,
+            "left": 15
+          }
+        },
+        {
+          "file": "dira-spot-transaction-5.svg",
+          "insetPct": {
+            "top": 42.91,
+            "right": 42.78,
+            "bottom": 42.49,
+            "left": 36.08
+          }
+        },
+        {
+          "file": "dira-spot-transaction-6.svg",
+          "insetPct": {
+            "top": 20,
+            "right": 27.18,
+            "bottom": 62.28,
+            "left": 57.6
+          }
+        }
+      ]
+    },
+    "fraud": {
+      "label": "Fraud & security",
+      "layers": [
+        {
+          "file": "dira-spot-fraud-1.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 19.63,
+            "bottom": 15,
+            "left": 19.5
+          }
+        },
+        {
+          "file": "dira-spot-fraud-2.svg",
+          "insetPct": {
+            "top": 56.39,
+            "right": 50.22,
+            "bottom": 34.39,
+            "left": 29.64
+          }
+        },
+        {
+          "file": "dira-spot-fraud-3.svg",
+          "insetPct": {
+            "top": 52.04,
+            "right": 29.77,
+            "bottom": 38.74,
+            "left": 50.09
+          }
+        },
+        {
+          "file": "dira-spot-fraud-4.svg",
+          "insetPct": {
+            "top": 39.96,
+            "right": 52.67,
+            "bottom": 45.09,
+            "left": 32.37
+          }
+        },
+        {
+          "file": "dira-spot-fraud-5.svg",
+          "insetPct": {
+            "top": 35.61,
+            "right": 32.22,
+            "bottom": 49.43,
+            "left": 52.82
+          }
+        }
+      ]
+    },
+    "product": {
+      "label": "Product & services",
+      "layers": [
+        {
+          "file": "dira-spot-product-1.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 26.37,
+            "bottom": 15,
+            "left": 22.5
+          }
+        },
+        {
+          "file": "dira-spot-product-2.svg",
+          "insetPct": {
+            "top": 25.75,
+            "right": 32.04,
+            "bottom": 21.51,
+            "left": 30.01
+          }
+        },
+        {
+          "file": "dira-spot-product-3.svg",
+          "insetPct": {
+            "top": 35.88,
+            "right": 20.61,
+            "bottom": 15,
+            "left": 41.21
+          }
+        },
+        {
+          "file": "dira-spot-product-4.svg",
+          "insetPct": {
+            "top": 52.07,
+            "right": 24.92,
+            "bottom": 36.28,
+            "left": 71.55
+          }
+        },
+        {
+          "file": "dira-spot-product-5.svg",
+          "insetPct": {
+            "top": 49.59,
+            "right": 32.19,
+            "bottom": 38.61,
+            "left": 64.37
+          }
+        },
+        {
+          "file": "dira-spot-product-6.svg",
+          "insetPct": {
+            "top": 46.53,
+            "right": 39.64,
+            "bottom": 41.09,
+            "left": 56.77
+          }
+        },
+        {
+          "file": "dira-spot-product-7.svg",
+          "insetPct": {
+            "top": 41.73,
+            "right": 51.89,
+            "bottom": 52.66,
+            "left": 41.22
+          }
+        },
+        {
+          "file": "dira-spot-product-8.svg",
+          "insetPct": {
+            "top": 39.57,
+            "right": 31.63,
+            "bottom": 55.81,
+            "left": 60.18
+          }
+        },
+        {
+          "file": "dira-spot-product-9.svg",
+          "insetPct": {
+            "top": 32.15,
+            "right": 51.62,
+            "bottom": 62.37,
+            "left": 40.53
+          }
+        },
+        {
+          "file": "dira-spot-product-10.svg",
+          "insetPct": {
+            "top": 29.29,
+            "right": 35.52,
+            "bottom": 64.33,
+            "left": 58.28
+          }
+        },
+        {
+          "file": "dira-spot-product-11.svg",
+          "insetPct": {
+            "top": 22.12,
+            "right": 53.58,
+            "bottom": 72.21,
+            "left": 34.18
+          }
+        },
+        {
+          "file": "dira-spot-product-12.svg",
+          "insetPct": {
+            "top": 20.91,
+            "right": 49.28,
+            "bottom": 76.1,
+            "left": 48.09
+          }
+        }
+      ]
+    },
+    "other": {
+      "label": "Other",
+      "layers": [
+        {
+          "file": "dira-spot-other-1.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 22.07,
+            "bottom": 22.07,
+            "left": 15
+          }
+        },
+        {
+          "file": "dira-spot-other-2.svg",
+          "insetPct": {
+            "top": 41.51,
+            "right": 48.98,
+            "bottom": 49.44,
+            "left": 41.89
+          }
+        },
+        {
+          "file": "dira-spot-other-3.svg",
+          "insetPct": {
+            "top": 41.39,
+            "right": 32.97,
+            "bottom": 49.57,
+            "left": 57.91
+          }
+        },
+        {
+          "file": "dira-spot-other-4.svg",
+          "insetPct": {
+            "top": 50.39,
+            "right": 15,
+            "bottom": 15,
+            "left": 50.39
+          }
+        },
+        {
+          "file": "dira-spot-other-5.svg",
+          "insetPct": {
+            "top": 41.1,
+            "right": 64.9,
+            "bottom": 49.87,
+            "left": 25.97
+          }
+        }
+      ]
+    }
+  }
+}

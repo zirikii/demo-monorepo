@@ -1,0 +1,132 @@
+@import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+@import "@fontsource/source-serif-4/600.css";
+
+/*
+ * Tokens are the `gopay_theme/light` + typography styles published on the
+ * GoPay reKYC Figma file. Rupa Sans / Rupa Serif are Gojek-licensed faces that
+ * cannot be redistributed, so this demo substitutes the closest open faces.
+ */
+@theme {
+  --color-fill-primary: #f9fafb;
+  --color-fill-secondary: #f5f6f7;
+  --color-fill-tertiary: #1e2125;
+  --color-fill-quaternary: #eeeff2;
+  --color-fill-mute: #f4f5f7;
+  --color-fill-active: #00880d;
+  --color-fill-active-pressed: #007a0b;
+  --color-fill-static-white: #fcfcfd;
+
+  --color-type-title: #1a1a1a;
+  --color-type-body: #4d4d4d;
+  --color-type-inactive: #949ea8;
+  --color-type-static-white: #fcfcfd;
+  --color-type-green-active: #00700b;
+  --color-type-green-title: #1c1d1d;
+  --color-type-green-body: #494a4a;
+
+  --color-border-mute: #ebecef;
+  --color-border-active: #00880d;
+
+  --color-icon-default: #424a52;
+  --color-icon-active: #00880d;
+
+  --color-product-payments: #0081a0;
+  --color-product-fmcg: #e52535;
+  --color-product-transport: #00880d;
+
+  --color-brand-blue-secondary: #d6f7ff;
+  --color-brand-red-secondary: #fdedee;
+  --color-brand-green-secondary: #e0ffe0;
+  --color-critical: #e52535;
+  --color-warning: #f5a623;
+
+  --font-sans: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  --shadow-bevel-top: inset 0 2px 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-bevel-top-low: inset 0 1px 1px 0 rgba(255, 255, 255, 0.7);
+  --shadow-float: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+  --shadow-sheet: 0 12px 24px 0 rgba(20, 58, 140, 0.2);
+  --shadow-device: 0 24px 70px rgba(15, 23, 42, 0.28);
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: #e9ebef;
+    color: var(--color-type-title);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@utility light-sheen {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+}
+
+@utility light-sheen-strong {
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+}
+
+/* GoPay title styles. Rupa Serif is replaced by Source Serif 4 at the same metrics. */
+@utility type-hero {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 44px;
+}
+
+@utility type-title-large {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 28px;
+}
+
+/* `title/moderate/bold` — the sans title the result screens use. */
+@utility type-title-moderate {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes screen-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes viewfinder-sweep {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="content">
+<rect id="Border" x="0.5" y="0.5" width="19" height="19" rx="9.5" stroke="#00880D"/>
+<circle id="Fill Inside" cx="10" cy="10" r="6" fill="#00880D"/>
+<circle id="light_effect" cx="10" cy="10" r="6" fill="url(#paint0_linear_0_235)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_235" x1="10" y1="4" x2="10" y2="16" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.4"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>

@@ -1,0 +1,13 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="110" height="110" viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 3126170">
+<path id="Countdown Background" d="M55 5.22527e-06C24.6243 3.89751e-06 3.73189e-06 24.6243 2.40413e-06 55C1.07636e-06 85.3757 24.6243 110 55 110C85.3757 110 110 85.3757 110 55C110 24.6243 85.3757 6.55303e-06 55 5.22527e-06ZM55 101.75C29.1807 101.75 8.25 80.8193 8.25 55C8.25 29.1807 29.1807 8.25 55 8.25001C80.8193 8.25001 101.75 29.1807 101.75 55C101.75 80.8193 80.8193 101.75 55 101.75Z" fill="#00880D"/>
+<path id="Countdown Overlay" d="M55 5.22527e-06C24.6243 3.89751e-06 3.73189e-06 24.6243 2.40413e-06 55C1.07636e-06 85.3757 24.6243 110 55 110C85.3757 110 110 85.3757 110 55C110 24.6243 85.3757 6.55303e-06 55 5.22527e-06ZM55 101.75C29.1807 101.75 8.25 80.8193 8.25 55C8.25 29.1807 29.1807 8.25 55 8.25001C80.8193 8.25001 101.75 29.1807 101.75 55C101.75 80.8193 80.8193 101.75 55 101.75Z" fill="url(#paint0_radial_0_271)"/>
+</g>
+<defs>
+<radialGradient id="paint0_radial_0_271" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(55 55) rotate(-180) scale(55)">
+<stop offset="0.552083" stop-color="white" stop-opacity="0.7"/>
+<stop offset="0.932292" stop-color="white" stop-opacity="0"/>
+<stop offset="1" stop-color="white" stop-opacity="0.7"/>
+</radialGradient>
+</defs>
+</svg>
