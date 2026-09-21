@@ -3,10 +3,16 @@ import { CircularButton } from "@/components/system/Navbar";
 import { StatusBar } from "@/components/system/StatusBar";
 import { useRekyc } from "@/hooks/useRekyc";
 import { approvedSubmission } from "@/lib/rekyc/engine";
-import { maskName, maskNik } from "@/lib/rekyc/masking";
+import { maskName } from "@/lib/rekyc/masking";
 import { cn } from "@/lib/cn";
 
 const A = "/figma";
+
+/** Figma writes "5 Sep 2026"; `en-GB` would give the four-letter "Sept". */
+function formatDueDate(date: Date) {
+  const month = date.toLocaleDateString("en-US", { month: "short" });
+  return `${date.getDate()} ${month} ${date.getFullYear()}`;
+}
 
 function SectionHeading({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
@@ -123,15 +129,11 @@ export function AccountsCenter() {
   const dueDate = new Date(state.account.oddDueAt);
   const daysUntilDue = Math.ceil((dueDate.getTime() - Date.now()) / 86_400_000);
   const showReminder = approved !== null && daysUntilDue <= 45;
-  const formattedDue = dueDate.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
+  const formattedDue = formatDueDate(dueDate);
 
   return (
     <Screen>
-      <div className="absolute top-0 left-0 h-[341px] w-[375px] rounded-b-[16px]">
+      <div className="absolute top-0 left-0 h-[389px] w-[375px] rounded-b-[16px]">
         <img
           alt=""
           className="absolute inset-0 size-full rounded-b-[16px] object-cover"
@@ -190,7 +192,7 @@ export function AccountsCenter() {
                   {maskName(approved?.data.fullName ?? "")}
                 </span>
                 <span className="text-type-body text-[14px] leading-[20px]">
-                  {`***${maskNik(approved?.data.nik ?? "").slice(-4)}`}
+                  {`***${state.account.id.slice(-4)}`}
                 </span>
               </span>
             </span>
@@ -205,23 +207,18 @@ export function AccountsCenter() {
             <button
               type="button"
               onClick={startRekyc}
-              className="bg-critical flex w-full items-center gap-[8px] px-[12px] py-[10px] text-left"
+              className="bg-fill-error flex w-full items-center justify-center gap-[12px] bg-gradient-to-b from-white/30 to-transparent px-[16px] py-[8px]"
             >
-              <span className="flex size-[20px] shrink-0 items-center justify-center rounded-full bg-white/25">
-                <svg viewBox="0 0 20 20" className="size-[14px]" aria-hidden>
-                  <path
-                    d="M10 4v7M10 14.6v.6"
-                    stroke="#fff"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-              <span className="flex flex-col">
-                <span className="text-[14px] leading-[20px] font-bold text-white">
+              <img
+                alt=""
+                className="block size-[16px] shrink-0"
+                src={`${A}/ic-maintenance-16-white.svg`}
+              />
+              <span className="flex min-w-px flex-1 flex-col items-center">
+                <span className="fit-figma-line text-[13px] leading-[16px] font-semibold text-white">
                   {`Confirm your  e-KTP data before ${formattedDue}`}
                 </span>
-                <span className="text-[12px] leading-[16px] text-white">
+                <span className="fit-figma-line text-[12px] leading-[16px] text-white">
                   Otherwise your GoPay account will be blocked
                 </span>
               </span>

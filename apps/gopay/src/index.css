@@ -45,6 +45,7 @@
   --color-brand-red-secondary: #fdedee;
   --color-brand-green-secondary: #e0ffe0;
   --color-critical: #e52535;
+  --color-critical-strong: #ea001f;
   --color-warning: #f5a623;
 
   --font-sans: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -70,6 +71,8 @@
     color: var(--color-type-title);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    /* Plus Jakarta Sans' contextual alternates rewrite "100x" as "100×". */
+    font-variant-ligatures: no-contextual;
   }
 }
 
@@ -79,6 +82,18 @@
 
 @utility light-sheen-strong {
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+}
+
+/*
+ * Rupa Sans sets materially narrower than the Plus Jakarta Sans substitute, so a
+ * few strings Figma keeps on one line would wrap here and shift everything below
+ * them. Condense those to the designed width rather than letting them rewrap.
+ */
+@utility fit-figma-line {
+  display: inline-block;
+  white-space: nowrap;
+  transform: scaleX(var(--fit-figma-line, 0.92));
+  transform-origin: center;
 }
 
 /* GoPay title styles. Rupa Serif is replaced by Source Serif 4 at the same metrics. */

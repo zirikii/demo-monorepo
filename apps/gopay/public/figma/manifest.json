@@ -1,6 +1,4 @@
 {
-  "file": "https://www.figma.com/design/iiYcblHI5JqLt6TDqmZnWW/GoPay-reKYC-User-Flow",
-  "note": "Figma MCP export links expire ~7 days after they are generated. The files themselves are committed under public/figma.",
   "assets": {
     "statusbar-time.svg": "https://www.figma.com/api/mcp/asset/56a43287-304a-4831-97db-cd04da62a614.svg",
     "statusbar-network.svg": "https://www.figma.com/api/mcp/asset/35110910-a204-4b63-9270-ac15eafa675a.svg",
@@ -234,5 +232,8 @@
     "spot-clear-face-8.svg": "https://www.figma.com/api/mcp/asset/c731e569-cacf-44e7-9c82-1a3e6c5fa038.svg",
     "spot-clear-face-9.svg": "https://www.figma.com/api/mcp/asset/832b584e-b386-4341-aeb4-d6fc0fc7bf6d.svg",
     "spot-clear-face-10.svg": "https://www.figma.com/api/mcp/asset/32e898c8-4b52-46cb-a086-a9b6ad57b7a7.svg"
-  }
+  },
+  "file": "https://www.figma.com/design/iiYcblHI5JqLt6TDqmZnWW/GoPay-reKYC-User-Flow",
+  "ic-maintenance-16-white.svg": "https://www.figma.com/api/mcp/asset/85ae10b4-8bf2-440f-98ab-7f9deeb1cda0.svg",
+  "note": "Figma MCP export links expire ~7 days after they are generated. The files themselves are committed under public/figma."
 }

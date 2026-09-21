@@ -12,8 +12,9 @@ const RING_COLOR = {
 export type DialTone = keyof typeof RING_COLOR;
 
 const RING_SIZE = 110;
-const RING_STROKE = 6;
-const RING_RADIUS = (RING_SIZE - RING_STROKE) / 2;
+/** Measured off the `Countdown Background` arc: a 4.125px band centred at r=48.81. */
+const RING_STROKE = 4.125;
+const RING_RADIUS = 48.81;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 /**
@@ -51,16 +52,9 @@ export function CountdownDial({
       <svg
         aria-hidden
         viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
+        style={{ filter: `drop-shadow(0 0 4px ${RING_COLOR[tone]}66)` }}
         className="absolute top-1/2 left-1/2 size-[110px] -translate-x-1/2 -translate-y-1/2 -rotate-90"
       >
-        <circle
-          cx={RING_SIZE / 2}
-          cy={RING_SIZE / 2}
-          r={RING_RADIUS}
-          fill="none"
-          stroke="#e4e5e9"
-          strokeWidth={RING_STROKE}
-        />
         <circle
           cx={RING_SIZE / 2}
           cy={RING_SIZE / 2}

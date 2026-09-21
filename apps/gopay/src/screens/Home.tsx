@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Screen } from "@/components/system/PhoneFrame";
 import { StatusBar } from "@/components/system/StatusBar";
 import { useRekyc } from "@/hooks/useRekyc";
@@ -67,7 +68,6 @@ function TaskRow({
   title,
   subtitle,
   meta,
-  metaTone,
   cta,
   onCta,
 }: {
@@ -75,8 +75,7 @@ function TaskRow({
   logo: string;
   title: string;
   subtitle: string;
-  meta: string;
-  metaTone: "critical" | "body";
+  meta: ReactNode;
   cta: string;
   onCta?: () => void;
 }) {
@@ -87,40 +86,60 @@ function TaskRow({
         <img alt="" className="block size-[32px] shrink-0 rounded-[8px]" src={logo} />
         <div className="flex min-w-px flex-1 flex-col">
           <p className="text-type-title text-[13px] leading-[16px] font-semibold">{title}</p>
-          <p className="text-type-body w-[179px] text-[12px] leading-[16px]">{subtitle}</p>
-          <p
-            className={cn(
-              "text-[12px] leading-[16px] font-semibold",
-              metaTone === "critical" ? "text-[#ea001f]" : "text-type-body",
-            )}
-          >
-            {meta}
+          <p className="text-type-body text-[12px] leading-[16px] tracking-[-0.2px] whitespace-nowrap">
+            {subtitle}
           </p>
+          <div className="flex items-center gap-[4px] text-[12px] leading-[16px] font-semibold">
+            {meta}
+          </div>
         </div>
         <button
           type="button"
           onClick={onCta}
-          className="bg-fill-active light-sheen text-type-static-white flex shrink-0 cursor-pointer items-center gap-[4px] rounded-[40px] px-[16px] py-[8px] text-[13px] leading-[16px] font-semibold"
+          className="bg-fill-active light-sheen text-type-static-white shrink-0 cursor-pointer rounded-[40px] px-[16px] py-[8px] text-[13px] leading-[16px] font-semibold"
         >
           {cta}
-          <img alt="" className="block size-[16px]" src={`${A}/genie-ic-arrow-right-16.svg`} />
         </button>
       </div>
     </div>
   );
 }
 
-function FeatureTile({ icon, label, rounded }: { icon: string; label: string; rounded?: boolean }) {
+function FeatureTile({
+  icon,
+  label,
+  rounded,
+  tinted,
+}: {
+  icon: string;
+  label: string;
+  rounded?: boolean;
+  /** Figma exports this glyph in its white-on-dark variant, so tint it to icon/default. */
+  tinted?: boolean;
+}) {
   return (
     <div className="flex min-w-px flex-1 flex-col items-center gap-[4px]">
       <div className="border-border-mute light-sheen-strong shadow-bevel-top flex h-[56px] w-full items-center justify-center rounded-[16px] border">
-        <img
-          alt=""
-          className={cn("block", rounded ? "size-[34px] rounded-[8px]" : "size-[40px]")}
-          src={icon}
-        />
+        {tinted ? (
+          <span
+            aria-hidden
+            className="bg-icon-default block size-[24px]"
+            style={{
+              maskImage: `url(${icon})`,
+              maskSize: "contain",
+              maskRepeat: "no-repeat",
+              maskPosition: "center",
+            }}
+          />
+        ) : (
+          <img
+            alt=""
+            className={cn("block", rounded ? "size-[34px] rounded-[8px]" : "size-[40px]")}
+            src={icon}
+          />
+        )}
       </div>
-      <p className="text-type-title text-center text-[12px] leading-[16px] whitespace-pre-line">
+      <p className="text-type-title text-center text-[12px] leading-[16px] tracking-[-0.2px] whitespace-pre">
         {label}
       </p>
     </div>
@@ -142,7 +161,7 @@ function NavItem({
     <button
       type="button"
       onClick={onClick}
-      className="flex min-w-px flex-1 cursor-pointer flex-col items-center gap-[2px] py-[6px]"
+      className="flex min-w-px flex-1 cursor-pointer flex-col items-center gap-[8px] pt-[13px]"
     >
       <div
         className={cn(
@@ -150,7 +169,7 @@ function NavItem({
           active && "bg-[rgba(0,174,214,0.1)]",
         )}
       >
-        <img alt="" className="block size-[24px]" src={icon} />
+        <img alt="" className="block size-[24px] rounded-full" src={icon} />
       </div>
       <p
         className={cn(
@@ -219,7 +238,7 @@ export function Home() {
             <div className="flex flex-col">
               <div className="flex items-center gap-[4px]">
                 <img alt="Rp" className="block size-[16px]" src={`${A}/ic-rp-16.svg`} />
-                <p className="type-hero text-white">150.000</p>
+                <p className="type-hero text-white">50.000</p>
                 <img alt="" className="block size-[16px]" src={`${A}/ic-read-message-16.svg`} />
               </div>
               <p className="pl-[20px] text-[12px] leading-[16px] text-white">
@@ -232,7 +251,7 @@ export function Home() {
                   src={`${A}/ic-timeline-bar-chart-16.svg`}
                 />
                 <p className="text-[12px] leading-[16px] text-white">
-                  <span className="text-[13px] font-semibold">Rp100.000</span> spent in Nov
+                  <span className="text-[13px] font-semibold">Rp50.000</span> spent in Nov
                 </p>
                 <img alt="" className="block size-[16px]" src={`${A}/ic-next-ios-16-white.svg`} />
               </div>
@@ -255,7 +274,7 @@ export function Home() {
         </div>
       </div>
 
-      <div className="relative -mt-[16px] flex flex-col items-center gap-[12px] pb-[100px]">
+      <div className="relative -mt-[32px] flex flex-col items-center gap-[12px] pb-[100px]">
         <div className="bg-fill-primary w-[343px] overflow-hidden rounded-[20px] pt-[12px]">
           <div className="flex items-center gap-[8px] pr-[12px] pl-[16px] pb-[12px]">
             <span className="border-border-mute flex size-[24px] items-center justify-center rounded-[40px] border">
@@ -275,8 +294,7 @@ export function Home() {
             logo={`${A}/genie-task-logo-pln.png`}
             title="Update your e-KTP data"
             subtitle={`Make sure it${"\u2019"}s the most updated`}
-            meta={dueLabel}
-            metaTone="critical"
+            meta={<span className="text-critical-strong">{dueLabel}</span>}
             cta="Update"
             onCta={startRekyc}
           />
@@ -285,8 +303,13 @@ export function Home() {
             logo={`${A}/genie-task-logo-bpjs.png`}
             title="Task Y"
             subtitle="+621133020245"
-            meta="Rp1.088.292 • Due today"
-            metaTone="body"
+            meta={
+              <>
+                <span className="text-type-title">Rp1.088.292</span>
+                <img alt="" className="block size-[4px]" src={`${A}/genie-dot-separator.svg`} />
+                <span className="text-critical-strong">Due today</span>
+              </>
+            }
             cta="Pay"
           />
         </div>
@@ -302,7 +325,7 @@ export function Home() {
             <FeatureTile icon={`${A}/tile-gopay-pet.png`} label="GoPay Pet" />
             <FeatureTile icon={`${A}/tile-split-bill.png`} label="Split Bill" />
             <FeatureTile icon={`${A}/minispot-games.svg`} label={"Games\ntop up"} />
-            <FeatureTile icon={`${A}/ic-menu-16-drawer.svg`} label="View all" />
+            <FeatureTile icon={`${A}/ic-menu-16-drawer.svg`} label="View all" tinted />
           </div>
         </div>
 
@@ -360,7 +383,7 @@ export function Home() {
         <div className="relative flex items-start">
           <NavItem icon={`${A}/bottomnav-ic-home-active.svg`} label="Home" active />
           <NavItem icon={`${A}/bottomnav-ic-finance.svg`} label="Finance" />
-          <div className="flex min-w-px flex-1 flex-col items-center gap-[2px] py-[6px]">
+          <div className="flex min-w-px flex-1 flex-col items-center gap-[8px] pt-[13px]">
             <div className="h-[24px]" />
             <p className="text-type-body text-[12px] leading-[16px]">QRIS</p>
           </div>
@@ -370,7 +393,7 @@ export function Home() {
             label="Profile"
             onClick={() => go("vac")}
           />
-          <div className="absolute top-[-18px] left-1/2 flex h-[56px] w-[75px] -translate-x-1/2 items-center justify-center rounded-[40px] bg-gradient-to-b from-[#fafafa] to-[#dfdfe0] p-[4px]">
+          <div className="absolute top-[-14px] left-1/2 flex h-[54px] w-[74px] -translate-x-1/2 items-center justify-center rounded-[40px] bg-gradient-to-b from-[#fafafa] to-[#dfdfe0] p-[4px]">
             <div className="flex size-full items-center justify-center rounded-[36px] border border-[#1982bf] bg-gradient-to-b from-[rgb(26,135,198)] to-[rgb(91,185,231)]">
               <img alt="QRIS" className="block size-[24px]" src={`${A}/bottomnav-qris-glyph.svg`} />
             </div>

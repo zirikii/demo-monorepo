@@ -45,17 +45,34 @@ export function NotchedCard({
         viewBox={`0 0 375 ${height + 8}`}
         fill="none"
       >
-        <path d={notchedCardPath(height)} fill="#f9fafb" stroke="#ebecef" strokeWidth="1" />
+        <path
+          d={notchedCardPath(height)}
+          fill="#f9fafb"
+          stroke="#e1e3e8"
+          strokeWidth="1"
+          strokeDasharray="4 2.2"
+        />
       </svg>
       <div className="relative flex h-full flex-col items-center">{children}</div>
     </div>
   );
 }
 
-/** `Group 3126166` — the secondary panel the notched card and follow-up cards sit on. */
+/**
+ * `Group 3126166` — the secondary panel the notched card and follow-up cards sit on.
+ * Its top edge scallops around the dial via `Ellipse 111`: a 120×84 ellipse centred
+ * 14px above the panel, which a radial-gradient mask reproduces at any panel height.
+ */
 export function ResultPanel({ children }: { children: ReactNode }) {
   return (
-    <div className="bg-fill-secondary shadow-bevel-top relative mt-[216px] min-h-[596px] w-[375px] rounded-[20px] pb-[24px]">
+    <div
+      className="bg-fill-secondary shadow-bevel-top relative mt-[216px] min-h-[596px] w-[375px] rounded-[20px] pb-[24px]"
+      style={{
+        maskImage:
+          "radial-gradient(60px 42px at 188px -14px, transparent 99.5%, black 100%), linear-gradient(black, black)",
+        maskComposite: "intersect",
+      }}
+    >
       {children}
     </div>
   );

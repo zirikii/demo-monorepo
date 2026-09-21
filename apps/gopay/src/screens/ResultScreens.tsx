@@ -49,11 +49,20 @@ function ResultShell({
 
   return (
     <Screen>
+      {/* Both shapes export with 100px of blur bleed on every side, hence the insets. */}
       <div className="pointer-events-none absolute top-[194px] left-1/2 h-[125px] w-[375px] -translate-x-1/2">
-        <img alt="" className="block size-full" src={`${A}/result-backdrop-shape-lg.svg`} />
+        <img
+          alt=""
+          className="absolute top-[-100px] left-[-100px] block h-[325px] w-[575px] max-w-none"
+          src={`${A}/result-backdrop-shape-lg.svg`}
+        />
       </div>
       <div className="pointer-events-none absolute top-[250px] left-1/2 h-[125px] w-[321px] -translate-x-1/2">
-        <img alt="" className="block size-full" src={`${A}/result-backdrop-shape-sm.svg`} />
+        <img
+          alt=""
+          className="absolute top-[-100px] left-[-100px] block h-[325px] w-[521px] max-w-none"
+          src={`${A}/result-backdrop-shape-sm.svg`}
+        />
       </div>
 
       {children}
@@ -166,8 +175,8 @@ export function ResultReviewing() {
       }
     >
       <ResultPanel>
-        <NotchedCard height={138}>
-          <p className="type-title-moderate text-type-green-title mt-[60px] w-[320px] text-center">
+        <NotchedCard height={130}>
+          <p className="type-title-moderate text-type-green-title mt-[52px] w-[320px] text-center">
             We&#8217;re now reviewing your documents
           </p>
         </NotchedCard>
