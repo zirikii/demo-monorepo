@@ -27,6 +27,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | hub24 (Vite + React 19) | `pnpm dev:hub24` | 5181 | hub24.com.au clone + mock AdviserHUB platform; no env needed |
 | atlassian (Vite + React 19) | `pnpm dev:atlassian` | 5183 | Marketing site + mock product workspaces; no env needed |
 | gojek (Vite + React 19) | `pnpm dev:gojek` | 5182 | gojek.io corporate site + mock Partner Hub; no env needed |
+| gopay-rekyc (Vite + React 19) | `pnpm dev:gopay-rekyc` | 5184 | GoPay self-serve reKYC flow; mock API in Vite middleware; no env needed |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -52,9 +53,9 @@ it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek/gopay-rekyc
  + `@demo/ui` typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24, atlassian and gojek (run `pnpm test`
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24, atlassian, gojek and gopay-rekyc (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the

@@ -1,0 +1,66 @@
+@import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource/plus-jakarta-sans/800.css";
+
+@theme {
+  /* GoPay theme tokens from the reKYC Figma file */
+  --color-gopay-active: #00880d;
+  --color-gopay-active-press: #006e0a;
+  --color-bg-primary: #f9fafb;
+  --color-bg-quaternary: #eeeff2;
+  --color-border-mute: #ebecef;
+  --color-text-title: #1a1a1a;
+  --color-text-body: #4d4d4d;
+  --color-icon-default: #4c4c4c;
+  --color-static-white: #fcfcfd;
+  --color-card: #ffffff;
+  --color-vac-header: #006f94;
+  --color-vac-header-end: #128eab;
+  --color-home-header: #0a6498;
+  --color-home-header-end: #1278b0;
+  --color-danger: #e83850;
+  --color-security: #009e86;
+
+  --font-sans: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --text-title-moderate: 18px;
+  --text-title-moderate--line-height: 24px;
+  --text-title-small: 16px;
+  --text-title-small--line-height: 20px;
+  --text-title-tiny: 14px;
+  --text-title-tiny--line-height: 20px;
+  --text-body-small: 14px;
+  --text-body-small--line-height: 20px;
+
+  --shadow-pill: 0 8px 16px rgb(0 136 13 / 28%);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text-title);
+  background: #e7ebf0;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a,
+input {
+  font-family: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-gopay-active);
+  outline-offset: 2px;
+}
