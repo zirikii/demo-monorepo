@@ -145,13 +145,3 @@
     opacity: 1;
   }
 }
-
-@keyframes viewfinder-sweep {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
-}

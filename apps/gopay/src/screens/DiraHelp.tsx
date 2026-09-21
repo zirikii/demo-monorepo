@@ -31,11 +31,13 @@ function IssueRow({
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full cursor-pointer items-center gap-[12px] px-[16px] py-[16px] text-left"
+      className="flex w-full cursor-pointer items-center gap-[12px] px-[16px] py-[14px] text-left"
     >
       <img alt="" className="block size-[24px] shrink-0" src={icon} />
-      <span className="flex min-w-px flex-1 flex-col">
-        <span className="text-type-title text-[14px] leading-[20px] font-semibold">{title}</span>
+        <span className="flex min-w-px flex-1 flex-col items-start">
+          <span className="fit-figma-line text-type-title text-[14px] leading-[20px] font-semibold [--fit-figma-line:0.84]">
+            {title}
+          </span>
         {subtitle ? (
           <span className="text-type-body text-[12px] leading-[16px]">{subtitle}</span>
         ) : null}
@@ -102,11 +104,11 @@ export function DiraHelp() {
         </div>
       </div>
 
-      <p className="type-title-large relative mt-[35px] w-full text-center text-white">
+      <p className="type-title-large relative mt-[20px] w-full text-center text-white">
         Any relevant issues?
       </p>
 
-      <div className="bg-fill-primary relative mx-[16px] mt-[24px] flex w-[343px] flex-col overflow-hidden rounded-[16px]">
+      <div className="bg-fill-primary relative mx-[16px] mt-[16px] flex w-[343px] flex-col overflow-hidden rounded-[16px]">
         <IssueRow
           icon={`${A}/dira-issue-icon.svg`}
           title="I need to update my e-KTP data"
@@ -130,7 +132,7 @@ export function DiraHelp() {
         />
       </div>
 
-      <div className="relative mt-[24px] flex items-center justify-between px-[16px] py-[12px]">
+      <div className="relative mt-[56px] flex items-center justify-between px-[16px] py-[12px]">
         <p className="text-type-title text-[16px] leading-[20px] font-bold">All topics</p>
         <span className="bg-fill-static-white border-border-mute flex items-center gap-[4px] rounded-[24px] border px-[12px] py-[8px]">
           <img alt="" className="block size-[24px]" src={`${A}/ic-search-24.svg`} />

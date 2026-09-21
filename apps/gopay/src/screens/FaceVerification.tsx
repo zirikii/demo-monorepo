@@ -31,7 +31,7 @@ export function FaceReady() {
 
         <div className="flex w-full flex-col items-start px-[16px]">
           <div className="border-border-mute bg-fill-quaternary light-sheen-strong flex w-full flex-col items-start gap-[12px] overflow-hidden rounded-[20px] border py-[16px]">
-            <div className="flex w-full items-start justify-between px-[12px]">
+            <div className="flex w-full items-start justify-between px-[6px]">
               {TIPS.map((tip) => (
                 <div key={tip.label} className="flex flex-col items-center justify-center gap-[8px]">
                   <span className="size-[64px] shrink-0 overflow-hidden">
@@ -71,7 +71,7 @@ export function FaceLiveness() {
   return (
     <Screen background="bg-fill-tertiary" className="flex flex-col gap-[8px]">
       <StatusBar variant="dark" />
-      <FaceViewfinder prompt={prompt} onBack={() => go("fr-ready")} animateArcs />
+      <FaceViewfinder prompt={prompt} onBack={() => go("fr-ready")} />
     </Screen>
   );
 }
@@ -152,7 +152,7 @@ export function FaceFailed() {
   return (
     <FaceErrorShell onClose={() => go("vac")}>
       <FaceErrorCard>
-        <FaceErrorHeading title="Couldn't verify your face">
+        <FaceErrorHeading title="Couldn&#8217;t verify your face">
           <p className="text-type-body w-full text-center text-[14px] leading-[20px]">
             We couldn&apos;t recognize your face. Please make sure you meet the guidelines.
           </p>

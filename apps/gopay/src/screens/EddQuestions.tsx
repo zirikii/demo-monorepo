@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Screen } from "@/components/system/PhoneFrame";
 import { StatusBar } from "@/components/system/StatusBar";
-import { Button } from "@/components/ui/Button";
 import { PlainDivider } from "@/components/ui/Card";
 import { useRekyc } from "@/hooks/useRekyc";
 import { cn } from "@/lib/cn";
@@ -121,12 +120,12 @@ function RadioList({
         <p className="text-type-title text-[16px] leading-[20px] font-semibold">{question}</p>
       </div>
       {options.map((option, index) => (
-        <div key={option} className="w-full">
+        <div key={option} className="w-full px-[16px]">
           {index > 0 ? <PlainDivider /> : null}
           <button
             type="button"
             onClick={() => onChange(option)}
-            className="flex w-full cursor-pointer items-center gap-[12px] px-[16px] py-[16px] text-left"
+            className="flex w-full cursor-pointer items-center gap-[12px] py-[16px] text-left"
           >
             <span className="flex shrink-0 items-center justify-center p-[2px]">
               <img
@@ -145,34 +144,46 @@ function RadioList({
   );
 }
 
+/**
+ * Neither EDD frame carries a Continue button, so picking an option is what advances
+ * the step. The short delay lets the filled radio register before the screen changes.
+ */
+const ADVANCE_MS = 320;
+
+function useAdvanceOnSelect(initial: string | null, onSelect: (option: string) => void) {
+  const [selected, setSelected] = useState<string | null>(initial);
+  const timer = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  return {
+    selected,
+    choose(option: string) {
+      if (timer.current !== undefined) return;
+      setSelected(option);
+      timer.current = window.setTimeout(() => onSelect(option), ADVANCE_MS);
+    },
+  };
+}
+
 export function EddIncome() {
   const { go, eddAnswers, answerEdd } = useRekyc();
-  const [selected, setSelected] = useState<string | null>(eddAnswers.sourceOfIncome ?? null);
+  const { selected, choose } = useAdvanceOnSelect(eddAnswers.sourceOfIncome ?? null, (option) => {
+    answerEdd({ sourceOfIncome: option });
+    go("edd-purpose");
+  });
 
   return (
     <Screen>
       <EddNavbar onBack={() => go("vac")} />
-      <div className="flex w-full flex-col items-center gap-[16px] pb-[112px]">
+      <div className="flex w-full flex-col items-center gap-[16px] pt-[16px] pb-[32px]">
         <EddHeader step={1} />
         <RadioList
           question="What is your source of income?"
           options={INCOME_OPTIONS}
           value={selected}
-          onChange={setSelected}
+          onChange={choose}
         />
-      </div>
-
-      <div className="bg-fill-primary shadow-bevel-top sticky bottom-0 w-full rounded-t-[16px] p-[16px]">
-        <Button
-          disabled={selected === null}
-          onClick={() => {
-            if (selected === null) return;
-            answerEdd({ sourceOfIncome: selected });
-            go("edd-purpose");
-          }}
-        >
-          Continue
-        </Button>
       </div>
     </Screen>
   );
@@ -180,36 +191,25 @@ export function EddIncome() {
 
 export function EddPurpose() {
   const { go, eddAnswers, answerEdd, submitCapture } = useRekyc();
-  const [selected, setSelected] = useState<string | null>(eddAnswers.upgradePurpose ?? null);
+  const { selected, choose } = useAdvanceOnSelect(eddAnswers.upgradePurpose ?? null, (option) => {
+    const sourceOfIncome = eddAnswers.sourceOfIncome;
+    if (!sourceOfIncome) return;
+    answerEdd({ upgradePurpose: option });
+    submitCapture({ sourceOfIncome, upgradePurpose: option });
+    go("result-uploading");
+  });
 
   return (
     <Screen>
       <EddNavbar onBack={() => go("edd-income")} />
-      <div className="flex w-full flex-col items-center gap-[16px] pb-[112px]">
+      <div className="flex w-full flex-col items-center gap-[16px] pt-[16px] pb-[32px]">
         <EddHeader step={2} />
         <RadioList
           question="What is purpose of upgrading?"
           options={PURPOSE_OPTIONS}
           value={selected}
-          onChange={setSelected}
+          onChange={choose}
         />
-      </div>
-
-      <div className="bg-fill-primary shadow-bevel-top sticky bottom-0 w-full rounded-t-[16px] p-[16px]">
-        <Button
-          disabled={selected === null || !eddAnswers.sourceOfIncome}
-          onClick={() => {
-            if (selected === null || !eddAnswers.sourceOfIncome) return;
-            answerEdd({ upgradePurpose: selected });
-            submitCapture({
-              sourceOfIncome: eddAnswers.sourceOfIncome,
-              upgradePurpose: selected,
-            });
-            go("result-uploading");
-          }}
-        >
-          Continue
-        </Button>
       </div>
     </Screen>
   );

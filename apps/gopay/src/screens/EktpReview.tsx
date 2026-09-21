@@ -21,7 +21,7 @@ export function EktpReview() {
   const masked = maskKtpData(approvedSubmission(state)?.data ?? ON_FILE_KTP);
 
   return (
-    <Screen>
+    <Screen className="flex flex-col">
       <div className="bg-fill-quaternary sticky top-0 z-10">
         <TitleNavbar
           title={expanded ? "Review e-KTP data" : "Your e-KTP data"}
@@ -89,7 +89,7 @@ export function EktpReview() {
         </div>
       </div>
 
-      <div className="bg-fill-primary shadow-bevel-top sticky bottom-0 flex w-full flex-col items-start gap-[12px] rounded-t-[16px] p-[16px]">
+      <div className="bg-fill-primary shadow-bevel-top sticky bottom-0 mt-auto flex w-full flex-col items-start gap-[12px] rounded-t-[16px] px-[16px] pt-[16px] pb-[30px]">
         <Button
           onClick={() => {
             go("vac");

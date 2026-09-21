@@ -6,15 +6,7 @@ const A = "/figma";
  * The facial-verification viewfinder: the live frame, the face-shape mask and the
  * two green alignment arcs, with the prompt pill underneath.
  */
-export function FaceViewfinder({
-  prompt,
-  onBack,
-  animateArcs = false,
-}: {
-  prompt: string;
-  onBack?: () => void;
-  animateArcs?: boolean;
-}) {
+export function FaceViewfinder({ prompt, onBack }: { prompt: string; onBack?: () => void }) {
   return (
     <div className="relative min-h-px w-full flex-1 overflow-hidden rounded-[32px]">
       <div className="absolute top-[21.68%] bottom-[9.71%] left-[calc(50%+0.5px)] aspect-square -translate-x-1/2">
@@ -28,10 +20,7 @@ export function FaceViewfinder({
         <div className="absolute top-0 bottom-[0.98px] left-0 w-[375px]">
           <img alt="" className="absolute inset-0 block size-full" src={`${A}/viewfinder-circle-top.svg`} />
         </div>
-        <div
-          className="absolute top-[242px] bottom-[242px] left-[calc(50%+0.5px)] aspect-square -translate-x-1/2"
-          style={animateArcs ? { animation: "viewfinder-sweep 1.6s ease-in-out infinite" } : undefined}
-        >
+        <div className="absolute top-[242px] bottom-[242px] left-[calc(50%+0.5px)] aspect-square -translate-x-1/2">
           <div className="absolute top-0 right-[14.76%] bottom-[79.73%] left-[14.55%]">
             <img alt="" className="block size-full" src={`${A}/viewfinder-arc-top.svg`} />
           </div>
