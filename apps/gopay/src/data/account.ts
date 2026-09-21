@@ -52,12 +52,17 @@ const INITIAL_KYC: Submission = {
   eddAnswers: null,
 };
 
+/** The demo always opens with the ODD review three days out, as the Figma frames show. */
+const DAYS_UNTIL_ODD_REVIEW = 3;
+
 export function initialRekycState(): RekycState {
+  const oddDueAt = new Date(Date.now() + DAYS_UNTIL_ODD_REVIEW * 86_400_000).toISOString();
+
   return {
     account: {
       id: ACCOUNT_ID,
       kycStatus: "approved",
-      oddDueAt: "2026-09-05T00:00:00.000Z",
+      oddDueAt,
       oddIntervalDays: 1095,
     },
     submissions: [INITIAL_KYC],

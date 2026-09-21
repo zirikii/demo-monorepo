@@ -13,25 +13,28 @@ import type { EddAnswers, RejectionReason, RekycState } from "@/lib/rekyc/types"
 import { SCENARIOS, type ScenarioId } from "@/lib/scenarios";
 import { clearAll, readJson, writeJson } from "@/lib/storage";
 
-export type Screen =
-  | "home"
-  | "dira"
-  | "vac"
-  | "ektp-review"
-  | "capture-onboarding"
-  | "fr-ready"
-  | "fr-liveness"
-  | "fr-failed"
-  | "fr-blocked"
-  | "ktp-capture"
-  | "ktp-slow"
-  | "edd-income"
-  | "edd-purpose"
-  | "result-uploading"
-  | "result-reviewing"
-  | "result-slow"
-  | "result-pending"
-  | "result-failed";
+export const SCREENS = [
+  "home",
+  "dira",
+  "vac",
+  "ektp-review",
+  "capture-onboarding",
+  "fr-ready",
+  "fr-liveness",
+  "fr-failed",
+  "fr-blocked",
+  "ktp-capture",
+  "ktp-slow",
+  "edd-income",
+  "edd-purpose",
+  "result-uploading",
+  "result-reviewing",
+  "result-slow",
+  "result-pending",
+  "result-failed",
+] as const;
+
+export type Screen = (typeof SCREENS)[number];
 
 export const FACE_ATTEMPT_LIMIT = 4;
 
@@ -65,10 +68,16 @@ const RekycContext = createContext<RekycContextValue | null>(null);
 const STATE_KEY = "state";
 const SCENARIO_KEY = "scenario";
 
+/** `?screen=fr-failed` deep-links the harness straight at one frame for review. */
+function initialScreen(): Screen {
+  const requested = new URLSearchParams(window.location.search).get("screen");
+  return SCREENS.find((screen) => screen === requested) ?? "home";
+}
+
 export function RekycProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<RekycState>(() => readJson(STATE_KEY, initialRekycState()));
   const [scenarioId, setScenarioId] = useState<ScenarioId>(() => readJson(SCENARIO_KEY, "happy"));
-  const [screen, setScreen] = useState<Screen>("home");
+  const [screen, setScreen] = useState<Screen>(initialScreen);
   const [toast, setToast] = useState<string | null>(null);
   const [faceAttemptsUsed, setFaceAttemptsUsed] = useState(0);
   const [eddAnswers, setEddAnswers] = useState<Partial<EddAnswers>>({});

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState, type ReactNode } from "react";
 import { Screen } from "@/components/system/PhoneFrame";
 import { StatusBar } from "@/components/system/StatusBar";
 import { FaceViewfinder } from "@/components/flow/FaceViewfinder";
@@ -76,82 +76,114 @@ export function FaceLiveness() {
   );
 }
 
-function FaceErrorShell({ children }: { children: React.ReactNode }) {
+/**
+ * `kyc_finished_alt 157/158` — a 247px `fill/error/primary` banner under the light
+ * sheen, with the outcome card pulled up over it and the badge straddling the seam.
+ */
+function FaceErrorShell({ onClose, children }: { onClose: () => void; children: ReactNode }) {
   return (
     <Screen>
-      <div className="absolute top-0 left-0 h-[260px] w-full bg-gradient-to-b from-[#f43f5e] to-[#e52535]" />
-      <div className="relative">
+      <div className="bg-fill-error absolute top-0 left-0 h-[247px] w-full" />
+      <div className="light-sheen absolute top-0 left-0 h-[247px] w-full" />
+
+      <div className="relative flex w-full flex-col items-center gap-[8px] pb-[8px]">
         <StatusBar variant="dark" />
-        <div className="flex items-center gap-[12px] px-[16px] pb-[24px]">
-          <span className="text-[20px] leading-none font-light text-white">✕</span>
-          <p className="text-[18px] leading-[24px] font-bold text-white">Verify with GoPay</p>
+        <div className="flex h-[36px] w-full items-center px-[16px]">
+          <button type="button" onClick={onClose} className="size-[24px] cursor-pointer">
+            <img alt="Close" className="block size-full" src={`${A}/ic-cancel-white.svg`} />
+          </button>
+          <p className="type-title-moderate text-type-static-white ml-[8px]">Verify with GoPay</p>
         </div>
       </div>
+
       {children}
+
+      <div className="absolute top-[108px] left-[142px] size-[90.84px] rounded-full bg-white shadow-[0_0_10px_0_rgba(0,0,0,0.15),inset_0_0_0_5px_#ea001f]">
+        <img
+          alt=""
+          className="absolute top-[24px] left-[27px] block h-[42.344px] w-[30.384px]"
+          src={`${A}/minispot-only-you-can-login.svg`}
+        />
+        <img
+          alt=""
+          className="absolute top-[24px] left-[46.5px] block size-[16.5px]"
+          src={`${A}/minispot-only-you-can-login-badge.svg`}
+        />
+      </div>
     </Screen>
   );
 }
 
-function FaceErrorBadge() {
+function FaceErrorCard({ children }: { children: ReactNode }) {
   return (
-    <div className="relative z-10 mx-auto -mb-[52px] flex size-[88px] items-center justify-center rounded-full border-[6px] border-[#e52535] bg-white">
-      <span className="size-[56px] overflow-hidden">
-        <img alt="" className="block size-full" src={`${A}/spot-no-hat.svg`} />
-      </span>
+    <div className="bg-fill-primary shadow-bevel-top-low absolute top-[151px] left-[16px] flex w-[343px] flex-col gap-[24px] rounded-[20px] px-[20px] pt-[59px] pb-[20px]">
+      {children}
     </div>
   );
 }
 
+function FaceErrorHeading({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <div className="flex w-full flex-col gap-[4px]">
+      <p className="type-title-xl text-type-title w-[303px] text-center">{title}</p>
+      <div className="flex w-[303px] flex-col items-center gap-[8px]">{children}</div>
+    </div>
+  );
+}
+
+const GUIDELINES = [
+  {
+    spot: "spot-good-lighting.svg",
+    title: "Photo has to be well-lit",
+    detail: "Find a place with enough lighting (not too dark or too bright).",
+  },
+  {
+    spot: "spot-clear-face.svg",
+    title: "Face has to be clearly visible",
+    detail: "Don’t wear mask, hat, or any kind of glasses.",
+  },
+];
+
 /** FR did not match; the on-file record is untouched and capture is not reachable. */
 export function FaceFailed() {
-  const { retryFaceCheck, faceAttemptsUsed } = useRekyc();
+  const { go, retryFaceCheck, faceAttemptsUsed } = useRekyc();
   const attemptsLeft = Math.max(FACE_ATTEMPT_LIMIT - faceAttemptsUsed, 0);
 
   return (
-    <FaceErrorShell>
-      <FaceErrorBadge />
-      <div className="bg-fill-primary relative mx-[16px] flex flex-col gap-[16px] rounded-[20px] px-[24px] pt-[60px] pb-[24px]">
-        <div className="flex flex-col gap-[8px]">
-          <p className="type-title-large text-type-title text-center">Couldn&apos;t verify your face</p>
-          <p className="text-type-body text-center text-[14px] leading-[20px]">
+    <FaceErrorShell onClose={() => go("vac")}>
+      <FaceErrorCard>
+        <FaceErrorHeading title="Couldn't verify your face">
+          <p className="text-type-body w-full text-center text-[14px] leading-[20px]">
             We couldn&apos;t recognize your face. Please make sure you meet the guidelines.
           </p>
-        </div>
-        <div className="flex flex-col gap-[12px]">
-          <div className="flex items-start gap-[12px]">
-            <span className="size-[40px] shrink-0 overflow-hidden">
-              <img alt="" className="block size-full" src={`${A}/spot-tips.svg`} />
-            </span>
-            <div className="flex flex-1 flex-col gap-[2px]">
-              <p className="text-type-title text-[14px] leading-[20px] font-bold">
-                Photo has to be well-lit
-              </p>
-              <p className="text-type-body text-[13px] leading-[18px]">
-                Find a place with enough lighting (not too dark or too bright).
-              </p>
-            </div>
-          </div>
-          <div className="bg-border-mute h-px w-full" />
-          <div className="flex items-start gap-[12px]">
-            <span className="size-[40px] shrink-0 overflow-hidden">
-              <img alt="" className="block size-full" src={`${A}/spot-no-glasses.svg`} />
-            </span>
-            <div className="flex flex-1 flex-col gap-[2px]">
-              <p className="text-type-title text-[14px] leading-[20px] font-bold">
-                Face has to be clearly visible
-              </p>
-              <p className="text-type-body text-[13px] leading-[18px]">
-                Don&apos;t wear mask, hat, or any kind of glasses.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+        </FaceErrorHeading>
 
-      <div className="bg-fill-primary shadow-bevel-top absolute bottom-0 left-0 flex w-full flex-col items-center gap-[12px] rounded-t-[16px] p-[16px]">
-        <p className="text-type-body text-[12px] leading-[16px]">{attemptsLeft} attempts left</p>
+        <div className="flex w-full flex-col gap-[12px]">
+          {GUIDELINES.map((guideline, index) => (
+            <Fragment key={guideline.title}>
+              {index > 0 ? <div className="bg-border-secondary h-px w-full" /> : null}
+              <div className="flex w-full items-center gap-[12px]">
+                <img alt="" className="block size-[40px] shrink-0" src={`${A}/${guideline.spot}`} />
+                <div className="flex min-w-px flex-1 flex-col gap-[4px]">
+                  <p className="text-type-title text-[14px] leading-[20px] font-bold">
+                    {guideline.title}
+                  </p>
+                  <p className="text-type-body text-[13px] leading-[16px]">{guideline.detail}</p>
+                </div>
+              </div>
+            </Fragment>
+          ))}
+        </div>
+      </FaceErrorCard>
+
+      <div className="bg-fill-primary absolute bottom-0 left-0 flex w-full flex-col gap-[12px] px-[16px] pt-[16px] pb-[24px]">
+        <p className="text-type-body w-full text-center text-[12px] leading-[16px]">
+          {attemptsLeft} attempts left
+        </p>
         <Button onClick={retryFaceCheck}>Retry face verification</Button>
-        <Button variant="secondary">Need help?</Button>
+        <Button variant="secondary" onClick={() => go("dira")}>
+          Need help?
+        </Button>
       </div>
     </FaceErrorShell>
   );
@@ -162,32 +194,34 @@ export function FaceBlocked() {
   const { go } = useRekyc();
 
   return (
-    <FaceErrorShell>
-      <FaceErrorBadge />
-      <div className="bg-fill-primary relative mx-[16px] flex flex-col gap-[16px] rounded-[20px] px-[24px] pt-[60px] pb-[24px]">
-        <div className="flex flex-col gap-[8px]">
-          <p className="type-title-large text-type-title text-center">Way too many attempts</p>
-          <p className="text-type-body text-center text-[14px] leading-[20px]">
-            For security reasons, we&apos;ve blocked your account due to multiple incorrect attempts.
+    <FaceErrorShell onClose={() => go("vac")}>
+      <FaceErrorCard>
+        <FaceErrorHeading title="Way too many attempts">
+          <p className="text-type-body w-full text-center text-[14px] leading-[20px]">
+            For security reasons, we&apos;ve blocked your account due to multiple incorrect
+            attempts.
           </p>
-          <div className="flex items-center justify-center gap-[6px]">
-            <span className="size-[16px]">
-              <img alt="" className="block size-full" src={`${A}/ic-info.svg`} />
-            </span>
-            <p className="text-fill-active text-[14px] leading-[20px] font-semibold">
+          <button
+            type="button"
+            onClick={() => go("dira")}
+            className="flex cursor-pointer items-start gap-[4px]"
+          >
+            <img alt="" className="block size-[16px]" src={`${A}/ic-info-active.svg`} />
+            <span className="text-fill-active text-[13px] leading-[16px] font-semibold">
               How to take a clear photo
-            </p>
-          </div>
-        </div>
-        <div className="bg-fill-mute flex items-center justify-center rounded-[12px] px-[16px] py-[12px]">
-          <p className="text-type-body text-[14px] leading-[20px]">
-            Please try again in <span className="text-type-title font-bold">23:59 hours</span>
+            </span>
+          </button>
+        </FaceErrorHeading>
+
+        <div className="bg-fill-mute flex w-full items-center justify-center rounded-[120px] p-[8px] drop-shadow-[0_2px_0.5px_rgba(255,255,255,0.7)]">
+          <p className="text-type-body text-[14px] leading-[24px] font-semibold">
+            Please try again in <span className="text-type-title">23:59</span> hours
           </p>
         </div>
-      </div>
+      </FaceErrorCard>
 
-      <div className="bg-fill-primary shadow-bevel-top absolute bottom-0 left-0 flex w-full flex-col items-start gap-[12px] rounded-t-[16px] p-[16px]">
-        <Button onClick={() => go("vac")}>Get help</Button>
+      <div className="bg-fill-primary absolute bottom-0 left-0 flex w-full flex-col px-[16px] pt-[16px] pb-[24px]">
+        <Button onClick={() => go("dira")}>Get help</Button>
       </div>
     </FaceErrorShell>
   );

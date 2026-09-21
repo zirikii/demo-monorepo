@@ -43,11 +43,20 @@ export function KtpCapture() {
 
   return (
     <Screen background="bg-fill-primary">
-      <div className="absolute top-[calc(50%+14px)] left-[calc(50%+0.5px)] h-[222px] w-[344px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[32px]">
-        <img alt="" className="size-full object-cover" src={`${A}/ktp-capture-backdrop.png`} />
+      {/* Camera view — both bitmaps keep the crop offsets from the Figma frame. */}
+      <div className="pointer-events-none absolute top-[calc(50%+14px)] left-[calc(50%+0.5px)] h-[222px] w-[344px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[32px]">
+        <img
+          alt=""
+          className="absolute top-[-14.45%] left-[-101.33%] h-[119.18%] w-[302.4%] max-w-none"
+          src={`${A}/ktp-capture-backdrop.png`}
+        />
       </div>
-      <div className="absolute top-[calc(50%+14.5px)] left-[calc(50%+0.5px)] h-[223px] w-[344px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[15.68px]">
-        <img alt="" className="size-full object-cover" src={`${A}/ktp-card.png`} />
+      <div className="pointer-events-none absolute top-[calc(50%+14.5px)] left-[calc(50%+0.5px)] h-[223px] w-[344px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-[15.68px]">
+        <img
+          alt=""
+          className="absolute top-[-94.61%] left-[-32.6%] h-[295.76%] w-[309.03%] max-w-none"
+          src={`${A}/ktp-card.png`}
+        />
       </div>
 
       <div className="absolute top-[124px] left-0 flex h-[533px] w-[375px] flex-col justify-between px-[16px] py-[32px]">

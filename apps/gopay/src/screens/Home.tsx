@@ -1,10 +1,34 @@
 import { Screen } from "@/components/system/PhoneFrame";
 import { StatusBar } from "@/components/system/StatusBar";
 import { useRekyc } from "@/hooks/useRekyc";
-import { approvedSubmission } from "@/lib/rekyc/engine";
 import { cn } from "@/lib/cn";
 
 const A = "/figma";
+
+/** The "people you pay" row at the bottom of the home feed. */
+const PEOPLE = [
+  {
+    name: "Gisel",
+    avatar: "social-avatar-gisel.png",
+    initial: null,
+    badge: "social-badge-gopay.svg",
+    badgeColor: "#00aed6",
+  },
+  {
+    name: "Odelia",
+    avatar: "social-avatar-placeholder.svg",
+    initial: "O",
+    badge: "social-badge-jago.svg",
+    badgeColor: "#fbad28",
+  },
+  {
+    name: "Pandu",
+    avatar: "social-avatar-pandu.png",
+    initial: null,
+    badge: "social-badge-ewallet.svg",
+    badgeColor: "#ffffff",
+  },
+];
 
 function WalletPill({
   icon,
@@ -63,7 +87,7 @@ function TaskRow({
         <img alt="" className="block size-[32px] shrink-0 rounded-[8px]" src={logo} />
         <div className="flex min-w-px flex-1 flex-col">
           <p className="text-type-title text-[13px] leading-[16px] font-semibold">{title}</p>
-          <p className="text-type-body text-[12px] leading-[16px]">{subtitle}</p>
+          <p className="text-type-body w-[179px] text-[12px] leading-[16px]">{subtitle}</p>
           <p
             className={cn(
               "text-[12px] leading-[16px] font-semibold",
@@ -103,9 +127,23 @@ function FeatureTile({ icon, label, rounded }: { icon: string; label: string; ro
   );
 }
 
-function NavItem({ icon, label, active }: { icon: string; label: string; active?: boolean }) {
+function NavItem({
+  icon,
+  label,
+  active,
+  onClick,
+}: {
+  icon: string;
+  label: string;
+  active?: boolean;
+  onClick?: () => void;
+}) {
   return (
-    <div className="flex min-w-px flex-1 flex-col items-center gap-[2px] py-[6px]">
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex min-w-px flex-1 cursor-pointer flex-col items-center gap-[2px] py-[6px]"
+    >
       <div
         className={cn(
           "flex h-[24px] w-[48px] items-center justify-center rounded-[40px]",
@@ -122,7 +160,7 @@ function NavItem({ icon, label, active }: { icon: string; label: string; active?
       >
         {label}
       </p>
-    </div>
+    </button>
   );
 }
 
@@ -132,7 +170,6 @@ function NavItem({ icon, label, active }: { icon: string; label: string; active?
  */
 export function Home() {
   const { go, startRekyc, state } = useRekyc();
-  const approved = approvedSubmission(state);
   const dueDate = new Date(state.account.oddDueAt);
   const daysUntilDue = Math.ceil((dueDate.getTime() - Date.now()) / 86_400_000);
   const dueLabel = daysUntilDue <= 0 ? "Due today" : `Due in ${daysUntilDue} days`;
@@ -168,9 +205,14 @@ export function Home() {
             <div className="rounded-[16px] bg-[rgba(30,33,37,0.15)] px-[12px] py-[4px]">
               <p className="text-[12px] leading-[16px] text-white">Fully protected</p>
             </div>
-            <div className="flex size-[40px] items-center justify-center rounded-[16px] border border-[rgba(30,33,37,0.5)] bg-gradient-to-b from-white/5 to-transparent backdrop-blur-[2px]">
-              <img alt="Help" className="block size-[16px]" src={`${A}/ic-help-white-16.svg`} />
-            </div>
+            <button
+              type="button"
+              aria-label="Help"
+              onClick={() => go("dira")}
+              className="flex size-[40px] cursor-pointer items-center justify-center rounded-[16px] border border-[rgba(30,33,37,0.5)] bg-gradient-to-b from-white/5 to-transparent backdrop-blur-[2px]"
+            >
+              <img alt="" className="block size-[16px]" src={`${A}/ic-help-white-16.svg`} />
+            </button>
           </div>
 
           <div className="mt-[8px] flex items-start justify-between px-[16px]">
@@ -264,39 +306,53 @@ export function Home() {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={() => go("vac")}
-          className="bg-fill-primary flex w-[343px] cursor-pointer items-center gap-[12px] rounded-[20px] p-[16px] text-left"
-        >
-          <img alt="" className="block size-[40px] shrink-0" src={`${A}/minispot-ektp.svg`} />
-          <span className="flex min-w-px flex-1 flex-col">
-            <span className="text-type-title text-[16px] leading-[20px] font-semibold">
-              Accounts Center
-            </span>
-            <span className="text-type-body text-[13px] leading-[16px]">
-              {approved ? "Verified Identity · 1 e-KTP on file" : "Verify your identity"}
-            </span>
-          </span>
-          <img alt="" className="block size-[24px] shrink-0" src={`${A}/ic-next-ios.svg`} />
-        </button>
-
-        <button
-          type="button"
-          onClick={() => go("dira")}
-          className="bg-fill-primary flex w-[343px] cursor-pointer items-center gap-[12px] rounded-[20px] p-[16px] text-left"
-        >
-          <img alt="" className="block size-[40px] shrink-0" src={`${A}/minispot-help.svg`} />
-          <span className="flex min-w-px flex-1 flex-col">
-            <span className="text-type-title text-[16px] leading-[20px] font-semibold">
-              Help Centre
-            </span>
-            <span className="text-type-body text-[13px] leading-[16px]">
-              Ask Dira if you need assistance
-            </span>
-          </span>
-          <img alt="" className="block size-[24px] shrink-0" src={`${A}/ic-next-ios.svg`} />
-        </button>
+        <div className="bg-fill-primary flex w-[343px] items-start gap-[16px] rounded-[20px] p-[12px]">
+          {PEOPLE.map((person) => (
+            <div key={person.name} className="flex flex-1 flex-col items-center gap-[8px]">
+              <div className="relative size-[44px]">
+                <img
+                  alt=""
+                  className="border-fill-quaternary block size-[44px] rounded-full border-[0.5px]"
+                  src={`${A}/${person.avatar}`}
+                />
+                {person.initial ? (
+                  <span className="text-type-body absolute inset-0 flex items-center justify-center text-[18px] leading-[24px] font-bold">
+                    {person.initial}
+                  </span>
+                ) : null}
+                <span
+                  className="absolute top-[24px] left-[28px] flex size-[20px] items-center justify-center rounded-full"
+                  style={{ backgroundColor: person.badgeColor }}
+                >
+                  <img alt="" className="block size-[16px]" src={`${A}/${person.badge}`} />
+                </span>
+              </div>
+              <p className="text-type-title text-center text-[12px] leading-[16px]">
+                {person.name}
+              </p>
+            </div>
+          ))}
+          <div className="flex flex-1 flex-col items-center gap-[8px]">
+            <div className="relative size-[44px]">
+              <img
+                alt=""
+                className="absolute inset-0 block size-full"
+                src={`${A}/social-more-fill.svg`}
+              />
+              <img
+                alt=""
+                className="absolute inset-0 block size-full"
+                src={`${A}/social-more-ring.svg`}
+              />
+              <img
+                alt=""
+                className="absolute top-[14px] left-[14px] block size-[16px]"
+                src={`${A}/social-more-icon.svg`}
+              />
+            </div>
+            <p className="text-type-title text-center text-[12px] leading-[16px]">All people</p>
+          </div>
+        </div>
       </div>
 
       <div className="sticky bottom-0 w-full bg-white/90 backdrop-blur-[10px]">
@@ -309,7 +365,11 @@ export function Home() {
             <p className="text-type-body text-[12px] leading-[16px]">QRIS</p>
           </div>
           <NavItem icon={`${A}/bottomnav-ic-history.svg`} label="History" />
-          <NavItem icon={`${A}/bottomnav-avatar.png`} label="Profile" />
+          <NavItem
+            icon={`${A}/bottomnav-avatar.png`}
+            label="Profile"
+            onClick={() => go("vac")}
+          />
           <div className="absolute top-[-18px] left-1/2 flex h-[56px] w-[75px] -translate-x-1/2 items-center justify-center rounded-[40px] bg-gradient-to-b from-[#fafafa] to-[#dfdfe0] p-[4px]">
             <div className="flex size-full items-center justify-center rounded-[36px] border border-[#1982bf] bg-gradient-to-b from-[rgb(26,135,198)] to-[rgb(91,185,231)]">
               <img alt="QRIS" className="block size-[24px]" src={`${A}/bottomnav-qris-glyph.svg`} />

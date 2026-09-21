@@ -1,5 +1,5 @@
 {
-  "note": "Figma exports each 40x40 Dira topic illustration as stacked single-path SVGs. Layers are listed in paint order; insetPct is percent of the 40x40 box (top/right/bottom/left), i.e. absolute layers inside a relative 40x40 container.",
+  "note": "Figma exports some 40x40 mini spot illustrations as stacked single-path SVGs. Layers are listed in paint order; insetPct is percent of the 40x40 box (top/right/bottom/left). scripts/compose-spots.mjs flattens each stack into one spot-<key>.svg.",
   "box": 40,
   "spots": {
     "topup": {
@@ -551,6 +551,205 @@
             "right": 64.9,
             "bottom": 49.87,
             "left": 25.97
+          }
+        }
+      ]
+    },
+    "good-lighting": {
+      "label": "Photo has to be well-lit",
+      "layers": [
+        {
+          "file": "spot-good-lighting-1.svg",
+          "insetPct": {
+            "top": 15.05,
+            "right": 38.54,
+            "bottom": 38.49,
+            "left": 15
+          }
+        },
+        {
+          "file": "spot-good-lighting-2.svg",
+          "insetPct": {
+            "top": 43,
+            "right": 39.03,
+            "bottom": 31.84,
+            "left": 23.89
+          }
+        },
+        {
+          "file": "spot-good-lighting-3.svg",
+          "insetPct": {
+            "top": 39.45,
+            "right": 44.75,
+            "bottom": 32.07,
+            "left": 29.75
+          }
+        },
+        {
+          "file": "spot-good-lighting-4.svg",
+          "insetPct": {
+            "top": 61.77,
+            "right": 39.29,
+            "bottom": 25.92,
+            "left": 37.44
+          }
+        },
+        {
+          "file": "spot-good-lighting-5.svg",
+          "insetPct": {
+            "top": 67.32,
+            "right": 37.25,
+            "bottom": 20.37,
+            "left": 39.46
+          }
+        },
+        {
+          "file": "spot-good-lighting-6.svg",
+          "insetPct": {
+            "top": 67.51,
+            "right": 39.15,
+            "bottom": 15.02,
+            "left": 43.39
+          }
+        },
+        {
+          "file": "spot-good-lighting-7.svg",
+          "insetPct": {
+            "top": 66.94,
+            "right": 41.43,
+            "bottom": 25.59,
+            "left": 41.7
+          }
+        },
+        {
+          "file": "spot-good-lighting-8.svg",
+          "insetPct": {
+            "top": 72.29,
+            "right": 38.78,
+            "bottom": 19.78,
+            "left": 43.03
+          }
+        },
+        {
+          "file": "spot-good-lighting-9.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 15.92,
+            "bottom": 55,
+            "left": 54.08
+          }
+        },
+        {
+          "file": "spot-good-lighting-10.svg",
+          "insetPct": {
+            "top": 23.47,
+            "right": 21.7,
+            "bottom": 63.47,
+            "left": 65.22
+          }
+        },
+        {
+          "file": "spot-good-lighting-11.svg",
+          "insetPct": {
+            "top": 27.73,
+            "right": 31.33,
+            "bottom": 63.47,
+            "left": 59.88
+          }
+        }
+      ]
+    },
+    "clear-face": {
+      "label": "Face has to be clearly visible",
+      "layers": [
+        {
+          "file": "spot-clear-face-1.svg",
+          "insetPct": {
+            "top": 45.59,
+            "right": 33.04,
+            "bottom": 45.69,
+            "left": 60.59
+          }
+        },
+        {
+          "file": "spot-clear-face-2.svg",
+          "insetPct": {
+            "top": 15.15,
+            "right": 26.32,
+            "bottom": 16.65,
+            "left": 27.74
+          }
+        },
+        {
+          "file": "spot-clear-face-3.svg",
+          "insetPct": {
+            "top": 58.95,
+            "right": 47.88,
+            "bottom": 36.9,
+            "left": 38.78
+          }
+        },
+        {
+          "file": "spot-clear-face-4.svg",
+          "insetPct": {
+            "top": 61.08,
+            "right": 24.53,
+            "bottom": 15,
+            "left": 24.52
+          }
+        },
+        {
+          "file": "spot-clear-face-5.svg",
+          "insetPct": {
+            "top": 62.82,
+            "right": 52.15,
+            "bottom": 27.39,
+            "left": 37.18
+          }
+        },
+        {
+          "file": "spot-clear-face-6.svg",
+          "insetPct": {
+            "top": 61.01,
+            "right": 34.6,
+            "bottom": 26.64,
+            "left": 47.85
+          }
+        },
+        {
+          "file": "spot-clear-face-7.svg",
+          "insetPct": {
+            "top": 15.05,
+            "right": 32.71,
+            "bottom": 55.67,
+            "left": 31.88
+          }
+        },
+        {
+          "file": "spot-clear-face-8.svg",
+          "insetPct": {
+            "top": 15,
+            "right": 15.09,
+            "bottom": 55,
+            "left": 55.6
+          }
+        },
+        {
+          "file": "spot-clear-face-9.svg",
+          "insetPct": {
+            "top": 22.11,
+            "right": 20.52,
+            "bottom": 63.23,
+            "left": 66.66
+          }
+        },
+        {
+          "file": "spot-clear-face-10.svg",
+          "insetPct": {
+            "top": 27.42,
+            "right": 28.35,
+            "bottom": 63.23,
+            "left": 61.27
           }
         }
       ]

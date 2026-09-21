@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Figma exports each 40x40 Dira topic illustration as a stack of single-path SVGs plus
+ * Figma exports some 40x40 mini spot illustrations as a stack of single-path SVGs plus
  * the insets that position them. This flattens each stack back into one 40x40 SVG so
- * the app can render a topic tile with a single <img>.
+ * the app can render the illustration with a single <img>.
  *
  * Run it after re-exporting assets with scripts/fetch-figma-assets.sh:
- *   node scripts/compose-dira-spots.mjs
+ *   node scripts/compose-spots.mjs
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -14,7 +14,7 @@ import { fileURLToPath } from "node:url";
 const FIGMA_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "figma");
 const BOX = 40;
 
-const manifest = JSON.parse(readFileSync(join(FIGMA_DIR, "dira-spot-layers.json"), "utf8"));
+const manifest = JSON.parse(readFileSync(join(FIGMA_DIR, "spot-layers.json"), "utf8"));
 
 /** Strips the outer <svg> wrapper and returns its viewBox plus inner markup. */
 function parseLayer(file) {
@@ -50,7 +50,7 @@ for (const [key, spot] of Object.entries(manifest.spots)) {
   });
 
   const out = `<svg xmlns="http://www.w3.org/2000/svg" width="${BOX}" height="${BOX}" viewBox="0 0 ${BOX} ${BOX}" fill="none">${layers.join("")}</svg>\n`;
-  const file = `dira-spot-${key}.svg`;
+  const file = `spot-${key}.svg`;
   writeFileSync(join(FIGMA_DIR, file), out);
   console.log(`wrote ${file} (${spot.layers.length} layers)`);
 }

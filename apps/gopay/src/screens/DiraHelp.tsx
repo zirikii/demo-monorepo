@@ -6,14 +6,14 @@ import { useRekyc } from "@/hooks/useRekyc";
 const A = "/figma";
 
 const TOPICS = [
-  { spot: "dira-spot-topup.svg", label: "Top up" },
-  { spot: "dira-spot-withdraw.svg", label: "Withdraw money" },
-  { spot: "dira-spot-scam.svg", label: "Scam/Phising" },
-  { spot: "dira-spot-account.svg", label: "Account" },
-  { spot: "dira-spot-transaction.svg", label: "Transaction Issue" },
-  { spot: "dira-spot-fraud.svg", label: "Fraud & security" },
-  { spot: "dira-spot-product.svg", label: "Product & services" },
-  { spot: "dira-spot-other.svg", label: "Other" },
+  { spot: "spot-topup.svg", label: "Top up" },
+  { spot: "spot-withdraw.svg", label: "Withdraw money" },
+  { spot: "spot-scam.svg", label: "Scam/Phising" },
+  { spot: "spot-account.svg", label: "Account" },
+  { spot: "spot-transaction.svg", label: "Transaction Issue" },
+  { spot: "spot-fraud.svg", label: "Fraud & security" },
+  { spot: "spot-product.svg", label: "Product & services" },
+  { spot: "spot-other.svg", label: "Other" },
 ];
 
 function IssueRow({

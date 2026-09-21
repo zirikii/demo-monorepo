@@ -8,7 +8,12 @@ import { cn } from "@/lib/cn";
 export function PhoneFrame({ children }: { children: ReactNode }) {
   return (
     <div className="shadow-device rounded-[52px] bg-[#0f1115] p-[8px]">
-      <div className="h-[812px] w-[375px] overflow-hidden rounded-[44px] bg-black">{children}</div>
+      <div
+        data-phone-viewport="true"
+        className="h-[812px] w-[375px] overflow-hidden rounded-[44px] bg-black"
+      >
+        {children}
+      </div>
     </div>
   );
 }

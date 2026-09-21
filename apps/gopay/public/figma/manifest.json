@@ -23,13 +23,11 @@
     "logo-background-payments.svg": "https://www.figma.com/api/mcp/asset/1d1bafde-0f34-4aaf-9e0b-cf36e9634865.svg",
     "logo-background-fmcg.svg": "https://www.figma.com/api/mcp/asset/1e56ee7a-827c-4c44-a396-5463fff8c6c9.svg",
     "logo-background-transport.svg": "https://www.figma.com/api/mcp/asset/edb456fb-b1cd-4c68-8440-1c1e4b8b0a8d.svg",
-
     "onboarding-hero.svg": "https://www.figma.com/api/mcp/asset/4f214d2f-5b9a-401c-84e0-22678d956643.svg",
     "spot-ektp.svg": "https://www.figma.com/api/mcp/asset/a0422a47-2170-4a7e-8834-b1ef5b582809.svg",
     "spot-take-selfie.svg": "https://www.figma.com/api/mcp/asset/b560dd7d-ce19-400d-98fe-77d820fbd170.svg",
     "ic-info.svg": "https://www.figma.com/api/mcp/asset/2e6cac20-cccf-4ac5-ad7b-77f1ff08e89d.svg",
     "ic-secured.svg": "https://www.figma.com/api/mcp/asset/108da1ed-7f87-4310-b235-9b74e8a8dc1d.svg",
-
     "statusbar-time-dark.svg": "https://www.figma.com/api/mcp/asset/caf1b428-abac-44e9-addb-bf3681c7df6d.svg",
     "statusbar-notch.svg": "https://www.figma.com/api/mcp/asset/f6b8511c-a236-40dc-b9a5-a0ed78643c08.svg",
     "statusbar-network-dark.svg": "https://www.figma.com/api/mcp/asset/aede3e39-2dd7-4013-8445-1a3c6bc81caa.svg",
@@ -38,7 +36,6 @@
     "statusbar-android-wifi.svg": "https://www.figma.com/api/mcp/asset/c22d8ddf-c97d-4ced-8dfc-295b2e1825c4.svg",
     "statusbar-android-cellular.svg": "https://www.figma.com/api/mcp/asset/766802a2-63df-4dd6-85e2-761ee092430a.svg",
     "statusbar-android-battery.svg": "https://www.figma.com/api/mcp/asset/54ad4dd3-e2f0-483c-85bf-244aadba7bda.svg",
-
     "spot-no-hat.svg": "https://www.figma.com/api/mcp/asset/b53f9b50-b2e8-40b0-bc48-b9fc44751b71.svg",
     "spot-no-glasses.svg": "https://www.figma.com/api/mcp/asset/3f39d4d2-cb7c-4635-b57f-f3675a3bd2a4.svg",
     "spot-tips.svg": "https://www.figma.com/api/mcp/asset/5394bbcd-71fe-435c-88a1-ab3f7ff41a50.svg",
@@ -50,10 +47,8 @@
     "viewfinder-circle-top.svg": "https://www.figma.com/api/mcp/asset/9df87411-8a02-482d-98bf-e027d068302e.svg",
     "viewfinder-arc-top.svg": "https://www.figma.com/api/mcp/asset/9582db0c-4c78-4b70-bf16-3099c39e09ae.svg",
     "viewfinder-arc-bottom.svg": "https://www.figma.com/api/mcp/asset/958cabad-8438-4ae4-ba68-8bd7293ec8e9.svg",
-
-    "ktp-capture-backdrop.png": "https://www.figma.com/api/mcp/asset/1a479ff7-96a5-4722-84ca-53d10325f353.png",
-    "ktp-card.png": "https://www.figma.com/api/mcp/asset/d7a37813-26e3-4170-a109-433dcacdd8ec.png",
-
+    "ktp-capture-backdrop.png": "https://www.figma.com/api/mcp/asset/9547cf08-cc8d-4954-9185-83b04e2d437c.png",
+    "ktp-card.png": "https://www.figma.com/api/mcp/asset/96834772-be27-43db-95fa-44d062bad715.png",
     "result-backdrop-shape-lg.svg": "https://www.figma.com/api/mcp/asset/4f1c8952-fa62-4b9c-bd3f-9da4af6c9292.svg",
     "result-backdrop-shape-sm.svg": "https://www.figma.com/api/mcp/asset/ed16ed23-514c-46a9-b5fb-40566d171b0e.svg",
     "result-sheet.svg": "https://www.figma.com/api/mcp/asset/fdca1d64-3a53-4a40-b1f3-636d4173ce98.svg",
@@ -69,14 +64,12 @@
     "minispot-tabungan.svg": "https://www.figma.com/api/mcp/asset/4ee35949-90de-4fdb-9e5d-6471936ca008.svg",
     "ic-maintenance-16.svg": "https://www.figma.com/api/mcp/asset/fb4307ed-223a-4129-b1e6-a1f9394a1639.svg",
     "ic-toast-success.svg": "https://www.figma.com/api/mcp/asset/3b6d5b3e-3e83-4eb5-bc90-4fa1b94f2245.svg",
-
     "radio-selected.svg": "https://www.figma.com/api/mcp/asset/3c0e7722-8ff2-48ff-a030-56ed97c35e12.svg",
     "radio-unselected.svg": "https://www.figma.com/api/mcp/asset/b79e0255-f94b-415b-a96c-4953caaf92e9.svg",
     "minispot-document.svg": "https://www.figma.com/api/mcp/asset/b6d6231f-7b5d-4445-8a6f-df05e1b86c7f.svg",
     "minispot-price.svg": "https://www.figma.com/api/mcp/asset/c53489bf-9a5b-4569-b6a8-93b167669cc4.svg",
     "edd-stepper-node-ring.svg": "https://www.figma.com/api/mcp/asset/554559c3-7443-4e13-98b6-c8c4fa127ba9.svg",
     "logo-gopay-plus.svg": "https://www.figma.com/api/mcp/asset/8ba377b9-1088-4f9a-88d5-8f77a9aaba1f.svg",
-
     "spot-upgrade-failed.svg": "https://www.figma.com/api/mcp/asset/e7b52152-0991-4171-846a-b4dcdf5b8205.svg",
     "spot-hourglass.svg": "https://www.figma.com/api/mcp/asset/717f5597-a6ec-4e9a-af23-4601aa746c50.svg",
     "ic-cross-16.svg": "https://www.figma.com/api/mcp/asset/9ceda1f3-9280-4209-bcec-47e918e6d3f8.svg",
@@ -84,17 +77,15 @@
     "benefits-plus-dot.svg": "https://www.figma.com/api/mcp/asset/76a34425-2c1a-47bf-8e6e-2d88e7016044.svg",
     "ic-double-shield-16.svg": "https://www.figma.com/api/mcp/asset/4145f447-f5e0-4132-8300-80741c993f4b.svg",
     "ic-next-ios-16.svg": "https://www.figma.com/api/mcp/asset/88c4df65-99cd-4990-a7f8-088791954edb.svg",
-
     "error-header-background.svg": "https://www.figma.com/api/mcp/asset/e03a05f0-54d5-421f-8432-9d021f429039.svg",
     "error-header-background-overlay.svg": "https://www.figma.com/api/mcp/asset/26cc1f90-7a9f-45cb-8e5a-3fa5f9ce70f8.svg",
     "ic-cancel-white.svg": "https://www.figma.com/api/mcp/asset/82605713-c9a0-4b49-9fe1-94b6df2c9209.svg",
+    "ic-info-active.svg": "https://www.figma.com/api/mcp/asset/0695c4cf-9670-491e-9af0-031e161761e6.svg",
     "error-badge-glow.svg": "https://www.figma.com/api/mcp/asset/c037db32-e66c-4c2b-91b7-1e0114a4f9df.svg",
     "error-badge-disc.svg": "https://www.figma.com/api/mcp/asset/083a579d-1a67-440e-b916-3bbe14071f18.svg",
     "minispot-only-you-can-login.svg": "https://www.figma.com/api/mcp/asset/fd99e9ad-6435-40bb-9ae7-332c4b750339.svg",
     "minispot-only-you-can-login-badge.svg": "https://www.figma.com/api/mcp/asset/71685cf0-7ad4-4972-b30f-412c9be90145.svg",
-
     "ic-loading-40.svg": "https://www.figma.com/api/mcp/asset/d00cfede-9d58-4ee7-84d6-630d40dc725d.svg",
-
     "dira-header-background.svg": "https://www.figma.com/api/mcp/asset/64e086e0-a0cb-4eb9-a1b7-b77a576b12b1.svg",
     "dira-blob-large.svg": "https://www.figma.com/api/mcp/asset/9665eb2e-eb7c-4229-9412-078de6a53739.svg",
     "dira-blob-small.svg": "https://www.figma.com/api/mcp/asset/19e84d71-c49a-4f62-a773-16619dba5a8e.svg",
@@ -105,11 +96,9 @@
     "ic-search-24.svg": "https://www.figma.com/api/mcp/asset/61fd02a1-4642-433c-a8d9-a83e8a241c15.svg",
     "ic-call-24.svg": "https://www.figma.com/api/mcp/asset/97a93f63-627f-4c92-aef1-2eb22c7e03a8.svg",
     "ic-help-history-24.svg": "https://www.figma.com/api/mcp/asset/ef3ad37a-3f6e-407c-9d94-3df14ae96b4b.svg",
-
     "genie-task-logo-pln.png": "https://www.figma.com/api/mcp/asset/86a610c6-806f-4077-80f8-88692ec184bb.png",
     "genie-task-logo-bpjs.png": "https://www.figma.com/api/mcp/asset/3501a550-31d6-485e-aba2-d9dc5e730234.png",
     "genie-dot-separator.svg": "https://www.figma.com/api/mcp/asset/b4c018c3-54b6-4328-85d4-864623a3a76d.svg",
-
     "home-wallet-background-fill.svg": "https://www.figma.com/api/mcp/asset/146c1c65-3233-4542-a585-c66f2c7110fb.svg",
     "home-wallet-mesh-gradient.svg": "https://www.figma.com/api/mcp/asset/03967dec-cede-450a-a397-0738e2bd33a8.svg",
     "home-wallet-background-texture.svg": "https://www.figma.com/api/mcp/asset/98c6b79b-5e52-4282-ab84-c88fa2e994a2.svg",
@@ -125,13 +114,11 @@
     "ic-rp-16.svg": "https://www.figma.com/api/mcp/asset/2a64dc9c-9ce8-49b1-8508-5213c3be8b20.svg",
     "ic-read-message-16.svg": "https://www.figma.com/api/mcp/asset/3f3eed6f-5ac9-4b9d-8c21-04cfcb849c2a.svg",
     "ic-timeline-bar-chart-16.svg": "https://www.figma.com/api/mcp/asset/8dfbca47-43a7-4a08-b24d-6976db1691a6.svg",
-
     "bottomnav-ic-home-active.svg": "https://www.figma.com/api/mcp/asset/62892371-f257-42db-a0ce-2ecf63f3e2ff.svg",
     "bottomnav-ic-finance.svg": "https://www.figma.com/api/mcp/asset/603c8de9-bcc5-4884-b31e-81ebf0ea7aa0.svg",
     "bottomnav-ic-history.svg": "https://www.figma.com/api/mcp/asset/db5fa844-7d03-4ced-a2d8-16ccc8c5076d.svg",
     "bottomnav-avatar.png": "https://www.figma.com/api/mcp/asset/a2dabe4c-40ef-4c17-8510-fceba2e8a414.png",
     "bottomnav-qris-glyph.svg": "https://www.figma.com/api/mcp/asset/bde79ff8-cd02-4973-b9c6-cb2d16310bd5.svg",
-
     "minispot-games.svg": "https://www.figma.com/api/mcp/asset/f0d9fc93-3779-4f1a-9b01-4b8a137458bf.svg",
     "minispot-data-package.svg": "https://www.figma.com/api/mcp/asset/e329cfac-d57a-4da5-8cc1-a095f7a5f4ed.svg",
     "minispot-pulsa.svg": "https://www.figma.com/api/mcp/asset/323e344e-b8ec-45a0-acc9-b06ff48dcae0.svg",
@@ -139,14 +126,12 @@
     "tile-pln-logo.png": "https://www.figma.com/api/mcp/asset/189f896d-d1c9-42fe-ad5c-e178f87514b4.png",
     "tile-gopay-pet.png": "https://www.figma.com/api/mcp/asset/2f392df3-cd6f-43b7-958a-f96b884391b2.png",
     "tile-split-bill.png": "https://www.figma.com/api/mcp/asset/00b896dc-2589-4579-9fec-dbe9ca51ea6c.png",
-
     "result-spot-paper-plane.svg": "https://www.figma.com/api/mcp/asset/252969c8-3e3a-4db0-b2c7-04fc79a90448.svg",
     "result-sheet-uploading.svg": "https://www.figma.com/api/mcp/asset/3f3696b1-428e-45a9-80e8-66f7635614bf.svg",
     "result-sheet-delayed.svg": "https://www.figma.com/api/mcp/asset/722cea15-1793-475e-9182-ee805ba5a63d.svg",
     "result-countdown-ring-combined.svg": "https://www.figma.com/api/mcp/asset/8deef905-65d8-4678-942b-087f4d88d0ca.svg",
     "result-countdown-ring-background.svg": "https://www.figma.com/api/mcp/asset/dd01f4c3-3fdc-48c7-9163-509d78e66467.svg",
     "result-countdown-ring-overlay.svg": "https://www.figma.com/api/mcp/asset/4d3c5056-a13e-4daf-9b77-98a2d802857e.svg",
-
     "genie-ic-arrow-right-16.svg": "https://www.figma.com/api/mcp/asset/ecff4bda-c93f-45bc-be91-7b50958ceb06.svg",
     "genie-task-divider.svg": "https://www.figma.com/api/mcp/asset/e03af750-907b-43e4-9b3c-d8d0e94cda0e.svg",
     "genie-task-divider-gold.svg": "https://www.figma.com/api/mcp/asset/ca433bd5-b2ec-4620-bfff-605a1ea61f72.svg",
@@ -159,7 +144,6 @@
     "bottomnav-divider.svg": "https://www.figma.com/api/mcp/asset/b35c1e6f-9543-48ac-b9ab-d086357b9ae3.svg",
     "bottomnav-ic-qris-back.svg": "https://www.figma.com/api/mcp/asset/6587b7cf-d0f0-4665-b53e-40f9c1dcbb2a.svg",
     "bottomnav-ic-qris-front.svg": "https://www.figma.com/api/mcp/asset/e76e7eac-aef0-44ca-a01e-c44dd06931a2.svg",
-
     "social-avatar-gisel.png": "https://www.figma.com/api/mcp/asset/4710bd25-e0d5-4871-bbbd-ddd640819f5e.png",
     "social-avatar-pandu.png": "https://www.figma.com/api/mcp/asset/c6573fd9-b333-40b5-ac45-aaa1d38bfea5.png",
     "social-avatar-placeholder.svg": "https://www.figma.com/api/mcp/asset/acee3360-1817-4fcc-81cf-549c1dcc4ee7.svg",
@@ -170,10 +154,8 @@
     "social-more-fill.svg": "https://www.figma.com/api/mcp/asset/7f1f637e-7404-4e5b-9987-860b61f55c77.svg",
     "social-more-ring.svg": "https://www.figma.com/api/mcp/asset/59f22ea0-6306-4372-8d05-afe9d4b45398.svg",
     "social-more-icon.svg": "https://www.figma.com/api/mcp/asset/cbfb37a2-c1f3-492b-8e79-a6efede68cbf.svg",
-
     "dira-ic-back.svg": "https://www.figma.com/api/mcp/asset/ed8a5953-38fd-4323-be68-3e7b5284d77e.svg",
     "dira-cell-divider.svg": "https://www.figma.com/api/mcp/asset/e4c1f883-c41f-4fa2-9ea8-fe534960ab52.svg",
-
     "dira-spot-topup-1.svg": "https://www.figma.com/api/mcp/asset/e2586af8-2ee1-45d4-a33e-e89cd27507c1.svg",
     "dira-spot-topup-2.svg": "https://www.figma.com/api/mcp/asset/effd5f3b-43c2-459a-b930-f1c028745de4.svg",
     "dira-spot-topup-3.svg": "https://www.figma.com/api/mcp/asset/72eaa5e5-e131-48a4-94d5-2ea31ce3b097.svg",
@@ -230,6 +212,27 @@
     "dira-spot-other-2.svg": "https://www.figma.com/api/mcp/asset/c0f58b0f-2415-4a7b-86e5-d98f30fe82a8.svg",
     "dira-spot-other-3.svg": "https://www.figma.com/api/mcp/asset/179075aa-6292-4e49-a224-0d19ee23a210.svg",
     "dira-spot-other-4.svg": "https://www.figma.com/api/mcp/asset/c468c7f8-7680-4335-a16b-b8a5c6b38c30.svg",
-    "dira-spot-other-5.svg": "https://www.figma.com/api/mcp/asset/19f24957-bd0e-40ce-990a-d58d31c46829.svg"
+    "dira-spot-other-5.svg": "https://www.figma.com/api/mcp/asset/19f24957-bd0e-40ce-990a-d58d31c46829.svg",
+    "spot-good-lighting-1.svg": "https://www.figma.com/api/mcp/asset/fbfa79ab-fe77-4acb-bf06-396c8da84a8b.svg",
+    "spot-good-lighting-2.svg": "https://www.figma.com/api/mcp/asset/af4a4d34-a385-4b4e-851c-67073a50cdf5.svg",
+    "spot-good-lighting-3.svg": "https://www.figma.com/api/mcp/asset/4223a27e-0def-443c-a1ef-921a5ecda2d5.svg",
+    "spot-good-lighting-4.svg": "https://www.figma.com/api/mcp/asset/782dab17-eeac-4797-a44f-b6f4b3361f7f.svg",
+    "spot-good-lighting-5.svg": "https://www.figma.com/api/mcp/asset/b59f9867-2f6b-4eee-9c90-9d7e3c5098e8.svg",
+    "spot-good-lighting-6.svg": "https://www.figma.com/api/mcp/asset/3573f912-f584-48fa-948c-d18ce2361ebb.svg",
+    "spot-good-lighting-7.svg": "https://www.figma.com/api/mcp/asset/e730cee2-098b-482f-932a-7dd841bcc6a6.svg",
+    "spot-good-lighting-8.svg": "https://www.figma.com/api/mcp/asset/4fd5b14d-4ce4-4727-926a-575797e1bb07.svg",
+    "spot-good-lighting-9.svg": "https://www.figma.com/api/mcp/asset/a26a50c1-86bc-4434-98e1-a7143bb7d576.svg",
+    "spot-good-lighting-10.svg": "https://www.figma.com/api/mcp/asset/045ac865-c15c-49e3-bfe2-e84d7bb829e2.svg",
+    "spot-good-lighting-11.svg": "https://www.figma.com/api/mcp/asset/02fb9b6f-7c18-475f-8b07-93c1c462820f.svg",
+    "spot-clear-face-1.svg": "https://www.figma.com/api/mcp/asset/249a0e4e-634b-4cc1-a2db-428bbd14f6f3.svg",
+    "spot-clear-face-2.svg": "https://www.figma.com/api/mcp/asset/be6e9bbd-7a5d-48e9-be59-59046772e280.svg",
+    "spot-clear-face-3.svg": "https://www.figma.com/api/mcp/asset/70eb9a49-1428-49c6-bca7-dcd8330a0260.svg",
+    "spot-clear-face-4.svg": "https://www.figma.com/api/mcp/asset/f3d437b4-10f2-4cb1-9453-d262c5780dbb.svg",
+    "spot-clear-face-5.svg": "https://www.figma.com/api/mcp/asset/683bea94-26cc-405c-9087-a940fc022bca.svg",
+    "spot-clear-face-6.svg": "https://www.figma.com/api/mcp/asset/0a79cbb2-6235-4f9e-9f9f-60c10fb842eb.svg",
+    "spot-clear-face-7.svg": "https://www.figma.com/api/mcp/asset/e2fdb193-7ecf-4027-90d6-65256671c575.svg",
+    "spot-clear-face-8.svg": "https://www.figma.com/api/mcp/asset/c731e569-cacf-44e7-9c82-1a3e6c5fa038.svg",
+    "spot-clear-face-9.svg": "https://www.figma.com/api/mcp/asset/832b584e-b386-4341-aeb4-d6fc0fc7bf6d.svg",
+    "spot-clear-face-10.svg": "https://www.figma.com/api/mcp/asset/32e898c8-4b52-46cb-a086-a9b6ad57b7a7.svg"
   }
 }

@@ -53,8 +53,8 @@ export function StatusBar({
         <div className="size-[16px]">
           <img alt="" className="block size-full" src={`${A}/statusbar-android-battery.svg`} />
         </div>
-        <div className="h-[19px] w-[39px] overflow-hidden opacity-90">
-          <p className="text-right text-[14px] font-semibold text-black">08:08</p>
+        <div className="h-[19px] opacity-90">
+          <p className="text-right text-[14px] leading-[19px] font-semibold text-black">08:08</p>
         </div>
       </div>
     );
