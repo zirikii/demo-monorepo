@@ -133,7 +133,7 @@ export function ResultReviewing() {
     switch (lastOutcome) {
       case "approved":
         go("vac");
-        showToast("Your e-KTP data is updated");
+        showToast("e-KTP data updated");
         break;
       case "pending_review":
         go("result-slow");

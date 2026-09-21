@@ -219,7 +219,7 @@ export function Home() {
             <div className="flex flex-col">
               <div className="flex items-center gap-[4px]">
                 <img alt="Rp" className="block size-[16px]" src={`${A}/ic-rp-16.svg`} />
-                <p className="type-hero text-white">50.000</p>
+                <p className="type-hero text-white">150.000</p>
                 <img alt="" className="block size-[16px]" src={`${A}/ic-read-message-16.svg`} />
               </div>
               <p className="pl-[20px] text-[12px] leading-[16px] text-white">
@@ -232,7 +232,7 @@ export function Home() {
                   src={`${A}/ic-timeline-bar-chart-16.svg`}
                 />
                 <p className="text-[12px] leading-[16px] text-white">
-                  <span className="text-[13px] font-semibold">Rp50.000</span> spent in Nov
+                  <span className="text-[13px] font-semibold">Rp100.000</span> spent in Nov
                 </p>
                 <img alt="" className="block size-[16px]" src={`${A}/ic-next-ios-16-white.svg`} />
               </div>
