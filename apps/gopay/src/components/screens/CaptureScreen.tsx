@@ -79,7 +79,7 @@ export function CaptureScreen() {
           Verifying your e-KTP, please don’t leave the screen yet
         </h2>
         <div className="mt-8 h-40 w-[280px] rounded-[24px] border-2 border-dashed border-gopay bg-gradient-to-br from-[#e7f6e8] to-white p-4 text-left">
-          <p className="text-[11px] font-bold text-gopay">e-KTP</p>
+          <p className="text-[11px] font-bold text-gopay-ink">e-KTP</p>
           <p className="mt-2 text-[13px] font-semibold">REPUBLIK INDONESIA</p>
           <p className="mt-3 text-[12px] text-body">Hold the card inside the frame</p>
         </div>

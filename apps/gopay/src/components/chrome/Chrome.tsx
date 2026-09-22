@@ -91,7 +91,7 @@ export function SecondaryButton({
     <button
       type="button"
       className={cn(
-        "h-11 w-full rounded-full border border-gopay bg-gradient-to-b from-white/70 to-transparent text-[16px] font-bold text-gopay",
+        "h-11 w-full rounded-full border border-gopay bg-gradient-to-b from-white/70 to-transparent text-[16px] font-bold text-gopay-ink",
         className,
       )}
       {...props}
@@ -109,7 +109,7 @@ export function TextButton({
   return (
     <button
       type="button"
-      className={cn("w-full py-2 text-center text-[14px] font-bold text-gopay", className)}
+      className={cn("w-full py-2 text-center text-[14px] font-bold text-gopay-ink", className)}
       {...props}
     >
       {children}

@@ -49,27 +49,30 @@ export function FaceScreen() {
     <Phone className="bg-camera text-white">
       <StatusBar dark />
       <div className="flex items-center justify-between px-4">
-        <button type="button" aria-label="Back" className="text-[14px] font-bold" onClick={() => navigate("/review")}>
+        <button type="button" aria-label="Back" className="text-[14px] font-bold text-white" onClick={() => navigate("/review")}>
           Back
         </button>
-        <button type="button" className="text-[14px] font-bold text-ink" onClick={() => setSheet(true)}>
+        <button type="button" className="text-[14px] font-bold text-white" onClick={() => setSheet(true)}>
           View Guides
         </button>
       </div>
-      <div className="relative mx-8 mt-6 flex flex-1 items-center justify-center">
-        <div className="size-64 rounded-full border-4 border-white/80 bg-gradient-to-b from-[#3a4148] to-[#121416]" />
-        <p className="absolute top-0 w-full text-center text-[18px] font-bold text-ink">
+      <div
+        className="relative flex min-h-0 flex-1 items-center justify-center"
+        data-testid="face-preview"
+      >
+        <p className="absolute inset-x-6 top-4 text-center text-[18px] font-bold text-white">
           Fit your face in the photo area
         </p>
+        <div className="size-64 rounded-full border-4 border-white/80 bg-gradient-to-b from-[#3a4148] to-[#121416]" />
         {scanning ? (
-          <p className="absolute bottom-6 flex items-center gap-2 rounded-2xl bg-camera px-4 py-3 text-[14px] font-bold">
+          <p className="absolute bottom-6 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[14px] font-bold text-white">
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />
             Hold still. Your e-KTP is ready
           </p>
         ) : null}
       </div>
       {sheet ? (
-        <div className="absolute inset-x-0 bottom-0 rounded-t-[20px] border border-line bg-card-2 px-4 py-6 text-ink shadow-[inset_0_2px_1px_rgba(255,255,255,0.7)]">
+        <div className="shrink-0 rounded-t-[20px] border border-line bg-card-2 px-4 py-6 text-ink shadow-[inset_0_2px_1px_rgba(255,255,255,0.7)]">
           <h2 className="text-center font-serif text-[21px] font-semibold leading-7">
             Get ready for face verification
           </h2>
@@ -99,7 +102,7 @@ export function FaceFailScreen() {
   return (
     <Phone>
       <div className="h-36 bg-gradient-to-b from-[#b7e7bc] to-page" />
-      <div className="absolute inset-x-0 top-0 text-white">
+      <div className="absolute inset-x-0 top-0">
         <StatusBar />
         <div className="px-4 text-[18px] font-bold text-ink">Verify with GoPay</div>
       </div>
@@ -127,7 +130,7 @@ export function FaceFailScreen() {
         </button>
         <button
           type="button"
-          className="mt-3 h-11 w-full rounded-full border border-gopay text-[16px] font-bold text-gopay"
+          className="mt-3 h-11 w-full rounded-full border border-gopay text-[16px] font-bold text-gopay-ink"
           onClick={() => navigate("/help")}
         >
           Need help?
@@ -166,7 +169,7 @@ export function FaceLockedScreen() {
         </button>
         <button
           type="button"
-          className="mt-3 h-11 rounded-full border border-gopay text-[16px] font-bold text-gopay"
+          className="mt-3 h-11 rounded-full border border-gopay text-[16px] font-bold text-gopay-ink"
           onClick={() => navigate("/account")}
         >
           Back to Account Center

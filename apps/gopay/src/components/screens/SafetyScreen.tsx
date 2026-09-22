@@ -18,7 +18,7 @@ export function SafetyScreen() {
         <div className="mt-3 rounded-[20px] bg-card p-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.7)]">
           <div className="flex items-center justify-between">
             <p className="text-[14px] font-semibold">Account protection</p>
-            <p className="text-[14px] font-bold text-gopay">60%</p>
+            <p className="text-[14px] font-bold text-gopay-ink">60%</p>
           </div>
           <div className="mt-2 h-2 overflow-hidden rounded-full bg-mute">
             <div className="h-full w-[60%] rounded-full bg-gopay" />

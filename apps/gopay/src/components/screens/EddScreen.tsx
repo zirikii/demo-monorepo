@@ -48,8 +48,8 @@ export function EddScreen({ step }: { step: "income" | "purpose" }) {
             Per BI regulation, please answer the questions to continue verification
           </p>
           <div className="mt-4 flex items-center justify-between rounded-2xl border border-line bg-card-2 px-6 py-4 text-center text-[12px] font-semibold">
-            <span className={step === "income" ? "text-gopay" : "text-inactive"}>1 Source of income</span>
-            <span className={step === "purpose" ? "text-gopay" : "text-inactive"}>2 Upgrade Purpose</span>
+            <span className={step === "income" ? "text-gopay-ink" : "text-inactive"}>1 Source of income</span>
+            <span className={step === "purpose" ? "text-gopay-ink" : "text-inactive"}>2 Upgrade Purpose</span>
           </div>
         </div>
         <div className="mt-4 overflow-hidden rounded-[20px] bg-card shadow-[inset_0_2px_1px_rgba(255,255,255,0.7)]">

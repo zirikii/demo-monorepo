@@ -1,0 +1,54 @@
+{
+  "account": {
+    "id": "acc_budi",
+    "phone": "+6281000000111",
+    "email": "budi@gopay.demo",
+    "displayName": "Budi Keren",
+    "kycStatus": "approved",
+    "oddDueAt": "2027-09-21T17:21:00.936Z",
+    "oddIntervalDays": 365
+  },
+  "submissions": [
+    {
+      "id": "sub_0001",
+      "accountId": "acc_budi",
+      "type": "initial_kyc",
+      "status": "approved",
+      "identity": {
+        "fullName": "Budi Pratama",
+        "nik": "3276012907930002",
+        "dateOfBirth": "29 July 1993",
+        "placeOfBirth": "Jakarta",
+        "occupation": "Private Employee",
+        "address": "Jl. Margasatawa Raya No. 41",
+        "maritalStatus": "Not married",
+        "rtRw": "007/009",
+        "kelurahan": "Jatipadang",
+        "kecamatan": "Pasar Minggu",
+        "religion": "Islam",
+        "gender": "Laki-laki",
+        "bloodType": "O"
+      },
+      "riskScore": 22,
+      "riskTier": "low",
+      "submittedAt": "2024-09-12T00:00:00.000Z"
+    }
+  ],
+  "sessions": [],
+  "callbacks": [],
+  "scenario": {
+    "face": "pass",
+    "photoClear": true,
+    "ktpAligned": true,
+    "ktpReadable": true,
+    "detectedWithin15s": true,
+    "ocrConfidence": "high",
+    "nikMatches": true,
+    "highRisk": false,
+    "dukcapil": "cache_hit",
+    "uploadSuccessful": true,
+    "sessionExpiry": "none",
+    "ektpExpiring": false
+  },
+  "seq": 1
+}

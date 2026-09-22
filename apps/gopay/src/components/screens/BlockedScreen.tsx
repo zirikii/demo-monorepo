@@ -7,7 +7,7 @@ export function BlockedScreen() {
     <Phone>
       <StatusBar />
       <div className="flex flex-1 flex-col justify-end px-5 pb-8">
-        <p className="text-[12px] font-semibold uppercase tracking-wide text-gopay">GoPay</p>
+        <p className="text-[12px] font-semibold uppercase tracking-wide text-gopay-ink">GoPay</p>
         <h2 className="mt-2 font-serif text-[28px] font-semibold leading-9">
           Complete your data update
         </h2>

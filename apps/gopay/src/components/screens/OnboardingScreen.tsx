@@ -39,11 +39,11 @@ export function OnboardingScreen() {
       <div className="bg-card px-4 py-4 shadow-[inset_0_2px_1px_rgba(255,255,255,0.7)]">
         <p className="mb-2 text-center text-[12px] leading-4 text-faint">
           By continuing, you agree to the{" "}
-          <button type="button" className="font-semibold text-gopay" onClick={() => navigate("/terms")}>
+          <button type="button" className="font-semibold text-gopay-ink" onClick={() => navigate("/terms")}>
             Terms & Conditions
           </button>{" "}
           and{" "}
-          <button type="button" className="font-semibold text-gopay" onClick={() => navigate("/privacy")}>
+          <button type="button" className="font-semibold text-gopay-ink" onClick={() => navigate("/privacy")}>
             Privacy Policy
           </button>
         </p>

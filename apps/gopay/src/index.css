@@ -14,8 +14,9 @@
   --color-mute: #f4f5f7;
   --color-ink: #1a1a1a;
   --color-body: #4d4d4d;
-  --color-faint: #757575;
-  --color-inactive: #949ea8;
+  /* Muted text has to clear 4.5:1 on the #e7e8ec page chrome, not only on white cards. */
+  --color-faint: #686868;
+  --color-inactive: #5c6570;
   --color-line: #ebecef;
   --color-line-2: #e8e8e8;
   --color-error: #ea001f;
