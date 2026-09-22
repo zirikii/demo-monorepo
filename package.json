@@ -27,6 +27,7 @@
     "dev:hub24": "pnpm --filter hub24-website-demo dev",
     "dev:atlassian": "pnpm --filter atlassian dev",
     "dev:gojek": "pnpm --filter gojek-website-demo dev",
+    "dev:gopay": "pnpm --filter gopay-rekyc-demo dev",
     "build:kddi": "pnpm --filter kddi-noc-dashboard build",
     "build:nab": "pnpm --filter nab-landing build",
     "build:naukri": "pnpm --filter naukri-job-portal build",
@@ -42,6 +43,7 @@
     "build:hub24": "pnpm --filter hub24-website-demo build",
     "build:atlassian": "pnpm --filter atlassian build",
     "build:gojek": "pnpm --filter gojek-website-demo build",
+    "build:gopay": "pnpm --filter gopay-rekyc-demo build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore"
   },
   "devDependencies": {

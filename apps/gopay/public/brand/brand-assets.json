@@ -1,0 +1,5 @@
+{
+  "brand": "GoPay",
+  "note": "Unofficial demo. GoPay wordmark is set in type. Official logo files were not fetched into this demo; the green (#00880D) matches the reKYC Figma file.",
+  "files": ["favicon.svg"]
+}
