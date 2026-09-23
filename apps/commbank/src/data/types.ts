@@ -123,3 +123,20 @@ export type YelloTier = {
   benefits: string[];
   annualValue: string;
 };
+
+export type RecurringFrequency = "weekly" | "fortnightly" | "monthly";
+
+export type RecurringTransferStatus = "active" | "completed";
+
+export type RecurringTransfer = {
+  id: string;
+  fromId: string;
+  toId: string;
+  amount: number;
+  description: string;
+  frequency: RecurringFrequency;
+  startDate: string;
+  nextDate: string;
+  remainingPayments: number | null;
+  status: RecurringTransferStatus;
+};

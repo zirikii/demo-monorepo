@@ -95,7 +95,8 @@ export function NetBankSettingsPage() {
           <div className="rounded-cba-lg bg-surface p-6 shadow-cba">
             <h2 className="text-base font-extrabold text-ink">Demo data</h2>
             <p className="mt-2 text-sm leading-relaxed text-ink-soft">
-              Reset accounts, transactions and card locks back to their seeded values.
+              Reset accounts, transactions, regular transfers and card locks back to their seeded
+              values.
             </p>
             <Button
               variant="secondary"

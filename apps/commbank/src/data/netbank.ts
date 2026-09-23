@@ -1,4 +1,6 @@
-import type { Account, PaymentCard, Transaction } from "./types";
+import type { Account, PaymentCard, RecurringTransfer, Transaction } from "./types";
+import { todayIso } from "@/lib/format";
+import { nextDateAfter } from "@/lib/recurring";
 
 export const seedAccounts: Account[] = [
   {
@@ -569,6 +571,26 @@ export const savedPayees: Payee[] = [
   { id: "p5", name: "Sydney Water", detail: "Biller 2109 · Ref 8830142", kind: "bpay" },
   { id: "p6", name: "Mei Chen", detail: "mei.chen@example.com", kind: "payid" },
 ];
+
+/** Monthly GoalSaver deposit on the 18th; next run is always the next 18th strictly after today. */
+export function buildSeedRecurringTransfers(): RecurringTransfer[] {
+  const today = todayIso();
+  const anchorDay = "2026-06-18";
+  return [
+    {
+      id: "rec-goalsaver-deposit",
+      fromId: "smart-access",
+      toId: "goalsaver",
+      amount: 1000,
+      description: "Scheduled deposit",
+      frequency: "monthly",
+      startDate: anchorDay,
+      nextDate: nextDateAfter(anchorDay, "monthly", today),
+      remainingPayments: null,
+      status: "active",
+    },
+  ];
+}
 
 export const spendCategoriesThisMonth = [
   { category: "Groceries", amount: 357.05 },
