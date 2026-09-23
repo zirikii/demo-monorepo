@@ -3,7 +3,7 @@ name: tdd-multiagent
 description: >-
   Use subagents. Runs TDD with two subagents: test-writer then implementer.
   Requires an IDE Composer chat so Task goes through TaskToolCallHandler and
-  the Atlassian unit-test hooks fire. Skip in CLI / agent-exec. Skip when the
+  the unit-test hooks fire. Skip in CLI / agent-exec. Skip when the
   test path is unclear, expensive, or not requested.
 disable-model-invocation: true
 ---
@@ -31,7 +31,7 @@ A Shell pipe of the hook scripts is not a subagent and is not a hook fire. Do no
 
 Spawn each step as a subagent. Writer is `subagent_type: "test-writer"`. Implementer is `subagent_type: "implementer"`. An edit in this chat is not a subagent.
 
-`test-writer` writes the failing test. `implementer` changes production code. Cursor `subagentStop` runs the Atlassian Vitest suite and writes `.cursor/hooks/last-run.md`.
+`test-writer` writes the failing test. `implementer` changes production code. Cursor `subagentStop` runs Vitest for each dirty workspace project under `apps/` or `packages/` and writes `.cursor/hooks/last-run.md`.
 
 `hooks.json` registers `subagentStart` / `subagentStop` with matcher `implementer|test-writer`. Do not add `preToolUse` / `postToolUse` on `Task`. Those fire for every Task and force duplicate-stop machinery. Scripts no-op unless `subagent_type` is `implementer` or `test-writer`.
 
@@ -62,7 +62,7 @@ Do not use "fail" as a noun. The noun is "failure". Do not call a parent pipe a 
 1. If this chat is CLI or agent-exec, stop. Ask for an IDE Composer chat.
 2. Name the intended behavior, the current behavior, the production file path, and the smallest observable case.
 3. Start a todo list. Track writer, red, implementer, and green.
-4. Confirm the suite is green before you spawn the writer. If last-run is missing or stale, run `apps/atlassian/node_modules/.bin/vitest run` one time (do not assume a global pnpm). If that run failed, stop and report. Do not start the loop.
+4. Confirm the suite for the workspace project that owns the production file is green before you spawn the writer. If last-run is missing or stale, run that project's Vitest once from its directory: `apps/<name>/node_modules/.bin/vitest run` or `packages/<name>/node_modules/.bin/vitest run`. Do not assume a global pnpm. If that binary is missing, run `node_modules/.bin/pnpm --filter <package-name> test` from the repo root. If that run failed, stop and report. Do not start the loop.
 5. Use a subagent. Spawn the writer with `subagent_type: "test-writer"`. Give the intended behavior and the production file path. Do not give a production patch. Do not write the test in the parent.
 6. When that subagent returns, read last-run. Require `trigger: hook` and `reason: writer_red`. The FAIL line must name the writer's test file. If `trigger` is not `hook`, stop and report that hooks did not fire.
 7. If `parent_next` is `spawn_writer`, spawn the writer again. Do not spawn the implementer.

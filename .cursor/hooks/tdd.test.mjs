@@ -13,8 +13,10 @@ import {
   kind,
   main,
   parseHookInput,
+  projectsFromFiles,
+  runSuite,
   writeSnapshot,
-} from "./atlassian-tdd.mjs";
+} from "./tdd.mjs";
 
 function tmpRoot(prefix) {
   return fs.mkdtempSync(path.join(os.tmpdir(), prefix));
@@ -50,12 +52,30 @@ describe("parseHookInput", () => {
 });
 
 describe("kind", () => {
-  it("classifies atlassian tests, harness, and prod", () => {
+  it("classifies workspace tests, harness, and prod", () => {
     assert.equal(kind("apps/atlassian/src/test/jira.test.tsx"), "test");
+    assert.equal(kind("apps/gopay/src/test/face.test.tsx"), "test");
     assert.equal(kind("apps/atlassian/src/foo.spec.ts"), "test");
     assert.equal(kind("apps/atlassian/vitest.config.ts"), "harness");
     assert.equal(kind("apps/atlassian/package.json"), "harness");
+    assert.equal(kind("apps/gopay/package.json"), "harness");
+    assert.equal(kind("packages/ui/package.json"), "harness");
     assert.equal(kind("apps/atlassian/src/App.tsx"), "prod");
+    assert.equal(kind("apps/gopay/src/components/screens/FaceScreen.tsx"), "prod");
+  });
+});
+
+describe("projectsFromFiles", () => {
+  it("keeps one directory per dirty workspace app", () => {
+    assert.deepEqual(
+      projectsFromFiles([
+        "apps/gopay/src/test/face.test.tsx",
+        "apps/gopay/src/components/screens/FaceScreen.tsx",
+        "apps/atlassian/src/App.tsx",
+        "packages/ui/src/index.ts",
+      ]),
+      ["apps/gopay", "apps/atlassian", "packages/ui"],
+    );
   });
 });
 
@@ -391,7 +411,7 @@ describe("main", () => {
     const testFile = "apps/atlassian/src/test/loyalty.test.ts";
     fs.mkdirSync(path.join(root, "apps/atlassian/src/test"), { recursive: true });
     fs.writeFileSync(path.join(root, testFile), "expect(true).toBe(false);\n");
-    // The tmp root becomes a real repo so dirtyAtlassianFiles sees the untracked test.
+    // The tmp root becomes a real repo so dirtyWorkspaceFiles sees the untracked test.
     initGitRepo(root);
 
     const out = main(
@@ -550,6 +570,39 @@ describe("main", () => {
     assert.equal(fs.existsSync(path.join(root, ".cursor/hooks/last-run-snapshot.json")), true);
   });
 
+  it("routes writer_red for a non-atlassian app test", () => {
+    const root = tmpRoot("tdd-main-");
+    const testFile = "apps/gopay/src/test/face.test.tsx";
+    fs.mkdirSync(path.join(root, "apps/gopay/src/test"), { recursive: true });
+    fs.writeFileSync(path.join(root, testFile), "expect(getUserMedia).toHaveBeenCalled();\n");
+    initGitRepo(root);
+
+    const out = main(
+      "stop",
+      JSON.stringify({
+        hook_event_name: "subagentStop",
+        subagent_type: "test-writer",
+        status: "completed",
+        loop_count: 0,
+        modified_files: [],
+      }),
+      {
+        root,
+        stamp: "2026-09-23T05:40:00Z",
+        suite: () => ({
+          cmd: "apps/gopay/node_modules/.bin/vitest run",
+          status: 1,
+          log: " FAIL  src/test/face.test.tsx > starts the user-facing camera\n",
+        }),
+      },
+    );
+
+    assert.deepEqual(out.record.files, [testFile]);
+    assert.equal(out.record.reason, "writer_red");
+    assert.equal(out.record.parentNext, "spawn_implementer");
+    assert.equal(out.record.trigger, "hook");
+  });
+
   it("skips the suite when status is not completed", () => {
     const root = tmpRoot("atlassian-main-");
     const out = main(
@@ -568,6 +621,17 @@ describe("main", () => {
       fs.readFileSync(path.join(root, ".cursor/hooks/last-run.md"), "utf8"),
       /reason: not_completed/,
     );
+  });
+});
+
+describe("runSuite", () => {
+  it("does not run vitest when no workspace files are dirty", () => {
+    const root = tmpRoot("tdd-suite-");
+    initGitRepo(root);
+    const run = runSuite(root);
+    assert.equal(run.cmd, "skipped");
+    assert.equal(run.status, 0);
+    assert.match(run.log, /No dirty files under apps\/ or packages\//);
   });
 });
 

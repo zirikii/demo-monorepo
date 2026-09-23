@@ -31,7 +31,7 @@ export function kind(file) {
   const name = String(file).replace(/\\/g, "/");
   if (/\.(test|spec)\.[jt]sx?$/.test(name) || /\/src\/test\//.test(name)) return "test";
   if (/(^|\/)(vite|vitest)\.config\./.test(name)) return "harness";
-  if (/(^|\/)apps\/atlassian\/package\.json$/.test(name)) return "harness";
+  if (/(^|\/)(apps|packages)\/[^/]+\/package\.json$/.test(name)) return "harness";
   return "prod";
 }
 
@@ -237,7 +237,7 @@ export function renderLastRun({
   decision,
 }) {
   return [
-    "# Atlassian unit-test hook",
+    "# Unit-test hook",
     "",
     "- generated: " + stamp,
     "- subagent_type: " + (type || "<empty>"),
@@ -281,7 +281,7 @@ export function hookResponse({ decision, cmd, excerpt }) {
   return { followup_message: stopBody({ decision, cmd, excerpt }) };
 }
 
-export function dirtyAtlassianFiles(root) {
+export function dirtyWorkspaceFiles(root) {
   const run = (args) => {
     try {
       return execFileSync("git", args, { cwd: root, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
@@ -290,31 +290,88 @@ export function dirtyAtlassianFiles(root) {
     }
   };
   return uniqueFiles([
-    ...run(["diff", "--name-only", "HEAD", "--", "apps/atlassian"]).split("\n"),
-    ...run(["diff", "--cached", "--name-only", "--", "apps/atlassian"]).split("\n"),
-    ...run(["ls-files", "--others", "--exclude-standard", "--", "apps/atlassian"]).split("\n"),
+    ...run(["diff", "--name-only", "HEAD", "--", "apps", "packages"]).split("\n"),
+    ...run(["diff", "--cached", "--name-only", "--", "apps", "packages"]).split("\n"),
+    ...run(["ls-files", "--others", "--exclude-standard", "--", "apps", "packages"]).split("\n"),
   ]);
 }
 
+export function projectsFromFiles(files) {
+  const seen = new Set();
+  const projects = [];
+  for (const file of uniqueFiles(files)) {
+    const match = file.match(/^(apps|packages)\/([^/]+)\//);
+    if (!match) continue;
+    const dir = `${match[1]}/${match[2]}`;
+    if (seen.has(dir)) continue;
+    seen.add(dir);
+    projects.push(dir);
+  }
+  return projects;
+}
+
+function packageName(root, project) {
+  const file = path.join(root, project, "package.json");
+  if (!fs.existsSync(file)) return null;
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, "utf8"));
+    return typeof parsed.name === "string" && parsed.name ? parsed.name : null;
+  } catch {
+    return null;
+  }
+}
+
+function runProject(root, project) {
+  const projectDir = path.join(root, project);
+  const localVitest = path.join(projectDir, "node_modules/.bin/vitest");
+  const rootPnpm = path.join(root, "node_modules/.bin/pnpm");
+  const rootVitest = path.join(root, "node_modules/.bin/vitest");
+  if (fs.existsSync(localVitest)) {
+    const cmd = `${project}/node_modules/.bin/vitest run`;
+    const result = spawnSync(localVitest, ["run"], { cwd: projectDir, encoding: "utf8" });
+    return { cmd, status: result.status ?? 1, log: (result.stdout || "") + (result.stderr || "") };
+  }
+  const name = packageName(root, project);
+  if (name && fs.existsSync(rootPnpm)) {
+    const cmd = `node_modules/.bin/pnpm --filter ${name} test`;
+    const result = spawnSync(rootPnpm, ["--filter", name, "test"], { cwd: root, encoding: "utf8" });
+    return { cmd, status: result.status ?? 1, log: (result.stdout || "") + (result.stderr || "") };
+  }
+  const configName = ["vitest.config.ts", "vitest.config.mjs", "vite.config.ts"].find((file) =>
+    fs.existsSync(path.join(projectDir, file)),
+  );
+  if (configName && fs.existsSync(rootVitest)) {
+    const config = path.join(project, configName);
+    const cmd = `node_modules/.bin/vitest run --config ${config}`;
+    const result = spawnSync(rootVitest, ["run", "--config", path.join(root, config)], {
+      cwd: projectDir,
+      encoding: "utf8",
+    });
+    return { cmd, status: result.status ?? 1, log: (result.stdout || "") + (result.stderr || "") };
+  }
+  return {
+    cmd: "missing",
+    status: 127,
+    log: `No vitest binary for ${project}.`,
+  };
+}
+
 export function runSuite(root) {
-  const pnpm = path.join(root, "node_modules/.bin/pnpm");
-  const vitest = path.join(root, "apps/atlassian/node_modules/.bin/vitest");
-  let cmd;
-  let result;
-  if (fs.existsSync(pnpm)) {
-    cmd = "node_modules/.bin/pnpm --filter atlassian test";
-    result = spawnSync(pnpm, ["--filter", "atlassian", "test"], { cwd: root, encoding: "utf8" });
-  } else if (fs.existsSync(vitest)) {
-    cmd = "apps/atlassian/node_modules/.bin/vitest run";
-    result = spawnSync(vitest, ["run"], { cwd: path.join(root, "apps/atlassian"), encoding: "utf8" });
-  } else {
+  const projects = projectsFromFiles(dirtyWorkspaceFiles(root));
+  if (!projects.length) {
     return {
-      cmd: "missing",
-      status: 127,
-      log: "Neither node_modules/.bin/pnpm nor apps/atlassian/node_modules/.bin/vitest exists.",
+      cmd: "skipped",
+      status: 0,
+      log: "No dirty files under apps/ or packages/. Suite not run.",
     };
   }
-  return { cmd, status: result.status ?? 1, log: (result.stdout || "") + (result.stderr || "") };
+  const runs = projects.map((project) => runProject(root, project));
+  const failed = runs.find((run) => run.status !== 0);
+  return {
+    cmd: runs.map((run) => run.cmd).join(" && "),
+    status: failed ? failed.status : 0,
+    log: runs.map((run) => run.log).join("\n"),
+  };
 }
 
 function writeLastRun(root, markdown) {
@@ -330,7 +387,7 @@ export function main(mode, raw, { root, stamp, suite = runSuite } = {}) {
   if (!MATCHER.test(parsed.type)) return null;
 
   const trigger = invocationTrigger(parsed.hookEventName);
-  const gitFiles = dirtyAtlassianFiles(root);
+  const gitFiles = dirtyWorkspaceFiles(root);
 
   if (mode === "start") {
     writeSnapshot(root, { type: parsed.type, files: gitFiles, stamp });
