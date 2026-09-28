@@ -1,0 +1,176 @@
+@import "tailwindcss";
+@import "@fontsource/nunito-sans/300.css";
+@import "@fontsource/nunito-sans/400.css";
+@import "@fontsource/nunito-sans/600.css";
+@import "@fontsource/nunito-sans/700.css";
+@import "@fontsource/nunito-sans/800.css";
+
+@theme {
+  /* Ray gradient stops sampled from public/brand/logo.png */
+  --color-ray-deep: #0046bd;
+  --color-ray-cyan: #00e1ee;
+  --color-ray-light: #42e8f1;
+
+  /* AA-safe interactive blues derived from the deep ray stop */
+  --color-agl-blue: #0a2bb5;
+  --color-agl-blue-dark: #061d86;
+  --color-agl-blue-hover: #0822a0;
+  --color-agl-navy: #001033;
+  --color-agl-sky: #e7f9fc;
+  --color-agl-sky-deep: #c9f3f9;
+  --color-agl-teal-ink: #006a7a;
+
+  --color-ink: #1b1b1b;
+  --color-ink-soft: #4d4d4d;
+  --color-ink-faint: #6e6e6e;
+
+  --color-surface: #ffffff;
+  --color-surface-tint: #f6f7f9;
+  --color-surface-deep: #eceef2;
+  --color-line: #d9dce3;
+  --color-line-soft: #e8eaef;
+
+  --color-positive: #0b7a3e;
+  --color-positive-bg: #e6f4ec;
+  --color-critical: #c4122f;
+  --color-critical-bg: #fdecef;
+  --color-caution: #9a5b00;
+  --color-caution-bg: #fff4e0;
+
+  --font-sans: "Nunito Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  --radius-agl: 12px;
+  --radius-agl-lg: 20px;
+  --radius-agl-xl: 28px;
+
+  --shadow-agl: 0 2px 10px rgba(6, 29, 134, 0.08);
+  --shadow-agl-lift: 0 12px 32px rgba(6, 29, 134, 0.14);
+  --shadow-agl-panel: 0 24px 64px rgba(0, 16, 51, 0.28);
+
+  --animate-fade-up: agl-fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: agl-fade-in 0.2s ease-out both;
+  --animate-pop-in: agl-pop-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-typing: agl-typing 1.2s ease-in-out infinite;
+  --animate-pulse-ring: agl-pulse-ring 2.4s ease-out infinite;
+}
+
+@keyframes agl-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes agl-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes agl-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes agl-typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes agl-pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+/* Element defaults stay in @layer base so utilities keep winning. */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-surface);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-agl-blue);
+    outline-offset: 2px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@utility container-agl {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1280px;
+  padding-inline: 1.25rem;
+
+  @media (width >= 64rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility bg-agl-gradient {
+  background-image: linear-gradient(
+    135deg,
+    var(--color-ray-deep) 0%,
+    #0092d8 45%,
+    var(--color-ray-cyan) 100%
+  );
+}
+
+@utility text-agl-gradient {
+  background-image: linear-gradient(90deg, var(--color-agl-blue) 0%, #0092d8 60%, #00b8cc 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
