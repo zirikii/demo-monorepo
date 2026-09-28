@@ -28,6 +28,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | atlassian (Vite + React 19) | `pnpm dev:atlassian` | 5183 | Marketing site + mock product workspaces; no env needed |
 | gojek (Vite + React 19) | `pnpm dev:gojek` | 5182 | gojek.io corporate site + mock Partner Hub; no env needed |
 | gopay (Vite + React 19) | `pnpm dev:gopay` | 5184 | GoPay consumer reKYC flow; no env needed |
+| agl (Vite + React 19) | `pnpm dev:agl` | 5185 | agl.com.au clone + AGL Assistant chat/voice; optional server-only `XAI_API_KEY` for Grok voice |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -51,11 +52,15 @@ forms accept **any** email/password (they come pre-filled with demo credentials)
 through `@cursor/sdk` in Vite middleware (`/api/cursor/*`). The pipeline UI works without
 it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 
+`apps/agl` optionally reads server-only `XAI_API_KEY` in `apps/agl/.env.local`. Vite middleware
+(`/api/voice/*`) mints short-lived Grok Voice tokens; without the key the assistant falls back to a
+browser-speech demo voice. Never prefix it `VITE_`.
+
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek/gopay
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek/gopay/agl
  + `@demo/ui` typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24, atlassian, gojek and gopay (run `pnpm test`
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24, atlassian, gojek, gopay and agl (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the
