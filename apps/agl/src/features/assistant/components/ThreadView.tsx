@@ -27,6 +27,7 @@ export function ThreadView() {
                 message={message}
                 live={message.id === lastAssistantId && lastMessage?.id === message.id}
                 grouped={message.role === "assistant" && previous?.role === "assistant"}
+                hidePending={typing}
               />
             </li>
           );

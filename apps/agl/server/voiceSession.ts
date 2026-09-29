@@ -49,7 +49,7 @@ export function createRateLimiter(limit: number, windowMs: number, now: () => nu
   };
 }
 
-function isSameOrigin(req: VoiceRequest): boolean {
+export function isSameOrigin(req: Pick<VoiceRequest, "fetchSite" | "origin" | "host">): boolean {
   if (req.fetchSite) return req.fetchSite === "same-origin";
   if (!req.origin || !req.host) return false;
   try {

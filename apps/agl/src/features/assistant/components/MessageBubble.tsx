@@ -4,7 +4,18 @@ import type { ChatMessage } from "../engine/conversation";
 import { AssistantAvatar } from "./AssistantAvatar";
 import { StepCard } from "./cards/StepCard";
 
-export function MessageBubble({ message, live, grouped }: { message: ChatMessage; live: boolean; grouped: boolean }) {
+export function MessageBubble({
+  message,
+  live,
+  grouped,
+  hidePending = false,
+}: {
+  message: ChatMessage;
+  live: boolean;
+  grouped: boolean;
+  /** Set while the typing indicator already shows the reply is on its way. */
+  hidePending?: boolean;
+}) {
   switch (message.role) {
     case "system":
       return (
@@ -26,7 +37,7 @@ export function MessageBubble({ message, live, grouped }: { message: ChatMessage
         </div>
       );
     case "assistant": {
-      const pending = message.awaitingVoice && !message.text;
+      const pending = message.awaitingVoice && !message.text && !hidePending;
       return (
         <div className="flex animate-fade-up items-start gap-2.5" data-step={message.stepId ?? undefined}>
           <span className={cn("mt-0.5", grouped && "invisible")}>

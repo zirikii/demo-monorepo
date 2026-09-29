@@ -83,6 +83,8 @@ export type PcmPlayer = {
   /** Drops queued audio immediately — used when the customer barges in. */
   interrupt: () => void;
   isPlaying: () => boolean;
+  /** Resolves once every queued chunk has played (or been interrupted). */
+  whenIdle: () => Promise<void>;
   close: () => void;
 };
 
@@ -94,6 +96,13 @@ export function createPlayer(onLevel: (level: number) => void): PcmPlayer {
   analyser.fftSize = 512;
   analyser.connect(ctx.destination);
   const sources = new Set<AudioBufferSourceNode>();
+  let idleWaiters: (() => void)[] = [];
+  const settleIdle = () => {
+    if (sources.size > 0) return;
+    const waiters = idleWaiters;
+    idleWaiters = [];
+    waiters.forEach((resolve) => resolve());
+  };
   let playhead = 0;
   let raf = 0;
   const scratch = new Float32Array(analyser.fftSize);
@@ -120,7 +129,10 @@ export function createPlayer(onLevel: (level: number) => void): PcmPlayer {
       src.start(playhead);
       playhead += buffer.duration;
       sources.add(src);
-      src.onended = () => sources.delete(src);
+      src.onended = () => {
+        sources.delete(src);
+        settleIdle();
+      };
     },
     interrupt() {
       sources.forEach((s) => {
@@ -132,8 +144,11 @@ export function createPlayer(onLevel: (level: number) => void): PcmPlayer {
       });
       sources.clear();
       playhead = ctx.currentTime;
+      settleIdle();
     },
     isPlaying: () => sources.size > 0,
+    whenIdle: () =>
+      sources.size === 0 ? Promise.resolve() : new Promise<void>((resolve) => idleWaiters.push(resolve)),
     close() {
       cancelAnimationFrame(raf);
       this.interrupt();

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildContext } from "@/features/assistant/engine/context";
 import {
+  buildChatInstructions,
   buildVoiceInstructions,
   buildVoiceTools,
   describeCard,
@@ -20,18 +21,46 @@ describe("Grok voice prompt", () => {
     expect(params.properties.step_id.enum).toEqual(allNodes.map((n) => n.id));
   });
 
-  it("opens with the query question and follows the flow graph", () => {
+  it("follows xAI's recommended section order", () => {
+    for (const text of [buildVoiceInstructions(values), buildChatInstructions(values)]) {
+      const headers = text.split("\n").filter((line) => line.startsWith("## "));
+      expect(headers.slice(0, 6)).toEqual([
+        "## Role & Persona",
+        "## Objective",
+        "## Conversation Flow",
+        "## Guardrails & Escalation",
+        expect.stringMatching(/Communication Style$/),
+        "## CRITICAL INSTRUCTIONS",
+      ]);
+    }
+  });
+
+  it("grounds Grok in AGL, its escalation paths and the flow graph", () => {
     const text = buildVoiceInstructions(values);
-    expect(text).toContain('asking "What\'s your query today?"');
-    expect(text).toContain("Internet & mobile");
+    expect(text).toContain("AGL Energy, Australia's largest integrated energy retailer");
+    expect(text).toContain("131 245");
+    expect(text).toContain("1300 659 925");
+    expect(text).toContain("go to emergency.gas");
+    expect(text).toContain("Internet & mobile (netmob)");
     expect(text).toContain("- netmob (Internet & mobile):");
     expect(text).toContain(values.elecAmount);
-    expect(text).not.toContain("IMPORTANT: The customer switched");
+    expect(text).toContain(`${values.distributor}, faults line ${values.distributorPhone}`);
+    expect(text).not.toContain("switched from chat to voice");
+  });
+
+  it("keeps voice spoken and chat written", () => {
+    const voice = buildVoiceInstructions(values);
+    const chat = buildChatInstructions(values);
+    expect(voice).toContain("Spoken words only");
+    expect(voice).toContain("The greeting has already been spoken");
+    expect(chat).toContain("The option buttons are already on screen");
+    expect(chat).not.toContain("Spoken words only");
   });
 
   it("resumes mid-flow when the customer switches from chat", () => {
-    const text = buildVoiceInstructions(values, "internet.down");
-    expect(text.startsWith("IMPORTANT: The customer switched from chat to voice while on step internet.down")).toBe(true);
+    expect(buildVoiceInstructions(values, "internet.down")).toContain(
+      "The customer switched from chat to voice while on step internet.down",
+    );
   });
 
   it("lists form fields so Grok knows what to collect", () => {

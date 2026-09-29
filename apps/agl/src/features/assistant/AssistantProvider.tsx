@@ -26,7 +26,9 @@ import {
 } from "./engine/conversation";
 import { validateForm, type FormResult } from "./engine/forms";
 import { resolveIntent } from "./engine/intent";
+import { runChatTurn, type ChatInputItem } from "./chat/grokChat";
 import {
+  buildChatInstructions,
   buildVoiceInstructions,
   buildVoiceTools,
   describeCard,
@@ -128,6 +130,11 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   const player = useRef<PcmPlayer | null>(null);
   const demo = useRef<DemoVoice | null>(null);
   const spokenId = useRef(0);
+  const grokConfigured = useRef(false);
+  const chatResponseId = useRef<string | null>(null);
+  const chatNotes = useRef<string[]>([]);
+  const chatQueue = useRef<Promise<void>>(Promise.resolve());
+  const chatTurn = useRef(0);
 
   const patchVoice = useCallback((patch: Partial<VoiceState>) => setVoice((v) => ({ ...v, ...patch })), []);
 
@@ -146,7 +153,9 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     void fetchVoiceStatus().then((status) => {
-      if (!cancelled) patchVoice({ grokConfigured: status.configured, canRecognise: canRecogniseSpeech() });
+      if (cancelled) return;
+      grokConfigured.current = status.configured;
+      patchVoice({ grokConfigured: status.configured, canRecognise: canRecogniseSpeech() });
     });
     return () => {
       cancelled = true;
@@ -174,72 +183,20 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     );
   }, [dispatch]);
 
+  /** Live voice hears notes straight away; Grok chat gets them with the customer's next message. */
   const tellGrok = useCallback((note: string) => {
     if (grok.current?.connected) grok.current.sendUserText(note);
+    else if (!grok.current && grokConfigured.current) chatNotes.current.push(note);
   }, []);
 
-  const sendText = useCallback(
-    (text: string, via: Via = "text") => {
-      const trimmed = text.trim();
-      if (!trimmed) return;
-      ensureGreeting();
-      dispatch({ type: "user", text: trimmed, via });
-      if (modeRef.current === "voice" && grok.current) {
-        tellGrok(trimmed);
-        return;
-      }
-      const match = resolveIntent(trimmed, stateRef.current.currentStepId);
+  const respondScripted = useCallback(
+    (text: string) => {
+      const match = resolveIntent(text, stateRef.current.currentStepId);
       if (!match) respond("fallback");
       else if (match.kind === "option") respond(match.option.next, match.option.set);
       else respond(match.stepId);
     },
-    [dispatch, ensureGreeting, respond, tellGrok],
-  );
-
-  const chooseOption = useCallback(
-    (option: RenderedOption) => {
-      const values = templateValues(stateRef.current);
-      const facts = resolveFacts(option.set, values);
-      dispatch({ type: "user", text: option.label, via: "chip" });
-      respond(option.next, option.set);
-      if (grok.current) {
-        const script = renderStep(option.next, { ...values, ...facts }).text;
-        tellGrok(`(Customer tapped: "${option.label}". The screen now shows step ${option.next}. Say: ${script})`);
-      }
-    },
-    [dispatch, respond, tellGrok],
-  );
-
-  const jumpTo = useCallback(
-    (stepId: string, userLabel: string | undefined, immediate: boolean) => {
-      const node = getNode(stepId);
-      if (!node) return;
-      ensureGreeting();
-      dispatch({ type: "user", text: userLabel ?? node.title, via: "chip" });
-      if (immediate) {
-        if (typingTimer.current) clearTimeout(typingTimer.current);
-        setTyping(false);
-        dispatch({ type: "step", stepId, silent: modeRef.current === "voice" && Boolean(grok.current) });
-      } else {
-        respond(stepId);
-      }
-      if (grok.current) tellGrok(`(Customer tapped: "${userLabel ?? node.title}". The screen now shows step ${stepId}.)`);
-    },
-    [dispatch, ensureGreeting, respond, tellGrok],
-  );
-
-  const goToStep = useCallback((stepId: string, userLabel?: string) => jumpTo(stepId, userLabel, false), [jumpTo]);
-
-  const submitForm = useCallback(
-    (form: FormId, values: Record<string, string>, next: string): FormResult => {
-      const result = validateForm(form, values);
-      if (!result.ok) return result;
-      dispatch({ type: "user", text: result.summary, via: "text" });
-      respond(next, result.facts);
-      if (grok.current) tellGrok(`(Customer submitted the ${form} form on screen: ${result.summary}. The screen now shows step ${next}.)`);
-      return result;
-    },
-    [dispatch, respond, tellGrok],
+    [respond],
   );
 
   const handleToolCall = useCallback((name: string, args: Record<string, unknown>): ToolResult => {
@@ -266,12 +223,118 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       }
       const result = validateForm(form, (args.values as Record<string, unknown>) ?? {});
       if (!result.ok) return { error: "Some fields need fixing", fields: result.errors };
-      dispatch({ type: "user", text: result.summary, via: "voice" });
+      dispatch({ type: "user", text: result.summary, via: modeRef.current === "voice" ? "voice" : "text" });
       dispatch({ type: "step", stepId: card.next, set: result.facts, silent: true });
       return stepPayload(card.next, { ...templateValues(state), ...result.facts });
     }
     return { error: `Unknown tool ${name}` };
   }, [dispatch]);
+
+  /** Fills a step Grok opened but never wrote about with the step's own script. */
+  const settlePendingStep = useCallback(() => {
+    const last = stateRef.current.messages[stateRef.current.messages.length - 1];
+    if (last?.role !== "assistant" || !last.awaitingVoice || last.text || !last.stepId) return false;
+    dispatch({ type: "assistant-transcript", text: renderStep(last.stepId, templateValues(stateRef.current)).text, final: true });
+    return true;
+  }, [dispatch]);
+
+  const askGrokChat = useCallback(
+    async (text: string) => {
+      const turn = ++chatTurn.current;
+      const current = () => turn === chatTurn.current;
+      if (typingTimer.current) clearTimeout(typingTimer.current);
+      setTyping(true);
+      const input: ChatInputItem[] = [
+        ...(chatResponseId.current ? [] : [{ role: "system" as const, content: buildChatInstructions(templateValues(stateRef.current)) }]),
+        ...chatNotes.current.map((note) => ({ role: "user" as const, content: note })),
+        { role: "user", content: text },
+      ];
+      chatNotes.current = [];
+      try {
+        const reply = await runChatTurn({
+          input,
+          previousResponseId: chatResponseId.current,
+          tools: buildVoiceTools(),
+          onToolCall: (name, args) => (current() ? handleToolCall(name, args) : { error: "Conversation was reset" }),
+        });
+        if (!current()) return;
+        chatResponseId.current = reply.responseId;
+        if (reply.text) dispatch({ type: "assistant-transcript", text: reply.text, final: true });
+        else settlePendingStep();
+      } catch {
+        if (!current()) return;
+        dispatch({ type: "system", text: "Grok couldn't reply, so here's the guided answer." });
+        if (!settlePendingStep()) respondScripted(text);
+      } finally {
+        if (current()) setTyping(false);
+      }
+    },
+    [dispatch, handleToolCall, respondScripted, settlePendingStep],
+  );
+
+  const sendText = useCallback(
+    (text: string, via: Via = "text") => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      ensureGreeting();
+      dispatch({ type: "user", text: trimmed, via });
+      if (modeRef.current === "voice" && grok.current) {
+        tellGrok(trimmed);
+        return;
+      }
+      if (grokConfigured.current) {
+        // Serialised so each turn chains onto the previous response id.
+        chatQueue.current = chatQueue.current.then(() => askGrokChat(trimmed));
+        return;
+      }
+      respondScripted(trimmed);
+    },
+    [askGrokChat, dispatch, ensureGreeting, respondScripted, tellGrok],
+  );
+
+  const chooseOption = useCallback(
+    (option: RenderedOption) => {
+      const values = templateValues(stateRef.current);
+      const facts = resolveFacts(option.set, values);
+      dispatch({ type: "user", text: option.label, via: "chip" });
+      respond(option.next, option.set);
+      const script = renderStep(option.next, { ...values, ...facts }).text;
+      tellGrok(`(Customer tapped: "${option.label}". The screen now shows step ${option.next}. Say: ${script})`);
+    },
+    [dispatch, respond, tellGrok],
+  );
+
+  const jumpTo = useCallback(
+    (stepId: string, userLabel: string | undefined, immediate: boolean) => {
+      const node = getNode(stepId);
+      if (!node) return;
+      ensureGreeting();
+      dispatch({ type: "user", text: userLabel ?? node.title, via: "chip" });
+      if (immediate) {
+        if (typingTimer.current) clearTimeout(typingTimer.current);
+        setTyping(false);
+        dispatch({ type: "step", stepId, silent: modeRef.current === "voice" && Boolean(grok.current) });
+      } else {
+        respond(stepId);
+      }
+      tellGrok(`(Customer tapped: "${userLabel ?? node.title}". The screen now shows step ${stepId}.)`);
+    },
+    [dispatch, ensureGreeting, respond, tellGrok],
+  );
+
+  const goToStep = useCallback((stepId: string, userLabel?: string) => jumpTo(stepId, userLabel, false), [jumpTo]);
+
+  const submitForm = useCallback(
+    (form: FormId, values: Record<string, string>, next: string): FormResult => {
+      const result = validateForm(form, values);
+      if (!result.ok) return result;
+      dispatch({ type: "user", text: result.summary, via: "text" });
+      respond(next, result.facts);
+      tellGrok(`(Customer submitted the ${form} form on screen: ${result.summary}. The screen now shows step ${next}.)`);
+      return result;
+    },
+    [dispatch, respond, tellGrok],
+  );
 
   const stopVoice = useCallback(() => {
     grok.current?.close();
@@ -323,12 +386,14 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       // stopVoice or a newer session replaced the player while the grant was in flight.
       if (player.current !== session) return;
       const resumeStep = stateRef.current.currentStepId;
-      // Grok speaks the greeting itself; the silent root step is filled by its transcript.
+      const resuming = Boolean(resumeStep && resumeStep !== ROOT_ID);
+      // The root step starts silent and is filled by the greeting's transcript, or by its script once the greeting ends.
       if (stateRef.current.messages.length === 0) dispatch({ type: "step", stepId: ROOT_ID, silent: true });
       const client = new GrokRealtimeClient({
         grant,
         instructions: buildVoiceInstructions(templateValues(stateRef.current), resumeStep),
         tools: buildVoiceTools(),
+        greeting: resuming ? undefined : renderStep(ROOT_ID, templateValues(stateRef.current)).text,
         handlers: {
           onOpen: () => {
             void startMicrophone(
@@ -352,10 +417,21 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
             player.current?.interrupt();
             patchVoice({ status: "listening" });
           },
+          onUserSpeechStopped: () => patchVoice({ status: "thinking", level: 0 }),
           onUserTranscript: (text) => dispatch({ type: "user", text, via: "voice" }),
           onAssistantTranscript: (text, final) => dispatch({ type: "assistant-transcript", text, final }),
           onAudio: (b64) => player.current?.enqueue(b64),
-          onResponseDone: () => patchVoice({ status: "listening" }),
+          // response.done lands well before the audio finishes, so hand the turn back only once it has played out.
+          onResponseDone: () => {
+            settlePendingStep();
+            void session?.whenIdle().then(() => {
+              if (player.current === session) patchVoice({ status: "listening", level: 0 });
+            });
+          },
+          waitForPlayback: async () => {
+            await session?.whenIdle();
+            if (player.current === session) patchVoice({ status: "thinking", level: 0 });
+          },
           onToolCall: handleToolCall,
           onError: (message) => patchVoice({ error: message }),
           onClose: () => {
@@ -372,7 +448,7 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       const message = err instanceof Error ? err.message : "Grok voice is unavailable";
       startDemoVoice(`${message}. Using demo voice instead.`);
     }
-  }, [dispatch, handleToolCall, patchVoice, startDemoVoice]);
+  }, [dispatch, handleToolCall, patchVoice, settlePendingStep, startDemoVoice]);
 
   const setMode = useCallback(
     (next: AssistantMode) => {
@@ -380,13 +456,16 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       modeRef.current = next;
       setModeState(next);
       if (next === "chat") {
+        const wasLive = Boolean(grok.current);
         stopVoice();
+        const step = stateRef.current.currentStepId;
+        if (wasLive && step) tellGrok(`(The customer switched from voice back to chat on step ${step}.)`);
         return;
       }
       if (voice.grokConfigured) void startGrokVoice();
       else startDemoVoice();
     },
-    [startDemoVoice, startGrokVoice, stopVoice, voice.grokConfigured],
+    [startDemoVoice, startGrokVoice, stopVoice, tellGrok, voice.grokConfigured],
   );
 
   // Demo voice speaks each new assistant turn, then listens for the reply.
@@ -425,6 +504,9 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     if (typingTimer.current) clearTimeout(typingTimer.current);
     setTyping(false);
     dispatch({ type: "reset" });
+    chatTurn.current++;
+    chatResponseId.current = null;
+    chatNotes.current = [];
     if (modeRef.current === "voice") {
       stopVoice();
       modeRef.current = "chat";

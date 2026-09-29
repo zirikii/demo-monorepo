@@ -14,11 +14,15 @@ export type ToolResult = Record<string, unknown>;
 export type GrokClientHandlers = {
   onOpen?: () => void;
   onUserSpeechStarted?: () => void;
+  onUserSpeechStopped?: () => void;
   onUserTranscript?: (text: string) => void;
   onAssistantTranscript?: (text: string, final: boolean) => void;
   onAudio?: (base64: string) => void;
+  /** A response finished with no tool calls, so the turn passes back to the customer. */
   onResponseDone?: () => void;
   onToolCall: (name: string, args: Record<string, unknown>) => ToolResult | Promise<ToolResult>;
+  /** Resolves when the current turn's audio has finished playing. */
+  waitForPlayback?: () => Promise<void>;
   onError?: (message: string) => void;
   onClose?: () => void;
 };
@@ -27,6 +31,8 @@ export type GrokClientOptions = {
   grant: VoiceSessionGrant;
   instructions: string;
   tools: RealtimeTool[];
+  /** Spoken verbatim as the opening line, skipping a model turn. Omit to let Grok open. */
+  greeting?: string;
   handlers: GrokClientHandlers;
   WebSocketImpl?: typeof WebSocket;
 };
@@ -41,6 +47,7 @@ type ServerEvent = { type: string; [key: string]: unknown };
 export class GrokRealtimeClient {
   private ws: WebSocket | null = null;
   private transcript = "";
+  private pendingTools: Promise<void>[] = [];
   private readonly opts: GrokClientOptions;
 
   constructor(opts: GrokClientOptions) {
@@ -65,7 +72,15 @@ export class GrokRealtimeClient {
           tools: this.opts.tools,
         },
       });
-      this.send({ type: "response.create" });
+      if (this.opts.greeting) {
+        // force_message is TTS-only and is its own turn, so it must not be followed by response.create.
+        this.send({
+          type: "conversation.item.create",
+          item: { type: "force_message", role: "assistant", content: [{ type: "output_text", text: this.opts.greeting }] },
+        });
+      } else {
+        this.send({ type: "response.create" });
+      }
       this.opts.handlers.onOpen?.();
     };
     ws.onmessage = (event: MessageEvent) => {
@@ -120,6 +135,9 @@ export class GrokRealtimeClient {
       case "input_audio_buffer.speech_started":
         h.onUserSpeechStarted?.();
         break;
+      case "input_audio_buffer.speech_stopped":
+        h.onUserSpeechStopped?.();
+        break;
       case "conversation.item.input_audio_transcription.completed":
         if (typeof event.transcript === "string" && event.transcript.trim()) {
           h.onUserTranscript?.(event.transcript.trim());
@@ -139,10 +157,10 @@ export class GrokRealtimeClient {
         if (typeof event.delta === "string") h.onAudio?.(event.delta);
         break;
       case "response.function_call_arguments.done":
-        await this.runTool(event);
+        this.pendingTools.push(this.runTool(event));
         break;
       case "response.done":
-        h.onResponseDone?.();
+        await this.finishResponse();
         break;
       case "error": {
         const err = event.error as { message?: string } | undefined;
@@ -152,6 +170,22 @@ export class GrokRealtimeClient {
       default:
         break;
     }
+  }
+
+  /**
+   * Parallel tool calls must all be answered before a single `response.create`, and that follow-up
+   * waits for playback so the next reply doesn't talk over the one still coming out of the speaker.
+   */
+  private async finishResponse(): Promise<void> {
+    const tools = this.pendingTools;
+    this.pendingTools = [];
+    if (tools.length === 0) {
+      this.opts.handlers.onResponseDone?.();
+      return;
+    }
+    await Promise.all(tools);
+    await this.opts.handlers.waitForPlayback?.();
+    this.send({ type: "response.create" });
   }
 
   private async runTool(event: ServerEvent): Promise<void> {
@@ -173,8 +207,6 @@ export class GrokRealtimeClient {
       type: "conversation.item.create",
       item: { type: "function_call_output", call_id: callId, output: JSON.stringify(output) },
     });
-    // Without a follow-up response.create the agent goes silent after a tool call.
-    this.send({ type: "response.create" });
   }
 }
 

@@ -127,8 +127,12 @@ describe("Grok voice session", () => {
     expect(MockAudioContext.instances).toHaveLength(1);
     expect(MockAudioContext.instances[0]!.resume).toHaveBeenCalled();
 
-    await connectGrok();
+    const socket = await connectGrok();
     expect(MockAudioContext.instances).toHaveLength(1);
+    // A fresh session speaks the root script verbatim rather than waiting on a model turn.
+    expect(socket.sent[1]).toMatchObject({ type: "conversation.item.create", item: { type: "force_message" } });
+    expect(JSON.stringify(socket.sent[1])).toContain("What's your query today?");
+    expect(socket.sent.some((e) => e.type === "response.create")).toBe(false);
   });
 
   it("tells Grok the resolved facts behind a tapped chip", async () => {
@@ -159,6 +163,56 @@ describe("Grok voice session", () => {
     const socket = await connectGrok();
     const update = socket.sent.find((e) => e.type === "session.update") as { session: { instructions: string } } | undefined;
     expect(update?.session.instructions).toContain("on step billing.understand");
+    expect(socket.sent[1]).toEqual({ type: "response.create" });
+  });
+});
+
+type ChatBody = { input: { role?: string; content?: string }[]; previousResponseId: string | null };
+
+function stubGrokChat(turns: unknown[]) {
+  const bodies: ChatBody[] = [];
+  vi.stubGlobal(
+    "fetch",
+    vi.fn(async (url: string, init?: RequestInit) => {
+      if (url !== "/api/chat") return new Response(JSON.stringify({ configured: true }), { status: 200 });
+      bodies.push(JSON.parse(String(init?.body)) as ChatBody);
+      const next = turns.shift();
+      return next ? new Response(JSON.stringify(next), { status: 200 }) : new Response(JSON.stringify({ error: "xAI rejected the chat request (500)" }), { status: 502 });
+    }),
+  );
+  return bodies;
+}
+
+describe("Grok chat", () => {
+  it("answers typed messages through Grok, keeps the flow card in sync and chains turns", async () => {
+    const bodies = stubGrokChat([
+      { responseId: "r1", text: "", calls: [{ callId: "c1", name: "go_to_step", arguments: '{"step_id":"billing"}' }] },
+      { responseId: "r2", text: "Happy to help with your bill. What would you like to do?", calls: [] },
+      { responseId: "r3", text: "Grok got the tap.", calls: [] },
+    ]);
+    const { user, panel } = await openChatWithGrok();
+    await user.type(within(panel).getByLabelText("Message"), "sort out my bill{Enter}");
+
+    await within(panel).findByText("Happy to help with your bill. What would you like to do?");
+    expect(within(panel).getByRole("button", { name: "Pay my bill" })).toBeInTheDocument();
+    expect(bodies[0]!.previousResponseId).toBeNull();
+    expect(bodies[0]!.input[0]).toMatchObject({ role: "system" });
+    expect(bodies[0]!.input[0]!.content).toContain("You are chatting with a customer in the AGL Assistant");
+
+    await user.click(within(panel).getByRole("button", { name: "Pay my bill" }));
+    await user.type(within(panel).getByLabelText("Message"), "use my saved card{Enter}");
+    await within(panel).findByText("Grok got the tap.");
+    expect(bodies[2]!.previousResponseId).toBe("r2");
+    expect(bodies[2]!.input.map((i) => i.role)).toEqual(["user", "user"]);
+    expect(bodies[2]!.input[0]!.content).toContain('Customer tapped: "Pay my bill"');
+  });
+
+  it("falls back to the guided flow when Grok can't reply", async () => {
+    stubGrokChat([]);
+    const { user, panel } = await openChatWithGrok();
+    await user.type(within(panel).getByLabelText("Message"), "I need help with my bill{Enter}");
+    await within(panel).findByText("Grok couldn't reply, so here's the guided answer.");
+    expect(await within(panel).findByRole("button", { name: "Pay my bill" })).toBeInTheDocument();
   });
 });
 
