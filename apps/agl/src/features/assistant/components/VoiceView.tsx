@@ -76,16 +76,19 @@ export function VoiceView() {
     <div className="relative flex h-full flex-col overflow-hidden bg-gradient-to-b from-agl-navy via-[#021a5c] to-agl-blue-dark text-white">
       <div aria-hidden="true" className="pointer-events-none absolute top-24 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-ray-cyan/20 blur-3xl" />
 
-      <div className="relative flex items-center justify-between gap-2 px-4 pt-3">
+      <div className="relative flex flex-col items-start gap-2 px-4 pt-3">
+        <ProviderBadge voice={voice} />
         <FlowTrail conversation={conversation} onBack={back} tone="dark" />
-        <span className="ml-auto shrink-0">
-          <ProviderBadge voice={voice} />
-        </span>
       </div>
 
       <div className="relative flex-1 overflow-y-auto px-5 pb-4">
-        <div className="flex flex-col items-center pt-6 text-center">
-          <div className="relative flex h-40 w-40 items-center justify-center">
+        <div className={cn("flex flex-col items-center text-center", cardIsCurrent ? "pt-2" : "pt-6")}>
+          <div
+            className={cn(
+              "relative flex items-center justify-center transition-all",
+              cardIsCurrent ? "h-28 w-28" : "h-40 w-40",
+            )}
+          >
             {voice.status === "listening" && !voice.muted && (
               <span className="absolute inset-4 animate-pulse-ring rounded-full bg-ray-cyan/30" aria-hidden="true" />
             )}
@@ -94,7 +97,7 @@ export function VoiceView() {
               className="absolute inset-6 rounded-full bg-white/5 ring-1 ring-white/15 transition-transform duration-150"
               style={{ transform: `scale(${1 + Math.min(voice.level, 1) * 0.12})` }}
             />
-            <AglRays className="relative h-24 w-24" animated level={voice.level} state={raysState(voice.status)} />
+            <AglRays className={cn("relative", cardIsCurrent ? "h-16 w-16" : "h-24 w-24")} animated level={voice.level} state={raysState(voice.status)} />
           </div>
           <p className="mt-2 text-xs font-extrabold tracking-[0.14em] text-ray-light uppercase" role="status">
             {statusLabel(voice)}
