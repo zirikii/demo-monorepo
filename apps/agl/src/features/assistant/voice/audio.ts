@@ -32,15 +32,18 @@ registerProcessor("pcm-capture", PcmCapture);
 
 export type MicStream = { stop: () => void; setMuted: (muted: boolean) => void };
 
-/** Streams the microphone as base64 PCM16 chunks (~40ms each) at the realtime sample rate. */
+/**
+ * Streams the microphone as base64 PCM16 chunks (~40ms each) at the realtime sample rate. Borrows
+ * the player's context, which was unlocked by the user's click; the caller owns closing it.
+ */
 export async function startMicrophone(
+  ctx: AudioContext,
   onChunk: (base64: string) => void,
   onLevel: (level: number) => void,
 ): Promise<MicStream> {
   const media = await navigator.mediaDevices.getUserMedia({
     audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 },
   });
-  const ctx = new AudioContext({ sampleRate: REALTIME_SAMPLE_RATE });
   const url = URL.createObjectURL(new Blob([WORKLET_SOURCE], { type: "application/javascript" }));
   await ctx.audioWorklet.addModule(url);
   URL.revokeObjectURL(url);
@@ -70,12 +73,12 @@ export async function startMicrophone(
       source.disconnect();
       node.disconnect();
       media.getTracks().forEach((t) => t.stop());
-      void ctx.close();
     },
   };
 }
 
 export type PcmPlayer = {
+  context: AudioContext;
   enqueue: (base64: string) => void;
   /** Drops queued audio immediately — used when the customer barges in. */
   interrupt: () => void;
@@ -83,8 +86,10 @@ export type PcmPlayer = {
   close: () => void;
 };
 
+/** Must be called synchronously inside a user gesture, or browsers keep the context suspended. */
 export function createPlayer(onLevel: (level: number) => void): PcmPlayer {
   const ctx = new AudioContext({ sampleRate: REALTIME_SAMPLE_RATE });
+  void ctx.resume();
   const analyser = ctx.createAnalyser();
   analyser.fftSize = 512;
   analyser.connect(ctx.destination);
@@ -101,7 +106,9 @@ export function createPlayer(onLevel: (level: number) => void): PcmPlayer {
   raf = requestAnimationFrame(meter);
 
   return {
+    context: ctx,
     enqueue(base64) {
+      if (ctx.state === "suspended") void ctx.resume();
       const samples = pcm16ToFloat(base64ToInt16(base64));
       if (samples.length === 0) return;
       const buffer = ctx.createBuffer(1, samples.length, REALTIME_SAMPLE_RATE);

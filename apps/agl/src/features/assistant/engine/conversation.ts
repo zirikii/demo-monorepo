@@ -46,7 +46,7 @@ export function templateValues(state: Pick<ConversationState, "context" | "facts
   return { ...state.context, ...state.facts };
 }
 
-function resolveFacts(set: TemplateValues | undefined, values: TemplateValues): TemplateValues {
+export function resolveFacts(set: TemplateValues | undefined, values: TemplateValues): TemplateValues {
   if (!set) return {};
   return Object.fromEntries(Object.entries(set).map(([k, v]) => [k, renderTemplate(v, values)]));
 }
