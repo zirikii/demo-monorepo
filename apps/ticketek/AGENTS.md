@@ -1,8 +1,7 @@
 # Ticketek demo — cloud notes
 
 - Dev: `pnpm dev:ticketek` (port **5197**). Tests: `pnpm --filter ticketek test` (Vitest, no Playwright).
-- **Intentional bug** on `/login` (site config casing → page does not render) for demo / Bugbot. Don't fix it unless asked; `app.test.tsx` asserts the crash.
-- Mock login accepts any credentials; the form is pre-filled for Jordan Mitchell. Session, fan data, Studio config and conversation log all live in `localStorage` (`ticketek-*` keys). `/admin/fan` → **Reset all demo data** restores the seed.
+- Mock login accepts any credentials; the form is pre-filled for Jordan Mitchell. `/login` resolves `?site=` case-insensitively (`premier` or `marketplace`) and falls back to Premier. Session, fan data, Studio config and conversation log all live in `localStorage` (`ticketek-*` keys). `/admin/fan` → **Reset all demo data** restores the seed.
 - The flow graph in `src/features/assistant/flows/` is the single source of truth for chat **and** voice. `flows.test.ts` fails on dangling links, unreachable steps, unknown `{placeholders}` or links the router doesn't serve (`src/test/routes.ts`).
 - Steps that show an order card or use `{order…}` placeholders are redirected to their topic's picker until an order is chosen (`resolveStepId` in `engine/conversation.ts`). Pass `orderId` to `open()` to skip the picker from a page that already knows the order.
 - Grok reuses AGL's proxy: `server/assistantPlugin.ts` imports `apps/agl/server/chatSession.ts` / `voiceSession.ts` and reads `XAI_API_KEY` from `apps/agl/.env.local` (Ticketek's own `.env.local` wins). Never prefix the key with `VITE_`. Without it, chat uses the scripted intent matcher and voice uses browser speech.
