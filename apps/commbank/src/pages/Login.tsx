@@ -6,24 +6,16 @@ import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/Field";
 import { useAuth } from "@/hooks/useAuth";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
-
-type ServiceConfig = { name: string; tagline: string };
-
-const serviceConfig = {
-  NetBank: { name: "NetBank", tagline: "Everyday personal banking" },
-  CommBiz: { name: "CommBiz", tagline: "Business banking" },
-  CommSec: { name: "CommSec", tagline: "Investing and share trading" },
-} satisfies Record<string, ServiceConfig>;
+import { resolveLoginService } from "@/lib/login-service";
 
 export function LoginPage() {
-  useDocumentTitle("Log on to NetBank");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
 
-  const serviceKey = (searchParams.get("service") ?? "netbank") as keyof typeof serviceConfig;
-  const service = serviceConfig[serviceKey];
+  const service = resolveLoginService(searchParams.get("service"));
   const redirect = searchParams.get("redirect") ?? "/netbank";
+  useDocumentTitle(`Log on to ${service.name}`);
 
   const [clientNumber, setClientNumber] = useState("12345678");
   const [password, setPassword] = useState("demo1234");
