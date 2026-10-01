@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { CONFIRM_TOAST } from "@/data/identity";
 import { Phone, PrimaryButton, StatusBar } from "@/components/chrome/Chrome";
+import { FaceCamera } from "@/components/screens/FaceCamera";
 import { useSession } from "@/hooks/useSession";
 import { confirmUnchanged } from "@/lib/kyc";
 
@@ -63,7 +64,7 @@ export function FaceScreen() {
         <p className="absolute inset-x-6 top-4 text-center text-[18px] font-bold text-white">
           Fit your face in the photo area
         </p>
-        <div className="size-64 rounded-full border-4 border-white/80 bg-gradient-to-b from-[#3a4148] to-[#121416]" />
+        <FaceCamera />
         {scanning ? (
           <p className="absolute bottom-6 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[14px] font-bold text-white">
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />
