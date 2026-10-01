@@ -1,23 +1,119 @@
 import { DemoRibbon } from "@demo/ui";
-import { ChevronDown, CircleUserRound, MapPin, Menu, Search, ShoppingCart, X } from "lucide-react";
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { MAIN_MENU_LINKS, REGIONS, regionLabel } from "@/data/nav";
+import { ArrowRight, ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Logo } from "@/components/Logo";
+import { PRODUCTS, RESOURCES, SOLUTIONS } from "@/data/site";
 import { useAuth } from "@/hooks/useAuth";
-import { useRegion } from "@/hooks/useRegion";
 import { asset } from "@/lib/asset";
 import { cn } from "@/lib/cn";
-import { CategoryNav } from "./CategoryNav";
 
-function useDismiss(open: boolean, close: () => void) {
-  const ref = useRef<HTMLDivElement>(null);
+type MenuId = "platform" | "solutions" | "resources";
+
+const MENUS: { id: MenuId; label: string }[] = [
+  { id: "platform", label: "Platform" },
+  { id: "solutions", label: "Solutions" },
+  { id: "resources", label: "Resources" },
+];
+
+function PlatformMenu() {
+  const groups = ["Distribution", "Revenue", "Guest experience"] as const;
+  return (
+    <div className="grid gap-8 md:grid-cols-[1fr_1fr_1fr_280px]">
+      {groups.map((group) => (
+        <div key={group}>
+          <p className="eyebrow">{group}</p>
+          <ul className="mt-3 space-y-1">
+            {PRODUCTS.filter((p) => p.group === group).map((p) => (
+              <li key={p.slug}>
+                <Link to={`/platform/${p.slug}`} className="group block rounded-xl px-3 py-2 hover:bg-canvas">
+                  <span className="block text-sm font-semibold text-heading group-hover:text-royal">{p.name}</span>
+                  <span className="block text-xs text-ink-faint">{p.tagline}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <Link to="/platform" className="sm-night flex flex-col justify-between rounded-card p-5 text-white">
+        <span className="pill w-fit bg-lime text-stratos">New</span>
+        <span>
+          <span className="block text-lg font-bold leading-tight">The Revenue Control Centre</span>
+          <span className="mt-1 block text-sm text-white/70">Navigate decisively. Act effortlessly. Operate confidently.</span>
+          <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-lime">
+            Explore the platform <ArrowRight className="size-4" aria-hidden />
+          </span>
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+function SolutionsMenu() {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      {SOLUTIONS.map((s) => (
+        <Link key={s.slug} to={`/solutions/${s.slug}`} className="group rounded-card border border-line-soft p-4 hover:border-royal/30 hover:bg-royal-tint/40">
+          <span className="block text-sm font-semibold text-heading group-hover:text-royal">{s.name}</span>
+          <span className="mt-1 block text-xs text-ink-faint">{s.headline}</span>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
+function ResourcesMenu() {
+  return (
+    <div className="grid gap-8 md:grid-cols-[220px_1fr]">
+      <ul className="space-y-1 text-sm font-semibold">
+        {[
+          ["Resource hub", "/resources"],
+          ["Customer stories", "/customers"],
+          ["Integrations marketplace", "/integrations"],
+          ["About SiteMinder", "/about"],
+          ["Contact us", "/contact"],
+        ].map(([label, to]) => (
+          <li key={to}>
+            <Link to={to!} className="block rounded-xl px-3 py-2 text-heading hover:bg-canvas hover:text-royal">
+              {label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <div className="grid gap-4 sm:grid-cols-3">
+        {RESOURCES.slice(0, 3).map((r) => (
+          <Link key={r.slug} to={`/resources/${r.slug}`} className="group">
+            <img src={asset(`brand/${r.image}`)} alt="" className="aspect-video w-full rounded-xl object-cover" loading="lazy" />
+            <span className="mt-2 block text-xs font-semibold uppercase tracking-wide text-royal">{r.kind}</span>
+            <span className="block text-sm font-semibold text-heading group-hover:underline">{r.title}</span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+const MENU_BODY: Record<MenuId, () => React.JSX.Element> = { platform: PlatformMenu, solutions: SolutionsMenu, resources: ResourcesMenu };
+
+export function SiteHeader() {
+  const { user } = useAuth();
+  const { pathname } = useLocation();
+  const [menu, setMenu] = useState<MenuId | null>(null);
+  const [mobile, setMobile] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
   useEffect(() => {
-    if (!open) return;
+    setMenu(null);
+    setMobile(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menu) return;
     const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) close();
+      if (ref.current && !ref.current.contains(e.target as Node)) setMenu(null);
     };
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") setMenu(null);
     };
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
@@ -25,179 +121,88 @@ function useDismiss(open: boolean, close: () => void) {
       document.removeEventListener("mousedown", onDown);
       document.removeEventListener("keydown", onKey);
     };
-  }, [open, close]);
-  return ref;
-}
+  }, [menu]);
 
-export function SearchBox({ className, autoFocus }: { className?: string; autoFocus?: boolean }) {
-  const navigate = useNavigate();
-  const { search } = useLocation();
-  const [query, setQuery] = useState(() => new URLSearchParams(search).get("q") ?? "");
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const q = query.trim();
-    navigate(q ? `/search?q=${encodeURIComponent(q)}` : "/whats-on");
-  };
-  return (
-    <form role="search" onSubmit={submit} className={cn("relative", className)}>
-      <label htmlFor="site-search" className="sr-only">
-        Search events, artists, teams or venues
-      </label>
-      <input
-        id="site-search"
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search events, artists, teams or venues"
-        autoFocus={autoFocus}
-        className="h-10 w-full rounded-full border-0 bg-white pl-4 pr-11 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-tk-pink"
-      />
-      <button type="submit" aria-label="Search" className="absolute right-1 top-1 grid size-8 place-items-center rounded-full bg-midnight text-white hover:bg-tk-blue">
-        <Search className="size-4" aria-hidden />
-      </button>
-    </form>
-  );
-}
+  const Body = menu ? MENU_BODY[menu] : null;
 
-function RegionMenu() {
-  const { region, setRegion } = useRegion();
-  const [open, setOpen] = useState(false);
-  const ref = useDismiss(open, () => setOpen(false));
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        aria-haspopup="listbox"
-        className="flex items-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/10"
-      >
-        <MapPin className="size-4" aria-hidden />
-        <span className="hidden lg:inline">{regionLabel(region)}</span>
-        <ChevronDown className="size-3.5" aria-hidden />
-      </button>
-      {open && (
-        <ul role="listbox" aria-label="Choose your region" className="absolute right-0 z-50 mt-2 w-48 animate-fade-in overflow-hidden rounded-tk bg-white py-1 text-sm text-ink shadow-tk-lift">
-          {REGIONS.map((r) => (
-            <li key={r.id} role="option" aria-selected={r.id === region}>
-              <button
-                type="button"
-                onClick={() => {
-                  setRegion(r.id);
-                  setOpen(false);
-                }}
-                className={cn("flex w-full items-center justify-between px-4 py-2 text-left hover:bg-page", r.id === region && "font-semibold text-tk-blue")}
-              >
-                {r.label}
-                {r.id === region && <span className="size-2 rounded-full bg-tk-pink" aria-hidden />}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  );
-}
-
-function MainMenu() {
-  const [open, setOpen] = useState(false);
-  const ref = useDismiss(open, () => setOpen(false));
-  const { user, logout } = useAuth();
-  const { region, setRegion } = useRegion();
-  const { pathname } = useLocation();
-  useEffect(() => setOpen(false), [pathname]);
-  return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        aria-expanded={open}
-        aria-label="Menu"
-        className="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/10"
-      >
-        {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
-        <span className="hidden lg:inline">Menu</span>
-      </button>
-      {open && (
-        <div className="absolute right-0 z-50 mt-2 w-72 animate-fade-in overflow-hidden rounded-tk bg-white text-ink shadow-tk-lift">
-          {user ? (
-            <div className="border-b border-line-soft bg-page px-4 py-3 text-sm">
-              Signed in as <span className="font-semibold">{user.firstName} {user.lastName}</span>
-            </div>
-          ) : (
-            <div className="flex gap-2 border-b border-line-soft p-4">
-              <Link to="/login" className="btn-primary flex-1 py-2">
-                Sign in
-              </Link>
-              <Link to="/signup" className="btn-outline flex-1 py-2">
-                Sign up
-              </Link>
-            </div>
-          )}
-          <nav aria-label="Main menu" className="py-1">
-            {MAIN_MENU_LINKS.map((l) => (
-              <NavLink key={l.to} to={l.to} className={({ isActive }: { isActive: boolean }) => cn("block px-4 py-2.5 text-sm hover:bg-page", isActive && "font-semibold text-tk-blue")}>
-                {l.label}
-              </NavLink>
-            ))}
-          </nav>
-          <div className="border-t border-line-soft px-4 py-3">
-            <label htmlFor="menu-region" className="mb-1 block text-xs font-semibold uppercase tracking-wide text-ink-faint">
-              Region
-            </label>
-            <select id="menu-region" value={region} onChange={(e) => setRegion(e.target.value as typeof region)} className="field py-2">
-              {REGIONS.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          {user && (
-            <button type="button" onClick={logout} className="w-full border-t border-line-soft px-4 py-3 text-left text-sm font-medium text-critical hover:bg-page">
-              Sign out
-            </button>
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
-export function SiteHeader() {
-  const { user } = useAuth();
-  const [searchOpen, setSearchOpen] = useState(false);
-  const { pathname } = useLocation();
-  useEffect(() => setSearchOpen(false), [pathname]);
-  return (
-    <header className="sticky top-0 z-40 bg-midnight text-white">
-      <div className="container-tk flex h-16 items-center gap-3 md:gap-6">
-        <Link to="/" className="shrink-0" aria-label="Ticketek home">
-          <img src={asset("brand/ticketek-logo-white.svg")} alt="Ticketek" className="h-7 w-auto md:h-8" />
+    <header ref={ref} className="sticky top-0 z-40 border-b border-line-soft bg-white/95 backdrop-blur">
+      <div className="container-sm flex h-[72px] items-center gap-6">
+        <Link to="/" aria-label="SiteMinder home" className="shrink-0">
+          <Logo className="h-[22px]" />
         </Link>
-        <DemoRibbon label="Unofficial demo" className="hidden shrink-0 border-white/25 text-white/75 lg:inline-flex" />
-        <SearchBox className="hidden flex-1 md:block md:max-w-xl" />
-        <div className="ml-auto flex items-center gap-0.5">
-          <button type="button" onClick={() => setSearchOpen((o) => !o)} aria-label="Search" className="grid size-10 place-items-center rounded-full hover:bg-white/10 md:hidden">
-            <Search className="size-5" aria-hidden />
-          </button>
-          <RegionMenu />
-          <Link to={user ? "/account" : "/login"} className="flex items-center gap-2 rounded-full px-3 py-2 text-sm font-medium text-white/90 hover:bg-white/10">
-            <CircleUserRound className="size-5" aria-hidden />
-            <span className="hidden lg:inline">{user ? `Hi, ${user.firstName}` : "Sign in"}</span>
+        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+          {MENUS.map((m) => (
+            <button
+              key={m.id}
+              type="button"
+              aria-expanded={menu === m.id}
+              onClick={() => setMenu((cur) => (cur === m.id ? null : m.id))}
+              className={cn(
+                "inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas",
+                menu === m.id && "bg-canvas text-royal",
+              )}
+            >
+              {m.label}
+              <ChevronDown className={cn("size-4 transition-transform", menu === m.id && "rotate-180")} aria-hidden />
+            </button>
+          ))}
+          <Link to="/integrations" className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas">
+            Partners
           </Link>
-          <Link to="/cart" aria-label="Cart" className="grid size-10 place-items-center rounded-full hover:bg-white/10">
-            <ShoppingCart className="size-5" aria-hidden />
+          <Link to="/pricing" className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas">
+            Pricing
           </Link>
-          <MainMenu />
+        </nav>
+        <div className="ml-auto hidden items-center gap-2 lg:flex">
+          <DemoRibbon label="Unofficial demo" className="border-line text-ink-faint" />
+          <Link to={user ? "/app" : "/login"} className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas">
+            {user ? "Go to platform" : "Login"}
+          </Link>
+          <Link to="/demo" className="btn-outline">
+            Get a demo
+          </Link>
+          <Link to="/get-started" className="btn-primary">
+            Try for free
+          </Link>
         </div>
+        <button type="button" className="ml-auto grid size-10 place-items-center rounded-full hover:bg-canvas lg:hidden" aria-label={mobile ? "Close menu" : "Open menu"} onClick={() => setMobile((v) => !v)}>
+          {mobile ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
+        </button>
       </div>
-      {searchOpen && (
-        <div className="container-tk pb-3 md:hidden">
-          <SearchBox autoFocus />
+      {Body && (
+        <div className="absolute inset-x-0 top-full hidden animate-fade-in border-b border-line-soft bg-white shadow-lift lg:block">
+          <div className="container-sm py-8">
+            <Body />
+          </div>
         </div>
       )}
-      <CategoryNav />
+      {mobile && (
+        <nav aria-label="Mobile" className="border-t border-line-soft bg-white lg:hidden">
+          <div className="container-sm space-y-1 py-4">
+            {[
+              ["Platform", "/platform"],
+              ["Solutions", "/solutions/independent-hotels"],
+              ["Resources", "/resources"],
+              ["Partners", "/integrations"],
+              ["Pricing", "/pricing"],
+              [user ? "Go to platform" : "Login", user ? "/app" : "/login"],
+            ].map(([label, to]) => (
+              <Link key={to} to={to!} className="block rounded-xl px-3 py-2.5 font-semibold text-heading hover:bg-canvas">
+                {label}
+              </Link>
+            ))}
+            <div className="flex gap-2 pt-2">
+              <Link to="/demo" className="btn-outline flex-1">
+                Get a demo
+              </Link>
+              <Link to="/get-started" className="btn-primary flex-1">
+                Try for free
+              </Link>
+            </div>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }

@@ -1,37 +1,53 @@
-import { Camera, Play, ThumbsUp } from "lucide-react";
 import { Link } from "react-router-dom";
-import { FOOTER_COLUMNS } from "@/data/nav";
-import { asset } from "@/lib/asset";
+import { LogoMark, Logo } from "@/components/Logo";
+import { PRODUCTS, SOLUTIONS } from "@/data/site";
+
+const COLUMNS: { title: string; links: [string, string][] }[] = [
+  { title: "Platform", links: PRODUCTS.slice(0, 7).map((p) => [p.name, `/platform/${p.slug}`]) },
+  { title: "Solutions", links: SOLUTIONS.map((s) => [s.name, `/solutions/${s.slug}`]) },
+  {
+    title: "Resources",
+    links: [
+      ["Resource hub", "/resources"],
+      ["Hotel Booking Trends", "/resources/risk-resilience-revenue-australia"],
+      ["Customer stories", "/customers"],
+      ["Integrations", "/integrations"],
+      ["Pricing", "/pricing"],
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      ["About us", "/about"],
+      ["Contact us", "/contact"],
+      ["Get a demo", "/demo"],
+      ["Login", "/login"],
+      ["Support Studio (demo)", "/admin"],
+    ],
+  },
+];
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 bg-midnight text-white">
-      <div className="container-tk grid gap-10 py-12 md:grid-cols-[1.2fr_repeat(3,1fr)]">
+    <footer className="bg-stratos text-white">
+      <div className="container-sm grid gap-10 py-14 md:grid-cols-[1.3fr_repeat(4,1fr)]">
         <div>
-          <img src={asset("brand/ticketek-logo-white.svg")} alt="Ticketek" className="h-8 w-auto" />
-          <p className="mt-4 max-w-xs text-sm text-white/70">
-            Australia&apos;s leading ticketing company, getting fans to the concerts, sport, theatre and family events they love.
+          <Logo tone="white" className="h-6" />
+          <p className="mt-4 max-w-xs text-sm text-white/65">
+            The hotel commerce platform. We put 53,000+ hotels in demand with distribution, revenue and guest experience in one place.
           </p>
-          <div className="mt-5 flex gap-2">
-            {[
-              { label: "Ticketek on Facebook", Icon: ThumbsUp },
-              { label: "Ticketek on Instagram", Icon: Camera },
-              { label: "Ticketek on YouTube", Icon: Play },
-            ].map(({ label, Icon }) => (
-              <a key={label} href="#top" aria-label={label} className="grid size-9 place-items-center rounded-full bg-white/10 hover:bg-white/20">
-                <Icon className="size-4" aria-hidden />
-              </a>
-            ))}
-          </div>
+          <Link to="/get-started" className="btn-lime mt-6">
+            Try for free
+          </Link>
         </div>
-        {FOOTER_COLUMNS.map((col) => (
+        {COLUMNS.map((col) => (
           <div key={col.title}>
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-tk-pink">{col.title}</h2>
-            <ul className="mt-4 space-y-2.5">
-              {col.links.map((l) => (
-                <li key={l.to}>
-                  <Link to={l.to} className="text-sm text-white/80 hover:text-white hover:underline">
-                    {l.label}
+            <p className="text-sm font-semibold text-white">{col.title}</p>
+            <ul className="mt-4 space-y-2.5 text-sm text-white/65">
+              {col.links.map(([label, to]) => (
+                <li key={label}>
+                  <Link to={to} className="hover:text-white">
+                    {label}
                   </Link>
                 </li>
               ))}
@@ -39,16 +55,17 @@ export function SiteFooter() {
           </div>
         ))}
       </div>
-      <div className="border-t border-midnight-line">
-        <div className="container-tk py-6 text-xs leading-relaxed text-white/60">
-          <p>
-            Ticketek acknowledges the Traditional Owners of Country throughout Australia and recognises their continuing connection to land, waters and
-            culture. We pay our respects to Elders past and present.
-          </p>
-          <p className="mt-3">
-            © {new Date().getFullYear()} Demo site — an unofficial look-alike built for a product demonstration. Not affiliated with or endorsed by Ticketek
-            Pty Ltd or TEG. Orders, payments and accounts are simulated.
-          </p>
+      <div className="border-t border-white/10">
+        <div className="container-sm flex flex-col gap-3 py-6 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
+          <span className="flex items-center gap-2">
+            <LogoMark tone="white" className="h-4 opacity-60" />© {new Date().getFullYear()} SiteMinder demo. Unofficial recreation, not affiliated with SiteMinder Limited.
+          </span>
+          <span className="flex gap-5">
+            <span>Privacy</span>
+            <span>Terms</span>
+            <span>Cookie settings</span>
+            <span>Modern slavery statement</span>
+          </span>
         </div>
       </div>
     </footer>

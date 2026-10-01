@@ -6,59 +6,63 @@
 @import "@fontsource/inter/800.css";
 
 @theme {
-  /* Ticketek brand palette (public/brand/brand-assets.json) */
-  --color-midnight: #001828;
-  --color-midnight-soft: #0b2a3f;
-  --color-midnight-line: #1d3a4f;
-  --color-tk-pink: #fc6eeb;
-  --color-tk-jacaranda: #9b6eea;
-  /* Interactive blue used for links, focus and secondary buttons on premier.ticketek.com.au */
-  --color-tk-blue: #00497a;
-  --color-tk-blue-hover: #003a61;
-  --color-tk-blue-tint: #e6eef4;
-  /* "Get Tickets" green */
-  --color-tk-green: #428226;
-  --color-tk-green-hover: #366b1f;
-  /* Purchase session timer */
-  --color-tk-yellow: #ffc300;
+  /* SiteMinder brand palette (public/brand/brand-assets.json) */
+  --color-stratos: #00033b;
+  --color-deep: #07114e;
+  --color-deep-line: #1c2766;
+  --color-heading: #181447;
+  --color-royal: #0168f5;
+  --color-royal-hover: #0055cc;
+  --color-royal-bright: #308aff;
+  --color-royal-tint: #e8f1ff;
+  /* The "BOOKED" pill */
+  --color-lime: #d1fc72;
+  --color-lime-deep: #b6e64f;
+  --color-lavender: #ecdeff;
+  --color-butter: #e9eac2;
+  --color-mint: #d4faeb;
+  --color-aqua: #77c1a7;
 
-  --color-ink: #171717;
-  --color-ink-soft: #4a4a4a;
-  --color-ink-faint: #6b6b6b;
-  --color-page: #f3f3f3;
+  --color-ink: #181447;
+  --color-ink-soft: #4b4a6b;
+  --color-ink-faint: #6e6d8a;
+  --color-page: #ffffff;
+  --color-canvas: #f5f5f9;
   --color-surface: #ffffff;
-  --color-line: #d7d7d7;
-  --color-line-soft: #e8e8e8;
+  --color-line: #e2e1ec;
+  --color-line-soft: #efeff5;
 
-  --color-positive: #2e6b18;
-  --color-positive-bg: #e8f3e3;
-  --color-critical: #972323;
-  --color-critical-bg: #fbeaea;
-  --color-caution: #8a5a00;
-  --color-caution-bg: #fff6d9;
+  --color-positive: #157347;
+  --color-positive-bg: #e2f6ea;
+  --color-critical: #c2362f;
+  --color-critical-bg: #fdecea;
+  --color-caution: #935f00;
+  --color-caution-bg: #fff4d9;
 
   --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 
-  --radius-tk: 5px;
-  --radius-tk-lg: 10px;
-  --radius-tk-xl: 18px;
+  --radius-sm-btn: 999px;
+  --radius-card: 20px;
+  --radius-panel: 28px;
 
-  --shadow-tk: 0 1px 4px rgba(0, 24, 40, 0.12);
-  --shadow-tk-lift: 0 8px 24px rgba(0, 24, 40, 0.16);
-  --shadow-tk-panel: 0 28px 70px rgba(0, 24, 40, 0.35);
+  --shadow-card: 0 1px 2px rgba(0, 3, 59, 0.06), 0 4px 16px rgba(0, 3, 59, 0.06);
+  --shadow-lift: 0 12px 32px rgba(0, 3, 59, 0.14);
+  --shadow-panel: 0 32px 80px rgba(0, 3, 59, 0.32);
+  --shadow-glow: 0 0 0 6px rgba(1, 104, 245, 0.12);
 
-  --animate-fade-up: tk-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-fade-in: tk-fade-in 0.2s ease-out both;
-  --animate-pop-in: tk-pop-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-typing: tk-typing 1.2s ease-in-out infinite;
-  --animate-pulse-ring: tk-pulse-ring 2.4s ease-out infinite;
-  --animate-spin-slow: spin 8s linear infinite;
+  --animate-fade-up: sm-fade-up 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: sm-fade-in 0.2s ease-out both;
+  --animate-pop-in: sm-pop-in 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-typing: sm-typing 1.2s ease-in-out infinite;
+  --animate-pulse-ring: sm-pulse-ring 2.4s ease-out infinite;
+  --animate-word: sm-word 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-spin-slow: spin 10s linear infinite;
 }
 
-@keyframes tk-fade-up {
+@keyframes sm-fade-up {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -66,7 +70,7 @@
   }
 }
 
-@keyframes tk-fade-in {
+@keyframes sm-fade-in {
   from {
     opacity: 0;
   }
@@ -75,10 +79,10 @@
   }
 }
 
-@keyframes tk-pop-in {
+@keyframes sm-pop-in {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.97);
+    transform: translateY(18px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -86,7 +90,7 @@
   }
 }
 
-@keyframes tk-typing {
+@keyframes sm-typing {
   0%,
   60%,
   100% {
@@ -99,14 +103,25 @@
   }
 }
 
-@keyframes tk-pulse-ring {
+@keyframes sm-pulse-ring {
   0% {
     transform: scale(0.9);
     opacity: 0.55;
   }
   100% {
-    transform: scale(1.5);
+    transform: scale(1.55);
     opacity: 0;
+  }
+}
+
+@keyframes sm-word {
+  from {
+    opacity: 0;
+    transform: translateY(0.4em);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -117,8 +132,14 @@
   body {
     @apply bg-page font-sans text-ink antialiased;
   }
+  h1,
+  h2,
+  h3 {
+    @apply text-heading;
+    letter-spacing: -0.02em;
+  }
   :focus-visible {
-    outline: 2px solid var(--color-tk-blue);
+    outline: 2px solid var(--color-royal);
     outline-offset: 2px;
   }
   button:not(:disabled),
@@ -128,35 +149,55 @@
 }
 
 @layer components {
-  /* White content panel used for every page body on premier.ticketek.com.au */
-  .main-content-box {
-    @apply rounded-tk bg-surface shadow-tk;
+  .container-sm {
+    @apply mx-auto w-full max-w-[1240px] px-5 md:px-8;
   }
-  .container-tk {
-    @apply mx-auto w-full max-w-[1200px] px-4 md:px-6;
-  }
-  .btn-tickets {
-    @apply inline-flex items-center justify-center gap-2 rounded-tk bg-tk-green px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-tk-green-hover disabled:cursor-not-allowed disabled:opacity-50;
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-tk bg-tk-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-tk-blue-hover disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 bg-royal text-white hover:bg-royal-hover;
+  }
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 bg-stratos text-white hover:bg-deep;
+  }
+  .btn-lime {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 bg-lime text-stratos hover:bg-lime-deep;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-tk border border-tk-blue bg-white px-5 py-2.5 text-sm font-semibold text-tk-blue transition-colors hover:bg-tk-blue-tint disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 border border-heading/20 bg-white text-heading hover:border-heading/40 hover:bg-canvas;
+  }
+  .btn-ghost-white {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 border border-white/30 text-white hover:bg-white/10;
   }
   .field {
-    @apply w-full rounded-tk border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-tk-blue focus:outline-none focus:ring-2 focus:ring-tk-blue/20;
+    @apply w-full rounded-xl border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-royal focus:outline-none focus:ring-4 focus:ring-royal/10;
   }
   .link {
-    @apply font-medium text-tk-blue underline-offset-2 hover:underline;
+    @apply font-semibold text-royal underline-offset-2 hover:underline;
   }
-  /* Signature Ticketek pink→jacaranda gradient from the brand guidelines */
-  .tk-gradient {
-    background-image: linear-gradient(120deg, var(--color-tk-pink) 0%, var(--color-tk-jacaranda) 100%);
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.14em] text-royal;
   }
-  .tk-gradient-text {
+  .card {
+    @apply rounded-card border border-line-soft bg-surface shadow-card;
+  }
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+  /* Royal-blue gradient used on SiteMinder's product panels and campaign art */
+  .sm-gradient {
+    background-image: linear-gradient(135deg, var(--color-royal) 0%, var(--color-royal-bright) 100%);
+  }
+  .sm-night {
+    background-color: var(--color-stratos);
+    background-image:
+      radial-gradient(60% 80% at 85% 10%, rgba(48, 138, 255, 0.35) 0%, transparent 60%),
+      radial-gradient(50% 60% at 0% 100%, rgba(209, 252, 114, 0.12) 0%, transparent 60%);
+  }
+  .sm-gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(120deg, var(--color-tk-pink) 0%, var(--color-tk-jacaranda) 100%);
+    background-image: linear-gradient(100deg, var(--color-royal) 0%, var(--color-royal-bright) 60%, #7aa8ff 100%);
   }
 }
 
