@@ -7,11 +7,22 @@ import { DEMO_USER, safeNext } from "@/lib/auth";
 import { asset } from "@/lib/asset";
 
 type SiteConfig = { name: string; tagline: string };
+type SiteKey = "premier" | "marketplace";
 
-const siteConfig = {
-  Premier: { name: "Ticketek Premier", tagline: "Tickets, orders and Events I've Been To" },
-  Marketplace: { name: "Ticketek Marketplace", tagline: "Buy and sell tickets fan to fan" },
-} satisfies Record<string, SiteConfig>;
+const siteConfig: Record<SiteKey, SiteConfig> = {
+  premier: { name: "Ticketek Premier", tagline: "Tickets, orders and Events I've Been To" },
+  marketplace: { name: "Ticketek Marketplace", tagline: "Buy and sell tickets fan to fan" },
+};
+
+function isSiteKey(value: string): value is SiteKey {
+  return value === "premier" || value === "marketplace";
+}
+
+function resolveSite(value: string | null): SiteConfig {
+  const key = (value ?? "premier").toLowerCase();
+  if (isSiteKey(key)) return siteConfig[key];
+  return siteConfig.premier;
+}
 
 function AuthShell({ title, tagline, children }: { title: string; tagline?: string; children: ReactNode }) {
   return (
@@ -31,8 +42,7 @@ export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const siteKey = (params.get("site") ?? "premier") as keyof typeof siteConfig;
-  const site = siteConfig[siteKey];
+  const site = resolveSite(params.get("site"));
   const [email, setEmail] = useState(DEMO_USER.email);
   const [password, setPassword] = useState("tickets2026");
   const [show, setShow] = useState(false);

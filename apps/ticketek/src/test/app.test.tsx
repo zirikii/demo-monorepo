@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AppProviders, AppRoutes } from "@/App";
 import { DEMO_USER, writeSession } from "@/lib/auth";
 
@@ -31,7 +32,7 @@ describe("site routes", () => {
     const links = internalLinks(container);
     unmount();
     expect(links.length).toBeGreaterThan(20);
-    for (const href of links.filter((h) => !h.startsWith("/login"))) {
+    for (const href of links) {
       const view = renderAt(href);
       expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), href).toBeNull();
       view.unmount();
@@ -43,17 +44,27 @@ describe("site routes", () => {
     expect(screen.getByRole("heading", { name: "We couldn't find that page" })).toBeInTheDocument();
   });
 
-  it("documents intentional login render crash (site config casing)", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/login")).toThrow();
-    consoleError.mockRestore();
+  it("renders the sign-in form and starts a mock session", async () => {
+    const user = userEvent.setup();
+    renderAt("/login");
+    expect(screen.getByRole("heading", { name: "Sign in to Ticketek Premier" })).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Sign in" }));
+    expect(await screen.findByRole("heading", { name: "My Account" })).toBeInTheDocument();
+  });
+
+  it("matches the site query case-insensitively and ignores unknown sites", () => {
+    const marketplace = renderAt("/login?site=Marketplace");
+    expect(screen.getByRole("heading", { name: "Sign in to Ticketek Marketplace" })).toBeInTheDocument();
+    marketplace.unmount();
+
+    const unknown = renderAt("/login?site=toString");
+    expect(screen.getByRole("heading", { name: "Sign in to Ticketek Premier" })).toBeInTheDocument();
+    unknown.unmount();
   });
 
   it("sends signed-out fans to sign in before My Account", () => {
-    // Unauthenticated /account redirects to /login, which currently throws (same demo bug).
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/account/orders")).toThrow();
-    consoleError.mockRestore();
+    renderAt("/account/orders");
+    expect(screen.getByRole("heading", { name: "Sign in to Ticketek Premier" })).toBeInTheDocument();
   });
 
   it("renders every account and Support Studio page for a signed-in fan", () => {
