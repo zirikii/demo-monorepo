@@ -15,7 +15,10 @@ function renderAt(path: string) {
 }
 
 function internalLinks(container: HTMLElement): string[] {
-  const hrefs = Array.from(container.querySelectorAll("a[href]"), (a) => a.getAttribute("href") ?? "");
+  const hrefs = Array.from(
+    container.querySelectorAll("a[href]"),
+    (a) => a.getAttribute("href") ?? "",
+  );
   return [...new Set(hrefs.filter((h) => h.startsWith("/")))];
 }
 
@@ -33,7 +36,10 @@ describe("site routes", () => {
     expect(links.length).toBeGreaterThan(20);
     for (const href of links) {
       const view = renderAt(href);
-      expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), href).toBeNull();
+      expect(
+        screen.queryByRole("heading", { name: "We couldn't find that page" }),
+        href,
+      ).toBeNull();
       view.unmount();
     }
   });
@@ -45,12 +51,16 @@ describe("site routes", () => {
 
   it("renders the login page", () => {
     renderAt("/login");
-    expect(screen.getByRole("heading", { name: /sign in to ticketek premier/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /sign in to ticketek premier/i }),
+    ).toBeInTheDocument();
   });
 
   it("sends signed-out fans to sign in before My Account", () => {
     renderAt("/account/orders");
-    expect(screen.getByRole("heading", { name: /sign in to ticketek premier/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /sign in to ticketek premier/i }),
+    ).toBeInTheDocument();
   });
 
   it("renders every account and Support Studio page for a signed-in fan", () => {
@@ -76,7 +86,10 @@ describe("site routes", () => {
     ];
     for (const path of paths) {
       const view = renderAt(path);
-      expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), path).toBeNull();
+      expect(
+        screen.queryByRole("heading", { name: "We couldn't find that page" }),
+        path,
+      ).toBeNull();
       expect(screen.queryByRole("heading", { name: /sign in/i }), path).toBeNull();
       expect(within(view.container).getAllByRole("heading").length, path).toBeGreaterThan(0);
       view.unmount();
