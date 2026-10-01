@@ -58,7 +58,7 @@ cards and CommBank Yello.
 | `/login`, `/register`                           | NetBank log on and registration                                              |
 | `/netbank`                                      | Accounts overview, spend breakdown, Yello tier                               |
 | `/netbank/accounts/:accountId`                  | Account detail with transaction search and category filter                   |
-| `/netbank/transfer`                             | Transfer between accounts — mutates balances                                 |
+| `/netbank/transfer`                             | Transfer between accounts and set up regular transfers — mutates balances      |
 | `/netbank/pay`                                  | Pay anyone / BPAY against saved payees                                       |
 | `/netbank/cards`                                | Lock and unlock cards                                                        |
 | `/netbank/yello`                                | Tier progress and activatable offers                                         |
@@ -78,8 +78,8 @@ All four compute for real, in `src/lib/calculators.ts`:
 ## Persistence
 
 There is no database. Sessions are a base64 JSON blob in `localStorage`, and accounts,
-transactions and card lock states are stored under `commbank-demo-*` keys. Transfers and payments
-mutate that state, so the demo shows real balance movement. Reset it from
+transactions, regular transfers and card lock states are stored under `commbank-demo-*` keys.
+Transfers and payments mutate that state, so the demo shows real balance movement. Reset it from
 `/netbank/settings` or by clearing browser storage.
 
 Login is intentionally mock — any credentials are accepted, matching the convention across every

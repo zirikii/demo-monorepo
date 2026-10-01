@@ -1,9 +1,10 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
 import App from "@/App";
 import { seedAccounts } from "@/data/netbank";
+import { todayIso } from "@/lib/format";
 import { AuthProvider } from "@/hooks/useAuth";
 import { BankingProvider, useBanking } from "@/hooks/useBanking";
 import { RequireAuth } from "@/components/netbank/RequireAuth";
@@ -144,6 +145,110 @@ describe("NetBank transfers", () => {
     await user.click(screen.getByRole("button", { name: "Transfer" }));
 
     expect(screen.getByText("Choose two different accounts.")).toBeInTheDocument();
+  });
+});
+
+describe("NetBank regular transfers", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    signIn();
+  });
+
+  it("sets up a regular transfer starting today and moves money immediately", async () => {
+    const user = userEvent.setup();
+    renderTransferPage();
+
+    const smartAccess = seedAccounts.find((account) => account.id === "smart-access");
+    const saver = seedAccounts.find((account) => account.id === "netbank-saver");
+    if (!smartAccess || !saver) throw new Error("expected the seeded accounts to exist");
+
+    const balances = screen.getByRole("heading", { name: "Your balances" }).parentElement;
+    if (!balances) throw new Error("expected a balances panel");
+
+    await user.click(screen.getByRole("switch", { name: "Make this a regular transfer" }));
+
+    const amount = screen.getByLabelText("Amount");
+    await user.clear(amount);
+    await user.type(amount, "100");
+    await user.click(screen.getByRole("button", { name: "Set up regular transfer" }));
+
+    expect(screen.getByRole("status")).toHaveTextContent(/regular transfer is set up/i);
+    expect(within(balances).getByText("$4,118.63")).toBeInTheDocument();
+    expect(within(balances).getByText("$18,840.22")).toBeInTheDocument();
+
+    const regular = screen.getByRole("heading", { name: "Regular transfers" }).parentElement;
+    if (!regular) throw new Error("expected a regular transfers panel");
+    expect(within(regular).getByText("Smart Access → NetBank Saver")).toBeInTheDocument();
+    expect(within(regular).getByText("$100.00 · Monthly")).toBeInTheDocument();
+  });
+
+  it("does not move money when the start date is in the future", async () => {
+    const user = userEvent.setup();
+    renderTransferPage();
+
+    const balances = screen.getByRole("heading", { name: "Your balances" }).parentElement;
+    if (!balances) throw new Error("expected a balances panel");
+
+    await user.click(screen.getByRole("switch", { name: "Make this a regular transfer" }));
+
+    const future = new Date();
+    future.setDate(future.getDate() + 14);
+    const futureIso = todayIso(future);
+
+    const start = screen.getByLabelText("Start date");
+    fireEvent.change(start, { target: { value: futureIso } });
+
+    await user.click(screen.getByRole("button", { name: "Set up regular transfer" }));
+
+    expect(screen.getByRole("status")).toHaveTextContent(/first payment is scheduled/i);
+    expect(within(balances).getByText("$4,218.63")).toBeInTheDocument();
+    expect(within(balances).getByText("$18,740.22")).toBeInTheDocument();
+  });
+
+  it("removes a regular transfer when cancelled", async () => {
+    const user = userEvent.setup();
+    renderTransferPage();
+
+    await user.click(screen.getByRole("switch", { name: "Make this a regular transfer" }));
+    await user.click(screen.getByRole("button", { name: "Set up regular transfer" }));
+
+    const cancelButtons = screen.getAllByRole("button", { name: "Cancel" });
+    const firstCancel = cancelButtons[0];
+    if (!firstCancel) throw new Error("expected a cancel button");
+    await user.click(firstCancel);
+
+    expect(screen.getByRole("status")).toHaveTextContent("Regular transfer cancelled.");
+    expect(screen.queryByText(/\$250\.00 · Monthly/)).toBeNull();
+  });
+
+  it("catches up a due regular transfer when NetBank loads", async () => {
+    window.localStorage.setItem(
+      "commbank-demo-recurring",
+      JSON.stringify([
+        {
+          id: "rec-catch-up",
+          fromId: "smart-access",
+          toId: "netbank-saver",
+          amount: 50,
+          description: "Catch up",
+          frequency: "weekly",
+          startDate: "2020-01-01",
+          nextDate: "2020-01-01",
+          remainingPayments: 1,
+          status: "active",
+        },
+      ]),
+    );
+
+    renderTransferPage();
+
+    const balances = screen.getByRole("heading", { name: "Your balances" }).parentElement;
+    if (!balances) throw new Error("expected a balances panel");
+
+    await waitFor(() => {
+      expect(within(balances).getByText("$4,168.63")).toBeInTheDocument();
+      expect(within(balances).getByText("$18,790.22")).toBeInTheDocument();
+    });
   });
 });
 

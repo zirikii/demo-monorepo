@@ -37,7 +37,12 @@ export function TextField({
         <input
           id={id}
           aria-invalid={error ? true : undefined}
-          className={cn(control, prefix && "pl-7", error && "border-critical")}
+          className={cn(
+            control,
+            prefix && "pl-7",
+            error && "border-critical",
+            props.type === "date" && "min-h-[46px] [color-scheme:light]",
+          )}
           {...props}
         />
       </div>
