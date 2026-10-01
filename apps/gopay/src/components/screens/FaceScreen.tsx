@@ -1,10 +1,19 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { CONFIRM_TOAST } from "@/data/identity";
 import { Phone, PrimaryButton, StatusBar } from "@/components/chrome/Chrome";
 import { useSession } from "@/hooks/useSession";
+import { cn } from "@/lib/cn";
 import { confirmUnchanged } from "@/lib/kyc";
+
+type CameraState = "starting" | "ready" | "error" | "unsupported";
+
+const CAPTURE_DELAY_MS = 1200;
+
+function stopCamera(stream: MediaStream | null) {
+  stream?.getTracks().forEach((track) => track.stop());
+}
 
 export function FaceScreen() {
   const navigate = useNavigate();
@@ -12,11 +21,78 @@ export function FaceScreen() {
   const intent = params.get("intent") === "confirm" ? "confirm" : "update";
   const { scenario, account, setAccount, showToast, setGenie, frRemaining, setFrRemaining } =
     useSession();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const captureTimerRef = useRef<number | null>(null);
   const [sheet, setSheet] = useState(true);
-  const [scanning, setScanning] = useState(false);
+  const [capturing, setCapturing] = useState(false);
+  const [cameraRequest, setCameraRequest] = useState(0);
+  const [cameraState, setCameraState] = useState<CameraState>("starting");
+  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [capturedFrame, setCapturedFrame] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    let stream: MediaStream | null = null;
+    const video = videoRef.current;
+
+    async function startCamera() {
+      if (!navigator.mediaDevices?.getUserMedia) {
+        setCameraState("unsupported");
+        setCameraError("Camera access is not available in this browser.");
+        return;
+      }
+
+      setCameraState("starting");
+      setCameraError(null);
+      setCapturedFrame(null);
+
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user" },
+          audio: false,
+        });
+
+        if (cancelled) {
+          stopCamera(stream);
+          return;
+        }
+
+        if (video) {
+          video.srcObject = stream;
+          await video.play().catch(() => undefined);
+        }
+
+        setCameraState("ready");
+      } catch {
+        if (!cancelled) {
+          setCameraState("error");
+          setCameraError("We could not turn on your camera. Check permissions and try again.");
+        }
+      }
+    }
+
+    void startCamera();
+
+    return () => {
+      cancelled = true;
+      stopCamera(stream);
+      if (video) {
+        video.srcObject = null;
+      }
+    };
+  }, [cameraRequest]);
+
+  useEffect(() => {
+    return () => {
+      if (captureTimerRef.current !== null) {
+        window.clearTimeout(captureTimerRef.current);
+      }
+    };
+  }, []);
 
   function finish(passed: boolean) {
-    setScanning(false);
+    captureTimerRef.current = null;
+    setCapturing(false);
     if (!passed) {
       const left = frRemaining - 1;
       setFrRemaining(left);
@@ -37,12 +113,30 @@ export function FaceScreen() {
     navigate("/onboarding");
   }
 
-  function start() {
+  function capturePhoto() {
+    if (cameraState !== "ready" || capturing) return;
+
+    const video = videoRef.current;
+    if (video && video.videoWidth > 0 && video.videoHeight > 0) {
+      const canvas = document.createElement("canvas");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        setCapturedFrame(canvas.toDataURL("image/jpeg", 0.86));
+      }
+    }
+
     setSheet(false);
-    setScanning(true);
-    window.setTimeout(() => {
+    setCapturing(true);
+    captureTimerRef.current = window.setTimeout(() => {
       finish(scenario !== "fr-fail");
-    }, 1200);
+    }, CAPTURE_DELAY_MS);
+  }
+
+  function retryCamera() {
+    setCameraRequest((value) => value + 1);
   }
 
   return (
@@ -60,14 +154,44 @@ export function FaceScreen() {
         className="relative flex min-h-0 flex-1 items-center justify-center"
         data-testid="face-preview"
       >
+        <video
+          ref={videoRef}
+          className={cn(
+            "absolute inset-0 size-full object-cover",
+            capturedFrame ? "opacity-0" : "opacity-100",
+          )}
+          aria-label="Live face camera preview"
+          autoPlay
+          muted
+          playsInline
+        />
+        {capturedFrame ? (
+          <img
+            src={capturedFrame}
+            alt="Captured face preview"
+            className="absolute inset-0 size-full object-cover"
+          />
+        ) : null}
+        <div className="absolute inset-0 bg-black/20" />
         <p className="absolute inset-x-6 top-4 text-center text-[18px] font-bold text-white">
           Fit your face in the photo area
         </p>
-        <div className="size-64 rounded-full border-4 border-white/80 bg-gradient-to-b from-[#3a4148] to-[#121416]" />
-        {scanning ? (
+        <div className="relative size-64 rounded-full border-4 border-white/80 shadow-[0_0_0_999px_rgba(0,0,0,0.18)]" />
+        {cameraState === "starting" ? (
           <p className="absolute bottom-6 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[14px] font-bold text-white">
             <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            Hold still. Your e-KTP is ready
+            Turning on camera
+          </p>
+        ) : null}
+        {cameraError ? (
+          <p className="absolute bottom-6 mx-6 rounded-2xl bg-white/90 px-4 py-3 text-center text-[13px] font-bold leading-5 text-ink">
+            {cameraError}
+          </p>
+        ) : null}
+        {capturing ? (
+          <p className="absolute bottom-6 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[14px] font-bold text-white">
+            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+            Checking your photo
           </p>
         ) : null}
       </div>
@@ -85,9 +209,22 @@ export function FaceScreen() {
               hat
             </p>
           </div>
-          <PrimaryButton className="mt-4" onClick={start}>
-            Got it, I’m ready
+          <PrimaryButton
+            className="mt-4"
+            disabled={cameraState !== "ready" || capturing}
+            onClick={capturePhoto}
+          >
+            {cameraState === "ready" ? "Capture photo" : "Turning on camera"}
           </PrimaryButton>
+          {cameraState === "error" || cameraState === "unsupported" ? (
+            <button
+              type="button"
+              className="mt-3 w-full text-center text-[14px] font-bold text-gopay-ink"
+              onClick={retryCamera}
+            >
+              Try camera again
+            </button>
+          ) : null}
         </div>
       ) : null}
     </Phone>
