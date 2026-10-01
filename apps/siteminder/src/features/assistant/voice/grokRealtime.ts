@@ -29,14 +29,22 @@ export type GrokClientHandlers = {
 
 export type TurnDetection = { silenceMs: number; threshold: number; interruptResponse: boolean };
 
-export const DEFAULT_TURN_DETECTION: TurnDetection = { silenceMs: 500, threshold: 0.5, interruptResponse: true };
+export const DEFAULT_TURN_DETECTION: TurnDetection = {
+  silenceMs: 500,
+  threshold: 0.5,
+  interruptResponse: true,
+};
 
 /** Only sends VAD fields the console changed, so the default session is exactly what xAI documents. */
-export function turnDetectionPayload(td: TurnDetection = DEFAULT_TURN_DETECTION): Record<string, unknown> {
+export function turnDetectionPayload(
+  td: TurnDetection = DEFAULT_TURN_DETECTION,
+): Record<string, unknown> {
   return {
     type: "server_vad",
     ...(td.threshold !== DEFAULT_TURN_DETECTION.threshold ? { threshold: td.threshold } : {}),
-    ...(td.silenceMs !== DEFAULT_TURN_DETECTION.silenceMs ? { silence_duration_ms: td.silenceMs } : {}),
+    ...(td.silenceMs !== DEFAULT_TURN_DETECTION.silenceMs
+      ? { silence_duration_ms: td.silenceMs }
+      : {}),
     ...(td.interruptResponse ? {} : { interrupt_response: false }),
   };
 }
@@ -93,7 +101,11 @@ export class GrokRealtimeClient {
         // force_message is TTS-only and is its own turn, so it must not be followed by response.create.
         this.send({
           type: "conversation.item.create",
-          item: { type: "force_message", role: "assistant", content: [{ type: "output_text", text: this.opts.greeting }] },
+          item: {
+            type: "force_message",
+            role: "assistant",
+            content: [{ type: "output_text", text: this.opts.greeting }],
+          },
         });
       } else {
         this.send({ type: "response.create" });
@@ -227,7 +239,9 @@ export class GrokRealtimeClient {
   }
 }
 
-export async function fetchVoiceStatus(fetchImpl: typeof fetch = fetch): Promise<{ configured: boolean; model?: string; voice?: string }> {
+export async function fetchVoiceStatus(
+  fetchImpl: typeof fetch = fetch,
+): Promise<{ configured: boolean; model?: string; voice?: string }> {
   try {
     const res = await fetchImpl("/api/voice/status");
     if (!res.ok) return { configured: false };
@@ -237,10 +251,15 @@ export async function fetchVoiceStatus(fetchImpl: typeof fetch = fetch): Promise
   }
 }
 
-export async function requestVoiceGrant(fetchImpl: typeof fetch = fetch): Promise<VoiceSessionGrant> {
+export async function requestVoiceGrant(
+  fetchImpl: typeof fetch = fetch,
+): Promise<VoiceSessionGrant> {
   const res = await fetchImpl("/api/voice/session", { method: "POST" });
-  const body = (await res.json().catch(() => ({}))) as Partial<VoiceSessionGrant> & { error?: string };
-  if (!res.ok || !body.token || !body.url) throw new Error(body.error ?? "Couldn't start a voice session");
+  const body = (await res.json().catch(() => ({}))) as Partial<VoiceSessionGrant> & {
+    error?: string;
+  };
+  if (!res.ok || !body.token || !body.url)
+    throw new Error(body.error ?? "Couldn't start a voice session");
   return {
     token: body.token,
     url: body.url,

@@ -1,10 +1,24 @@
 import type { PropertyState } from "@/features/property/types";
-import { allNodes, renderTemplate, requireNode, type FlowCard, type FlowNode, type RecordKind, type TemplateValues } from "../flows";
+import {
+  allNodes,
+  renderTemplate,
+  requireNode,
+  type FlowCard,
+  type FlowNode,
+  type RecordKind,
+  type TemplateValues,
+} from "../flows";
 import { filterRecords, RECORD_KIND, resolvePick } from "./context";
 
 export type Via = "text" | "voice" | "chip";
 
-export type RenderedOption = { label: string; next: string; set?: TemplateValues; recordId?: string; recordKind?: RecordKind };
+export type RenderedOption = {
+  label: string;
+  next: string;
+  set?: TemplateValues;
+  recordId?: string;
+  recordKind?: RecordKind;
+};
 
 export type AssistantMessage = {
   id: number;
@@ -46,15 +60,31 @@ export type ConversationAction =
   | { type: "set-context"; context: TemplateValues; customer: ConversationCustomer }
   | { type: "reset" };
 
-export function initialConversation(init: { context: TemplateValues; customer: ConversationCustomer }): ConversationState {
-  return { messages: [], currentStepId: null, trail: [], facts: {}, context: init.context, customer: init.customer, nextId: 1 };
+export function initialConversation(init: {
+  context: TemplateValues;
+  customer: ConversationCustomer;
+}): ConversationState {
+  return {
+    messages: [],
+    currentStepId: null,
+    trail: [],
+    facts: {},
+    context: init.context,
+    customer: init.customer,
+    nextId: 1,
+  };
 }
 
-export function templateValues(state: Pick<ConversationState, "context" | "facts">): TemplateValues {
+export function templateValues(
+  state: Pick<ConversationState, "context" | "facts">,
+): TemplateValues {
   return { ...state.context, ...state.facts };
 }
 
-export function resolveFacts(set: TemplateValues | undefined, values: TemplateValues): TemplateValues {
+export function resolveFacts(
+  set: TemplateValues | undefined,
+  values: TemplateValues,
+): TemplateValues {
   if (!set) return {};
   return Object.fromEntries(Object.entries(set).map(([k, v]) => [k, renderTemplate(v, values)]));
 }
@@ -63,12 +93,17 @@ function renderStrings<T>(value: T, values: TemplateValues): T {
   if (typeof value === "string") return renderTemplate(value, values) as T;
   if (Array.isArray(value)) return value.map((v: unknown) => renderStrings(v, values)) as T;
   if (value && typeof value === "object") {
-    return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, renderStrings(v, values)])) as T;
+    return Object.fromEntries(
+      Object.entries(value).map(([k, v]) => [k, renderStrings(v, values)]),
+    ) as T;
   }
   return value;
 }
 
-export function renderCard(card: FlowCard | undefined, values: TemplateValues): FlowCard | undefined {
+export function renderCard(
+  card: FlowCard | undefined,
+  values: TemplateValues,
+): FlowCard | undefined {
   return card && renderStrings(card, values);
 }
 
@@ -127,7 +162,11 @@ export function resolveStepId(stepId: string, values: TemplateValues): string {
   return id;
 }
 
-export function recordOptions(node: FlowNode, customer: ConversationCustomer, now: Date = new Date()): RenderedOption[] {
+export function recordOptions(
+  node: FlowNode,
+  customer: ConversationCustomer,
+  now: Date = new Date(),
+): RenderedOption[] {
   if (!node.pick || !customer.signedIn) return [];
   const pick = node.pick;
   return filterRecords(customer.property, pick.filter, now).map((record) => ({
@@ -139,23 +178,42 @@ export function recordOptions(node: FlowNode, customer: ConversationCustomer, no
   }));
 }
 
-export type RenderedStep = { node: FlowNode; card: FlowCard | undefined; text: string; options: RenderedOption[] };
+export type RenderedStep = {
+  node: FlowNode;
+  card: FlowCard | undefined;
+  text: string;
+  options: RenderedOption[];
+};
 
-export function renderStep(requested: string, values: TemplateValues, customer: ConversationCustomer): RenderedStep {
+export function renderStep(
+  requested: string,
+  values: TemplateValues,
+  customer: ConversationCustomer,
+): RenderedStep {
   const node = requireNode(resolveStepId(requested, values));
   const picks = recordOptions(node, customer);
   const empty = Boolean(node.pick) && picks.length === 0;
-  const statics: RenderedOption[] = node.options.map((o) => ({ label: renderTemplate(o.label, values), next: o.next, set: o.set }));
-  const signIn: RenderedOption[] = empty && !customer.signedIn ? [{ label: "Log in", next: "signin" }] : [];
+  const statics: RenderedOption[] = node.options.map((o) => ({
+    label: renderTemplate(o.label, values),
+    next: o.next,
+    set: o.set,
+  }));
+  const signIn: RenderedOption[] =
+    empty && !customer.signedIn ? [{ label: "Log in", next: "signin" }] : [];
   return {
     node,
     card: renderCard(node.card, values),
-    text: renderTemplate(empty && node.pick ? node.pick.emptySay : node.say, values).replace(/ {2,}/g, " ").trim(),
+    text: renderTemplate(empty && node.pick ? node.pick.emptySay : node.say, values)
+      .replace(/ {2,}/g, " ")
+      .trim(),
     options: [...picks, ...signIn, ...statics],
   };
 }
 
-export function conversationReducer(state: ConversationState, action: ConversationAction): ConversationState {
+export function conversationReducer(
+  state: ConversationState,
+  action: ConversationAction,
+): ConversationState {
   switch (action.type) {
     case "user": {
       const text = action.text.trim();
@@ -178,7 +236,14 @@ export function conversationReducer(state: ConversationState, action: Conversati
         awaitingVoice: action.silent || undefined,
       };
       const trail = node.id === "root" ? [] : [...state.trail, node.id];
-      return { ...state, facts, messages: [...state.messages, message], currentStepId: node.id, trail, nextId: state.nextId + 1 };
+      return {
+        ...state,
+        facts,
+        messages: [...state.messages, message],
+        currentStepId: node.id,
+        trail,
+        nextId: state.nextId + 1,
+      };
     }
     case "back": {
       if (state.trail.length < 2) return state;
@@ -193,7 +258,11 @@ export function conversationReducer(state: ConversationState, action: Conversati
     case "assistant-transcript": {
       const last = state.messages[state.messages.length - 1];
       if (last?.role === "assistant" && last.awaitingVoice) {
-        const updated: AssistantMessage = { ...last, text: action.text, awaitingVoice: !action.final || undefined };
+        const updated: AssistantMessage = {
+          ...last,
+          text: action.text,
+          awaitingVoice: !action.final || undefined,
+        };
         return { ...state, messages: [...state.messages.slice(0, -1), updated] };
       }
       const message: AssistantMessage = {

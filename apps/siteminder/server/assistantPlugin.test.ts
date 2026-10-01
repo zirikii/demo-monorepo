@@ -20,12 +20,18 @@ describe("assistant env", () => {
   });
 
   it("lets SiteMinder's own .env.local win", () => {
-    const env = readAssistantEnv("development", dirWith("XAI_API_KEY=sm-key\n"), dirWith("XAI_API_KEY=agl-key\n"));
+    const env = readAssistantEnv(
+      "development",
+      dirWith("XAI_API_KEY=sm-key\n"),
+      dirWith("XAI_API_KEY=agl-key\n"),
+    );
     expect(env.XAI_API_KEY).toBe("sm-key");
   });
 
   it("falls back to the process environment", () => {
     vi.stubEnv("XAI_API_KEY", "process-key");
-    expect(readAssistantEnv("development", dirWith(""), dirWith("")).XAI_API_KEY).toBe("process-key");
+    expect(readAssistantEnv("development", dirWith(""), dirWith("")).XAI_API_KEY).toBe(
+      "process-key",
+    );
   });
 });

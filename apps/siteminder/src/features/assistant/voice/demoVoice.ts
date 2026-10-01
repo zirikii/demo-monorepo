@@ -1,5 +1,8 @@
 type SpeechRecognitionResultLike = { isFinal: boolean; 0: { transcript: string } };
-type SpeechRecognitionEventLike = { resultIndex: number; results: ArrayLike<SpeechRecognitionResultLike> };
+type SpeechRecognitionEventLike = {
+  resultIndex: number;
+  results: ArrayLike<SpeechRecognitionResultLike>;
+};
 
 type SpeechRecognitionLike = {
   lang: string;
@@ -17,7 +20,10 @@ type RecognitionCtor = new () => SpeechRecognitionLike;
 
 function recognitionCtor(): RecognitionCtor | null {
   if (typeof window === "undefined") return null;
-  const w = window as unknown as { SpeechRecognition?: RecognitionCtor; webkitSpeechRecognition?: RecognitionCtor };
+  const w = window as unknown as {
+    SpeechRecognition?: RecognitionCtor;
+    webkitSpeechRecognition?: RecognitionCtor;
+  };
   return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
 }
 
@@ -70,7 +76,9 @@ export class DemoVoice {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-AU";
       utterance.rate = 1.03;
-      const voice = synth.getVoices().find((v) => v.lang === "en-AU") ?? synth.getVoices().find((v) => v.lang.startsWith("en"));
+      const voice =
+        synth.getVoices().find((v) => v.lang === "en-AU") ??
+        synth.getVoices().find((v) => v.lang.startsWith("en"));
       if (voice) utterance.voice = voice;
       utterance.onend = () => {
         if (this.speakTimer) clearTimeout(this.speakTimer);

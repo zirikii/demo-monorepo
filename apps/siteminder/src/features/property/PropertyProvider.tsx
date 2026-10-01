@@ -1,4 +1,12 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { seedProperty } from "@/data/property";
 import { useAuth } from "@/hooks/useAuth";
 import { readJson, writeJson } from "@/lib/storage";
@@ -20,20 +28,35 @@ const PropertyContext = createContext<PropertyContextValue | null>(null);
 
 export function PropertyProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
-  const [state, setState] = useState<PropertyState>(() => readJson<PropertyState | null>(STORAGE_KEY, null) ?? seedProperty());
+  const [state, setState] = useState<PropertyState>(
+    () => readJson<PropertyState | null>(STORAGE_KEY, null) ?? seedProperty(),
+  );
 
   useEffect(() => writeJson(STORAGE_KEY, state), [state]);
 
   useEffect(() => {
     if (!user) return;
     setState((s) =>
-      s.profile.email === user.email ? s : { ...s, profile: { ...s.profile, firstName: user.firstName, lastName: user.lastName, email: user.email } },
+      s.profile.email === user.email
+        ? s
+        : {
+            ...s,
+            profile: {
+              ...s.profile,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              email: user.email,
+            },
+          },
     );
   }, [user]);
 
-  const apply = useCallback((effect: PropertyEffect, values: Record<string, string | undefined>) => {
-    setState((s) => applyEffect(s, effect, values));
-  }, []);
+  const apply = useCallback(
+    (effect: PropertyEffect, values: Record<string, string | undefined>) => {
+      setState((s) => applyEffect(s, effect, values));
+    },
+    [],
+  );
 
   const update = useCallback((fn: (s: PropertyState) => PropertyState) => setState(fn), []);
 

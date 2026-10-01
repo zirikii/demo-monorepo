@@ -1,5 +1,14 @@
 import type { Persona } from "@/features/studio/types";
-import { allNodes, getNode, renderTemplate, topics, type FlowCard, type FlowNode, type FormId, type TemplateValues } from "../flows";
+import {
+  allNodes,
+  getNode,
+  renderTemplate,
+  topics,
+  type FlowCard,
+  type FlowNode,
+  type FormId,
+  type TemplateValues,
+} from "../flows";
 import { RECORD_KIND } from "./context";
 import { renderCard } from "./conversation";
 import { forms } from "./forms";
@@ -31,7 +40,9 @@ export type SupportPromptOptions = {
   events: string[];
 };
 
-export function buildVoiceTools({ voiceForms = true }: { voiceForms?: boolean } = {}): RealtimeTool[] {
+export function buildVoiceTools({
+  voiceForms = true,
+}: { voiceForms?: boolean } = {}): RealtimeTool[] {
   const tools: RealtimeTool[] = [
     {
       type: "function",
@@ -41,10 +52,15 @@ export function buildVoiceTools({ voiceForms = true }: { voiceForms?: boolean } 
       parameters: {
         type: "object",
         properties: {
-          step_id: { type: "string", enum: allNodes.map((n) => n.id), description: "Flow step to show" },
+          step_id: {
+            type: "string",
+            enum: allNodes.map((n) => n.id),
+            description: "Flow step to show",
+          },
           option_label: {
             type: "string",
-            description: "The option label from the current step the hotelier chose, if any. Records their choice.",
+            description:
+              "The option label from the current step the hotelier chose, if any. Records their choice.",
           },
         },
         required: ["step_id"],
@@ -57,7 +73,13 @@ export function buildVoiceTools({ voiceForms = true }: { voiceForms?: boolean } 
         "On a step that asks which channel, booking, invoice or event (marked PICK in FLOW), choose the hotelier's record. The app checks its live status (mapping error, credentials, overbooked, unpaid…) and returns the step to show next.",
       parameters: {
         type: "object",
-        properties: { record_id: { type: "string", description: "Record id from PROPERTY RECORDS or DEMAND EVENTS, e.g. exp, BDC-4821937, INV-202610-20418 or evt-bledisloe" } },
+        properties: {
+          record_id: {
+            type: "string",
+            description:
+              "Record id from PROPERTY RECORDS or DEMAND EVENTS, e.g. exp, BDC-4821937, INV-202610-20418 or evt-bledisloe",
+          },
+        },
         required: ["record_id"],
       },
     },
@@ -84,7 +106,10 @@ export function buildVoiceTools({ voiceForms = true }: { voiceForms?: boolean } 
 }
 
 /** One-line spoken summary of a card so the voice agent can describe what's on screen. */
-export function describeCard(raw: FlowCard | undefined, values: TemplateValues): string | undefined {
+export function describeCard(
+  raw: FlowCard | undefined,
+  values: TemplateValues,
+): string | undefined {
   const card = renderCard(raw, values);
   if (!card) return undefined;
   switch (card.kind) {
@@ -144,7 +169,8 @@ function formLine(formId: FormId): string {
   const def = forms[formId];
   const fields = def.fields
     .map((f) => {
-      if (typeof f.options === "function") return `${f.name} (one of the property's room types, or "All rooms")`;
+      if (typeof f.options === "function")
+        return `${f.name} (one of the property's room types, or "All rooms")`;
       if (f.options) return `${f.name} (one of: ${f.options.join(" | ")})`;
       return f.type === "date" ? `${f.name} (YYYY-MM-DD)` : f.name;
     })
@@ -160,7 +186,9 @@ function nodeLine(node: FlowNode): string {
     return `- ${node.id} (${node.title}): checks ${node.decide.fact} (${cases}), never shown itself`;
   }
   const options = node.options.map((o) => `"${o.label}" → ${o.next}`).join(" | ");
-  const pick = node.pick ? ` [PICK ${RECORD_KIND[node.pick.filter].toUpperCase()} (${node.pick.filter}): call ${TOOL_SELECT_RECORD}]` : "";
+  const pick = node.pick
+    ? ` [PICK ${RECORD_KIND[node.pick.filter].toUpperCase()} (${node.pick.filter}): call ${TOOL_SELECT_RECORD}]`
+    : "";
   const form = node.card?.kind === "form" ? formLine(node.card.form) : "";
   return `- ${node.id} (${node.title}): ${options || "no options"}${pick}${form}`;
 }
@@ -174,7 +202,8 @@ type Channel = "voice" | "chat";
 
 const PERSONA_STYLE: Record<Persona, string> = {
   warm: "Warm, calm and reassuring, like a SiteMinder specialist who used to run a hotel front desk.",
-  expert: "A confident revenue and distribution expert: precise, practical, and quick to explain why.",
+  expert:
+    "A confident revenue and distribution expert: precise, practical, and quick to explain why.",
   concise: "Efficient and to the point: skip small talk and keep every turn as short as possible.",
 };
 
@@ -183,7 +212,13 @@ const PERSONA_STYLE: Record<Persona, string> = {
  * (Role & Persona → Objective → Conversation Flow → Guardrails & Escalation → Style → CRITICAL).
  * Static sections come first and per-property facts last, so the shared prefix stays cacheable.
  */
-function buildInstructions(channel: Channel, values: TemplateValues, opts: SupportPromptOptions, greeting: string, resumeStepId?: string | null): string {
+function buildInstructions(
+  channel: Channel,
+  values: TemplateValues,
+  opts: SupportPromptOptions,
+  greeting: string,
+  resumeStepId?: string | null,
+): string {
   const voice = channel === "voice";
   const resume = resumeStepId && resumeStepId !== "root" ? getNode(resumeStepId) : undefined;
   const topicList = topics.map((t) => `${t.label} (${t.entry})`).join(", ");
@@ -204,7 +239,9 @@ function buildInstructions(channel: Channel, values: TemplateValues, opts: Suppo
       ? `The greeting has already been spoken ("${greeting}"), so start from the hotelier's first reply.`
       : `The hotelier has already been greeted ("${greeting}"), so start from their first message.`,
     ...(resume
-      ? [`The hotelier switched from chat to voice while on step ${resume.id} (${resume.title}). Don't greet again: say you're with them by voice now, briefly recap that step and ask how they'd like to continue.`]
+      ? [
+          `The hotelier switched from chat to voice while on step ${resume.id} (${resume.title}). Don't greet again: say you're with them by voice now, briefly recap that step and ask how they'd like to continue.`,
+        ]
       : []),
     "### 1) Understand",
     `- Go straight to the most specific step in FLOW that matches what they ${talk}, skipping menus they don't need. Topics and their entry steps: ${topicList}.`,
@@ -231,9 +268,16 @@ function buildInstructions(channel: Channel, values: TemplateValues, opts: Suppo
     "- Safety first: if anyone at the property is hurt or in danger, tell them to call triple zero (000), then go to safety.",
     "- Suspected phishing, a hacked account or card fraud: go to urgent.security or urgent.fraud.",
     `- Go to handoff when they ask for a person, want to complain, are clearly upset, or you've misunderstood them twice. As you do, ${talk} something like "No problem, I'll connect you with one of our specialists."`,
-    ...(opts.escalations.length ? ["- Routing rules set by the SiteMinder support team (these also run automatically; when one fires you'll get a (Routing ...) note):", ...opts.escalations.map((e) => `  - ${e}`)] : []),
+    ...(opts.escalations.length
+      ? [
+          "- Routing rules set by the SiteMinder support team (these also run automatically; when one fires you'll get a (Routing ...) note):",
+          ...opts.escalations.map((e) => `  - ${e}`),
+        ]
+      : []),
     ...(opts.disabledTopics.length
-      ? [`- These topics are switched off for the assistant: ${opts.disabledTopics.map((t) => `${t.label} (${t.entry})`).join(", ")}. Don't go into their steps; go to handoff and say a specialist will help.`]
+      ? [
+          `- These topics are switched off for the assistant: ${opts.disabledTopics.map((t) => `${t.label} (${t.entry})`).join(", ")}. Don't go into their steps; go to handoff and say a specialist will help.`,
+        ]
       : []),
     "",
     voice ? "## Voice & Communication Style" : "## Communication Style",
@@ -243,7 +287,7 @@ function buildInstructions(channel: Channel, values: TemplateValues, opts: Suppo
           "- Spoken words only: no lists, markdown, emojis or stage directions.",
           "- One or two short sentences per turn, then a question. Friendly, plain English.",
           "- Respond only in English.",
-          "- Say amounts naturally (\"two hundred and seventy-nine dollars\"), booking references in small groups, and percentages as words. Never read out URLs or step ids.",
+          '- Say amounts naturally ("two hundred and seventy-nine dollars"), booking references in small groups, and percentages as words. Never read out URLs or step ids.',
           `- Before calling a tool for a new topic, you may say one short line such as "Sure, let me check that." Vary it and never repeat the same line twice in a row.`,
           "- If the input is unclear or cut off, ask a short clarifying question instead of guessing. If the hotelier interrupts, stop and listen.",
         ]
@@ -253,7 +297,9 @@ function buildInstructions(channel: Channel, values: TemplateValues, opts: Suppo
           "- The option buttons are already on screen, so don't list them. End with one short question.",
           "- Write amounts, references and phone numbers exactly as given.",
         ]),
-    ...(opts.customInstructions.trim() ? ["", "## SUPPORT TEAM INSTRUCTIONS", opts.customInstructions.trim()] : []),
+    ...(opts.customInstructions.trim()
+      ? ["", "## SUPPORT TEAM INSTRUCTIONS", opts.customInstructions.trim()]
+      : []),
     "",
     "## CRITICAL INSTRUCTIONS",
     `- ALWAYS call \`${TOOL_GO_TO_STEP}\` or \`${TOOL_SELECT_RECORD}\` before you ${talk} anything about a step. The screen must always match what you ${talk}.`,
@@ -270,7 +316,7 @@ function buildInstructions(channel: Channel, values: TemplateValues, opts: Suppo
     `- Support: 24/7 by chat and phone on 1800 000 312 (demo number). Phone hours: ${values.phoneHours}.`,
     "- Emergencies: triple zero (000).",
     "",
-    "## FLOW (step_id (title): \"option\" → next_step_id)",
+    '## FLOW (step_id (title): "option" → next_step_id)',
     serialiseFlow(),
     "",
     "## HOTELIER",
@@ -278,18 +324,33 @@ function buildInstructions(channel: Channel, values: TemplateValues, opts: Suppo
     ...(values.welcomeLine ? [`- Right now: ${values.welcomeLine}`] : []),
     "",
     "## PROPERTY",
-    ...(opts.property.length ? opts.property : ["- Not logged in (suggest logging in via step signin so you can see their channels and bookings)."]),
+    ...(opts.property.length
+      ? opts.property
+      : [
+          "- Not logged in (suggest logging in via step signin so you can see their channels and bookings).",
+        ]),
     "",
     "## PROPERTY RECORDS",
     ...(opts.records.length ? opts.records : ["- None available."]),
-    ...(opts.events.length ? ["", "## DEMAND EVENTS (upcoming first, then past events with outcomes)", ...opts.events] : []),
+    ...(opts.events.length
+      ? ["", "## DEMAND EVENTS (upcoming first, then past events with outcomes)", ...opts.events]
+      : []),
   ].join("\n");
 }
 
-export function buildVoiceInstructions(values: TemplateValues, opts: SupportPromptOptions, greeting: string, resumeStepId?: string | null): string {
+export function buildVoiceInstructions(
+  values: TemplateValues,
+  opts: SupportPromptOptions,
+  greeting: string,
+  resumeStepId?: string | null,
+): string {
   return buildInstructions("voice", values, opts, greeting, resumeStepId);
 }
 
-export function buildChatInstructions(values: TemplateValues, opts: SupportPromptOptions, greeting: string): string {
+export function buildChatInstructions(
+  values: TemplateValues,
+  opts: SupportPromptOptions,
+  greeting: string,
+): string {
   return buildInstructions("chat", values, opts, greeting);
 }

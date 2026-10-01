@@ -1,7 +1,12 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { join } from "node:path";
 import { loadEnv, type Connect, type Plugin } from "vite";
-import { CHAT_TURNS_PER_MINUTE, handleChatRequest, MAX_CHAT_BODY_BYTES, readChatConfig } from "../../agl/server/chatSession";
+import {
+  CHAT_TURNS_PER_MINUTE,
+  handleChatRequest,
+  MAX_CHAT_BODY_BYTES,
+  readChatConfig,
+} from "../../agl/server/chatSession";
 import {
   createRateLimiter,
   handleVoiceRequest,
@@ -15,7 +20,11 @@ import {
  * deployed), so the key already in apps/agl/.env.local works here too. SiteMinder's own
  * .env.local wins when both set a value.
  */
-export function readAssistantEnv(mode: string, envDir: string, aglDir: string): Record<string, string | undefined> {
+export function readAssistantEnv(
+  mode: string,
+  envDir: string,
+  aglDir: string,
+): Record<string, string | undefined> {
   return { ...process.env, ...loadEnv(mode, aglDir, ""), ...loadEnv(mode, envDir, "") };
 }
 
@@ -78,7 +87,8 @@ function middleware(envDir: string, mode: string): Connect.NextHandleFunction {
     handled
       .then((result) => (result ? send(res, result) : next()))
       .catch(() => {
-        if (!res.headersSent) send(res, { status: 500, body: { error: "Assistant request failed" } });
+        if (!res.headersSent)
+          send(res, { status: 500, body: { error: "Assistant request failed" } });
       });
   };
 }

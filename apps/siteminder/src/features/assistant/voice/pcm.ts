@@ -34,7 +34,11 @@ export function base64ToInt16(b64: string): Int16Array {
 }
 
 /** Linear resampler for browsers that ignore the AudioContext sampleRate hint. */
-export function resampleLinear(input: Float32Array, fromRate: number, toRate: number): Float32Array {
+export function resampleLinear(
+  input: Float32Array,
+  fromRate: number,
+  toRate: number,
+): Float32Array {
   if (fromRate === toRate) return input;
   const ratio = fromRate / toRate;
   const length = Math.floor(input.length / ratio);

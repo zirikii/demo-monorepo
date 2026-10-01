@@ -17,7 +17,8 @@ export type Channel = {
   issueRoom?: string;
 };
 
-export type BookingStatus = "confirmed" | "modified" | "cancelled" | "missing-in-pms" | "card-declined" | "overbooked";
+export type BookingStatus =
+  "confirmed" | "modified" | "cancelled" | "missing-in-pms" | "card-declined" | "overbooked";
 
 export type Booking = {
   id: string;
@@ -51,7 +52,14 @@ export type Invoice = {
 };
 
 export type TeamRole = "Owner" | "Admin" | "Revenue" | "Front desk" | "Read only";
-export type TeamUser = { id: string; name: string; email: string; role: TeamRole; mfa: boolean; lastActive: string };
+export type TeamUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: TeamRole;
+  mfa: boolean;
+  lastActive: string;
+};
 
 export type RoomType = { id: string; name: string; rooms: number; baseRate: number };
 
@@ -104,7 +112,13 @@ export type Property = {
   roomTypes: RoomType[];
 };
 
-export type Profile = { firstName: string; lastName: string; email: string; mobile: string; role: string };
+export type Profile = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  mobile: string;
+  role: string;
+};
 
 export type RateChange = { id: string; at: string; summary: string };
 

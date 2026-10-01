@@ -1,7 +1,15 @@
 import type { TopicId } from "@/features/assistant/flows/types";
 import type { BookingStatus, ChannelStatus, PlanId } from "@/features/property/types";
 
-export type QueueId = "connectivity" | "reservations" | "revenue" | "billing" | "enterprise" | "success" | "security" | "general";
+export type QueueId =
+  | "connectivity"
+  | "reservations"
+  | "revenue"
+  | "billing"
+  | "enterprise"
+  | "success"
+  | "security"
+  | "general";
 export type Priority = "P1" | "P2" | "P3" | "P4";
 export type Persona = "warm" | "expert" | "concise";
 export type VoiceName = "eve" | "ara" | "rex" | "sal" | "leo";
@@ -76,7 +84,13 @@ export type RoutingSignals = {
   now: Date;
 };
 
-export type RuleTrace = { ruleId: string; name: string; enabled: boolean; matched: boolean; reason: string };
+export type RuleTrace = {
+  ruleId: string;
+  name: string;
+  enabled: boolean;
+  matched: boolean;
+  reason: string;
+};
 
 export type RoutingDecision = {
   action: RuleAction | "none";
@@ -87,7 +101,11 @@ export type RoutingDecision = {
   reason: string;
 };
 
-export type RoutingOutcome = { decision: RoutingDecision; matched: RoutingDecision[]; trace: RuleTrace[] };
+export type RoutingOutcome = {
+  decision: RoutingDecision;
+  matched: RoutingDecision[];
+  trace: RuleTrace[];
+};
 
 export type TranscriptLine = { role: "hotelier" | "assistant" | "system"; text: string };
 

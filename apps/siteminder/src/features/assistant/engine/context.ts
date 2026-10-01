@@ -1,5 +1,19 @@
-import { forecast, insightLines, eventsLine, nextEvent, PACE_LABELS, pastEvents, upcomingEvents } from "@/features/property/insights";
-import type { Booking, Channel, DemandEvent, Invoice, PropertyState } from "@/features/property/types";
+import {
+  forecast,
+  insightLines,
+  eventsLine,
+  nextEvent,
+  PACE_LABELS,
+  pastEvents,
+  upcomingEvents,
+} from "@/features/property/insights";
+import type {
+  Booking,
+  Channel,
+  DemandEvent,
+  Invoice,
+  PropertyState,
+} from "@/features/property/types";
 import {
   BOOKING_STATUS_LABELS,
   bookingNeedsAction,
@@ -14,7 +28,13 @@ import {
   relativeDays,
 } from "@/features/property/views";
 import { toLocalIso } from "@/lib/clock";
-import { formatCurrency, formatDateTime, formatMonthYear, formatShortDate, pluralise } from "@/lib/format";
+import {
+  formatCurrency,
+  formatDateTime,
+  formatMonthYear,
+  formatShortDate,
+  pluralise,
+} from "@/lib/format";
 import type { RecordFilter, RecordKind, RecordPick, TemplateValues } from "../flows";
 
 /** Safe fallbacks so a step reached without its record still reads naturally. */
@@ -123,13 +143,16 @@ export function welcomeLine(property: AssistantProperty, opts: PersonalisationOp
   } else if (issues.length) {
     parts.push(`${channelIssueLine(state)}`);
   }
-  if (state.bookings.some((b) => b.status === "overbooked")) parts.push("I can also see an overbooking flagged for tonight.");
+  if (state.bookings.some((b) => b.status === "overbooked"))
+    parts.push("I can also see an overbooking flagged for tonight.");
   return parts.join(" ");
 }
 
 function directShare(state: PropertyState): string {
   const total = state.channels.reduce((n, c) => n + c.bookings30d, 0);
-  const direct = state.channels.filter((c) => c.kind === "direct").reduce((n, c) => n + c.bookings30d, 0);
+  const direct = state.channels
+    .filter((c) => c.kind === "direct")
+    .reduce((n, c) => n + c.bookings30d, 0);
   return total ? `${Math.round((direct / total) * 100)}%` : "0%";
 }
 
@@ -142,7 +165,10 @@ function parityLine(state: PropertyState): string {
   return `${base}. ${nameList(cheaper.map((r) => `${r.name} shows ${formatCurrency(r.rate)} (${r.note ?? `${r.diffPct}%`})`))}.`;
 }
 
-export function buildContext(property: AssistantProperty, opts: PersonalisationOptions): TemplateValues {
+export function buildContext(
+  property: AssistantProperty,
+  opts: PersonalisationOptions,
+): TemplateValues {
   const { state, signedIn } = property;
   const plan = PLANS[state.property.plan];
   return {
@@ -166,12 +192,16 @@ export function buildContext(property: AssistantProperty, opts: PersonalisationO
     directShare: directShare(state),
     parityLine: parityLine(state),
     welcomeLine: welcomeLine(property, opts),
-    insightsLine: opts.insights ? insightLines(state.events).join(" ") : "Here's how your past events performed.",
+    insightsLine: opts.insights
+      ? insightLines(state.events).join(" ")
+      : "Here's how your past events performed.",
     eventsLine: eventsLine(state.events),
     channelIssueLine: signedIn ? channelIssueLine(state) : "",
-    statusLine: "All SiteMinder systems are operational right now — the channel manager, booking engine and payments are running normally.",
+    statusLine:
+      "All SiteMinder systems are operational right now — the channel manager, booking engine and payments are running normally.",
     handoffTeam: "Customer Support team",
-    handoffLine: "A specialist will pick this up shortly, and I've passed on everything we've covered.",
+    handoffLine:
+      "A specialist will pick this up shortly, and I've passed on everything we've covered.",
     phoneHours: "24 hours a day, 7 days a week",
   };
 }
@@ -222,7 +252,10 @@ export function invoiceFacts(inv: Invoice, state: PropertyState): TemplateValues
     invoiceStatus: inv.status,
     invoiceDriver: inv.driver,
     invoicePrevTotal: formatCurrency(prevTotal),
-    invoiceDelta: Math.abs(diff) < 1 ? "about the same as" : `${diff > 0 ? "up" : "down"} ${formatCurrency(Math.abs(diff))} (${diff > 0 ? "+" : ""}${pct}%) on`,
+    invoiceDelta:
+      Math.abs(diff) < 1
+        ? "about the same as"
+        : `${diff > 0 ? "up" : "down"} ${formatCurrency(Math.abs(diff))} (${diff > 0 ? "+" : ""}${pct}%) on`,
     invoiceExtendedDue: formatShortDate(extended),
     instalmentAmount: formatCurrency(Math.round((total / 3) * 100) / 100),
     receipt: `SMR-${stableNumber(inv.id, 6)}`,
@@ -231,8 +264,12 @@ export function invoiceFacts(inv: Invoice, state: PropertyState): TemplateValues
 
 function readyLine(event: DemandEvent, state: PropertyState): string {
   const issues = issueChannels(state);
-  if (!issues.length) return `All your channels are connected and syncing, so you're ready for ${event.name}.`;
-  const detail = issues.map((c) => `${c.name} (${CHANNEL_STATUS_LABELS[c.status].toLowerCase()}${c.issueRoom ? ` on ${c.issueRoom}` : ""})`);
+  if (!issues.length)
+    return `All your channels are connected and syncing, so you're ready for ${event.name}.`;
+  const detail = issues.map(
+    (c) =>
+      `${c.name} (${CHANNEL_STATUS_LABELS[c.status].toLowerCase()}${c.issueRoom ? ` on ${c.issueRoom}` : ""})`,
+  );
   return `Not quite. ${nameList(detail)} ${issues.length === 1 ? "isn't" : "aren't"} getting your rates, so ${issues.length === 1 ? "it" : "they"} won't sell rooms for ${event.name}. Fix ${issues.length === 1 ? "it" : "them"} before you raise prices.`;
 }
 
@@ -267,29 +304,63 @@ export function historyFacts(e: DemandEvent): TemplateValues {
     historyOccupancy: o ? `${o.occupancyPct}%` : "—",
     historyAdr: o ? formatCurrency(o.adr) : "—",
     historyUplift: o ? `${o.adrUpliftPct}%` : "—",
-    historySoldOut: o && o.soldOutDaysBefore > 0 ? `You sold out ${pluralise(o.soldOutDaysBefore, "day")} before.` : "It didn't fully sell out.",
+    historySoldOut:
+      o && o.soldOutDaysBefore > 0
+        ? `You sold out ${pluralise(o.soldOutDaysBefore, "day")} before.`
+        : "It didn't fully sell out.",
     historyNote: o?.note ?? "",
   };
 }
 
-export type PickRecord = { id: string; kind: RecordKind; label: string; status: string; facts: TemplateValues };
+export type PickRecord = {
+  id: string;
+  kind: RecordKind;
+  label: string;
+  status: string;
+  facts: TemplateValues;
+};
 
-const BOOKING_URGENCY = ["overbooked", "missing-in-pms", "card-declined", "modified", "cancelled", "confirmed"];
+const BOOKING_URGENCY = [
+  "overbooked",
+  "missing-in-pms",
+  "card-declined",
+  "modified",
+  "cancelled",
+  "confirmed",
+];
 
-export function filterRecords(state: PropertyState, filter: RecordFilter, now: Date = new Date()): PickRecord[] {
+export function filterRecords(
+  state: PropertyState,
+  filter: RecordFilter,
+  now: Date = new Date(),
+): PickRecord[] {
   switch (filter) {
     case "channels-all":
     case "channels-issues": {
-      const list = filter === "channels-issues" ? issueChannels(state) : [...issueChannels(state), ...state.channels.filter((c) => !channelIssue(c))];
-      return list.map((c) => ({ id: c.id, kind: "channel", label: `${c.name} · ${CHANNEL_STATUS_LABELS[c.status]}`, status: c.status, facts: channelFacts(c, now) }));
+      const list =
+        filter === "channels-issues"
+          ? issueChannels(state)
+          : [...issueChannels(state), ...state.channels.filter((c) => !channelIssue(c))];
+      return list.map((c) => ({
+        id: c.id,
+        kind: "channel",
+        label: `${c.name} · ${CHANNEL_STATUS_LABELS[c.status]}`,
+        status: c.status,
+        facts: channelFacts(c, now),
+      }));
     }
     case "bookings-issues":
     case "bookings-upcoming": {
       const today = toLocalIso(now).slice(0, 10);
       const list =
         filter === "bookings-issues"
-          ? state.bookings.filter((b) => bookingNeedsAction(b) || b.status === "cancelled").sort((a, b) => BOOKING_URGENCY.indexOf(a.status) - BOOKING_URGENCY.indexOf(b.status))
-          : state.bookings.filter((b) => b.checkIn.slice(0, 10) >= today && b.status !== "cancelled").sort((a, b) => a.checkIn.localeCompare(b.checkIn)).slice(0, 6);
+          ? state.bookings
+              .filter((b) => bookingNeedsAction(b) || b.status === "cancelled")
+              .sort((a, b) => BOOKING_URGENCY.indexOf(a.status) - BOOKING_URGENCY.indexOf(b.status))
+          : state.bookings
+              .filter((b) => b.checkIn.slice(0, 10) >= today && b.status !== "cancelled")
+              .sort((a, b) => a.checkIn.localeCompare(b.checkIn))
+              .slice(0, 6);
       return list.slice(0, 6).map((b) => ({
         id: b.id,
         kind: "booking",
@@ -300,17 +371,36 @@ export function filterRecords(state: PropertyState, filter: RecordFilter, now: D
     }
     case "invoices-unpaid":
     case "invoices-all": {
-      const list = filter === "invoices-unpaid" ? state.invoices.filter(invoiceUnpaid) : state.invoices;
-      return list.map((i) => ({ id: i.id, kind: "invoice", label: `${i.period} · ${formatCurrency(invoiceTotal(i))}`, status: i.status, facts: invoiceFacts(i, state) }));
+      const list =
+        filter === "invoices-unpaid" ? state.invoices.filter(invoiceUnpaid) : state.invoices;
+      return list.map((i) => ({
+        id: i.id,
+        kind: "invoice",
+        label: `${i.period} · ${formatCurrency(invoiceTotal(i))}`,
+        status: i.status,
+        facts: invoiceFacts(i, state),
+      }));
     }
     case "events-upcoming":
       return upcomingEvents(state.events, now)
         .slice(0, 4)
-        .map((e) => ({ id: e.id, kind: "event", label: `${e.name} · ${formatShortDate(e.start)}`, status: e.category, facts: eventFacts(e, state, now) }));
+        .map((e) => ({
+          id: e.id,
+          kind: "event",
+          label: `${e.name} · ${formatShortDate(e.start)}`,
+          status: e.category,
+          facts: eventFacts(e, state, now),
+        }));
     case "events-past":
       return pastEvents(state.events)
         .slice(0, 10)
-        .map((e) => ({ id: e.id, kind: "history", label: `${e.name} · ${formatMonthYear(e.start)}`, status: e.category, facts: historyFacts(e) }));
+        .map((e) => ({
+          id: e.id,
+          kind: "history",
+          label: `${e.name} · ${formatMonthYear(e.start)}`,
+          status: e.category,
+          facts: historyFacts(e),
+        }));
     default: {
       const exhaustive: never = filter;
       return exhaustive;

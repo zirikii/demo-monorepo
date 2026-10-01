@@ -4,18 +4,45 @@ import { Link } from "react-router-dom";
 import { CheckList } from "@/components/marketing";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 
-const PROPERTY_TYPES = ["Hotel", "Boutique hotel", "Resort", "Motel", "Serviced apartments", "B&B / Guesthouse", "Hostel", "Group or chain"];
+const PROPERTY_TYPES = [
+  "Hotel",
+  "Boutique hotel",
+  "Resort",
+  "Motel",
+  "Serviced apartments",
+  "B&B / Guesthouse",
+  "Hostel",
+  "Group or chain",
+];
 const ROOM_BANDS = ["1–10", "11–30", "31–80", "81–150", "151+"];
-const COUNTRIES = ["Australia", "New Zealand", "United Kingdom", "United States", "Thailand", "Indonesia", "Spain", "Italy", "Other"];
+const COUNTRIES = [
+  "Australia",
+  "New Zealand",
+  "United Kingdom",
+  "United States",
+  "Thailand",
+  "Indonesia",
+  "Spain",
+  "Italy",
+  "Other",
+];
 
 type Variant = "demo" | "trial";
 
-const COPY: Record<Variant, { eyebrow: string; title: string; body: string; points: string[]; cta: string; done: string }> = {
+const COPY: Record<
+  Variant,
+  { eyebrow: string; title: string; body: string; points: string[]; cta: string; done: string }
+> = {
   demo: {
     eyebrow: "Get a demo",
     title: "See how SiteMinder puts your hotel in demand",
     body: "A product specialist will walk you through the platform using your own property, channels and markets.",
-    points: ["A tailored 30-minute walkthrough", "Connect 450+ channels and your PMS", "Pricing that fits your property", "Live Q&A with a hotel commerce expert"],
+    points: [
+      "A tailored 30-minute walkthrough",
+      "Connect 450+ channels and your PMS",
+      "Pricing that fits your property",
+      "Live Q&A with a hotel commerce expert",
+    ],
     cta: "Book my demo",
     done: "A product specialist will be in touch within one business day to lock in a time.",
   },
@@ -23,7 +50,12 @@ const COPY: Record<Variant, { eyebrow: string; title: string; body: string; poin
     eyebrow: "Free 14-day trial",
     title: "Try SiteMinder free for 14 days",
     body: "No credit card. No setup fees. Get your channel manager and booking engine live in as little as a day.",
-    points: ["Full platform access for 14 days", "Free onboarding with a specialist", "Cancel any time", "24/7 multilingual support"],
+    points: [
+      "Full platform access for 14 days",
+      "Free onboarding with a specialist",
+      "Cancel any time",
+      "24/7 multilingual support",
+    ],
     cta: "Start free trial",
     done: "Check your inbox — your trial login and onboarding schedule are on the way.",
   },
@@ -51,7 +83,11 @@ function LeadForm({ variant }: { variant: Variant }) {
   }
 
   return (
-    <form onSubmit={submit} className="card grid gap-4 p-6 sm:grid-cols-2 md:p-8" aria-label={copy.cta}>
+    <form
+      onSubmit={submit}
+      className="card grid gap-4 p-6 sm:grid-cols-2 md:p-8"
+      aria-label={copy.cta}
+    >
       {[
         ["First name", "given-name", "text"],
         ["Last name", "family-name", "text"],
@@ -91,7 +127,9 @@ function LeadForm({ variant }: { variant: Variant }) {
           ))}
         </select>
       </label>
-      <p className="text-xs text-ink-faint sm:col-span-2">This is a demo form. Nothing is sent anywhere.</p>
+      <p className="text-xs text-ink-faint sm:col-span-2">
+        This is a demo form. Nothing is sent anywhere.
+      </p>
       <button type="submit" className="btn-primary py-3 sm:col-span-2">
         <CalendarCheck className="size-4" aria-hidden /> {copy.cta}
       </button>
@@ -112,7 +150,9 @@ function LeadPage({ variant }: { variant: Variant }) {
           <div className="mt-8">
             <CheckList items={copy.points} />
           </div>
-          <p className="mt-10 text-sm text-ink-faint">Trusted by 47,000+ hotels in 150 countries.</p>
+          <p className="mt-10 text-sm text-ink-faint">
+            Trusted by 47,000+ hotels in 150 countries.
+          </p>
         </div>
         <LeadForm variant={variant} />
       </div>

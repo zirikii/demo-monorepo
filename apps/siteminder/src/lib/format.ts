@@ -1,7 +1,21 @@
 const currency = new Intl.NumberFormat("en-AU", { style: "currency", currency: "AUD" });
-const dayDate = new Intl.DateTimeFormat("en-AU", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
-const shortDate = new Intl.DateTimeFormat("en-AU", { weekday: "short", day: "numeric", month: "short" });
-const longDate = new Intl.DateTimeFormat("en-AU", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+const dayDate = new Intl.DateTimeFormat("en-AU", {
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+const shortDate = new Intl.DateTimeFormat("en-AU", {
+  weekday: "short",
+  day: "numeric",
+  month: "short",
+});
+const longDate = new Intl.DateTimeFormat("en-AU", {
+  weekday: "long",
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 const time = new Intl.DateTimeFormat("en-AU", { hour: "numeric", minute: "2-digit", hour12: true });
 const monthYear = new Intl.DateTimeFormat("en-AU", { month: "short", year: "numeric" });
 

@@ -30,30 +30,52 @@ export function HelpPage() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <PageTitle title="Help & support" body="Answers, fixes and a real person whenever you need one — 24/7, in 9 languages." />
+      <PageTitle
+        title="Help & support"
+        body="Answers, fixes and a real person whenever you need one — 24/7, in 9 languages."
+      />
 
       <section className="sm-night relative overflow-hidden rounded-panel p-8 text-white md:p-10">
         <div className="relative max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lime">SiteMinder Support</p>
-          <h2 className="mt-3 text-3xl font-bold text-white">Fix it in the chat, or just say it.</h2>
-          <p className="mt-2 text-white/75">Support already knows your property, channels, bookings and the events you&apos;ve traded, so you can skip the account questions.</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lime">
+            SiteMinder Support
+          </p>
+          <h2 className="mt-3 text-3xl font-bold text-white">
+            Fix it in the chat, or just say it.
+          </h2>
+          <p className="mt-2 text-white/75">
+            Support already knows your property, channels, bookings and the events you&apos;ve
+            traded, so you can skip the account questions.
+          </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <button type="button" className="btn-lime px-6 py-3" onClick={() => open()}>
               <MessageSquare className="size-4" aria-hidden /> Start a chat
             </button>
-            <button type="button" className="btn-ghost-white px-6 py-3" onClick={() => open({ mode: "voice" })}>
+            <button
+              type="button"
+              className="btn-ghost-white px-6 py-3"
+              onClick={() => open({ mode: "voice" })}
+            >
               <Mic className="size-4" aria-hidden /> Talk to Support
             </button>
           </div>
         </div>
-        <span className="pointer-events-none absolute -right-16 -top-16 hidden size-80 rounded-full border-[36px] border-royal-bright/25 md:block" aria-hidden />
+        <span
+          className="pointer-events-none absolute -right-16 -top-16 hidden size-80 rounded-full border-[36px] border-royal-bright/25 md:block"
+          aria-hidden
+        />
       </section>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
         <Panel title="What do you need help with?">
           <div className="grid gap-2 sm:grid-cols-2">
             {topics.map((t) => (
-              <button key={t.id} type="button" onClick={() => open({ step: t.entry, label: t.label })} className="flex items-start gap-3 rounded-xl border border-line-soft p-3 text-left hover:border-royal/30 hover:bg-royal-tint/40">
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => open({ step: t.entry, label: t.label })}
+                className="flex items-start gap-3 rounded-xl border border-line-soft p-3 text-left hover:border-royal/30 hover:bg-royal-tint/40"
+              >
                 <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-royal-tint text-royal">
                   <TopicIcon icon={t.icon} className="size-[18px]" />
                 </span>
@@ -64,11 +86,17 @@ export function HelpPage() {
               </button>
             ))}
           </div>
-          <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-ink-faint">Popular right now</p>
+          <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-ink-faint">
+            Popular right now
+          </p>
           <ul className="mt-2 flex flex-wrap gap-2">
             {popularQuestions.map((q) => (
               <li key={q.step}>
-                <button type="button" onClick={() => open({ step: q.step, label: q.label })} className="pill border border-line bg-white py-1.5 text-ink-soft hover:border-royal hover:text-royal">
+                <button
+                  type="button"
+                  onClick={() => open({ step: q.step, label: q.label })}
+                  className="pill border border-line bg-white py-1.5 text-ink-soft hover:border-royal hover:text-royal"
+                >
                   {q.label}
                 </button>
               </li>
@@ -77,11 +105,25 @@ export function HelpPage() {
         </Panel>
         <div className="space-y-6">
           <Panel title="Your support code">
-            <p className="text-sm text-ink-soft">Share this so our team can find your property without your password. Valid for 24 hours.</p>
+            <p className="text-sm text-ink-soft">
+              Share this so our team can find your property without your password. Valid for 24
+              hours.
+            </p>
             <div className="mt-3 flex items-center gap-2">
-              <code className="flex-1 rounded-xl bg-canvas px-4 py-3 font-mono text-lg font-semibold tracking-wider text-heading">{property.supportCode}</code>
-              <button type="button" onClick={copy} className="btn-outline" aria-label="Copy support code">
-                {copied ? <CheckCircle2 className="size-4 text-positive" aria-hidden /> : <Copy className="size-4" aria-hidden />}
+              <code className="flex-1 rounded-xl bg-canvas px-4 py-3 font-mono text-lg font-semibold tracking-wider text-heading">
+                {property.supportCode}
+              </code>
+              <button
+                type="button"
+                onClick={copy}
+                className="btn-outline"
+                aria-label="Copy support code"
+              >
+                {copied ? (
+                  <CheckCircle2 className="size-4 text-positive" aria-hidden />
+                ) : (
+                  <Copy className="size-4" aria-hidden />
+                )}
                 {copied ? "Copied" : "Copy"}
               </button>
             </div>

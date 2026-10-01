@@ -1,7 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { seedProperty } from "@/data/property";
 import { applyEffect } from "@/features/property/effects";
-import { categoryStats, comparables, eventsLine, forecast, insightLines, nextEvent, pastEvents, upcomingEvents } from "@/features/property/insights";
+import {
+  categoryStats,
+  comparables,
+  eventsLine,
+  forecast,
+  insightLines,
+  nextEvent,
+  pastEvents,
+  upcomingEvents,
+} from "@/features/property/insights";
 import { overdueDays, parityRows } from "@/features/property/views";
 import { toLocalIso } from "@/lib/clock";
 
@@ -11,12 +20,24 @@ const seed = () => seedProperty(now);
 describe("property effects", () => {
   it("fixes a mapping error and restarts the sync", () => {
     const next = applyEffect(seed(), "fix-mapping", { channelId: "exp" }, now);
-    expect(next.channels.find((c) => c.id === "exp")).toMatchObject({ status: "connected", issueRoom: undefined, lastSync: toLocalIso(now) });
+    expect(next.channels.find((c) => c.id === "exp")).toMatchObject({
+      status: "connected",
+      issueRoom: undefined,
+      lastSync: toLocalIso(now),
+    });
   });
 
   it("reconnects and resumes channels", () => {
-    expect(applyEffect(seed(), "reconnect-channel", { channelId: "abnb" }, now).channels.find((c) => c.id === "abnb")?.status).toBe("connected");
-    expect(applyEffect(seed(), "resume-channel", { channelId: "trip" }, now).channels.find((c) => c.id === "trip")?.status).toBe("connected");
+    expect(
+      applyEffect(seed(), "reconnect-channel", { channelId: "abnb" }, now).channels.find(
+        (c) => c.id === "abnb",
+      )?.status,
+    ).toBe("connected");
+    expect(
+      applyEffect(seed(), "resume-channel", { channelId: "trip" }, now).channels.find(
+        (c) => c.id === "trip",
+      )?.status,
+    ).toBe("connected");
   });
 
   it("closes out the overbooked room on the arrival date, once", () => {
@@ -27,41 +48,86 @@ describe("property effects", () => {
   });
 
   it("stores event pricing against the event and logs it", () => {
-    const next = applyEffect(seed(), "event-plan", { eventId: "evt-bledisloe", planUplift: "55", planMinStay: "2" }, now);
-    expect(next.events.find((e) => e.id === "evt-bledisloe")?.plan).toMatchObject({ upliftPct: 55, minStay: 2 });
-    expect(next.rateLog[0]?.summary).toBe("Event pricing for Wallabies v All Blacks — Bledisloe Cup: +55% on all rooms, 2-night minimum (Sophie Tran via Support)");
+    const next = applyEffect(
+      seed(),
+      "event-plan",
+      { eventId: "evt-bledisloe", planUplift: "55", planMinStay: "2" },
+      now,
+    );
+    expect(next.events.find((e) => e.id === "evt-bledisloe")?.plan).toMatchObject({
+      upliftPct: 55,
+      minStay: 2,
+    });
+    expect(next.rateLog[0]?.summary).toBe(
+      "Event pricing for Wallabies v All Blacks — Bledisloe Cup: +55% on all rooms, 2-night minimum (Sophie Tran via Support)",
+    );
   });
 
   it("pays, extends and splits invoices", () => {
     const state = seed();
     const id = state.invoices[0]!.id;
-    expect(applyEffect(state, "pay-invoice", { invoiceId: id }, now).invoices[0]?.status).toBe("paid");
+    expect(applyEffect(state, "pay-invoice", { invoiceId: id }, now).invoices[0]?.status).toBe(
+      "paid",
+    );
     const extended = applyEffect(state, "extension", { invoiceId: id }, now).invoices[0]!;
     expect(extended.status).toBe("extended");
-    expect(new Date(extended.due).getTime() - new Date(state.invoices[0]!.due).getTime()).toBe(14 * 86_400_000);
-    expect(applyEffect(state, "instalment", { invoiceId: id }, now).invoices[0]?.status).toBe("instalments");
+    expect(new Date(extended.due).getTime() - new Date(state.invoices[0]!.due).getTime()).toBe(
+      14 * 86_400_000,
+    );
+    expect(applyEffect(state, "instalment", { invoiceId: id }, now).invoices[0]?.status).toBe(
+      "instalments",
+    );
   });
 
   it("adds demand events from the assistant, ignoring bad dates", () => {
-    const values = { newEventName: "Fred again..", newEventDate: "2026-11-20", newEventVenue: "Allianz Stadium", newEventCategory: "concert", newEventCrowd: "42000" };
+    const values = {
+      newEventName: "Fred again..",
+      newEventDate: "2026-11-20",
+      newEventVenue: "Allianz Stadium",
+      newEventCategory: "concert",
+      newEventCrowd: "42000",
+    };
     const added = applyEffect(seed(), "add-event", values, now).events.at(-1)!;
-    expect(added).toMatchObject({ name: "Fred again..", category: "concert", attendance: 42_000, source: "manual", start: "2026-11-20T19:00:00" });
+    expect(added).toMatchObject({
+      name: "Fred again..",
+      category: "concert",
+      attendance: 42_000,
+      source: "manual",
+      start: "2026-11-20T19:00:00",
+    });
     const state = seed();
     expect(applyEffect(state, "add-event", { ...values, newEventDate: "soon" }, now)).toBe(state);
   });
 
   it("won't invite someone who already has access", () => {
     const state = seed();
-    expect(applyEffect(state, "add-user", { newUserEmail: "AVA.ROBINSON@harbourlane.com.au" }, now)).toBe(state);
-    expect(applyEffect(state, "add-user", { newUserName: "Alex Chen", newUserEmail: "alex@harbourlane.com.au", newUserRole: "Revenue" }, now).team.at(-1)).toMatchObject({
+    expect(
+      applyEffect(state, "add-user", { newUserEmail: "AVA.ROBINSON@harbourlane.com.au" }, now),
+    ).toBe(state);
+    expect(
+      applyEffect(
+        state,
+        "add-user",
+        {
+          newUserName: "Alex Chen",
+          newUserEmail: "alex@harbourlane.com.au",
+          newUserRole: "Revenue",
+        },
+        now,
+      ).team.at(-1),
+    ).toMatchObject({
       role: "Revenue",
       lastActive: "Invited",
     });
   });
 
   it("only switches to a real plan", () => {
-    expect(applyEffect(seed(), "change-plan", { newPlan: "groups" }, now).property.plan).toBe("groups");
-    expect(applyEffect(seed(), "change-plan", { newPlan: "platinum" }, now).property.plan).toBe("plus");
+    expect(applyEffect(seed(), "change-plan", { newPlan: "groups" }, now).property.plan).toBe(
+      "groups",
+    );
+    expect(applyEffect(seed(), "change-plan", { newPlan: "platinum" }, now).property.plan).toBe(
+      "plus",
+    );
   });
 });
 
@@ -77,7 +143,10 @@ describe("events store insights", () => {
   it("compares an event with the most similar past events", () => {
     const { events } = seed();
     const bledisloe = events.find((e) => e.id === "evt-bledisloe")!;
-    expect(comparables(bledisloe, events).map((e) => e.id)).toEqual(["evt-nrl-gf-2025", "evt-lions-2025"]);
+    expect(comparables(bledisloe, events).map((e) => e.id)).toEqual([
+      "evt-nrl-gf-2025",
+      "evt-lions-2025",
+    ]);
     const neon = events.find((e) => e.id === "evt-neon-harbour")!;
     expect(comparables(neon, events).every((e) => e.category === "concert")).toBe(true);
   });
@@ -85,10 +154,19 @@ describe("events store insights", () => {
   it("re-plans when the history changes", () => {
     const { events } = seed();
     const bledisloe = events.find((e) => e.id === "evt-bledisloe")!;
-    expect(forecast(bledisloe, events, now)).toMatchObject({ upliftPct: 55, minStay: 2, daysOut: 5 });
+    expect(forecast(bledisloe, events, now)).toMatchObject({
+      upliftPct: 55,
+      minStay: 2,
+      daysOut: 5,
+    });
     const withoutGrandFinal = events.filter((e) => e.id !== "evt-nrl-gf-2025");
-    expect(forecast(bledisloe, withoutGrandFinal, now)).toMatchObject({ upliftPct: 60, minStay: 2 });
-    expect(forecast(bledisloe, upcomingEvents(events, now), now).advice).toContain("no comparable event");
+    expect(forecast(bledisloe, withoutGrandFinal, now)).toMatchObject({
+      upliftPct: 60,
+      minStay: 2,
+    });
+    expect(forecast(bledisloe, upcomingEvents(events, now), now).advice).toContain(
+      "no comparable event",
+    );
   });
 
   it("turns the history into lessons, including pricing too late", () => {
@@ -96,13 +174,19 @@ describe("events store insights", () => {
     const lines = insightLines(events);
     expect(lines[0]).toMatch(/^Holiday events sell out about 64 days out/);
     expect(lines[1]).toContain("Taylor Swift | The Eras Tour rates went up too late");
-    expect(categoryStats(events).find((s) => s.category === "concert")).toMatchObject({ count: 3, occupancy: 98 });
+    expect(categoryStats(events).find((s) => s.category === "concert")).toMatchObject({
+      count: 3,
+      occupancy: 98,
+    });
   });
 });
 
 describe("account views", () => {
   it("counts days overdue only for unpaid invoices", () => {
-    const invoice = { ...seed().invoices[0]!, due: toLocalIso(new Date(now.getTime() - 20 * 86_400_000)) };
+    const invoice = {
+      ...seed().invoices[0]!,
+      due: toLocalIso(new Date(now.getTime() - 20 * 86_400_000)),
+    };
     expect(overdueDays(invoice, now)).toBe(20);
     expect(overdueDays({ ...invoice, status: "paid" }, now)).toBe(0);
   });

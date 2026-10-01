@@ -26,8 +26,13 @@ function PlatformMenu() {
           <ul className="mt-3 space-y-1">
             {PRODUCTS.filter((p) => p.group === group).map((p) => (
               <li key={p.slug}>
-                <Link to={`/platform/${p.slug}`} className="group block rounded-xl px-3 py-2 hover:bg-canvas">
-                  <span className="block text-sm font-semibold text-heading group-hover:text-royal">{p.name}</span>
+                <Link
+                  to={`/platform/${p.slug}`}
+                  className="group block rounded-xl px-3 py-2 hover:bg-canvas"
+                >
+                  <span className="block text-sm font-semibold text-heading group-hover:text-royal">
+                    {p.name}
+                  </span>
                   <span className="block text-xs text-ink-faint">{p.tagline}</span>
                 </Link>
               </li>
@@ -35,11 +40,16 @@ function PlatformMenu() {
           </ul>
         </div>
       ))}
-      <Link to="/platform" className="sm-night flex flex-col justify-between rounded-card p-5 text-white">
+      <Link
+        to="/platform"
+        className="sm-night flex flex-col justify-between rounded-card p-5 text-white"
+      >
         <span className="pill w-fit bg-lime text-stratos">New</span>
         <span>
           <span className="block text-lg font-bold leading-tight">The Revenue Control Centre</span>
-          <span className="mt-1 block text-sm text-white/70">Navigate decisively. Act effortlessly. Operate confidently.</span>
+          <span className="mt-1 block text-sm text-white/70">
+            Navigate decisively. Act effortlessly. Operate confidently.
+          </span>
           <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-lime">
             Explore the platform <ArrowRight className="size-4" aria-hidden />
           </span>
@@ -53,8 +63,14 @@ function SolutionsMenu() {
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
       {SOLUTIONS.map((s) => (
-        <Link key={s.slug} to={`/solutions/${s.slug}`} className="group rounded-card border border-line-soft p-4 hover:border-royal/30 hover:bg-royal-tint/40">
-          <span className="block text-sm font-semibold text-heading group-hover:text-royal">{s.name}</span>
+        <Link
+          key={s.slug}
+          to={`/solutions/${s.slug}`}
+          className="group rounded-card border border-line-soft p-4 hover:border-royal/30 hover:bg-royal-tint/40"
+        >
+          <span className="block text-sm font-semibold text-heading group-hover:text-royal">
+            {s.name}
+          </span>
           <span className="mt-1 block text-xs text-ink-faint">{s.headline}</span>
         </Link>
       ))}
@@ -74,7 +90,10 @@ function ResourcesMenu() {
           ["Contact us", "/contact"],
         ].map(([label, to]) => (
           <li key={to}>
-            <Link to={to!} className="block rounded-xl px-3 py-2 text-heading hover:bg-canvas hover:text-royal">
+            <Link
+              to={to!}
+              className="block rounded-xl px-3 py-2 text-heading hover:bg-canvas hover:text-royal"
+            >
               {label}
             </Link>
           </li>
@@ -83,9 +102,18 @@ function ResourcesMenu() {
       <div className="grid gap-4 sm:grid-cols-3">
         {RESOURCES.slice(0, 3).map((r) => (
           <Link key={r.slug} to={`/resources/${r.slug}`} className="group">
-            <img src={asset(`brand/${r.image}`)} alt="" className="aspect-video w-full rounded-xl object-cover" loading="lazy" />
-            <span className="mt-2 block text-xs font-semibold uppercase tracking-wide text-royal">{r.kind}</span>
-            <span className="block text-sm font-semibold text-heading group-hover:underline">{r.title}</span>
+            <img
+              src={asset(`brand/${r.image}`)}
+              alt=""
+              className="aspect-video w-full rounded-xl object-cover"
+              loading="lazy"
+            />
+            <span className="mt-2 block text-xs font-semibold uppercase tracking-wide text-royal">
+              {r.kind}
+            </span>
+            <span className="block text-sm font-semibold text-heading group-hover:underline">
+              {r.title}
+            </span>
           </Link>
         ))}
       </div>
@@ -93,7 +121,11 @@ function ResourcesMenu() {
   );
 }
 
-const MENU_BODY: Record<MenuId, () => React.JSX.Element> = { platform: PlatformMenu, solutions: SolutionsMenu, resources: ResourcesMenu };
+const MENU_BODY: Record<MenuId, () => React.JSX.Element> = {
+  platform: PlatformMenu,
+  solutions: SolutionsMenu,
+  resources: ResourcesMenu,
+};
 
 export function SiteHeader() {
   const { user } = useAuth();
@@ -126,7 +158,10 @@ export function SiteHeader() {
   const Body = menu ? MENU_BODY[menu] : null;
 
   return (
-    <header ref={ref} className="sticky top-0 z-40 border-b border-line-soft bg-white/95 backdrop-blur">
+    <header
+      ref={ref}
+      className="sticky top-0 z-40 border-b border-line-soft bg-white/95 backdrop-blur"
+    >
       <div className="container-sm flex h-[72px] items-center gap-6">
         <Link to="/" aria-label="SiteMinder home" className="shrink-0">
           <Logo className="h-[22px]" />
@@ -144,19 +179,31 @@ export function SiteHeader() {
               )}
             >
               {m.label}
-              <ChevronDown className={cn("size-4 transition-transform", menu === m.id && "rotate-180")} aria-hidden />
+              <ChevronDown
+                className={cn("size-4 transition-transform", menu === m.id && "rotate-180")}
+                aria-hidden
+              />
             </button>
           ))}
-          <Link to="/integrations" className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas">
+          <Link
+            to="/integrations"
+            className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas"
+          >
             Partners
           </Link>
-          <Link to="/pricing" className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas">
+          <Link
+            to="/pricing"
+            className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas"
+          >
             Pricing
           </Link>
         </nav>
         <div className="ml-auto hidden items-center gap-2 lg:flex">
           <DemoRibbon label="Unofficial demo" className="border-line text-ink-faint" />
-          <Link to={user ? "/app" : "/login"} className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas">
+          <Link
+            to={user ? "/app" : "/login"}
+            className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas"
+          >
             {user ? "Go to platform" : "Login"}
           </Link>
           <Link to="/demo" className="btn-outline">
@@ -166,7 +213,12 @@ export function SiteHeader() {
             Try for free
           </Link>
         </div>
-        <button type="button" className="ml-auto grid size-10 place-items-center rounded-full hover:bg-canvas lg:hidden" aria-label={mobile ? "Close menu" : "Open menu"} onClick={() => setMobile((v) => !v)}>
+        <button
+          type="button"
+          className="ml-auto grid size-10 place-items-center rounded-full hover:bg-canvas lg:hidden"
+          aria-label={mobile ? "Close menu" : "Open menu"}
+          onClick={() => setMobile((v) => !v)}
+        >
           {mobile ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
         </button>
       </div>
@@ -188,7 +240,11 @@ export function SiteHeader() {
               ["Pricing", "/pricing"],
               [user ? "Go to platform" : "Login", user ? "/app" : "/login"],
             ].map(([label, to]) => (
-              <Link key={to} to={to!} className="block rounded-xl px-3 py-2.5 font-semibold text-heading hover:bg-canvas">
+              <Link
+                key={to}
+                to={to!}
+                className="block rounded-xl px-3 py-2.5 font-semibold text-heading hover:bg-canvas"
+              >
                 {label}
               </Link>
             ))}

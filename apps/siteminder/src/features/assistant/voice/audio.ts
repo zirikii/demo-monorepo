@@ -42,7 +42,12 @@ export async function startMicrophone(
   onLevel: (level: number) => void,
 ): Promise<MicStream> {
   const media = await navigator.mediaDevices.getUserMedia({
-    audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 },
+    audio: {
+      echoCancellation: true,
+      noiseSuppression: true,
+      autoGainControl: true,
+      channelCount: 1,
+    },
   });
   const url = URL.createObjectURL(new Blob([WORKLET_SOURCE], { type: "application/javascript" }));
   await ctx.audioWorklet.addModule(url);
@@ -148,7 +153,9 @@ export function createPlayer(onLevel: (level: number) => void): PcmPlayer {
     },
     isPlaying: () => sources.size > 0,
     whenIdle: () =>
-      sources.size === 0 ? Promise.resolve() : new Promise<void>((resolve) => idleWaiters.push(resolve)),
+      sources.size === 0
+        ? Promise.resolve()
+        : new Promise<void>((resolve) => idleWaiters.push(resolve)),
     close() {
       cancelAnimationFrame(raf);
       this.interrupt();

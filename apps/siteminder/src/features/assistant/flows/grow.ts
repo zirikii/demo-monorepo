@@ -44,10 +44,21 @@ export const growNodes: FlowNode[] = [
       link: { label: "See Dynamic Revenue Plus", to: "/platform/dynamic-revenue-plus" },
     },
     options: [
-      { label: "Book a callback", next: "grow.callback", set: { growthInterest: "Dynamic Revenue Plus" } },
+      {
+        label: "Book a callback",
+        next: "grow.callback",
+        set: { growthInterest: "Dynamic Revenue Plus" },
+      },
       { label: "Something else", next: "grow" },
     ],
-    keywords: ["dynamic revenue plus", "revenue management", "rms", "ideas", "dynamic pricing", "automated pricing"],
+    keywords: [
+      "dynamic revenue plus",
+      "revenue management",
+      "rms",
+      "ideas",
+      "dynamic pricing",
+      "automated pricing",
+    ],
   },
   {
     id: "grow.website",
@@ -57,13 +68,28 @@ export const growNodes: FlowNode[] = [
     card: {
       kind: "steps",
       title: "Grow direct bookings",
-      steps: ["Rebuild your site with Website Builder for mobile speed", "Offer a member-only rate a little under the OTAs", "Turn on Demand Plus to win metasearch clicks", "Add breakfast or late check-out as direct-only perks"],
+      steps: [
+        "Rebuild your site with Website Builder for mobile speed",
+        "Offer a member-only rate a little under the OTAs",
+        "Turn on Demand Plus to win metasearch clicks",
+        "Add breakfast or late check-out as direct-only perks",
+      ],
     },
     options: [
-      { label: "Book a callback", next: "grow.callback", set: { growthInterest: "Website Builder" } },
+      {
+        label: "Book a callback",
+        next: "grow.callback",
+        set: { growthInterest: "Website Builder" },
+      },
       { label: "Something else", next: "grow" },
     ],
-    keywords: ["website builder", "direct bookings", "booking engine", "website", "commission free"],
+    keywords: [
+      "website builder",
+      "direct bookings",
+      "booking engine",
+      "website",
+      "commission free",
+    ],
   },
   {
     id: "grow.upsell",
@@ -77,7 +103,11 @@ export const growNodes: FlowNode[] = [
       link: { label: "See Guest Engagement", to: "/platform/guest-engagement" },
     },
     options: [
-      { label: "Book a callback", next: "grow.callback", set: { growthInterest: "Guest Engagement" } },
+      {
+        label: "Book a callback",
+        next: "grow.callback",
+        set: { growthInterest: "Guest Engagement" },
+      },
       { label: "Something else", next: "grow" },
     ],
     keywords: ["upsell", "upgrades", "ancillary", "guest engagement", "pre arrival"],
@@ -96,7 +126,11 @@ export const growNodes: FlowNode[] = [
     topic: "grow",
     title: "Callback booked",
     say: "Booked. A growth specialist will call you on {callbackPhone} {callbackTime} about {growthProduct}. Your reference is {requestRef}.",
-    card: { kind: "success", title: "Callback booked", detail: "{growthProduct} · {callbackTime} · {callbackPhone}" },
+    card: {
+      kind: "success",
+      title: "Callback booked",
+      detail: "{growthProduct} · {callbackTime} · {callbackPhone}",
+    },
     options: [{ label: "That's all, thanks", next: "resolved" }],
   },
 ];

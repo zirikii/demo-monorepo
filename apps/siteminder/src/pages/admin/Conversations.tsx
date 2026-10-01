@@ -15,19 +15,32 @@ const OUTCOME_TONE: Record<ConversationRecord["outcome"], string> = {
   open: "bg-line-soft text-ink-soft",
 };
 
-const OUTCOME_LABEL: Record<ConversationRecord["outcome"], string> = { resolved: "Resolved", handoff: "Handed off", open: "Open" };
+const OUTCOME_LABEL: Record<ConversationRecord["outcome"], string> = {
+  resolved: "Resolved",
+  handoff: "Handed off",
+  open: "Open",
+};
 
 function percent(part: number, total: number): string {
   return total ? `${Math.round((part / total) * 100)}%` : "–";
 }
 
 function OutcomePill({ outcome }: { outcome: ConversationRecord["outcome"] }) {
-  return <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", OUTCOME_TONE[outcome])}>{OUTCOME_LABEL[outcome]}</span>;
+  return (
+    <span className={cn("rounded-full px-2 py-0.5 text-xs font-semibold", OUTCOME_TONE[outcome])}>
+      {OUTCOME_LABEL[outcome]}
+    </span>
+  );
 }
 
 function ConversationTable({ records }: { records: ConversationRecord[] }) {
   const { config } = useStudio();
-  if (records.length === 0) return <p className="py-6 text-center text-sm text-ink-soft">No conversations yet. Open SiteMinder Support on the site to create one.</p>;
+  if (records.length === 0)
+    return (
+      <p className="py-6 text-center text-sm text-ink-soft">
+        No conversations yet. Open SiteMinder Support on the site to create one.
+      </p>
+    );
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-sm">
@@ -56,17 +69,29 @@ function ConversationTable({ records }: { records: ConversationRecord[] }) {
               </td>
               <td className="py-2.5 pr-3">
                 <span className="inline-flex items-center gap-1">
-                  {r.channel === "voice" ? <Mic className="size-3.5" aria-hidden /> : <MessageCircle className="size-3.5" aria-hidden />}
+                  {r.channel === "voice" ? (
+                    <Mic className="size-3.5" aria-hidden />
+                  ) : (
+                    <MessageCircle className="size-3.5" aria-hidden />
+                  )}
                   {r.channel === "voice" ? "Voice" : "Chat"}
-                  <span className="text-xs text-ink-faint">· {r.engine === "grok" ? "Grok" : "Guided"}</span>
+                  <span className="text-xs text-ink-faint">
+                    · {r.engine === "grok" ? "Grok" : "Guided"}
+                  </span>
                 </span>
               </td>
-              <td className="py-2.5 pr-3 text-ink-soft">{r.topics.map((t) => findTopic(t)?.label ?? t).join(", ") || "–"}</td>
+              <td className="py-2.5 pr-3 text-ink-soft">
+                {r.topics.map((t) => findTopic(t)?.label ?? t).join(", ") || "–"}
+              </td>
               <td className="py-2.5 pr-3">
                 <OutcomePill outcome={r.outcome} />
               </td>
-              <td className="py-2.5 pr-3 text-ink-soft">{r.queue ? `${queueName(config, r.queue)} · ${r.priority}` : "–"}</td>
-              <td className="py-2.5 whitespace-nowrap text-ink-soft">{formatDateTime(r.startedAt)}</td>
+              <td className="py-2.5 pr-3 text-ink-soft">
+                {r.queue ? `${queueName(config, r.queue)} · ${r.priority}` : "–"}
+              </td>
+              <td className="py-2.5 whitespace-nowrap text-ink-soft">
+                {formatDateTime(r.startedAt)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -96,7 +121,10 @@ export function StudioOverviewPage() {
   ];
 
   return (
-    <AdminPage title="Support Studio" description="How SiteMinder Support is performing, where handoffs land, and what hoteliers are asking about. Every conversation on the site is logged here.">
+    <AdminPage
+      title="Support Studio"
+      description="How SiteMinder Support is performing, where handoffs land, and what hoteliers are asking about. Every conversation on the site is logged here."
+    >
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
           <Card key={s.label}>
@@ -106,7 +134,14 @@ export function StudioOverviewPage() {
         ))}
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card title="Handoffs by queue" action={<Link to="/admin/routing" className="link text-sm">Edit routing</Link>}>
+        <Card
+          title="Handoffs by queue"
+          action={
+            <Link to="/admin/routing" className="link text-sm">
+              Edit routing
+            </Link>
+          }
+        >
           <ul className="space-y-2">
             {Object.entries(config.queues).map(([id, q]) => {
               const count = byQueue.get(id as QueueId) ?? 0;
@@ -133,7 +168,10 @@ export function StudioOverviewPage() {
                     <span className="font-bold">{n}</span>
                   </div>
                   <div className="h-2 rounded-full bg-canvas">
-                    <div className="sm-gradient h-2 rounded-full" style={{ width: `${(n / maxTopic) * 100}%` }} />
+                    <div
+                      className="sm-gradient h-2 rounded-full"
+                      style={{ width: `${(n / maxTopic) * 100}%` }}
+                    />
                   </div>
                 </li>
               ))}
@@ -141,7 +179,14 @@ export function StudioOverviewPage() {
           )}
         </Card>
       </div>
-      <Card title="Recent conversations" action={<Link to="/admin/conversations" className="link text-sm">View all</Link>}>
+      <Card
+        title="Recent conversations"
+        action={
+          <Link to="/admin/conversations" className="link text-sm">
+            View all
+          </Link>
+        }
+      >
         <ConversationTable records={log.slice(0, 6)} />
       </Card>
     </AdminPage>
@@ -156,7 +201,12 @@ export function ConversationsPage() {
       title="Conversations"
       description="Chat and voice sessions from the site, with the routing decision behind every handoff."
       action={
-        <button type="button" onClick={clearLog} className="btn-outline" disabled={log.length === 0}>
+        <button
+          type="button"
+          onClick={clearLog}
+          className="btn-outline"
+          disabled={log.length === 0}
+        >
           <Trash2 className="size-4" aria-hidden /> Clear log
         </button>
       }
@@ -175,7 +225,10 @@ export function ConversationDetailPage() {
   useDocumentTitle(record ? `${record.ref} · Support Studio` : "Conversation");
   if (!record) {
     return (
-      <AdminPage title="Conversation not found" description="It may have been cleared from the log.">
+      <AdminPage
+        title="Conversation not found"
+        description="It may have been cleared from the log."
+      >
         <Link to="/admin/conversations" className="link">
           Back to conversations
         </Link>
@@ -183,17 +236,40 @@ export function ConversationDetailPage() {
     );
   }
   return (
-    <AdminPage title={record.ref} description={`${record.contactName} · ${record.propertyName} · ${record.channel === "voice" ? "Voice" : "Chat"} · ${formatDateTime(record.startedAt)}`} action={<OutcomePill outcome={record.outcome} />}>
+    <AdminPage
+      title={record.ref}
+      description={`${record.contactName} · ${record.propertyName} · ${record.channel === "voice" ? "Voice" : "Chat"} · ${formatDateTime(record.startedAt)}`}
+      action={<OutcomePill outcome={record.outcome} />}
+    >
       <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
         <Card title="Transcript">
           <ol className="space-y-3">
             {record.transcript.map((line, i) => (
-              <li key={i} className={cn("flex", line.role === "hotelier" ? "justify-end" : line.role === "system" ? "justify-center" : "justify-start")}>
+              <li
+                key={i}
+                className={cn(
+                  "flex",
+                  line.role === "hotelier"
+                    ? "justify-end"
+                    : line.role === "system"
+                      ? "justify-center"
+                      : "justify-start",
+                )}
+              >
                 {line.role === "system" ? (
-                  <span className="rounded-full bg-canvas px-3 py-1 text-xs text-ink-soft">{line.text}</span>
+                  <span className="rounded-full bg-canvas px-3 py-1 text-xs text-ink-soft">
+                    {line.text}
+                  </span>
                 ) : (
-                  <span className={cn("max-w-[80%] rounded-[20px] px-4 py-2 text-sm", line.role === "hotelier" ? "bg-royal text-white" : "bg-canvas text-ink")}>
-                    {line.role === "assistant" && <Bot className="mr-1 inline size-3.5 text-royal" aria-hidden />}
+                  <span
+                    className={cn(
+                      "max-w-[80%] rounded-[20px] px-4 py-2 text-sm",
+                      line.role === "hotelier" ? "bg-royal text-white" : "bg-canvas text-ink",
+                    )}
+                  >
+                    {line.role === "assistant" && (
+                      <Bot className="mr-1 inline size-3.5 text-royal" aria-hidden />
+                    )}
                     {line.text}
                   </span>
                 )}
@@ -225,13 +301,17 @@ export function ConversationDetailPage() {
           <Card title="Flow path">
             <ol className="flex flex-wrap gap-1.5 text-xs">
               {record.trail.map((s, i) => (
-                <li key={`${s}-${i}`} className="rounded-full bg-royal-tint px-2 py-0.5 font-mono text-royal">
+                <li
+                  key={`${s}-${i}`}
+                  className="rounded-full bg-royal-tint px-2 py-0.5 font-mono text-royal"
+                >
                   {s}
                 </li>
               ))}
             </ol>
             <p className="mt-3 text-xs text-ink-faint">
-              {record.turns} hotelier turns · {record.engine === "grok" ? "Grok" : "Guided flow"} · {record.signedIn ? "Signed in" : "Guest"}
+              {record.turns} hotelier turns · {record.engine === "grok" ? "Grok" : "Guided flow"} ·{" "}
+              {record.signedIn ? "Signed in" : "Guest"}
             </p>
           </Card>
         </div>

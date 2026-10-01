@@ -42,7 +42,10 @@ export function Composer({
         placeholder={placeholder}
         autoComplete="off"
         autoFocus={autoFocus}
-        className={cn("h-9 min-w-0 flex-1 bg-transparent text-sm focus:outline-none", dark ? "text-white placeholder:text-white/55" : "text-ink placeholder:text-ink-faint")}
+        className={cn(
+          "h-9 min-w-0 flex-1 bg-transparent text-sm focus:outline-none",
+          dark ? "text-white placeholder:text-white/55" : "text-ink placeholder:text-ink-faint",
+        )}
       />
       {onVoice && (
         <button
@@ -61,7 +64,13 @@ export function Composer({
         disabled={!ready}
         className={cn(
           "inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-colors",
-          ready ? (dark ? "bg-lime text-stratos" : "bg-royal text-white hover:bg-royal-hover") : dark ? "bg-white/10 text-white/40" : "bg-line-soft text-ink-faint",
+          ready
+            ? dark
+              ? "bg-lime text-stratos"
+              : "bg-royal text-white hover:bg-royal-hover"
+            : dark
+              ? "bg-white/10 text-white/40"
+              : "bg-line-soft text-ink-faint",
         )}
       >
         <ArrowUp className="size-5" aria-hidden />

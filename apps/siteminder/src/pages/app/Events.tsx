@@ -1,6 +1,13 @@
 import { Lightbulb, MapPin, Plus, Trash2, Users } from "lucide-react";
 import { useState, type FormEvent } from "react";
-import { categoryStats, forecast, insightLines, PACE_LABELS, pastEvents, upcomingEvents } from "@/features/property/insights";
+import {
+  categoryStats,
+  forecast,
+  insightLines,
+  PACE_LABELS,
+  pastEvents,
+  upcomingEvents,
+} from "@/features/property/insights";
 import { useProperty } from "@/features/property/PropertyProvider";
 import type { EventCategory } from "@/features/property/types";
 import { daysUntil, EVENT_CATEGORY_LABELS, relativeDays } from "@/features/property/views";
@@ -36,18 +43,39 @@ function AddEventForm({ onDone }: { onDone: () => void }) {
   };
 
   return (
-    <form onSubmit={submit} className="grid animate-fade-in gap-3 rounded-xl border border-line-soft bg-canvas p-4 sm:grid-cols-2 lg:grid-cols-5" aria-label="Add an event">
+    <form
+      onSubmit={submit}
+      className="grid animate-fade-in gap-3 rounded-xl border border-line-soft bg-canvas p-4 sm:grid-cols-2 lg:grid-cols-5"
+      aria-label="Add an event"
+    >
       <label className="text-xs font-semibold text-heading lg:col-span-2">
         Event name
-        <input className="field mt-1" value={name} onChange={(e) => setName(e.target.value)} required placeholder="e.g. Fred again.. at Allianz Stadium" />
+        <input
+          className="field mt-1"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          placeholder="e.g. Fred again.. at Allianz Stadium"
+        />
       </label>
       <label className="text-xs font-semibold text-heading">
         Date
-        <input className="field mt-1" type="date" value={date} min={toLocalIso(new Date()).slice(0, 10)} onChange={(e) => setDate(e.target.value)} required />
+        <input
+          className="field mt-1"
+          type="date"
+          value={date}
+          min={toLocalIso(new Date()).slice(0, 10)}
+          onChange={(e) => setDate(e.target.value)}
+          required
+        />
       </label>
       <label className="text-xs font-semibold text-heading">
         Category
-        <select className="field mt-1" value={category} onChange={(e) => setCategory(e.target.value as EventCategory)}>
+        <select
+          className="field mt-1"
+          value={category}
+          onChange={(e) => setCategory(e.target.value as EventCategory)}
+        >
           {CATEGORIES.map((c) => (
             <option key={c} value={c}>
               {EVENT_CATEGORY_LABELS[c]}
@@ -57,11 +85,21 @@ function AddEventForm({ onDone }: { onDone: () => void }) {
       </label>
       <label className="text-xs font-semibold text-heading">
         Expected crowd
-        <input className="field mt-1" inputMode="numeric" value={crowd} onChange={(e) => setCrowd(e.target.value.replace(/\D/g, ""))} />
+        <input
+          className="field mt-1"
+          inputMode="numeric"
+          value={crowd}
+          onChange={(e) => setCrowd(e.target.value.replace(/\D/g, ""))}
+        />
       </label>
       <label className="text-xs font-semibold text-heading sm:col-span-2 lg:col-span-3">
         Venue
-        <input className="field mt-1" value={venue} onChange={(e) => setVenue(e.target.value)} placeholder="Venue" />
+        <input
+          className="field mt-1"
+          value={venue}
+          onChange={(e) => setVenue(e.target.value)}
+          placeholder="Venue"
+        />
       </label>
       <div className="flex items-end gap-2 sm:col-span-2">
         <button type="submit" className="btn-primary flex-1">
@@ -90,7 +128,12 @@ export function EventsPage() {
         title="Demand events"
         body="The concerts, games and conferences that move your demand — and what happened last time. SiteMinder Support uses this history to plan your pricing."
         actions={
-          <button type="button" className="btn-primary" onClick={() => setAdding((v) => !v)} aria-expanded={adding}>
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={() => setAdding((v) => !v)}
+            aria-expanded={adding}
+          >
             <Plus className="size-4" aria-hidden /> Add event
           </button>
         }
@@ -111,7 +154,17 @@ export function EventsPage() {
                 <div>
                   <div className="flex flex-wrap gap-1.5">
                     <Badge tone="info">{EVENT_CATEGORY_LABELS[e.category]}</Badge>
-                    <Badge tone={f.pace === "behind" ? "critical" : f.pace === "ahead" ? "positive" : "neutral"}>{PACE_LABELS[f.pace]}</Badge>
+                    <Badge
+                      tone={
+                        f.pace === "behind"
+                          ? "critical"
+                          : f.pace === "ahead"
+                            ? "positive"
+                            : "neutral"
+                      }
+                    >
+                      {PACE_LABELS[f.pace]}
+                    </Badge>
                     {e.plan && <Badge tone="positive">Pricing applied</Badge>}
                     {e.source === "manual" && <Badge tone="neutral">Added by you</Badge>}
                   </div>
@@ -124,12 +177,18 @@ export function EventsPage() {
                       <MapPin className="size-3.5" aria-hidden /> {e.venue}
                     </span>
                     <span className="inline-flex items-center gap-1">
-                      <Users className="size-3.5" aria-hidden /> {e.attendance.toLocaleString("en-AU")}
+                      <Users className="size-3.5" aria-hidden />{" "}
+                      {e.attendance.toLocaleString("en-AU")}
                     </span>
                   </p>
                 </div>
                 {e.source === "manual" && (
-                  <button type="button" onClick={() => removeEvent(e.id)} className="grid size-8 shrink-0 place-items-center rounded-full text-ink-faint hover:bg-critical-bg hover:text-critical" aria-label={`Remove ${e.name}`}>
+                  <button
+                    type="button"
+                    onClick={() => removeEvent(e.id)}
+                    className="grid size-8 shrink-0 place-items-center rounded-full text-ink-faint hover:bg-critical-bg hover:text-critical"
+                    aria-label={`Remove ${e.name}`}
+                  >
                     <Trash2 className="size-4" aria-hidden />
                   </button>
                 )}
@@ -140,15 +199,34 @@ export function EventsPage() {
                   <span>Expected {f.expectedOccupancy}%</span>
                 </div>
                 <div className="relative mt-1 h-2 rounded-full bg-canvas">
-                  <span className="absolute inset-y-0 left-0 rounded-full bg-royal" style={{ width: `${e.onBooksPct ?? 0}%` }} />
-                  <span className="absolute -top-1 h-4 w-0.5 bg-heading" style={{ left: `${f.expectedOccupancy}%` }} aria-hidden />
+                  <span
+                    className="absolute inset-y-0 left-0 rounded-full bg-royal"
+                    style={{ width: `${e.onBooksPct ?? 0}%` }}
+                  />
+                  <span
+                    className="absolute -top-1 h-4 w-0.5 bg-heading"
+                    style={{ left: `${f.expectedOccupancy}%` }}
+                    aria-hidden
+                  />
                 </div>
-                <p className="mt-1 text-sm font-semibold text-heading">{e.onBooksPct ?? 0}% booked</p>
+                <p className="mt-1 text-sm font-semibold text-heading">
+                  {e.onBooksPct ?? 0}% booked
+                </p>
               </div>
               <p className="mt-3 text-sm text-ink-soft">
-                {e.plan ? `Running +${e.plan.upliftPct}% with a ${e.plan.minStay}-night minimum.` : `Suggested: +${f.upliftPct}% with a ${f.minStay}-night minimum.`} {f.advice}
+                {e.plan
+                  ? `Running +${e.plan.upliftPct}% with a ${e.plan.minStay}-night minimum.`
+                  : `Suggested: +${f.upliftPct}% with a ${f.minStay}-night minimum.`}{" "}
+                {f.advice}
               </p>
-              {f.comparables.length > 0 && <p className="mt-2 text-xs text-ink-faint">Compared with {f.comparables.map((c) => `${c.name} (${formatMonthYear(c.start)})`).join(" and ")}</p>}
+              {f.comparables.length > 0 && (
+                <p className="mt-2 text-xs text-ink-faint">
+                  Compared with{" "}
+                  {f.comparables
+                    .map((c) => `${c.name} (${formatMonthYear(c.start)})`)
+                    .join(" and ")}
+                </p>
+              )}
               <div className="mt-auto pt-4">
                 <AskSupport step="events" recordId={e.id} label={`Plan for ${e.name}`}>
                   {e.plan ? "Review plan with Support" : "Plan pricing with Support"}
@@ -160,7 +238,10 @@ export function EventsPage() {
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.6fr_1fr]">
-        <Panel title="Past events" action={<span className="text-sm text-ink-faint">{past.length} in your history</span>}>
+        <Panel
+          title="Past events"
+          action={<span className="text-sm text-ink-faint">{past.length} in your history</span>}
+        >
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="text-xs uppercase tracking-wide text-ink-faint">
@@ -181,12 +262,22 @@ export function EventsPage() {
                       <span className="text-xs text-ink-faint">
                         {EVENT_CATEGORY_LABELS[e.category]} · {formatMonthYear(e.start)}
                       </span>
-                      {e.outcome && <span className="mt-1 block text-xs text-ink-soft">{e.outcome.note}</span>}
+                      {e.outcome && (
+                        <span className="mt-1 block text-xs text-ink-soft">{e.outcome.note}</span>
+                      )}
                     </td>
-                    <td className="py-3 pr-3 text-right tabular-nums">{e.outcome?.occupancyPct}%</td>
-                    <td className="py-3 pr-3 text-right tabular-nums">{formatCurrency(e.outcome?.adr ?? 0)}</td>
-                    <td className="py-3 pr-3 text-right tabular-nums text-positive">+{e.outcome?.adrUpliftPct}%</td>
-                    <td className="py-3 pr-3 text-right tabular-nums">{e.outcome?.soldOutDaysBefore ? `${e.outcome.soldOutDaysBefore}d out` : "—"}</td>
+                    <td className="py-3 pr-3 text-right tabular-nums">
+                      {e.outcome?.occupancyPct}%
+                    </td>
+                    <td className="py-3 pr-3 text-right tabular-nums">
+                      {formatCurrency(e.outcome?.adr ?? 0)}
+                    </td>
+                    <td className="py-3 pr-3 text-right tabular-nums text-positive">
+                      +{e.outcome?.adrUpliftPct}%
+                    </td>
+                    <td className="py-3 pr-3 text-right tabular-nums">
+                      {e.outcome?.soldOutDaysBefore ? `${e.outcome.soldOutDaysBefore}d out` : "—"}
+                    </td>
                     <td className="py-3 text-right">
                       <AskSupport step="events.history" recordId={e.id} label={`Review ${e.name}`}>
                         Review
@@ -208,7 +299,11 @@ export function EventsPage() {
                 </li>
               ))}
             </ul>
-            <AskSupport step="events.insights" label="What have past events taught us?" className="mt-4">
+            <AskSupport
+              step="events.insights"
+              label="What have past events taught us?"
+              className="mt-4"
+            >
               Talk it through with Support
             </AskSupport>
           </Panel>
@@ -217,7 +312,8 @@ export function EventsPage() {
               {stats.map((s) => (
                 <li key={s.category} className="flex items-center justify-between">
                   <span className="text-heading">
-                    {EVENT_CATEGORY_LABELS[s.category]} <span className="text-ink-faint">· {s.count}</span>
+                    {EVENT_CATEGORY_LABELS[s.category]}{" "}
+                    <span className="text-ink-faint">· {s.count}</span>
                   </span>
                   <span className="tabular-nums text-ink-soft">
                     {s.occupancy}% · <span className="text-positive">+{s.uplift}%</span>

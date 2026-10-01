@@ -25,16 +25,30 @@ export function LoginPage() {
   return (
     <div className="grid min-h-[calc(100vh-72px)] lg:grid-cols-2">
       <div className="flex items-center justify-center px-5 py-16">
-        <form onSubmit={submit} className="w-full max-w-sm animate-fade-up" aria-labelledby="login-title">
+        <form
+          onSubmit={submit}
+          className="w-full max-w-sm animate-fade-up"
+          aria-labelledby="login-title"
+        >
           <Logo className="h-6" />
           <h1 id="login-title" className="mt-8 text-3xl font-bold">
             Log in to SiteMinder
           </h1>
-          <p className="mt-2 text-sm text-ink-soft">Demo mode: any email and password will sign you in.</p>
+          <p className="mt-2 text-sm text-ink-soft">
+            Demo mode: any email and password will sign you in.
+          </p>
           <label className="mt-8 block text-sm font-semibold text-heading" htmlFor="login-email">
             Email
           </label>
-          <input id="login-email" className="field mt-1.5" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            id="login-email"
+            className="field mt-1.5"
+            type="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <label className="mt-4 block text-sm font-semibold text-heading" htmlFor="login-password">
             Password
           </label>
@@ -54,7 +68,11 @@ export function LoginPage() {
               className="absolute inset-y-0 right-0 grid w-11 place-items-center text-ink-faint hover:text-heading"
               aria-label={show ? "Hide password" : "Show password"}
             >
-              {show ? <EyeOff className="size-4" aria-hidden /> : <Eye className="size-4" aria-hidden />}
+              {show ? (
+                <EyeOff className="size-4" aria-hidden />
+              ) : (
+                <Eye className="size-4" aria-hidden />
+              )}
             </button>
           </div>
           <div className="mt-3 flex justify-between text-sm">
@@ -75,11 +93,19 @@ export function LoginPage() {
         </form>
       </div>
       <div className="sm-night relative hidden overflow-hidden lg:block">
-        <img src={asset("brand/media/hero-booked.webp")} alt="" className="absolute inset-0 size-full object-cover opacity-40" />
+        <img
+          src={asset("brand/media/hero-booked.webp")}
+          alt=""
+          className="absolute inset-0 size-full object-cover opacity-40"
+        />
         <div className="relative flex h-full flex-col justify-end p-14 text-white">
           <span className="pill w-fit bg-lime text-stratos">BOOKED</span>
-          <p className="mt-4 max-w-md text-3xl font-bold leading-tight text-white">Every channel, every rate and every booking — in one place.</p>
-          <p className="mt-3 max-w-md text-white/70">Stuck? SiteMinder Support is in the corner of every page, by chat or voice, 24/7.</p>
+          <p className="mt-4 max-w-md text-3xl font-bold leading-tight text-white">
+            Every channel, every rate and every booking — in one place.
+          </p>
+          <p className="mt-3 max-w-md text-white/70">
+            Stuck? SiteMinder Support is in the corner of every page, by chat or voice, 24/7.
+          </p>
         </div>
       </div>
     </div>

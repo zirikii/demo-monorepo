@@ -1,11 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { seedProperty } from "@/data/property";
 import { buildContext, filterRecords } from "@/features/assistant/engine/context";
-import { conversationReducer, initialConversation, liveOptions, renderStep, templateValues, type ConversationCustomer } from "@/features/assistant/engine/conversation";
+import {
+  conversationReducer,
+  initialConversation,
+  liveOptions,
+  renderStep,
+  templateValues,
+  type ConversationCustomer,
+} from "@/features/assistant/engine/conversation";
 
 const property = seedProperty();
 const customer: ConversationCustomer = { property, signedIn: true };
-const context = buildContext({ state: property, signedIn: true }, { personalGreeting: true, insights: true });
+const context = buildContext(
+  { state: property, signedIn: true },
+  { personalGreeting: true, insights: true },
+);
 
 function nextFor(stepId: string): Record<string, string> {
   return Object.fromEntries(
@@ -27,7 +37,12 @@ describe("conversation engine", () => {
   it("lists channels with problems first and routes each by its live status", () => {
     const next = nextFor("channels");
     expect(Object.keys(next).slice(0, 3)).toEqual(["exp", "abnb", "trip"]);
-    expect(next).toMatchObject({ exp: "channels.mapping", abnb: "channels.auth", trip: "channels.paused", bdc: "channels.healthy" });
+    expect(next).toMatchObject({
+      exp: "channels.mapping",
+      abnb: "channels.auth",
+      trip: "channels.paused",
+      bdc: "channels.healthy",
+    });
   });
 
   it("routes bookings that need action by status, most urgent first", () => {
@@ -49,8 +64,15 @@ describe("conversation engine", () => {
   });
 
   it("builds the event playbook from comparable past events in the store", () => {
-    const bledisloe = filterRecords(property, "events-upcoming").find((r) => r.id === "evt-bledisloe")!;
-    expect(bledisloe.facts).toMatchObject({ eventComparable: "NRL Grand Final", eventUplift: "55%", eventMinStay: "2-night", eventOnBooks: "71%" });
+    const bledisloe = filterRecords(property, "events-upcoming").find(
+      (r) => r.id === "evt-bledisloe",
+    )!;
+    expect(bledisloe.facts).toMatchObject({
+      eventComparable: "NRL Grand Final",
+      eventUplift: "55%",
+      eventMinStay: "2-night",
+      eventOnBooks: "71%",
+    });
     expect(bledisloe.facts.eventReadyLine).toContain("Expedia (mapping error on Deluxe King)");
   });
 
@@ -75,9 +97,15 @@ describe("conversation engine", () => {
     state = conversationReducer(state, { type: "user", text: option.label, via: "chip" });
     state = conversationReducer(state, { type: "step", stepId: option.next, set: option.set });
     expect(state.currentStepId).toBe("channels.mapping");
-    expect(templateValues(state)).toMatchObject({ channelName: "Expedia", channelIssueRoom: "Deluxe King", channelSelected: "yes" });
+    expect(templateValues(state)).toMatchObject({
+      channelName: "Expedia",
+      channelIssueRoom: "Deluxe King",
+      channelSelected: "yes",
+    });
     const last = state.messages.at(-1)!;
-    expect(last.role === "assistant" && last.text).toContain("Expedia has a mapping error on Deluxe King");
+    expect(last.role === "assistant" && last.text).toContain(
+      "Expedia has a mapping error on Deluxe King",
+    );
   });
 
   it("keeps each card's own values so history stays accurate", () => {
@@ -87,8 +115,13 @@ describe("conversation engine", () => {
       const option = liveOptions(state).find((o) => o.recordId === id)!;
       state = conversationReducer(state, { type: "step", stepId: option.next, set: option.set });
     }
-    const cards = state.messages.filter((m) => m.role === "assistant" && m.card?.kind === "channel");
-    expect(cards.map((m) => m.role === "assistant" && m.values?.channelName)).toEqual(["Expedia", "Airbnb"]);
+    const cards = state.messages.filter(
+      (m) => m.role === "assistant" && m.card?.kind === "channel",
+    );
+    expect(cards.map((m) => m.role === "assistant" && m.values?.channelName)).toEqual([
+      "Expedia",
+      "Airbnb",
+    ]);
   });
 
   it("goes back one step", () => {

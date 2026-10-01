@@ -4,7 +4,14 @@ import { topics, type TopicId } from "@/features/assistant/flows";
 import { nextEvent, upcomingEvents } from "@/features/property/insights";
 import { useProperty } from "@/features/property/PropertyProvider";
 import type { PlanId } from "@/features/property/types";
-import { BOOKING_STATUS_LABELS, CHANNEL_STATUS_LABELS, channelIssue, daysUntil, PLANS, relativeDays } from "@/features/property/views";
+import {
+  BOOKING_STATUS_LABELS,
+  CHANNEL_STATUS_LABELS,
+  channelIssue,
+  daysUntil,
+  PLANS,
+  relativeDays,
+} from "@/features/property/views";
 import { queueName } from "@/features/studio/config";
 import { evaluateRouting } from "@/features/studio/routing";
 import { scoreSentiment } from "@/features/studio/sentiment";
@@ -45,11 +52,36 @@ export function SimulatorPage() {
       channelId: firstIssue?.id,
       eventId: upcoming[0]?.id,
     },
-    { label: "Overbooked tonight", messages: "I've got two guests for one Deluxe King tonight", topics: ["urgent", "reservations"], bookingId: overbooked?.id },
-    { label: "Angry about an invoice", messages: "Why is my bill so high, this is ridiculous\nWorst service ever, fix it now!!", topics: ["billing"], overdueDays: 18 },
-    { label: "Account hacked", messages: "I think someone hacked our extranet login, there was a suspicious login overnight", topics: ["account"] },
-    { label: "Assistant keeps missing", messages: "blah\nno that's not it", topics: [], fallbacks: 2 },
-    { label: "Chain asking about events", messages: "Can you help us price Neon Harbour across our hotels?", topics: ["events"], plan: "groups", rooms: 420 },
+    {
+      label: "Overbooked tonight",
+      messages: "I've got two guests for one Deluxe King tonight",
+      topics: ["urgent", "reservations"],
+      bookingId: overbooked?.id,
+    },
+    {
+      label: "Angry about an invoice",
+      messages: "Why is my bill so high, this is ridiculous\nWorst service ever, fix it now!!",
+      topics: ["billing"],
+      overdueDays: 18,
+    },
+    {
+      label: "Account hacked",
+      messages: "I think someone hacked our extranet login, there was a suspicious login overnight",
+      topics: ["account"],
+    },
+    {
+      label: "Assistant keeps missing",
+      messages: "blah\nno that's not it",
+      topics: [],
+      fallbacks: 2,
+    },
+    {
+      label: "Chain asking about events",
+      messages: "Can you help us price Neon Harbour across our hotels?",
+      topics: ["events"],
+      plan: "groups",
+      rooms: 420,
+    },
   ];
   const first = scenarios[0]!;
 
@@ -71,21 +103,43 @@ export function SimulatorPage() {
     const event = store.events.find((e) => e.id === eventId);
     const next = nextEvent(store.events, now);
     return {
-      customerTurns: messages.split("\n").map((m) => m.trim()).filter(Boolean),
+      customerTurns: messages
+        .split("\n")
+        .map((m) => m.trim())
+        .filter(Boolean),
       topics: selectedTopics,
       fallbackCount: fallbacks,
       event: event && { label: event.name, daysUntil: daysUntil(event.start, now) },
       channel: channel && { label: channel.name, status: channel.status },
       booking: booking && { label: `${booking.id} (${booking.guest})`, status: booking.status },
-      nextEvent: accountWide && next ? { label: next.name, daysUntil: daysUntil(next.start, now) } : undefined,
+      nextEvent:
+        accountWide && next
+          ? { label: next.name, daysUntil: daysUntil(next.start, now) }
+          : undefined,
       channelIssues: accountWide ? store.channels.filter(channelIssue).map((c) => c.name) : [],
       plan,
       rooms,
       overdueDays: overdue,
-      priorContacts: Array.from({ length: priorContacts }, (_, i) => ({ endedAt: new Date(now.getTime() - (i + 1) * 86_400_000).toISOString() })),
+      priorContacts: Array.from({ length: priorContacts }, (_, i) => ({
+        endedAt: new Date(now.getTime() - (i + 1) * 86_400_000).toISOString(),
+      })),
       now,
     };
-  }, [messages, selectedTopics, fallbacks, channelId, bookingId, eventId, accountWide, plan, rooms, overdue, priorContacts, store, now]);
+  }, [
+    messages,
+    selectedTopics,
+    fallbacks,
+    channelId,
+    bookingId,
+    eventId,
+    accountWide,
+    plan,
+    rooms,
+    overdue,
+    priorContacts,
+    store,
+    now,
+  ]);
 
   const live = evaluateRouting(config, signals, "live");
   const handoff = evaluateRouting(config, signals, "handoff");
@@ -110,7 +164,12 @@ export function SimulatorPage() {
     >
       <div className="flex flex-wrap gap-2">
         {scenarios.map((s) => (
-          <button key={s.label} type="button" onClick={() => load(s)} className="rounded-full border border-line bg-white px-3 py-1.5 text-sm hover:border-royal hover:text-royal">
+          <button
+            key={s.label}
+            type="button"
+            onClick={() => load(s)}
+            className="rounded-full border border-line bg-white px-3 py-1.5 text-sm hover:border-royal hover:text-royal"
+          >
             {s.label}
           </button>
         ))}
@@ -122,9 +181,16 @@ export function SimulatorPage() {
               <label htmlFor="sim-messages" className="mb-1 block text-xs font-semibold">
                 Hotelier messages (one per line)
               </label>
-              <textarea id="sim-messages" rows={4} value={messages} onChange={(e) => setMessages(e.target.value)} className="field font-mono text-xs" />
+              <textarea
+                id="sim-messages"
+                rows={4}
+                value={messages}
+                onChange={(e) => setMessages(e.target.value)}
+                className="field font-mono text-xs"
+              />
               <p className="mt-1 text-xs text-ink-faint">
-                Sentiment: {signals.customerTurns.map((t) => scoreSentiment(t).toFixed(2)).join(", ") || "–"}
+                Sentiment:{" "}
+                {signals.customerTurns.map((t) => scoreSentiment(t).toFixed(2)).join(", ") || "–"}
               </p>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
@@ -132,7 +198,12 @@ export function SimulatorPage() {
                 <label htmlFor="sim-channel" className="mb-1 block text-xs font-semibold">
                   Channel
                 </label>
-                <select id="sim-channel" value={channelId} onChange={(e) => setChannelId(e.target.value)} className="field">
+                <select
+                  id="sim-channel"
+                  value={channelId}
+                  onChange={(e) => setChannelId(e.target.value)}
+                  className="field"
+                >
                   <option value="">None</option>
                   {store.channels.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -145,7 +216,12 @@ export function SimulatorPage() {
                 <label htmlFor="sim-booking" className="mb-1 block text-xs font-semibold">
                   Booking
                 </label>
-                <select id="sim-booking" value={bookingId} onChange={(e) => setBookingId(e.target.value)} className="field">
+                <select
+                  id="sim-booking"
+                  value={bookingId}
+                  onChange={(e) => setBookingId(e.target.value)}
+                  className="field"
+                >
                   <option value="">None</option>
                   {store.bookings.map((b) => (
                     <option key={b.id} value={b.id}>
@@ -158,7 +234,12 @@ export function SimulatorPage() {
                 <label htmlFor="sim-event" className="mb-1 block text-xs font-semibold">
                   Event
                 </label>
-                <select id="sim-event" value={eventId} onChange={(e) => setEventId(e.target.value)} className="field">
+                <select
+                  id="sim-event"
+                  value={eventId}
+                  onChange={(e) => setEventId(e.target.value)}
+                  className="field"
+                >
                   <option value="">None</option>
                   {upcoming.map((e) => (
                     <option key={e.id} value={e.id}>
@@ -178,8 +259,13 @@ export function SimulatorPage() {
                       key={t.id}
                       type="button"
                       aria-pressed={on}
-                      onClick={() => setTopics((list) => (on ? list.filter((x) => x !== t.id) : [...list, t.id]))}
-                      className={cn("rounded-full border px-2.5 py-1 text-xs", on ? "border-stratos bg-stratos text-white" : "border-line")}
+                      onClick={() =>
+                        setTopics((list) => (on ? list.filter((x) => x !== t.id) : [...list, t.id]))
+                      }
+                      className={cn(
+                        "rounded-full border px-2.5 py-1 text-xs",
+                        on ? "border-stratos bg-stratos text-white" : "border-line",
+                      )}
                     >
                       {t.label}
                     </button>
@@ -192,7 +278,12 @@ export function SimulatorPage() {
                 <label htmlFor="sim-plan" className="mb-1 block text-xs font-semibold">
                   Plan
                 </label>
-                <select id="sim-plan" value={plan} onChange={(e) => setPlan(e.target.value as PlanId)} className="field">
+                <select
+                  id="sim-plan"
+                  value={plan}
+                  onChange={(e) => setPlan(e.target.value as PlanId)}
+                  className="field"
+                >
                   {PLAN_IDS.map((p) => (
                     <option key={p} value={p}>
                       {PLANS[p].name}
@@ -201,7 +292,12 @@ export function SimulatorPage() {
                 </select>
               </div>
               <label className="flex items-end gap-2 pb-2 text-sm">
-                <input type="checkbox" checked={accountWide} onChange={(e) => setAccountWide(e.target.checked)} className="size-4 accent-royal" />
+                <input
+                  type="checkbox"
+                  checked={accountWide}
+                  onChange={(e) => setAccountWide(e.target.checked)}
+                  className="size-4 accent-royal"
+                />
                 Include account signals (next event, channels not selling)
               </label>
             </div>
@@ -218,7 +314,14 @@ export function SimulatorPage() {
                   <label htmlFor={id} className="mb-1 block text-xs font-semibold">
                     {label}
                   </label>
-                  <input id={id} type="number" min={0} value={value} onChange={(e) => set(Number(e.target.value))} className="field" />
+                  <input
+                    id={id}
+                    type="number"
+                    min={0}
+                    value={value}
+                    onChange={(e) => set(Number(e.target.value))}
+                    className="field"
+                  />
                 </div>
               ))}
             </div>
@@ -227,12 +330,19 @@ export function SimulatorPage() {
         <div className="space-y-4">
           <Card>
             <p className="text-xs font-semibold text-ink-faint uppercase">Result</p>
-            <p data-testid="sim-result" className={cn("mt-1 text-xl font-extrabold", willHandOff ? "text-royal" : "text-ink")}>
-              {willHandOff ? `Hands off to ${queueName(config, handoff.decision.queue)}` : "Assistant keeps helping"}
+            <p
+              data-testid="sim-result"
+              className={cn("mt-1 text-xl font-extrabold", willHandOff ? "text-royal" : "text-ink")}
+            >
+              {willHandOff
+                ? `Hands off to ${queueName(config, handoff.decision.queue)}`
+                : "Assistant keeps helping"}
             </p>
             <p className="mt-1 text-sm text-ink-soft">
-              {willHandOff ? `Triggered by “${live.decision.ruleName}”. ` : ""}If the hotelier asks for a person, they land in{" "}
-              <strong className="text-ink">{queueName(config, handoff.decision.queue)}</strong> at <strong className="text-ink">{handoff.decision.priority}</strong>.
+              {willHandOff ? `Triggered by “${live.decision.ruleName}”. ` : ""}If the hotelier asks
+              for a person, they land in{" "}
+              <strong className="text-ink">{queueName(config, handoff.decision.queue)}</strong> at{" "}
+              <strong className="text-ink">{handoff.decision.priority}</strong>.
             </p>
             <p className="mt-1 text-xs text-ink-faint">{handoff.decision.reason}</p>
           </Card>
@@ -242,9 +352,23 @@ export function SimulatorPage() {
                 const Icon = !t.enabled ? CircleSlash : t.matched ? CheckCircle2 : XCircle;
                 return (
                   <li key={t.ruleId} className="flex items-start gap-2 text-sm">
-                    <Icon className={cn("mt-0.5 size-4 shrink-0", !t.enabled ? "text-ink-faint" : t.matched ? "text-positive" : "text-line")} aria-hidden />
+                    <Icon
+                      className={cn(
+                        "mt-0.5 size-4 shrink-0",
+                        !t.enabled ? "text-ink-faint" : t.matched ? "text-positive" : "text-line",
+                      )}
+                      aria-hidden
+                    />
                     <span>
-                      <span className={cn("font-semibold", t.matched && "text-positive", !t.enabled && "text-ink-faint")}>{t.name}</span>
+                      <span
+                        className={cn(
+                          "font-semibold",
+                          t.matched && "text-positive",
+                          !t.enabled && "text-ink-faint",
+                        )}
+                      >
+                        {t.name}
+                      </span>
                       <span className="block text-xs text-ink-soft">{t.reason}</span>
                     </span>
                   </li>

@@ -17,14 +17,23 @@ export function ChannelsPage() {
         title="Channels"
         body="Every channel you sell on, synced in real time with your PMS."
         actions={
-          <AskSupport step="channels.add" label="Connect a new channel" className="btn-primary text-white hover:no-underline">
+          <AskSupport
+            step="channels.add"
+            label="Connect a new channel"
+            className="btn-primary text-white hover:no-underline"
+          >
             <Plus className="size-4" aria-hidden /> Connect a channel
           </AskSupport>
         }
       />
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <Stat label="Connected" value={`${connected} of ${channels.length}`} />
-        <Stat label="Need attention" value={String(issues.length)} tone={issues.length ? "critical" : "positive"} hint={issues.length ? issues.map((c) => c.name).join(", ") : "All healthy"} />
+        <Stat
+          label="Need attention"
+          value={String(issues.length)}
+          tone={issues.length ? "critical" : "positive"}
+          hint={issues.length ? issues.map((c) => c.name).join(", ") : "All healthy"}
+        />
         <Stat label="Average sync time" value="1.8s" hint="Two-way, real time" tone="positive" />
       </div>
       <Panel>
@@ -50,11 +59,17 @@ export function ChannelsPage() {
                   </td>
                   <td className="py-3 pr-4">
                     <ChannelBadge status={c.status} />
-                    {c.issueRoom && <span className="mt-1 block text-xs text-critical">{c.issueRoom} not mapped</span>}
+                    {c.issueRoom && (
+                      <span className="mt-1 block text-xs text-critical">
+                        {c.issueRoom} not mapped
+                      </span>
+                    )}
                   </td>
                   <td className="py-3 pr-4 text-ink-soft">{formatDateTime(c.lastSync)}</td>
                   <td className="py-3 pr-4 text-right tabular-nums">{c.bookings30d}</td>
-                  <td className="py-3 pr-4 text-right tabular-nums">{formatCurrency(c.revenue30d)}</td>
+                  <td className="py-3 pr-4 text-right tabular-nums">
+                    {formatCurrency(c.revenue30d)}
+                  </td>
                   <td className="py-3 pr-4 text-right tabular-nums">{c.commissionPct}%</td>
                   <td className="py-3 text-right">
                     {channelIssue(c) ? (

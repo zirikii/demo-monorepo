@@ -36,7 +36,9 @@ export function AssistantPanel() {
       className={cn(
         "fixed inset-0 z-50 flex animate-pop-in overflow-hidden bg-white shadow-panel focus:outline-none",
         "sm:inset-auto sm:right-6 sm:bottom-6 sm:rounded-panel sm:ring-1 sm:ring-stratos/10",
-        expanded ? "sm:h-[min(820px,calc(100dvh-3rem))] sm:w-[min(900px,calc(100vw-3rem))]" : "sm:h-[min(720px,calc(100dvh-3rem))] sm:w-[420px]",
+        expanded
+          ? "sm:h-[min(820px,calc(100dvh-3rem))] sm:w-[min(900px,calc(100vw-3rem))]"
+          : "sm:h-[min(720px,calc(100dvh-3rem))] sm:w-[420px]",
       )}
     >
       <div className="flex min-w-0 flex-1 flex-col">
@@ -48,10 +50,14 @@ export function AssistantPanel() {
         ) : (
           <>
             {started && <FlowTrail conversation={conversation} onBack={back} />}
-            <div className="min-h-0 flex-1 overflow-y-auto bg-white">{started ? <ThreadView /> : <WelcomeView />}</div>
+            <div className="min-h-0 flex-1 overflow-y-auto bg-white">
+              {started ? <ThreadView /> : <WelcomeView />}
+            </div>
             <div className="shrink-0 border-t border-line-soft bg-white px-3 pt-3 pb-2">
               <Composer onSend={(text) => sendText(text)} onVoice={() => setMode("voice")} />
-              <p className="mt-2 text-center text-[11px] text-ink-faint">Unofficial demo assistant · Not affiliated with SiteMinder</p>
+              <p className="mt-2 text-center text-[11px] text-ink-faint">
+                Unofficial demo assistant · Not affiliated with SiteMinder
+              </p>
             </div>
           </>
         )}

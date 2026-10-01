@@ -19,7 +19,10 @@ function renderAt(path: string) {
 }
 
 function internalLinks(container: HTMLElement): string[] {
-  const hrefs = Array.from(container.querySelectorAll("a[href]"), (a) => a.getAttribute("href") ?? "");
+  const hrefs = Array.from(
+    container.querySelectorAll("a[href]"),
+    (a) => a.getAttribute("href") ?? "",
+  );
   return [...new Set(hrefs.filter((h) => h.startsWith("/")))];
 }
 
@@ -48,7 +51,9 @@ describe("site routes", () => {
   it("renders every product, solution and resource page linked from the platform pages", () => {
     for (const start of ["/platform", "/resources"]) {
       const { container, unmount } = renderAt(start);
-      const links = internalLinks(container).filter((h) => /^\/(platform|solutions|resources)\//.test(h));
+      const links = internalLinks(container).filter((h) =>
+        /^\/(platform|solutions|resources)\//.test(h),
+      );
       unmount();
       expect(links.length, start).toBeGreaterThan(3);
       for (const href of links) {
@@ -121,7 +126,11 @@ describe("site routes", () => {
     const now = new Date();
     const seeded = seedProperty();
     const next = nextEvent(seeded.events, now)!;
-    const events = seeded.events.map((e) => (e.id === next.id ? { ...e, plan: { upliftPct: 40, minStay: 3, appliedAt: toLocalIso(now) } } : e));
+    const events = seeded.events.map((e) =>
+      e.id === next.id
+        ? { ...e, plan: { upliftPct: 40, minStay: 3, appliedAt: toLocalIso(now) } }
+        : e,
+    );
     localStorage.setItem("siteminder-property-v1", JSON.stringify({ ...seeded, events }));
     renderAt("/app");
     expect(screen.getByText("Live").previousElementSibling).toHaveTextContent("+40%");

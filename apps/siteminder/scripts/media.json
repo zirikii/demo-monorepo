@@ -2,29 +2,98 @@
   "source": "https://i.ytimg.com/vi/{id}/maxresdefault.jpg",
   "note": "Official SiteMinder YouTube channel thumbnails (youtube.com/@SiteMinder). siteminder.com and its CDN are not reachable from the build sandbox, so marketing imagery is self-hosted from these.",
   "images": [
-    { "id": "lXdrEsEFbJA", "file": "hero-booked.webp", "alt": "Hotelier smiling at a phone with a $430 booked notification" },
-    { "id": "lXdrEsEFbJA", "file": "hero-portrait.webp", "alt": "Hotelier smiling at a phone", "crop": { "left": 236, "top": 0, "width": 470, "height": 720 } },
-    { "id": "QiSb4XaPhpM", "file": "guests-finding.webp", "alt": "Traveller searching for a hotel on a laptop" },
-    { "id": "RujUaM9RqBg", "file": "bangkok.webp", "alt": "Traveller in front of the Bangkok sign" },
-    { "id": "6Ns3nwQaZgs", "file": "event-stage.webp", "alt": "SiteMinder event stage with panel discussion" },
-    { "id": "7Gjh7GRQ7eA", "file": "event-stage-wide.webp", "alt": "SiteMinder event stage, wide view" },
-    { "id": "8OBzeYHS1YM", "file": "payments-stripe.webp", "alt": "SiteMinder and Stripe partnership" },
+    {
+      "id": "lXdrEsEFbJA",
+      "file": "hero-booked.webp",
+      "alt": "Hotelier smiling at a phone with a $430 booked notification"
+    },
+    {
+      "id": "lXdrEsEFbJA",
+      "file": "hero-portrait.webp",
+      "alt": "Hotelier smiling at a phone",
+      "crop": { "left": 236, "top": 0, "width": 470, "height": 720 }
+    },
+    {
+      "id": "QiSb4XaPhpM",
+      "file": "guests-finding.webp",
+      "alt": "Traveller searching for a hotel on a laptop"
+    },
+    {
+      "id": "RujUaM9RqBg",
+      "file": "bangkok.webp",
+      "alt": "Traveller in front of the Bangkok sign"
+    },
+    {
+      "id": "6Ns3nwQaZgs",
+      "file": "event-stage.webp",
+      "alt": "SiteMinder event stage with panel discussion"
+    },
+    {
+      "id": "7Gjh7GRQ7eA",
+      "file": "event-stage-wide.webp",
+      "alt": "SiteMinder event stage, wide view"
+    },
+    {
+      "id": "8OBzeYHS1YM",
+      "file": "payments-stripe.webp",
+      "alt": "SiteMinder and Stripe partnership"
+    },
     { "id": "8UOZ5_IY760", "file": "little-hotelier.webp", "alt": "Little Hotelier by SiteMinder" },
     { "id": "2JZx7hWqs0Q", "file": "dynamic-commerce.webp", "alt": "Dynamic Commerce Engine" },
     { "id": "0coksGUka6E", "file": "ultrasync.webp", "alt": "SiteMinder UltraSync" },
     { "id": "CLtloovPkhA", "file": "revenue-plus.webp", "alt": "Dynamic Revenue Plus on a phone" },
-    { "id": "e0HWfR02gNo", "file": "standard-room-podcast.webp", "alt": "Standard Room with Breakfast podcast" },
+    {
+      "id": "e0HWfR02gNo",
+      "file": "standard-room-podcast.webp",
+      "alt": "Standard Room with Breakfast podcast"
+    },
     { "id": "kF_hFTJrLa4", "file": "ideas-emergent.webp", "alt": "SiteMinder and IDeaS emergent" },
-    { "id": "-nd8RSKjBBY", "file": "report-australia.webp", "alt": "Risk, Resilience and Revenue in Australia report" },
-    { "id": "MwzTvmnh-e0", "file": "report-uk.webp", "alt": "Risk, Resilience and Revenue in the UK report" },
-    { "id": "9gqCahuVFTE", "file": "report-usa.webp", "alt": "Risk, Resilience and Revenue in the USA report" },
-    { "id": "VzGd5pa7Hbw", "file": "report-sea.webp", "alt": "Risk, Resilience and Revenue in Southeast Asia and Taiwan report" },
-    { "id": "UW_91DAIZdg", "file": "report-italy.webp", "alt": "Risk, Resilience and Revenue in Italy report" },
-    { "id": "-T-LzxZ-ksc", "file": "dynamic-pricing.webp", "alt": "The top 5 reasons for using dynamic pricing" },
-    { "id": "U7GboXfVsFI", "file": "booking-engine.webp", "alt": "10 must-have features of a hotel booking engine" },
-    { "id": "NOP-Wwd8XA4", "file": "ancillary-revenue.webp", "alt": "The 8 most successful ancillary revenue ideas" },
+    {
+      "id": "-nd8RSKjBBY",
+      "file": "report-australia.webp",
+      "alt": "Risk, Resilience and Revenue in Australia report"
+    },
+    {
+      "id": "MwzTvmnh-e0",
+      "file": "report-uk.webp",
+      "alt": "Risk, Resilience and Revenue in the UK report"
+    },
+    {
+      "id": "9gqCahuVFTE",
+      "file": "report-usa.webp",
+      "alt": "Risk, Resilience and Revenue in the USA report"
+    },
+    {
+      "id": "VzGd5pa7Hbw",
+      "file": "report-sea.webp",
+      "alt": "Risk, Resilience and Revenue in Southeast Asia and Taiwan report"
+    },
+    {
+      "id": "UW_91DAIZdg",
+      "file": "report-italy.webp",
+      "alt": "Risk, Resilience and Revenue in Italy report"
+    },
+    {
+      "id": "-T-LzxZ-ksc",
+      "file": "dynamic-pricing.webp",
+      "alt": "The top 5 reasons for using dynamic pricing"
+    },
+    {
+      "id": "U7GboXfVsFI",
+      "file": "booking-engine.webp",
+      "alt": "10 must-have features of a hotel booking engine"
+    },
+    {
+      "id": "NOP-Wwd8XA4",
+      "file": "ancillary-revenue.webp",
+      "alt": "The 8 most successful ancillary revenue ideas"
+    },
     { "id": "Ovcynpa9DVU", "file": "partner-awards.webp", "alt": "SiteMinder Partner Awards 2025" },
-    { "id": "wv1uU0UCXoc", "file": "hotelier-interview.webp", "alt": "Hotelier interview in a hotel lobby" },
+    {
+      "id": "wv1uU0UCXoc",
+      "file": "hotelier-interview.webp",
+      "alt": "Hotelier interview in a hotel lobby"
+    },
     { "id": "ZjzAnmu1IaM", "file": "one-team.webp", "alt": "One team, endless potential" },
     { "id": "leeV7c_B3Q0", "file": "who-is-siteminder.webp", "alt": "Who is SiteMinder today?" }
   ]

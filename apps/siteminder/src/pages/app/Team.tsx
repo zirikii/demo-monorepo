@@ -13,7 +13,11 @@ export function TeamPage() {
         title="Users"
         body="Everyone who can log in to SiteMinder for this property."
         actions={
-          <AskSupport step="account.user" label="Add a user" className="btn-primary text-white hover:no-underline">
+          <AskSupport
+            step="account.user"
+            label="Add a user"
+            className="btn-primary text-white hover:no-underline"
+          >
             <UserPlus className="size-4" aria-hidden /> Invite user
           </AskSupport>
         }
@@ -33,12 +37,17 @@ export function TeamPage() {
               <tr key={u.id}>
                 <td className="py-3 pr-4">
                   <span className="block font-semibold text-heading">
-                    {u.name} {u.email === profile.email && <span className="text-xs font-normal text-ink-faint">(you)</span>}
+                    {u.name}{" "}
+                    {u.email === profile.email && (
+                      <span className="text-xs font-normal text-ink-faint">(you)</span>
+                    )}
                   </span>
                   <span className="text-xs text-ink-faint">{u.email}</span>
                 </td>
                 <td className="py-3 pr-4">
-                  <Badge tone={u.role === "Owner" || u.role === "Admin" ? "info" : "neutral"}>{u.role}</Badge>
+                  <Badge tone={u.role === "Owner" || u.role === "Admin" ? "info" : "neutral"}>
+                    {u.role}
+                  </Badge>
                 </td>
                 <td className="py-3 pr-4">
                   {u.mfa ? (

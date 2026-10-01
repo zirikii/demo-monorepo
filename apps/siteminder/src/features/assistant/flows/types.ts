@@ -106,7 +106,17 @@ export type FlowNode = {
   keywords?: string[];
 };
 
-export type TopicIcon = "plug" | "bed" | "tag" | "calendar" | "receipt" | "heart" | "user" | "building" | "alert" | "trending";
+export type TopicIcon =
+  | "plug"
+  | "bed"
+  | "tag"
+  | "calendar"
+  | "receipt"
+  | "heart"
+  | "user"
+  | "building"
+  | "alert"
+  | "trending";
 
 export type Topic = {
   id: TopicId;

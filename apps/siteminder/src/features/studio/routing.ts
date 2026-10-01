@@ -2,12 +2,25 @@ import { BOOKING_STATUS_LABELS, CHANNEL_STATUS_LABELS, PLANS } from "@/features/
 import { pluralise } from "@/lib/format";
 import { PRIORITIES } from "./config";
 import { scoreSentiment } from "./sentiment";
-import type { Priority, RoutingDecision, RoutingOutcome, RoutingRule, RoutingSignals, RuleCondition, RuleTrace, StudioConfig } from "./types";
+import type {
+  Priority,
+  RoutingDecision,
+  RoutingOutcome,
+  RoutingRule,
+  RoutingSignals,
+  RuleCondition,
+  RuleTrace,
+  StudioConfig,
+} from "./types";
 
 const DAY_MS = 86_400_000;
 
 function normalise(text: string): string {
-  return ` ${text.toLowerCase().replace(/[’']/g, "").replace(/[^a-z0-9]+/g, " ").trim()} `;
+  return ` ${text
+    .toLowerCase()
+    .replace(/[’']/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim()} `;
 }
 
 export function higherPriority(a: Priority, b: Priority): Priority {
@@ -20,7 +33,10 @@ function whenLabel(days: number): string {
   return `in ${days} days`;
 }
 
-function checkCondition(condition: RuleCondition, s: RoutingSignals): { matched: boolean; reason: string } {
+function checkCondition(
+  condition: RuleCondition,
+  s: RoutingSignals,
+): { matched: boolean; reason: string } {
   switch (condition.kind) {
     case "keywords": {
       const said = normalise(s.customerTurns.join(" "));
@@ -31,7 +47,8 @@ function checkCondition(condition: RuleCondition, s: RoutingSignals): { matched:
     }
     case "sentiment": {
       const recent = s.customerTurns.slice(-condition.consecutive).map(scoreSentiment);
-      const low = recent.length === condition.consecutive && recent.every((v) => v < condition.below);
+      const low =
+        recent.length === condition.consecutive && recent.every((v) => v < condition.below);
       const shown = recent.map((v) => v.toFixed(2)).join(", ") || "none yet";
       return low
         ? { matched: true, reason: `Last ${condition.consecutive} messages scored ${shown}` }
@@ -45,11 +62,16 @@ function checkCondition(condition: RuleCondition, s: RoutingSignals): { matched:
         : { matched: false, reason: `${label} is ${whenLabel(daysUntil)}` };
     }
     case "event_at_risk": {
-      if (!s.nextEvent) return { matched: false, reason: "No upcoming events in the demand calendar" };
+      if (!s.nextEvent)
+        return { matched: false, reason: "No upcoming events in the demand calendar" };
       const { label, daysUntil } = s.nextEvent;
-      if (daysUntil > condition.days) return { matched: false, reason: `${label} is ${whenLabel(daysUntil)}` };
+      if (daysUntil > condition.days)
+        return { matched: false, reason: `${label} is ${whenLabel(daysUntil)}` };
       return s.channelIssues.length
-        ? { matched: true, reason: `${label} is ${whenLabel(daysUntil)} and ${s.channelIssues.join(", ")} ${s.channelIssues.length === 1 ? "isn't" : "aren't"} selling` }
+        ? {
+            matched: true,
+            reason: `${label} is ${whenLabel(daysUntil)} and ${s.channelIssues.join(", ")} ${s.channelIssues.length === 1 ? "isn't" : "aren't"} selling`,
+          }
         : { matched: false, reason: `${label} is ${whenLabel(daysUntil)}, all channels selling` };
     }
     case "channel_issue": {
@@ -64,7 +86,9 @@ function checkCondition(condition: RuleCondition, s: RoutingSignals): { matched:
     }
     case "topic": {
       const topic = s.topics.find((t) => condition.topics.includes(t));
-      return topic ? { matched: true, reason: `Conversation reached ${topic}` } : { matched: false, reason: "Topic not reached" };
+      return topic
+        ? { matched: true, reason: `Conversation reached ${topic}` }
+        : { matched: false, reason: "Topic not reached" };
     }
     case "plan":
       return { matched: condition.plans.includes(s.plan), reason: `On ${PLANS[s.plan].name}` };
@@ -86,7 +110,10 @@ function checkCondition(condition: RuleCondition, s: RoutingSignals): { matched:
       const count = s.priorContacts.filter((c) => new Date(c.endedAt).getTime() >= cutoff).length;
       return count >= condition.count
         ? { matched: true, reason: `${count} contacts in ${condition.withinDays} days` }
-        : { matched: false, reason: `${count} of ${condition.count} contacts in ${condition.withinDays} days` };
+        : {
+            matched: false,
+            reason: `${count} of ${condition.count} contacts in ${condition.withinDays} days`,
+          };
     }
     default: {
       const exhaustive: never = condition;
@@ -96,7 +123,14 @@ function checkCondition(condition: RuleCondition, s: RoutingSignals): { matched:
 }
 
 function decisionFor(rule: RoutingRule, reason: string): RoutingDecision {
-  return { action: rule.action, queue: rule.queue, priority: rule.priority, ruleId: rule.id, ruleName: rule.name, reason };
+  return {
+    action: rule.action,
+    queue: rule.queue,
+    priority: rule.priority,
+    ruleId: rule.id,
+    ruleName: rule.name,
+    reason,
+  };
 }
 
 const FALLBACK: RoutingDecision = {
@@ -114,23 +148,45 @@ const FALLBACK: RoutingDecision = {
  * - `handoff`: when a handoff happens, the first matching rule of either kind picks the queue and
  *   the ticket takes the most urgent priority of everything that matched.
  */
-export function evaluateRouting(config: StudioConfig, signals: RoutingSignals, stage: "live" | "handoff"): RoutingOutcome {
+export function evaluateRouting(
+  config: StudioConfig,
+  signals: RoutingSignals,
+  stage: "live" | "handoff",
+): RoutingOutcome {
   if (!config.routing.enabled) {
     return {
       decision: { ...FALLBACK, reason: "Routing is switched off" },
       matched: [],
-      trace: config.routing.rules.map((r) => ({ ruleId: r.id, name: r.name, enabled: r.enabled, matched: false, reason: "Routing is switched off" })),
+      trace: config.routing.rules.map((r) => ({
+        ruleId: r.id,
+        name: r.name,
+        enabled: r.enabled,
+        matched: false,
+        reason: "Routing is switched off",
+      })),
     };
   }
   const trace: RuleTrace[] = [];
   const matched: RoutingDecision[] = [];
   for (const rule of config.routing.rules) {
     if (!rule.enabled) {
-      trace.push({ ruleId: rule.id, name: rule.name, enabled: false, matched: false, reason: "Rule is off" });
+      trace.push({
+        ruleId: rule.id,
+        name: rule.name,
+        enabled: false,
+        matched: false,
+        reason: "Rule is off",
+      });
       continue;
     }
     const result = checkCondition(rule.condition, signals);
-    trace.push({ ruleId: rule.id, name: rule.name, enabled: true, matched: result.matched, reason: result.reason });
+    trace.push({
+      ruleId: rule.id,
+      name: rule.name,
+      enabled: true,
+      matched: result.matched,
+      reason: result.reason,
+    });
     if (result.matched) matched.push(decisionFor(rule, result.reason));
   }
   if (stage === "live") {
@@ -146,7 +202,10 @@ export function describeCondition(condition: RuleCondition): string {
   switch (condition.kind) {
     case "keywords":
       if (condition.terms.length === 0) return "no words yet";
-      return condition.terms.slice(0, 4).join(", ") + (condition.terms.length > 4 ? ` +${condition.terms.length - 4}` : "");
+      return (
+        condition.terms.slice(0, 4).join(", ") +
+        (condition.terms.length > 4 ? ` +${condition.terms.length - 4}` : "")
+      );
     case "sentiment":
       return `below ${condition.below} for ${condition.consecutive} messages`;
     case "event_within":

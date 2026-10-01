@@ -11,8 +11,13 @@ import { cn } from "@/lib/cn";
 const PLAN_IDS: PlanId[] = ["siteminder", "plus", "groups"];
 
 function Cell({ value }: { value: boolean | string }) {
-  if (typeof value === "string") return <span className="text-sm font-semibold text-heading">{value}</span>;
-  return value ? <Check className="mx-auto size-5 text-royal" aria-label="Included" /> : <Minus className="mx-auto size-5 text-line" aria-label="Not included" />;
+  if (typeof value === "string")
+    return <span className="text-sm font-semibold text-heading">{value}</span>;
+  return value ? (
+    <Check className="mx-auto size-5 text-royal" aria-label="Included" />
+  ) : (
+    <Minus className="mx-auto size-5 text-line" aria-label="Not included" />
+  );
 }
 
 export function PricingPage() {
@@ -24,9 +29,17 @@ export function PricingPage() {
       <section className="bg-canvas">
         <div className="container-sm py-16 text-center md:py-20">
           <p className="eyebrow">Pricing</p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">Simple pricing. No commission. Ever.</h1>
-          <p className="mx-auto mt-4 max-w-xl text-lg text-ink-soft">Choose the plan that fits your property. Every plan starts with a 14-day free trial.</p>
-          <div className="mt-8 inline-flex rounded-full border border-line bg-white p-1" role="group" aria-label="Billing period">
+          <h1 className="mx-auto mt-3 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+            Simple pricing. No commission. Ever.
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-lg text-ink-soft">
+            Choose the plan that fits your property. Every plan starts with a 14-day free trial.
+          </p>
+          <div
+            className="mt-8 inline-flex rounded-full border border-line bg-white p-1"
+            role="group"
+            aria-label="Billing period"
+          >
             {[
               [true, "Annual (save 10%)"],
               [false, "Monthly"],
@@ -36,7 +49,10 @@ export function PricingPage() {
                 type="button"
                 aria-pressed={annual === value}
                 onClick={() => setAnnual(value as boolean)}
-                className={cn("rounded-full px-4 py-2 text-sm font-semibold", annual === value ? "bg-stratos text-white" : "text-ink-soft")}
+                className={cn(
+                  "rounded-full px-4 py-2 text-sm font-semibold",
+                  annual === value ? "bg-stratos text-white" : "text-ink-soft",
+                )}
               >
                 {label as string}
               </button>
@@ -50,8 +66,18 @@ export function PricingPage() {
           const featured = id === "plus";
           const price = plan.price && Math.round(plan.price * (annual ? 0.9 : 1));
           return (
-            <article key={id} className={cn("card relative flex flex-col p-7", featured && "border-2 border-royal shadow-lift")}>
-              {featured && <span className="pill absolute -top-3 left-7 bg-lime text-stratos">Most popular</span>}
+            <article
+              key={id}
+              className={cn(
+                "card relative flex flex-col p-7",
+                featured && "border-2 border-royal shadow-lift",
+              )}
+            >
+              {featured && (
+                <span className="pill absolute -top-3 left-7 bg-lime text-stratos">
+                  Most popular
+                </span>
+              )}
               <h2 className="text-2xl font-bold">{plan.name}</h2>
               <p className="mt-2 min-h-12 text-sm text-ink-soft">{plan.blurb}</p>
               <p className="mt-6">
@@ -65,15 +91,21 @@ export function PricingPage() {
                   <span className="text-4xl font-bold text-heading">Let&apos;s talk</span>
                 )}
               </p>
-              <Link to={price ? "/get-started" : "/demo"} className={cn("mt-6", featured ? "btn-primary" : "btn-outline")}>
+              <Link
+                to={price ? "/get-started" : "/demo"}
+                className={cn("mt-6", featured ? "btn-primary" : "btn-outline")}
+              >
                 {price ? "Start free trial" : "Contact sales"}
               </Link>
               <ul className="mt-6 space-y-2.5 border-t border-line-soft pt-6 text-sm">
-                {PLAN_FEATURES.filter((f) => f[id]).slice(0, 6).map((f) => (
-                  <li key={f.feature} className="flex gap-2 text-ink-soft">
-                    <Check className="mt-0.5 size-4 shrink-0 text-royal" aria-hidden /> {f.feature}
-                  </li>
-                ))}
+                {PLAN_FEATURES.filter((f) => f[id])
+                  .slice(0, 6)
+                  .map((f) => (
+                    <li key={f.feature} className="flex gap-2 text-ink-soft">
+                      <Check className="mt-0.5 size-4 shrink-0 text-royal" aria-hidden />{" "}
+                      {f.feature}
+                    </li>
+                  ))}
               </ul>
             </article>
           );
@@ -114,7 +146,12 @@ export function PricingPage() {
           <div className="space-y-3">
             {FAQS.map((f, i) => (
               <div key={f.q} className="card">
-                <button type="button" aria-expanded={open === i} onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between p-5 text-left font-semibold text-heading">
+                <button
+                  type="button"
+                  aria-expanded={open === i}
+                  onClick={() => setOpen(open === i ? null : i)}
+                  className="flex w-full items-center justify-between p-5 text-left font-semibold text-heading"
+                >
                   {f.q}
                   <span className="text-xl text-royal">{open === i ? "−" : "+"}</span>
                 </button>

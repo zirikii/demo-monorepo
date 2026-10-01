@@ -6,8 +6,36 @@ export type IntentMatch =
   | { kind: "step"; stepId: string; score: number; reason: "safety" | "keyword" };
 
 const STOPWORDS = new Set([
-  "a", "an", "the", "i", "im", "my", "me", "to", "is", "it", "of", "on", "for", "and", "or", "please",
-  "can", "you", "do", "want", "would", "like", "need", "just", "with", "in", "at", "this", "that", "be",
+  "a",
+  "an",
+  "the",
+  "i",
+  "im",
+  "my",
+  "me",
+  "to",
+  "is",
+  "it",
+  "of",
+  "on",
+  "for",
+  "and",
+  "or",
+  "please",
+  "can",
+  "you",
+  "do",
+  "want",
+  "would",
+  "like",
+  "need",
+  "just",
+  "with",
+  "in",
+  "at",
+  "this",
+  "that",
+  "be",
 ]);
 
 /** Lowercases, drops apostrophes (so "can't" == "cant") and turns punctuation into spaces. */
@@ -34,7 +62,8 @@ function containsPhrase(haystack: string, phrase: string): boolean {
 const SAFETY_PATTERN =
   /\b(hurt|injured|injury|unsafe|not safe|in danger|dangerous|assault(ed)?|attacked|harass(ed|ing|ment)?|threaten(ed|ing)?|violent|bleeding|collapsed|fainted|unconscious|can'?t breathe|on fire|fire in the)\b/;
 
-const AFFIRMATIVE = /^(yes|yeah|yep|yup|sure|ok|okay|please do|go ahead|do it|sounds good|confirm)\b/;
+const AFFIRMATIVE =
+  /^(yes|yeah|yep|yup|sure|ok|okay|please do|go ahead|do it|sounds good|confirm)\b/;
 const NEGATIVE = /^(no|nope|nah|not now|not really|maybe later)\b/;
 
 /** Record options read "Name · detail"; the hotelier will usually just say the name. */
@@ -42,7 +71,10 @@ function matchText(option: RenderedOption): string {
   return option.recordId ? (option.label.split(" · ")[0] ?? option.label) : option.label;
 }
 
-function matchOption(text: string, options: RenderedOption[]): { option: RenderedOption; score: number } | undefined {
+function matchOption(
+  text: string,
+  options: RenderedOption[],
+): { option: RenderedOption; score: number } | undefined {
   const norm = normalise(text);
   if (AFFIRMATIVE.test(norm)) {
     const yes = options.find((o) => /^(yes|thanks|okay)\b/i.test(o.label));
@@ -62,7 +94,10 @@ function matchOption(text: string, options: RenderedOption[]): { option: Rendere
     if (labelTokens.length === 0) continue;
     const overlap = labelTokens.filter((t) => said.has(t)).length;
     // Naming any word of a record is enough to pick between the property's own records.
-    const score = option.recordId && overlap > 0 ? Math.max(0.6, overlap / labelTokens.length) : overlap / labelTokens.length;
+    const score =
+      option.recordId && overlap > 0
+        ? Math.max(0.6, overlap / labelTokens.length)
+        : overlap / labelTokens.length;
     if (overlap > 0 && (!best || score > best.score)) best = { option, score };
   }
   return best;
@@ -90,17 +125,23 @@ export function isSafetyConcern(text: string): boolean {
  * Maps free text (typed or spoken) to where the conversation should go next.
  * Order: safety → strong match on the live options → global keywords → weak option match.
  */
-export function resolveIntent(text: string, currentStepId: string | null, options: RenderedOption[]): IntentMatch | null {
+export function resolveIntent(
+  text: string,
+  currentStepId: string | null,
+  options: RenderedOption[],
+): IntentMatch | null {
   const norm = normalise(text);
   if (!norm) return null;
 
-  if (isSafetyConcern(text)) return { kind: "step", stepId: "safety", score: 100, reason: "safety" };
+  if (isSafetyConcern(text))
+    return { kind: "step", stepId: "safety", score: 100, reason: "safety" };
 
   const optionMatch = options.length ? matchOption(text, options) : undefined;
   if (optionMatch && optionMatch.score >= 0.6) return { kind: "option", ...optionMatch };
 
   const keyword = matchKeywords(text);
-  if (keyword && keyword.stepId !== currentStepId) return { kind: "step", ...keyword, reason: "keyword" };
+  if (keyword && keyword.stepId !== currentStepId)
+    return { kind: "step", ...keyword, reason: "keyword" };
 
   if (optionMatch && optionMatch.score >= 0.34) return { kind: "option", ...optionMatch };
   if (keyword) return { kind: "step", ...keyword, reason: "keyword" };

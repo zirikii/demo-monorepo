@@ -15,12 +15,12 @@ Log in at `/login` with **any** email and password. The form is pre-filled with 
 
 All state lives in `localStorage`:
 
-| Key | Holds |
-| --- | --- |
-| `siteminder-demo-session` | The mock session |
-| `siteminder-property-v1` | The property, channels, bookings, invoices, team and events store |
-| `siteminder-studio-config-v1` | Support Studio settings and routing rules |
-| `siteminder-support-log-v1` | The conversation log |
+| Key                           | Holds                                                             |
+| ----------------------------- | ----------------------------------------------------------------- |
+| `siteminder-demo-session`     | The mock session                                                  |
+| `siteminder-property-v1`      | The property, channels, bookings, invoices, team and events store |
+| `siteminder-studio-config-v1` | Support Studio settings and routing rules                         |
+| `siteminder-support-log-v1`   | The conversation log                                              |
 
 To restore the seed, use **Support Studio → Property & events → Reset all demo data**.
 
@@ -47,18 +47,18 @@ To restore the seed, use **Support Studio → Property & events → Reset all de
 
 The flow graph in `src/features/assistant/flows/` drives both chat and voice. Each AGL topic has a SiteMinder counterpart:
 
-| AGL topic | SiteMinder topic | Entry step | Covers |
-| --- | --- | --- | --- |
-| Internet & mobile | Channels & connectivity | `channels` | Channel picker routed by live status: mapping error (fix for me, or show me how), expired credentials (form), paused, healthy (live sync test). Also platform status, adding a channel, and rooms selling when closed |
-| — | Reservations | `reservations` | Booking picker routed by status: missing in the PMS (resend), modified, cancelled and fees, card declined (retry or payment link), overbooked |
-| Meters | Rates & availability | `rates` | Bulk rate update (form), rates not updating, restrictions, rate parity |
-| — | Events & demand | `events` | Upcoming-event playbook from comparable past events, apply event pricing (form), channel readiness, past-event review, insights from history, add an event (form) |
-| Billing & payments | Billing & subscription | `billing` | Pay an invoice (saved card, bank transfer or other), invoice higher than expected (bookings, add-on or unchanged), understanding the invoice, direct debit, credit refund |
-| Payment support | Payment support | `arrangements` | 14-day extension, three-month instalments, seasonal pause, financial hardship |
-| Account | Account & users | `account` | Invite a user (form), billing details (form), compare or switch plan, login and MFA reset, support code |
-| Moving | Property changes | `property` | Add a property (form), switch PMS (form), close a property |
-| Emergency | Urgent issues | `urgent` | Overbooking with a guest at the desk, all channels down, phishing and account security, card fraud and chargebacks |
-| Solar | Grow revenue | `grow` | Demand Plus, Dynamic Revenue Plus, Website Builder, guest upsells, growth callback (form) |
+| AGL topic          | SiteMinder topic        | Entry step     | Covers                                                                                                                                                                                                                |
+| ------------------ | ----------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Internet & mobile  | Channels & connectivity | `channels`     | Channel picker routed by live status: mapping error (fix for me, or show me how), expired credentials (form), paused, healthy (live sync test). Also platform status, adding a channel, and rooms selling when closed |
+| —                  | Reservations            | `reservations` | Booking picker routed by status: missing in the PMS (resend), modified, cancelled and fees, card declined (retry or payment link), overbooked                                                                         |
+| Meters             | Rates & availability    | `rates`        | Bulk rate update (form), rates not updating, restrictions, rate parity                                                                                                                                                |
+| —                  | Events & demand         | `events`       | Upcoming-event playbook from comparable past events, apply event pricing (form), channel readiness, past-event review, insights from history, add an event (form)                                                     |
+| Billing & payments | Billing & subscription  | `billing`      | Pay an invoice (saved card, bank transfer or other), invoice higher than expected (bookings, add-on or unchanged), understanding the invoice, direct debit, credit refund                                             |
+| Payment support    | Payment support         | `arrangements` | 14-day extension, three-month instalments, seasonal pause, financial hardship                                                                                                                                         |
+| Account            | Account & users         | `account`      | Invite a user (form), billing details (form), compare or switch plan, login and MFA reset, support code                                                                                                               |
+| Moving             | Property changes        | `property`     | Add a property (form), switch PMS (form), close a property                                                                                                                                                            |
+| Emergency          | Urgent issues           | `urgent`       | Overbooking with a guest at the desk, all channels down, phishing and account security, card fraud and chargebacks                                                                                                    |
+| Solar              | Grow revenue            | `grow`         | Demand Plus, Dynamic Revenue Plus, Website Builder, guest upsells, growth callback (form)                                                                                                                             |
 
 Steps that need a record (`{channel…}`, `{booking…}`, `{invoice…}`, `{event…}` or `{history…}`) go through a picker first. The picker shows the property's own records as tiles, and the next step depends on that record's status. Pass `recordId` to `open()` to skip the picker from a page that already knows the record. Steps that change the account (fixing a mapping, paying an invoice, applying event pricing, inviting a user and so on) update the property store through pure effects in `src/features/property/effects.ts`. That means the platform screens update as the conversation goes.
 

@@ -2,18 +2,36 @@ import { describe, expect, it } from "vitest";
 import { seedProperty } from "@/data/property";
 import { buildContext } from "@/features/assistant/engine/context";
 import { promptOptions } from "@/features/assistant/engine/session";
-import { buildChatInstructions, buildVoiceInstructions, buildVoiceTools, describeCard, serialiseFlow, TOOL_GO_TO_STEP, TOOL_SELECT_RECORD, TOOL_SUBMIT_FORM } from "@/features/assistant/engine/voicePrompt";
+import {
+  buildChatInstructions,
+  buildVoiceInstructions,
+  buildVoiceTools,
+  describeCard,
+  serialiseFlow,
+  TOOL_GO_TO_STEP,
+  TOOL_SELECT_RECORD,
+  TOOL_SUBMIT_FORM,
+} from "@/features/assistant/engine/voicePrompt";
 import { allNodes } from "@/features/assistant/flows";
 import { defaultConfig } from "@/features/studio/config";
 
 const property = seedProperty();
 const customer = { property, signedIn: true };
-const context = buildContext({ state: property, signedIn: true }, { personalGreeting: true, insights: true });
+const context = buildContext(
+  { state: property, signedIn: true },
+  { personalGreeting: true, insights: true },
+);
 
 describe("Grok prompt and tools", () => {
   it("offers the three flow tools, and drops forms when voice forms are off", () => {
-    expect(buildVoiceTools().map((t) => t.name)).toEqual([TOOL_GO_TO_STEP, TOOL_SELECT_RECORD, TOOL_SUBMIT_FORM]);
-    expect(buildVoiceTools({ voiceForms: false }).map((t) => t.name)).not.toContain(TOOL_SUBMIT_FORM);
+    expect(buildVoiceTools().map((t) => t.name)).toEqual([
+      TOOL_GO_TO_STEP,
+      TOOL_SELECT_RECORD,
+      TOOL_SUBMIT_FORM,
+    ]);
+    expect(buildVoiceTools({ voiceForms: false }).map((t) => t.name)).not.toContain(
+      TOOL_SUBMIT_FORM,
+    );
   });
 
   it("gives select_record examples that are real record ids", () => {
@@ -48,7 +66,11 @@ describe("Grok prompt and tools", () => {
   });
 
   it("asks a signed-out visitor to log in", () => {
-    const prompt = buildChatInstructions(context, promptOptions(defaultConfig(), { ...customer, signedIn: false }), "Hi");
+    const prompt = buildChatInstructions(
+      context,
+      promptOptions(defaultConfig(), { ...customer, signedIn: false }),
+      "Hi",
+    );
     expect(prompt).toContain("Not logged in");
     expect(prompt).not.toContain("## DEMAND EVENTS");
   });
@@ -56,11 +78,18 @@ describe("Grok prompt and tools", () => {
   it("tells Grok which topics are switched off", () => {
     const config = defaultConfig();
     config.topics.grow = false;
-    expect(buildChatInstructions(context, promptOptions(config, customer), "Hi")).toContain("Grow revenue (grow)");
+    expect(buildChatInstructions(context, promptOptions(config, customer), "Hi")).toContain(
+      "Grow revenue (grow)",
+    );
   });
 
   it("describes on-screen cards for voice", () => {
-    expect(describeCard({ kind: "steps", title: "Edit room rates mapping", steps: ["Go to Distribution"] }, {})).toContain("Edit room rates mapping");
+    expect(
+      describeCard(
+        { kind: "steps", title: "Edit room rates mapping", steps: ["Go to Distribution"] },
+        {},
+      ),
+    ).toContain("Edit room rates mapping");
     expect(describeCard(undefined, {})).toBeUndefined();
   });
 });

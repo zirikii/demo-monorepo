@@ -45,7 +45,10 @@ export async function runChatTurn(opts: {
   // Text written alongside a tool call is usually a "let me check" preamble, so the latest reply wins.
   let text = "";
   for (let round = 0; round < MAX_TOOL_ROUNDS; round++) {
-    const turn = await requestChatTurn({ input, tools: opts.tools, previousResponseId }, opts.fetchImpl);
+    const turn = await requestChatTurn(
+      { input, tools: opts.tools, previousResponseId },
+      opts.fetchImpl,
+    );
     previousResponseId = turn.responseId;
     text = turn.text || text;
     if (turn.calls.length === 0) return { responseId: turn.responseId, text };
@@ -58,7 +61,10 @@ export async function runChatTurn(opts: {
   throw new Error("Grok didn't finish its reply");
 }
 
-function runTool(call: ChatCall, onToolCall: (name: string, args: Record<string, unknown>) => ToolResult): ToolResult {
+function runTool(
+  call: ChatCall,
+  onToolCall: (name: string, args: Record<string, unknown>) => ToolResult,
+): ToolResult {
   try {
     return onToolCall(call.name, JSON.parse(call.arguments || "{}") as Record<string, unknown>);
   } catch (err) {

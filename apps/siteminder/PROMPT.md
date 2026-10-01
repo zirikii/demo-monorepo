@@ -36,6 +36,7 @@ scripted intent matcher for chat, browser speech for voice.
 ## Brand assets (self-hosted, `public/brand/`)
 
 siteminder.com and its CDN are blocked by the sandbox egress policy, so source from SiteMinder's official YouTube channel:
+
 - Wordmark: trace the white-background logo in thumbnail `8OBzeYHS1YM` with ffmpeg + potrace → navy `#00033B` and white
   SVGs, door mark, favicons. Never invent a logo.
 - Imagery: official video thumbnails (`https://i.ytimg.com/vi/{id}/maxresdefault.jpg`) → webp, listed in `scripts/media.json`.
@@ -76,18 +77,18 @@ realtime voice with browser-speech fallback, one shared prompt builder.
 
 **Every AGL flow gets a SiteMinder counterpart:**
 
-| AGL topic | SiteMinder topic | Flows |
-| --- | --- | --- |
-| Billing & payments | Billing & subscription | pay invoice (saved card / bank transfer / other), invoice higher than expected (bookings, add-on, unchanged), understand invoice, direct debit, credit refund |
-| Internet & mobile | Channels & connectivity | channel picker routed by status: mapping error, credentials expired (form), paused, healthy → live sync test; platform status; add a channel; stop-sell troubleshooting |
-| Meters | Rates & availability | bulk rate update (form), rates not updating, restrictions, rate parity |
-| Moving | Property changes | add a property (form), switch PMS (form), close a property, fees |
-| Account | Account & users | add a user (form), billing details (form), compare/switch plan, login & MFA reset, support code |
-| Payment support | Payment support | extension, instalment plan, seasonal pause, financial difficulty |
-| Emergency | Urgent issues | overbooking / guest at the desk, all channels down, phishing & account security, card fraud & chargebacks |
-| Solar | Grow revenue | Demand Plus, Dynamic Revenue Plus, Website Builder, guest upsells, growth callback (form) |
-| — | Reservations | booking picker routed by status: missing in PMS, modified, cancelled, card declined, overbooked |
-| — | Events & demand | upcoming-event playbook (forecast + comparable past events), apply event pricing (form), channel readiness, past-event review, insights from history, add an event (form) |
+| AGL topic          | SiteMinder topic        | Flows                                                                                                                                                                     |
+| ------------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Billing & payments | Billing & subscription  | pay invoice (saved card / bank transfer / other), invoice higher than expected (bookings, add-on, unchanged), understand invoice, direct debit, credit refund             |
+| Internet & mobile  | Channels & connectivity | channel picker routed by status: mapping error, credentials expired (form), paused, healthy → live sync test; platform status; add a channel; stop-sell troubleshooting   |
+| Meters             | Rates & availability    | bulk rate update (form), rates not updating, restrictions, rate parity                                                                                                    |
+| Moving             | Property changes        | add a property (form), switch PMS (form), close a property, fees                                                                                                          |
+| Account            | Account & users         | add a user (form), billing details (form), compare/switch plan, login & MFA reset, support code                                                                           |
+| Payment support    | Payment support         | extension, instalment plan, seasonal pause, financial difficulty                                                                                                          |
+| Emergency          | Urgent issues           | overbooking / guest at the desk, all channels down, phishing & account security, card fraud & chargebacks                                                                 |
+| Solar              | Grow revenue            | Demand Plus, Dynamic Revenue Plus, Website Builder, guest upsells, growth callback (form)                                                                                 |
+| —                  | Reservations            | booking picker routed by status: missing in PMS, modified, cancelled, card declined, overbooked                                                                           |
+| —                  | Events & demand         | upcoming-event playbook (forecast + comparable past events), apply event pricing (form), channel readiness, past-event review, insights from history, add an event (form) |
 
 **Personalisation:** the events store (past events with occupancy, ADR, uplift and sell-out lead time; upcoming events with
 forecasts) drives the welcome view, greeting, event flows, insights and the Grok prompt; channel/booking/invoice state drives

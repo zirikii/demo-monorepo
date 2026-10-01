@@ -1,4 +1,14 @@
-import { Activity, ArrowRight, CheckCircle2, ChevronDown, Headset, Info, ListChecks, Phone, Siren } from "lucide-react";
+import {
+  Activity,
+  ArrowRight,
+  CheckCircle2,
+  ChevronDown,
+  Headset,
+  Info,
+  ListChecks,
+  Phone,
+  Siren,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useStudio } from "@/features/studio/StudioProvider";
 import { cn } from "@/lib/cn";
@@ -8,12 +18,25 @@ import { CardShell, Row } from "./CardShell";
 
 type CardOf<K extends FlowCard["kind"]> = Extract<FlowCard, { kind: K }>;
 
-function NumberedSteps({ steps, tone = "royal" }: { steps: string[]; tone?: "royal" | "critical" }) {
+function NumberedSteps({
+  steps,
+  tone = "royal",
+}: {
+  steps: string[];
+  tone?: "royal" | "critical";
+}) {
   return (
     <ol className="space-y-2">
       {steps.map((step, i) => (
         <li key={step} className="flex gap-2.5">
-          <span className={cn("grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-bold text-white", tone === "critical" ? "bg-critical" : "bg-royal")}>{i + 1}</span>
+          <span
+            className={cn(
+              "grid size-5 shrink-0 place-items-center rounded-full text-[11px] font-bold text-white",
+              tone === "critical" ? "bg-critical" : "bg-royal",
+            )}
+          >
+            {i + 1}
+          </span>
           <span className="text-ink">{step}</span>
         </li>
       ))}
@@ -31,7 +54,11 @@ export function StepsCard({ card }: { card: CardOf<"steps"> }) {
 
 export function UrgentCard({ card }: { card: CardOf<"urgent"> }) {
   return (
-    <CardShell tone="danger" title={card.title} icon={<Siren className="size-4 text-critical" aria-hidden />}>
+    <CardShell
+      tone="danger"
+      title={card.title}
+      icon={<Siren className="size-4 text-critical" aria-hidden />}
+    >
       <NumberedSteps steps={card.steps} tone="critical" />
     </CardShell>
   );
@@ -72,7 +99,11 @@ export function InfoCard({ card }: { card: CardOf<"info"> }) {
 
 export function SuccessCard({ card }: { card: CardOf<"success"> }) {
   return (
-    <CardShell tone="success" title={card.title} icon={<CheckCircle2 className="size-4 text-positive" aria-hidden />}>
+    <CardShell
+      tone="success"
+      title={card.title}
+      icon={<CheckCircle2 className="size-4 text-positive" aria-hidden />}
+    >
       <p className="text-ink">{card.detail}</p>
     </CardShell>
   );
@@ -82,7 +113,11 @@ const SERVICES = ["Channel manager", "Booking engine", "SiteMinder Pay", "Insigh
 
 export function PlatformStatusCard({ values }: { values: TemplateValues }) {
   return (
-    <CardShell title="SiteMinder status" icon={<Activity className="size-4 text-positive" aria-hidden />} aside={<span className="pill bg-positive-bg text-[11px] text-positive">All operational</span>}>
+    <CardShell
+      title="SiteMinder status"
+      icon={<Activity className="size-4 text-positive" aria-hidden />}
+      aside={<span className="pill bg-positive-bg text-[11px] text-positive">All operational</span>}
+    >
       <ul className="space-y-1.5">
         {SERVICES.map((s) => (
           <li key={s} className="flex items-center justify-between text-xs">
@@ -103,17 +138,30 @@ export function HandoffCard({ values, live }: { values: TemplateValues; live: bo
   const { config } = useStudio();
   const open = values.handoffOpen !== "no";
   return (
-    <CardShell tone="brand" title={open ? "Connecting you with a specialist" : "We'll call you back"} icon={<Headset className="size-4 text-royal" aria-hidden />}>
+    <CardShell
+      tone="brand"
+      title={open ? "Connecting you with a specialist" : "We'll call you back"}
+      icon={<Headset className="size-4 text-royal" aria-hidden />}
+    >
       <div className="sm-night mb-3 flex items-center gap-3 rounded-2xl p-3 text-white">
         <span className="relative grid size-10 shrink-0 place-items-center rounded-full bg-white/10">
-          {open && live && <span className="absolute inset-0 animate-pulse-ring rounded-full bg-lime/40" aria-hidden />}
+          {open && live && (
+            <span
+              className="absolute inset-0 animate-pulse-ring rounded-full bg-lime/40"
+              aria-hidden
+            />
+          )}
           <Headset className="relative size-5" aria-hidden />
         </span>
         <span className="min-w-0 flex-1">
           <span className="block leading-tight font-semibold">{values.handoffTeam}</span>
-          <span className="block text-xs text-white/70">{open ? `Estimated wait ${values.handoffWait}` : "Outside live chat hours"}</span>
+          <span className="block text-xs text-white/70">
+            {open ? `Estimated wait ${values.handoffWait}` : "Outside live chat hours"}
+          </span>
         </span>
-        <span className="rounded-full bg-lime px-2 py-0.5 text-[11px] font-bold text-stratos">{values.handoffPriority}</span>
+        <span className="rounded-full bg-lime px-2 py-0.5 text-[11px] font-bold text-stratos">
+          {values.handoffPriority}
+        </span>
       </div>
       <Row label="Reference" value={values.handoffRef} />
       <Row label="Routed by" value={values.handoffRule} />
@@ -121,14 +169,30 @@ export function HandoffCard({ values, live }: { values: TemplateValues; live: bo
       {live && handoff && config.assistant.showRoutingNotes && (
         <details className="group mt-3 rounded-xl bg-canvas p-2.5">
           <summary className="flex cursor-pointer list-none items-center justify-between text-xs font-semibold text-heading">
-            Why this team? <ChevronDown className="size-3.5 transition-transform group-open:rotate-180" aria-hidden />
+            Why this team?{" "}
+            <ChevronDown
+              className="size-3.5 transition-transform group-open:rotate-180"
+              aria-hidden
+            />
           </summary>
           <ol className="mt-2 space-y-1">
             {handoff.trace.map((t) => (
-              <li key={t.ruleId} className={cn("flex items-start gap-2 text-[11px]", !t.enabled && "opacity-50")}>
-                <span className={cn("mt-1 size-1.5 shrink-0 rounded-full", t.matched ? "bg-positive" : "bg-line")} aria-hidden />
+              <li
+                key={t.ruleId}
+                className={cn("flex items-start gap-2 text-[11px]", !t.enabled && "opacity-50")}
+              >
+                <span
+                  className={cn(
+                    "mt-1 size-1.5 shrink-0 rounded-full",
+                    t.matched ? "bg-positive" : "bg-line",
+                  )}
+                  aria-hidden
+                />
                 <span>
-                  <span className={cn("font-semibold", t.matched && "text-positive")}>{t.name}</span> — {t.reason}
+                  <span className={cn("font-semibold", t.matched && "text-positive")}>
+                    {t.name}
+                  </span>{" "}
+                  — {t.reason}
                 </span>
               </li>
             ))}

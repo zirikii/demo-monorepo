@@ -1,4 +1,15 @@
-import { BedDouble, Building2, CalendarDays, HeartHandshake, Plug, Receipt, Siren, Tag, TrendingUp, UserRound } from "lucide-react";
+import {
+  BedDouble,
+  Building2,
+  CalendarDays,
+  HeartHandshake,
+  Plug,
+  Receipt,
+  Siren,
+  Tag,
+  TrendingUp,
+  UserRound,
+} from "lucide-react";
 import type { Topic } from "../flows";
 
 export function TopicIcon({ icon, className }: { icon: Topic["icon"]; className?: string }) {

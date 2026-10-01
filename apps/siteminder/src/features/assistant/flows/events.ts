@@ -9,14 +9,26 @@ export const eventNodes: FlowNode[] = [
     pick: {
       filter: "events-upcoming",
       next: "events.playbook",
-      emptySay: "Log in and I'll pull up the events coming to your area, with what happened last time.",
+      emptySay:
+        "Log in and I'll pull up the events coming to your area, with what happened last time.",
     },
     options: [
       { label: "Review a past event", next: "events.history" },
       { label: "What have past events taught us?", next: "events.insights" },
       { label: "Add an event", next: "events.add" },
     ],
-    keywords: ["event", "events", "concert", "festival", "conference", "demand", "event pricing", "upcoming event", "big game", "stadium"],
+    keywords: [
+      "event",
+      "events",
+      "concert",
+      "festival",
+      "conference",
+      "demand",
+      "event pricing",
+      "upcoming event",
+      "big game",
+      "stadium",
+    ],
   },
   {
     id: "events.playbook",
@@ -44,7 +56,11 @@ export const eventNodes: FlowNode[] = [
     topic: "events",
     title: "Event pricing applied",
     say: "Done. Rates for {eventName} are up {planUpliftLabel} on all rooms with a {planMinStayLabel} minimum stay, and the update has gone to every channel. I'll keep it against this event so we can compare results afterwards.",
-    card: { kind: "success", title: "Event pricing live", detail: "{eventName} · +{planUpliftLabel} · {planMinStayLabel} minimum · all channels" },
+    card: {
+      kind: "success",
+      title: "Event pricing live",
+      detail: "{eventName} · +{planUpliftLabel} · {planMinStayLabel} minimum · all channels",
+    },
     effect: "event-plan",
     options: [
       { label: "Check my channels are ready", next: "events.ready" },
@@ -70,7 +86,8 @@ export const eventNodes: FlowNode[] = [
     pick: {
       filter: "events-past",
       next: "events.review",
-      emptySay: "Log in and I'll show you the events you've traded through, with how each one went.",
+      emptySay:
+        "Log in and I'll show you the events you've traded through, with how each one went.",
     },
     options: [{ label: "Add a past event", next: "events.add" }],
     keywords: ["past event", "last time", "how did we do", "event history", "previous event"],
@@ -114,7 +131,11 @@ export const eventNodes: FlowNode[] = [
     topic: "events",
     title: "Event added",
     say: "Added. {newEventName} on {newEventDateLabel} is in your demand calendar now. When it's close, I'll compare it with similar events from your history.",
-    card: { kind: "success", title: "Event added", detail: "{newEventName} · {newEventDateLabel} · {newEventVenue}" },
+    card: {
+      kind: "success",
+      title: "Event added",
+      detail: "{newEventName} · {newEventDateLabel} · {newEventVenue}",
+    },
     effect: "add-event",
     options: [
       { label: "Plan for an upcoming event", next: "events" },

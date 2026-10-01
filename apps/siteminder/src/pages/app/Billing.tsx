@@ -17,7 +17,11 @@ export function BillingPage() {
         title="Billing"
         body={`Invoices go to ${property.billingEmail}. ABN ${property.abn}.`}
         actions={
-          <AskSupport step="billing" label="Help with billing" className="btn-outline hover:no-underline">
+          <AskSupport
+            step="billing"
+            label="Help with billing"
+            className="btn-outline hover:no-underline"
+          >
             Billing help
           </AskSupport>
         }
@@ -26,7 +30,9 @@ export function BillingPage() {
         <Panel>
           <p className="text-sm text-ink-faint">Current plan</p>
           <p className="mt-1 text-xl font-bold text-heading">{plan.name}</p>
-          <p className="text-sm text-ink-soft">{plan.price ? `${formatCurrency(plan.price)} / month + usage` : "Custom pricing"}</p>
+          <p className="text-sm text-ink-soft">
+            {plan.price ? `${formatCurrency(plan.price)} / month + usage` : "Custom pricing"}
+          </p>
           <AskSupport step="account.plan" label="Change my plan" className="mt-3">
             Change plan
           </AskSupport>
@@ -34,10 +40,20 @@ export function BillingPage() {
         <Panel>
           <p className="text-sm text-ink-faint">Payment method</p>
           <p className="mt-1 flex items-center gap-2 text-xl font-bold text-heading">
-            {property.directDebit ? <Landmark className="size-5" aria-hidden /> : <CreditCard className="size-5" aria-hidden />}
-            {property.directDebit ? "Direct debit" : `${property.card.brand} •••• ${property.card.last4}`}
+            {property.directDebit ? (
+              <Landmark className="size-5" aria-hidden />
+            ) : (
+              <CreditCard className="size-5" aria-hidden />
+            )}
+            {property.directDebit
+              ? "Direct debit"
+              : `${property.card.brand} •••• ${property.card.last4}`}
           </p>
-          <p className="text-sm text-ink-soft">{property.directDebit ? "Invoices are paid automatically on the due date" : "Charged when you pay an invoice"}</p>
+          <p className="text-sm text-ink-soft">
+            {property.directDebit
+              ? "Invoices are paid automatically on the due date"
+              : "Charged when you pay an invoice"}
+          </p>
           {!property.directDebit && (
             <AskSupport step="billing.directdebit" label="Set up direct debit" className="mt-3">
               Set up direct debit
@@ -58,7 +74,15 @@ export function BillingPage() {
         </Panel>
       </div>
 
-      <Panel title="Invoices" className="mt-6" action={due.length ? <span className="text-sm text-ink-faint">{due.length} unpaid</span> : undefined}>
+      <Panel
+        title="Invoices"
+        className="mt-6"
+        action={
+          due.length ? (
+            <span className="text-sm text-ink-faint">{due.length} unpaid</span>
+          ) : undefined
+        }
+      >
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="text-xs uppercase tracking-wide text-ink-faint">
@@ -86,22 +110,35 @@ export function BillingPage() {
                     </ul>
                   </td>
                   <td className="py-3 pr-4 text-ink-soft">{formatDate(i.due)}</td>
-                  <td className="py-3 pr-4 text-right font-semibold tabular-nums">{formatCurrency(invoiceTotal(i))}</td>
+                  <td className="py-3 pr-4 text-right font-semibold tabular-nums">
+                    {formatCurrency(invoiceTotal(i))}
+                  </td>
                   <td className="py-3 pr-4">
                     <InvoiceBadge status={i.status} />
                   </td>
                   <td className="space-y-1 py-3 text-right">
                     {invoiceUnpaid(i) ? (
                       <>
-                        <AskSupport step="billing.pay" recordId={i.id} label={`Pay invoice ${i.id}`}>
+                        <AskSupport
+                          step="billing.pay"
+                          recordId={i.id}
+                          label={`Pay invoice ${i.id}`}
+                        >
                           Pay
                         </AskSupport>
-                        <AskSupport step="billing.high" recordId={i.id} label={`Why is invoice ${i.id} higher?`} className="block text-ink-soft">
+                        <AskSupport
+                          step="billing.high"
+                          recordId={i.id}
+                          label={`Why is invoice ${i.id} higher?`}
+                          className="block text-ink-soft"
+                        >
                           Why is it higher?
                         </AskSupport>
                       </>
                     ) : (
-                      <span className="text-xs text-ink-faint">Paid {i.paidAt ? formatDate(i.paidAt) : ""}</span>
+                      <span className="text-xs text-ink-faint">
+                        Paid {i.paidAt ? formatDate(i.paidAt) : ""}
+                      </span>
                     )}
                   </td>
                 </tr>

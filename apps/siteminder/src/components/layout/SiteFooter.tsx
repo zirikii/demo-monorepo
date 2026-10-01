@@ -34,7 +34,8 @@ export function SiteFooter() {
         <div>
           <Logo tone="white" className="h-6" />
           <p className="mt-4 max-w-xs text-sm text-white/65">
-            The hotel commerce platform. We put 53,000+ hotels in demand with distribution, revenue and guest experience in one place.
+            The hotel commerce platform. We put 53,000+ hotels in demand with distribution, revenue
+            and guest experience in one place.
           </p>
           <Link to="/get-started" className="btn-lime mt-6">
             Try for free
@@ -58,7 +59,8 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="container-sm flex flex-col gap-3 py-6 text-xs text-white/50 md:flex-row md:items-center md:justify-between">
           <span className="flex items-center gap-2">
-            <LogoMark tone="white" className="h-4 opacity-60" />© {new Date().getFullYear()} SiteMinder demo. Unofficial recreation, not affiliated with SiteMinder Limited.
+            <LogoMark tone="white" className="h-4 opacity-60" />© {new Date().getFullYear()}{" "}
+            SiteMinder demo. Unofficial recreation, not affiliated with SiteMinder Limited.
           </span>
           <span className="flex gap-5">
             <span>Privacy</span>

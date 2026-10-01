@@ -7,7 +7,17 @@ import { forms, optionsFor, type FormContext } from "../../engine/forms";
 import { renderTemplate, type FormId, type TemplateValues } from "../../flows";
 import { CardShell } from "./CardShell";
 
-export function FormCard({ form, next, values, live }: { form: FormId; next: string; values: TemplateValues; live: boolean }) {
+export function FormCard({
+  form,
+  next,
+  values,
+  live,
+}: {
+  form: FormId;
+  next: string;
+  values: TemplateValues;
+  live: boolean;
+}) {
   const def = forms[form];
   const store = useProperty();
   const { submitForm } = useAssistant();
@@ -18,7 +28,9 @@ export function FormCard({ form, next, values, live }: { form: FormId; next: str
     today: values.today ?? new Date().toISOString().slice(0, 10),
   };
   const [fields, setFields] = useState<Record<string, string>>(() =>
-    Object.fromEntries(def.fields.map((f) => [f.name, f.prefill ? renderTemplate(f.prefill, values) : ""])),
+    Object.fromEntries(
+      def.fields.map((f) => [f.name, f.prefill ? renderTemplate(f.prefill, values) : ""]),
+    ),
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState(false);
@@ -70,7 +82,9 @@ export function FormCard({ form, next, values, live }: { form: FormId; next: str
                   type={field.type ?? (field.inputMode === "email" ? "email" : "text")}
                   min={field.type === "date" ? ctx.today : undefined}
                   inputMode={field.type ? undefined : field.inputMode}
-                  placeholder={field.placeholder ? renderTemplate(field.placeholder, values) : undefined}
+                  placeholder={
+                    field.placeholder ? renderTemplate(field.placeholder, values) : undefined
+                  }
                   onChange={(e) => set(e.target.value)}
                 />
               )}
@@ -90,7 +104,10 @@ export function FormCard({ form, next, values, live }: { form: FormId; next: str
         <button
           type="submit"
           disabled={disabled}
-          className={cn("w-full rounded-full px-4 py-2.5 text-sm font-semibold transition-colors", disabled ? "bg-line-soft text-ink-faint" : "bg-royal text-white hover:bg-royal-hover")}
+          className={cn(
+            "w-full rounded-full px-4 py-2.5 text-sm font-semibold transition-colors",
+            disabled ? "bg-line-soft text-ink-faint" : "bg-royal text-white hover:bg-royal-hover",
+          )}
         >
           {done ? "Sent" : def.submitLabel}
         </button>

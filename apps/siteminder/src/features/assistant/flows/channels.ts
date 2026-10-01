@@ -9,7 +9,11 @@ export const channelNodes: FlowNode[] = [
     pick: {
       filter: "channels-all",
       next: "channels.healthy",
-      byStatus: { "mapping-error": "channels.mapping", "auth-failed": "channels.auth", paused: "channels.paused" },
+      byStatus: {
+        "mapping-error": "channels.mapping",
+        "auth-failed": "channels.auth",
+        paused: "channels.paused",
+      },
       emptySay: "Log in and I can check every channel you're connected to.",
     },
     options: [
@@ -17,7 +21,21 @@ export const channelNodes: FlowNode[] = [
       { label: "Connect a new channel", next: "channels.add" },
       { label: "Rooms are selling that shouldn't", next: "channels.stopsell" },
     ],
-    keywords: ["channel", "channels", "channel manager", "ota", "connectivity", "not syncing", "sync", "mapping", "booking.com", "expedia", "airbnb", "agoda", "trip.com"],
+    keywords: [
+      "channel",
+      "channels",
+      "channel manager",
+      "ota",
+      "connectivity",
+      "not syncing",
+      "sync",
+      "mapping",
+      "booking.com",
+      "expedia",
+      "airbnb",
+      "agoda",
+      "trip.com",
+    ],
   },
   {
     id: "channels.mapping",
@@ -57,7 +75,11 @@ export const channelNodes: FlowNode[] = [
     topic: "channels",
     title: "Mapping fixed",
     say: "Done. {channelIssueRoom} is mapped to {channelName} again and I've sent a full availability and rate update for the next 365 days. It can take up to 15 minutes to show on the {channelName} extranet.",
-    card: { kind: "success", title: "Mapping restored", detail: "{channelName} · {channelIssueRoom} · full update queued" },
+    card: {
+      kind: "success",
+      title: "Mapping restored",
+      detail: "{channelName} · {channelIssueRoom} · full update queued",
+    },
     effect: "fix-mapping",
     options: [
       { label: "Check my other channels", next: "channels" },
@@ -74,7 +96,15 @@ export const channelNodes: FlowNode[] = [
       { label: "Reconnect {channelName}", next: "channels.auth.form" },
       { label: "Talk to a connectivity specialist", next: "handoff" },
     ],
-    keywords: ["credentials", "authentication failed", "auth failed", "disconnected", "reconnect", "revoked", "password changed"],
+    keywords: [
+      "credentials",
+      "authentication failed",
+      "auth failed",
+      "disconnected",
+      "reconnect",
+      "revoked",
+      "password changed",
+    ],
   },
   {
     id: "channels.auth.form",
@@ -89,7 +119,11 @@ export const channelNodes: FlowNode[] = [
     topic: "channels",
     title: "Channel reconnected",
     say: "{channelName} is connected again on listing {credListingId}. I've pushed a full update, and any bookings made while it was disconnected will download in the next few minutes.",
-    card: { kind: "success", title: "Reconnected", detail: "{channelName} · listing {credListingId} · bookings re-syncing" },
+    card: {
+      kind: "success",
+      title: "Reconnected",
+      detail: "{channelName} · listing {credListingId} · bookings re-syncing",
+    },
     effect: "reconnect-channel",
     options: [
       { label: "Check my other channels", next: "channels" },
@@ -202,6 +236,11 @@ export const channelNodes: FlowNode[] = [
       { label: "Talk to a connectivity specialist", next: "handoff" },
       { label: "That's all, thanks", next: "resolved" },
     ],
-    keywords: ["stop sell not working", "selling when closed", "closed but selling", "extranet allotment"],
+    keywords: [
+      "stop sell not working",
+      "selling when closed",
+      "closed but selling",
+      "extranet allotment",
+    ],
   },
 ];

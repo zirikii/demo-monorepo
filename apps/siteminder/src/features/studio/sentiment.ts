@@ -43,7 +43,10 @@ const POSITIVE: Record<string, number> = {
 
 /** Tiny lexicon scorer (−1…1) — good enough for routing demos without calling a model. */
 export function scoreSentiment(text: string): number {
-  const norm = ` ${text.toLowerCase().replace(/[^a-z' ]+/g, " ").replace(/\s+/g, " ")} `;
+  const norm = ` ${text
+    .toLowerCase()
+    .replace(/[^a-z' ]+/g, " ")
+    .replace(/\s+/g, " ")} `;
   let score = 0;
   let hits = 0;
   for (const [term, weight] of [...Object.entries(NEGATIVE), ...Object.entries(POSITIVE)]) {
@@ -52,7 +55,10 @@ export function scoreSentiment(text: string): number {
       hits++;
     }
   }
-  if (/!{2,}/.test(text) || (text.length > 8 && text === text.toUpperCase() && /[A-Z]/.test(text))) {
+  if (
+    /!{2,}/.test(text) ||
+    (text.length > 8 && text === text.toUpperCase() && /[A-Z]/.test(text))
+  ) {
     score -= 0.4;
     hits++;
   }

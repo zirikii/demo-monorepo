@@ -1,8 +1,23 @@
 import { nextEvent, pastEvents, upcomingEvents } from "@/features/property/insights";
-import { BOOKING_STATUS_LABELS, CHANNEL_STATUS_LABELS, channelById, channelIssue, daysUntil, invoiceTotal, overdueDays, PLANS } from "@/features/property/views";
+import {
+  BOOKING_STATUS_LABELS,
+  CHANNEL_STATUS_LABELS,
+  channelById,
+  channelIssue,
+  daysUntil,
+  invoiceTotal,
+  overdueDays,
+  PLANS,
+} from "@/features/property/views";
 import { CONDITION_LABELS, hoursLabel, isLiveChatOpen, queueName } from "@/features/studio/config";
 import { describeCondition, evaluateRouting } from "@/features/studio/routing";
-import type { ConversationRecord, RoutingOutcome, RoutingSignals, StudioConfig, TranscriptLine } from "@/features/studio/types";
+import type {
+  ConversationRecord,
+  RoutingOutcome,
+  RoutingSignals,
+  StudioConfig,
+  TranscriptLine,
+} from "@/features/studio/types";
 import { formatCurrency, formatMonthYear, formatShortDate, pluralise } from "@/lib/format";
 import { getNode, topics, type TemplateValues, type TopicId } from "../flows";
 import type { ConversationCustomer, ConversationState } from "./conversation";
@@ -25,22 +40,32 @@ export function conversationTopics(state: Pick<ConversationState, "messages">): 
 }
 
 export function contactName(customer: ConversationCustomer): string {
-  return customer.signedIn ? `${customer.property.profile.firstName} ${customer.property.profile.lastName}` : "Guest";
+  return customer.signedIn
+    ? `${customer.property.profile.firstName} ${customer.property.profile.lastName}`
+    : "Guest";
 }
 
-export function routingSignals(state: ConversationState, log: ConversationRecord[], sessionId: string, now: Date = new Date()): RoutingSignals {
+export function routingSignals(
+  state: ConversationState,
+  log: ConversationRecord[],
+  sessionId: string,
+  now: Date = new Date(),
+): RoutingSignals {
   const { property } = state.customer;
   const { facts } = state;
   const event = facts.eventId ? property.events.find((e) => e.id === facts.eventId) : undefined;
   const channel = facts.channelId ? channelById(property, facts.channelId) : undefined;
-  const booking = facts.bookingId ? property.bookings.find((b) => b.id === facts.bookingId) : undefined;
+  const booking = facts.bookingId
+    ? property.bookings.find((b) => b.id === facts.bookingId)
+    : undefined;
   const signedIn = state.customer.signedIn;
   const upcoming = signedIn ? nextEvent(property.events, now) : undefined;
   const name = contactName(state.customer);
   return {
     customerTurns: state.messages.filter((m) => m.role === "user").map((m) => m.text),
     topics: conversationTopics(state),
-    fallbackCount: state.messages.filter((m) => m.role === "assistant" && m.stepId === "fallback").length,
+    fallbackCount: state.messages.filter((m) => m.role === "assistant" && m.stepId === "fallback")
+      .length,
     event: event && { label: event.name, daysUntil: daysUntil(event.start, now) },
     channel: channel && { label: channel.name, status: channel.status },
     booking: booking && { label: `${booking.id} (${booking.guest})`, status: booking.status },
@@ -49,13 +74,21 @@ export function routingSignals(state: ConversationState, log: ConversationRecord
     plan: property.property.plan,
     rooms: property.property.rooms,
     overdueDays: signedIn ? Math.max(0, ...property.invoices.map((i) => overdueDays(i, now))) : 0,
-    priorContacts: signedIn ? log.filter((r) => r.id !== sessionId && r.signedIn && r.contactName === name) : [],
+    priorContacts: signedIn
+      ? log.filter((r) => r.id !== sessionId && r.signedIn && r.contactName === name)
+      : [],
     now,
   };
 }
 
 /** Facts the handoff step and card read: the team, wait, reference and why the hotelier landed there. */
-export function handoffFacts(config: StudioConfig, outcome: RoutingOutcome, ref: string, customer: ConversationCustomer, now: Date = new Date()): TemplateValues {
+export function handoffFacts(
+  config: StudioConfig,
+  outcome: RoutingOutcome,
+  ref: string,
+  customer: ConversationCustomer,
+  now: Date = new Date(),
+): TemplateValues {
   const { decision } = outcome;
   const team = queueName(config, decision.queue);
   const wait = config.queues[decision.queue]?.waitMins ?? 5;
@@ -90,14 +123,20 @@ export function describeRules(config: StudioConfig): string[] {
     );
 }
 
-export function promptOptions(config: StudioConfig, customer: ConversationCustomer, now: Date = new Date()): SupportPromptOptions {
+export function promptOptions(
+  config: StudioConfig,
+  customer: ConversationCustomer,
+  now: Date = new Date(),
+): SupportPromptOptions {
   const { property: state, signedIn } = customer;
   const channel = (id: string) => channelById(state, id)?.name ?? id;
   return {
     persona: config.assistant.persona,
     voiceForms: config.assistant.voiceForms,
     escalations: describeRules(config),
-    disabledTopics: topics.filter((t) => config.topics[t.id] === false).map((t) => ({ label: t.label, entry: t.entry })),
+    disabledTopics: topics
+      .filter((t) => config.topics[t.id] === false)
+      .map((t) => ({ label: t.label, entry: t.entry })),
     customInstructions: config.assistant.customInstructions,
     property: signedIn
       ? [
@@ -107,11 +146,20 @@ export function promptOptions(config: StudioConfig, customer: ConversationCustom
       : [],
     records: signedIn
       ? [
-          ...state.channels.map((c) => `- Channel ${c.id}: ${c.name}, ${CHANNEL_STATUS_LABELS[c.status]}${c.issueRoom ? ` on ${c.issueRoom}` : ""}. ${c.bookings30d} bookings in 30 days.`),
+          ...state.channels.map(
+            (c) =>
+              `- Channel ${c.id}: ${c.name}, ${CHANNEL_STATUS_LABELS[c.status]}${c.issueRoom ? ` on ${c.issueRoom}` : ""}. ${c.bookings30d} bookings in 30 days.`,
+          ),
           ...state.bookings
             .filter((b) => b.status !== "confirmed")
-            .map((b) => `- Booking ${b.id}: ${b.guest}, ${b.room}, ${formatShortDate(b.checkIn)} for ${pluralise(b.nights, "night")} via ${channel(b.channelId)}. ${formatCurrency(b.total)}. ${BOOKING_STATUS_LABELS[b.status]}.`),
-          ...state.invoices.map((i) => `- Invoice ${i.id}: ${i.period}, ${formatCurrency(invoiceTotal(i))}, due ${formatShortDate(i.due)}, ${i.status}.`),
+            .map(
+              (b) =>
+                `- Booking ${b.id}: ${b.guest}, ${b.room}, ${formatShortDate(b.checkIn)} for ${pluralise(b.nights, "night")} via ${channel(b.channelId)}. ${formatCurrency(b.total)}. ${BOOKING_STATUS_LABELS[b.status]}.`,
+            ),
+          ...state.invoices.map(
+            (i) =>
+              `- Invoice ${i.id}: ${i.period}, ${formatCurrency(invoiceTotal(i))}, due ${formatShortDate(i.due)}, ${i.status}.`,
+          ),
         ]
       : [],
     events:
@@ -119,7 +167,10 @@ export function promptOptions(config: StudioConfig, customer: ConversationCustom
         ? [
             ...upcomingEvents(state.events, now)
               .slice(0, 5)
-              .map((e) => `- Upcoming ${e.id}: ${e.name} at ${e.venue}, ${formatShortDate(e.start)} (${pluralise(daysUntil(e.start, now), "day")} away). ${e.onBooksPct ?? 0}% on the books${e.plan ? `. Event pricing applied: +${e.plan.upliftPct}%, ${e.plan.minStay}-night minimum` : ""}.`),
+              .map(
+                (e) =>
+                  `- Upcoming ${e.id}: ${e.name} at ${e.venue}, ${formatShortDate(e.start)} (${pluralise(daysUntil(e.start, now), "day")} away). ${e.onBooksPct ?? 0}% on the books${e.plan ? `. Event pricing applied: +${e.plan.upliftPct}%, ${e.plan.minStay}-night minimum` : ""}.`,
+              ),
             ...pastEvents(state.events)
               .slice(0, 8)
               .map((e) =>
@@ -133,11 +184,17 @@ export function promptOptions(config: StudioConfig, customer: ConversationCustom
 }
 
 export function transcriptOf(state: Pick<ConversationState, "messages">): TranscriptLine[] {
-  return state.messages.filter((m) => m.text.trim()).map((m) => ({ role: m.role === "user" ? "hotelier" : m.role, text: m.text }));
+  return state.messages
+    .filter((m) => m.text.trim())
+    .map((m) => ({ role: m.role === "user" ? "hotelier" : m.role, text: m.text }));
 }
 
-export function outcomeOf(state: Pick<ConversationState, "messages">): ConversationRecord["outcome"] {
-  const steps = state.messages.flatMap((m) => (m.role === "assistant" && m.stepId ? [m.stepId] : []));
+export function outcomeOf(
+  state: Pick<ConversationState, "messages">,
+): ConversationRecord["outcome"] {
+  const steps = state.messages.flatMap((m) =>
+    m.role === "assistant" && m.stepId ? [m.stepId] : [],
+  );
   if (steps.includes("handoff")) return "handoff";
   if (steps.includes("resolved") || steps.includes("end")) return "resolved";
   return "open";
@@ -155,7 +212,9 @@ export function buildRecord(opts: {
 }): ConversationRecord {
   const { state, handoff } = opts;
   const outcome = outcomeOf(state);
-  const trail = state.messages.flatMap((m) => (m.role === "assistant" && m.stepId ? [m.stepId] : []));
+  const trail = state.messages.flatMap((m) =>
+    m.role === "assistant" && m.stepId ? [m.stepId] : [],
+  );
   return {
     id: opts.id,
     ref: opts.ref,
@@ -167,7 +226,13 @@ export function buildRecord(opts: {
     channel: opts.channel,
     engine: opts.engine,
     outcome,
-    ...(outcome === "handoff" && handoff ? { queue: handoff.decision.queue, priority: handoff.decision.priority, ruleName: handoff.decision.ruleName } : {}),
+    ...(outcome === "handoff" && handoff
+      ? {
+          queue: handoff.decision.queue,
+          priority: handoff.decision.priority,
+          ruleName: handoff.decision.ruleName,
+        }
+      : {}),
     topics: conversationTopics(state),
     trail,
     turns: state.messages.filter((m) => m.role === "user").length,
@@ -175,7 +240,15 @@ export function buildRecord(opts: {
   };
 }
 
-export function newSessionRef(now: Date = new Date()): { id: string; ref: string; startedAt: string } {
+export function newSessionRef(now: Date = new Date()): {
+  id: string;
+  ref: string;
+  startedAt: string;
+} {
   const stamp = now.getTime().toString(36).toUpperCase();
-  return { id: `chat-${now.getTime()}-${Math.floor(Math.random() * 1e6)}`, ref: `SMS-${stamp.slice(-6)}`, startedAt: now.toISOString() };
+  return {
+    id: `chat-${now.getTime()}-${Math.floor(Math.random() * 1e6)}`,
+    ref: `SMS-${stamp.slice(-6)}`,
+    startedAt: now.toISOString(),
+  };
 }

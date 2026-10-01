@@ -18,10 +18,17 @@ export function RatesPage() {
   const store = useProperty();
   const { property, events, stopSell, rateLog } = store;
   const today = new Date();
-  const days = Array.from({ length: DAYS }, (_, i) => toLocalIso(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i)).slice(0, 10));
+  const days = Array.from({ length: DAYS }, (_, i) =>
+    toLocalIso(new Date(today.getFullYear(), today.getMonth(), today.getDate() + i)).slice(0, 10),
+  );
 
   const toggleStopSell = (key: string) =>
-    store.update((s) => ({ ...s, stopSell: s.stopSell.includes(key) ? s.stopSell.filter((k) => k !== key) : [...s.stopSell, key] }));
+    store.update((s) => ({
+      ...s,
+      stopSell: s.stopSell.includes(key)
+        ? s.stopSell.filter((k) => k !== key)
+        : [...s.stopSell, key],
+    }));
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -30,13 +37,25 @@ export function RatesPage() {
         body="Set once here and every connected channel updates in seconds. Click a cell to close or open that room for sale."
         actions={
           <>
-            <AskSupport step="rates.bulk" label="Update rates in bulk" className="btn-primary text-white hover:no-underline">
+            <AskSupport
+              step="rates.bulk"
+              label="Update rates in bulk"
+              className="btn-primary text-white hover:no-underline"
+            >
               <Layers className="size-4" aria-hidden /> Bulk update
             </AskSupport>
-            <AskSupport step="rates.restrictions" label="Set a minimum stay" className="btn-outline hover:no-underline">
+            <AskSupport
+              step="rates.restrictions"
+              label="Set a minimum stay"
+              className="btn-outline hover:no-underline"
+            >
               <Ban className="size-4" aria-hidden /> Restrictions
             </AskSupport>
-            <AskSupport step="rates.parity" label="Check rate parity" className="btn-outline hover:no-underline">
+            <AskSupport
+              step="rates.parity"
+              label="Check rate parity"
+              className="btn-outline hover:no-underline"
+            >
               <Scale className="size-4" aria-hidden /> Parity check
             </AskSupport>
           </>
@@ -47,13 +66,23 @@ export function RatesPage() {
           <table className="w-full min-w-[960px] border-collapse text-sm">
             <thead>
               <tr className="bg-canvas">
-                <th className="sticky left-0 z-10 w-48 bg-canvas px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-ink-faint">Room type</th>
+                <th className="sticky left-0 z-10 w-48 bg-canvas px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-ink-faint">
+                  Room type
+                </th>
                 {days.map((d) => {
                   const date = new Date(`${d}T12:00:00`);
                   const weekend = date.getDay() === 5 || date.getDay() === 6;
                   return (
-                    <th key={d} className={cn("px-1 py-2 text-center text-xs font-semibold", weekend ? "text-royal" : "text-ink-soft")}>
-                      <span className="block">{date.toLocaleDateString("en-AU", { weekday: "short" })}</span>
+                    <th
+                      key={d}
+                      className={cn(
+                        "px-1 py-2 text-center text-xs font-semibold",
+                        weekend ? "text-royal" : "text-ink-soft",
+                      )}
+                    >
+                      <span className="block">
+                        {date.toLocaleDateString("en-AU", { weekday: "short" })}
+                      </span>
                       <span className="block text-base text-heading">{date.getDate()}</span>
                     </th>
                   );
@@ -68,7 +97,13 @@ export function RatesPage() {
                   return (
                     <td key={d} className="px-1 py-1.5 text-center">
                       {e && (
-                        <span title={e.name} className={cn("block truncate rounded-md px-1 py-0.5 text-[10px] font-semibold", e.plan ? "bg-lime text-stratos" : "bg-lavender text-heading")}>
+                        <span
+                          title={e.name}
+                          className={cn(
+                            "block truncate rounded-md px-1 py-0.5 text-[10px] font-semibold",
+                            e.plan ? "bg-lime text-stratos" : "bg-lavender text-heading",
+                          )}
+                        >
                           {e.name.split(/[—|-]/)[0]?.trim()}
                         </span>
                       )}
@@ -91,7 +126,11 @@ export function RatesPage() {
                     const closed = stopSell.includes(key);
                     const plan = eventOn(events, d)?.plan;
                     const weekend = [5, 6].includes(new Date(`${d}T12:00:00`).getDay());
-                    const rate = Math.round(room.baseRate * (1 + (plan?.upliftPct ?? 0) / 100) * (weekend && !plan ? 1.12 : 1));
+                    const rate = Math.round(
+                      room.baseRate *
+                        (1 + (plan?.upliftPct ?? 0) / 100) *
+                        (weekend && !plan ? 1.12 : 1),
+                    );
                     return (
                       <td key={d} className="p-1">
                         <button
@@ -100,11 +139,19 @@ export function RatesPage() {
                           aria-label={`${room.name} ${d}: ${closed ? "closed" : formatCurrency(rate)}. Toggle stop sell`}
                           className={cn(
                             "w-full rounded-lg px-1 py-2 text-center text-xs font-semibold tabular-nums transition-colors",
-                            closed ? "bg-critical-bg text-critical" : plan ? "bg-lime/50 text-stratos hover:bg-lime" : "bg-canvas text-heading hover:bg-royal-tint",
+                            closed
+                              ? "bg-critical-bg text-critical"
+                              : plan
+                                ? "bg-lime/50 text-stratos hover:bg-lime"
+                                : "bg-canvas text-heading hover:bg-royal-tint",
                           )}
                         >
                           {closed ? "Closed" : `$${rate}`}
-                          {plan && !closed && <span className="block text-[10px] font-medium">{plan.minStay}N min</span>}
+                          {plan && !closed && (
+                            <span className="block text-[10px] font-medium">
+                              {plan.minStay}N min
+                            </span>
+                          )}
                         </button>
                       </td>
                     );

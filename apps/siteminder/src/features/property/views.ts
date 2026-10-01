@@ -1,4 +1,15 @@
-import type { Booking, BookingStatus, Channel, ChannelKind, ChannelStatus, EventCategory, Invoice, InvoiceStatus, PlanId, PropertyState } from "./types";
+import type {
+  Booking,
+  BookingStatus,
+  Channel,
+  ChannelKind,
+  ChannelStatus,
+  EventCategory,
+  Invoice,
+  InvoiceStatus,
+  PlanId,
+  PropertyState,
+} from "./types";
 
 export const CHANNEL_STATUS_LABELS: Record<ChannelStatus, string> = {
   connected: "Connected",
@@ -42,16 +53,31 @@ export const EVENT_CATEGORY_LABELS: Record<EventCategory, string> = {
 };
 
 export const PLANS: Record<PlanId, { name: string; price: number | null; blurb: string }> = {
-  siteminder: { name: "SiteMinder", price: 99, blurb: "Channel manager, PMS integration, payments and insights" },
-  plus: { name: "SiteMinder Plus", price: 129, blurb: "Adds booking engine, website builder, competitor rates and Demand Plus" },
-  groups: { name: "Groups & Chains", price: null, blurb: "Multi-property management, enterprise reporting and a dedicated team" },
+  siteminder: {
+    name: "SiteMinder",
+    price: 99,
+    blurb: "Channel manager, PMS integration, payments and insights",
+  },
+  plus: {
+    name: "SiteMinder Plus",
+    price: 129,
+    blurb: "Adds booking engine, website builder, competitor rates and Demand Plus",
+  },
+  groups: {
+    name: "Groups & Chains",
+    price: null,
+    blurb: "Multi-property management, enterprise reporting and a dedicated team",
+  },
 };
 
 export function channelIssue(channel: Channel): boolean {
   return channel.status !== "connected";
 }
 
-export function channelById(state: Pick<PropertyState, "channels">, id: string): Channel | undefined {
+export function channelById(
+  state: Pick<PropertyState, "channels">,
+  id: string,
+): Channel | undefined {
   return state.channels.find((c) => c.id === id);
 }
 
@@ -96,16 +122,31 @@ const PARITY_OFFSETS: Record<string, { pct: number; note?: string }> = {
   ghotel: { pct: 0 },
 };
 
-export type ParityRow = { channelId: string; name: string; rate: number; diffPct: number; note?: string };
+export type ParityRow = {
+  channelId: string;
+  name: string;
+  rate: number;
+  diffPct: number;
+  note?: string;
+};
 
-export function parityRows(state: Pick<PropertyState, "channels" | "property">, roomId = "DK"): { room: string; rows: ParityRow[] } {
+export function parityRows(
+  state: Pick<PropertyState, "channels" | "property">,
+  roomId = "DK",
+): { room: string; rows: ParityRow[] } {
   const room = state.property.roomTypes.find((r) => r.id === roomId) ?? state.property.roomTypes[0];
   const base = room?.baseRate ?? 0;
   const rows = state.channels
     .filter((c) => PARITY_OFFSETS[c.id])
     .map((c) => {
       const { pct, note } = PARITY_OFFSETS[c.id]!;
-      return { channelId: c.id, name: c.name, rate: Math.round(base * (1 + pct / 100)), diffPct: pct, note };
+      return {
+        channelId: c.id,
+        name: c.name,
+        rate: Math.round(base * (1 + pct / 100)),
+        diffPct: pct,
+        note,
+      };
     });
   return { room: room?.name ?? "Room", rows };
 }

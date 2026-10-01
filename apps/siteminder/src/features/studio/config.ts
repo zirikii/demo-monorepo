@@ -1,22 +1,65 @@
 import type { TopicId } from "@/features/assistant/flows/types";
-import type { Priority, Queue, QueueId, RoutingRule, RuleCondition, RuleCondKind, StudioConfig } from "./types";
+import type {
+  Priority,
+  Queue,
+  QueueId,
+  RoutingRule,
+  RuleCondition,
+  RuleCondKind,
+  StudioConfig,
+} from "./types";
 
 export const PRIORITIES: Priority[] = ["P1", "P2", "P3", "P4"];
 
 export const QUEUES: Record<QueueId, Queue> = {
-  connectivity: { name: "Connectivity", waitMins: 2, description: "Channel mappings, credentials and sync" },
-  reservations: { name: "Reservations", waitMins: 3, description: "Missing, overbooked and failed bookings" },
-  revenue: { name: "Revenue & Events", waitMins: 4, description: "Rates, restrictions and event pricing" },
+  connectivity: {
+    name: "Connectivity",
+    waitMins: 2,
+    description: "Channel mappings, credentials and sync",
+  },
+  reservations: {
+    name: "Reservations",
+    waitMins: 3,
+    description: "Missing, overbooked and failed bookings",
+  },
+  revenue: {
+    name: "Revenue & Events",
+    waitMins: 4,
+    description: "Rates, restrictions and event pricing",
+  },
   billing: { name: "Billing", waitMins: 6, description: "Invoices, payments and arrangements" },
-  enterprise: { name: "Enterprise desk", waitMins: 2, description: "Groups & Chains and large properties" },
-  success: { name: "Customer Success", waitMins: 5, description: "Complaints, cancellations and unhappy hoteliers" },
-  security: { name: "Security", waitMins: 1, description: "Account takeover, phishing and card fraud" },
+  enterprise: {
+    name: "Enterprise desk",
+    waitMins: 2,
+    description: "Groups & Chains and large properties",
+  },
+  success: {
+    name: "Customer Success",
+    waitMins: 5,
+    description: "Complaints, cancellations and unhappy hoteliers",
+  },
+  security: {
+    name: "Security",
+    waitMins: 1,
+    description: "Account takeover, phishing and card fraud",
+  },
   general: { name: "Customer Support", waitMins: 6, description: "Everything else" },
 };
 
 export const QUEUE_IDS = Object.keys(QUEUES) as QueueId[];
 
-export const ALL_TOPICS: TopicId[] = ["channels", "reservations", "rates", "events", "billing", "arrangements", "account", "property", "urgent", "grow"];
+export const ALL_TOPICS: TopicId[] = [
+  "channels",
+  "reservations",
+  "rates",
+  "events",
+  "billing",
+  "arrangements",
+  "account",
+  "property",
+  "urgent",
+  "grow",
+];
 
 export const DEFAULT_RULES: RoutingRule[] = [
   {
@@ -24,7 +67,20 @@ export const DEFAULT_RULES: RoutingRule[] = [
     name: "Security or fraud",
     description: "Suspected account takeover, phishing or card fraud goes straight to Security.",
     enabled: true,
-    condition: { kind: "keywords", terms: ["hacked", "phishing", "fraud", "suspicious login", "someone logged in", "stolen card", "data breach", "scam email", "unauthorised"] },
+    condition: {
+      kind: "keywords",
+      terms: [
+        "hacked",
+        "phishing",
+        "fraud",
+        "suspicious login",
+        "someone logged in",
+        "stolen card",
+        "data breach",
+        "scam email",
+        "unauthorised",
+      ],
+    },
     action: "handoff",
     queue: "security",
     priority: "P1",
@@ -34,7 +90,17 @@ export const DEFAULT_RULES: RoutingRule[] = [
     name: "Total outage",
     description: "Nothing selling anywhere is a P1 for Connectivity.",
     enabled: true,
-    condition: { kind: "keywords", terms: ["everything is down", "all channels down", "nothing is syncing", "outage", "not working at all", "no bookings coming in"] },
+    condition: {
+      kind: "keywords",
+      terms: [
+        "everything is down",
+        "all channels down",
+        "nothing is syncing",
+        "outage",
+        "not working at all",
+        "no bookings coming in",
+      ],
+    },
     action: "handoff",
     queue: "connectivity",
     priority: "P1",
@@ -44,7 +110,19 @@ export const DEFAULT_RULES: RoutingRule[] = [
     name: "Complaint or cancellation",
     description: "Complaints, chargebacks and threats to leave go to Customer Success.",
     enabled: true,
-    condition: { kind: "keywords", terms: ["complaint", "cancel my subscription", "leaving siteminder", "switching provider", "chargeback", "lawyer", "ombudsman", "disgrace"] },
+    condition: {
+      kind: "keywords",
+      terms: [
+        "complaint",
+        "cancel my subscription",
+        "leaving siteminder",
+        "switching provider",
+        "chargeback",
+        "lawyer",
+        "ombudsman",
+        "disgrace",
+      ],
+    },
     action: "handoff",
     queue: "success",
     priority: "P2",
@@ -92,7 +170,8 @@ export const DEFAULT_RULES: RoutingRule[] = [
   {
     id: "event-week",
     name: "Demand event this week",
-    description: "Anything about an event in the next 7 days is urgent: every hour of lost sales counts.",
+    description:
+      "Anything about an event in the next 7 days is urgent: every hour of lost sales counts.",
     enabled: true,
     condition: { kind: "event_within", days: 7 },
     action: "route",
@@ -162,7 +241,8 @@ export const DEFAULT_RULES: RoutingRule[] = [
   {
     id: "event-at-risk",
     name: "Event at risk",
-    description: "An event within 10 days while a channel isn't selling. Raises the priority of any handoff and sends untopiced chats to Connectivity.",
+    description:
+      "An event within 10 days while a channel isn't selling. Raises the priority of any handoff and sends untopiced chats to Connectivity.",
     enabled: true,
     condition: { kind: "event_at_risk", days: 10 },
     action: "route",
@@ -203,7 +283,11 @@ export function queueName(config: StudioConfig, queue: QueueId): string {
   return config.queues[queue]?.name ?? QUEUES[queue].name;
 }
 
-const SYDNEY_HOUR = new Intl.DateTimeFormat("en-AU", { timeZone: "Australia/Sydney", hour: "numeric", hourCycle: "h23" });
+const SYDNEY_HOUR = new Intl.DateTimeFormat("en-AU", {
+  timeZone: "Australia/Sydney",
+  hour: "numeric",
+  hourCycle: "h23",
+});
 
 /** Live chat hours are Sydney time wherever the page or build runs. */
 export function isLiveChatOpen(config: StudioConfig, now: Date): boolean {

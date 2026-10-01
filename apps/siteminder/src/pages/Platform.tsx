@@ -30,11 +30,29 @@ export function PlatformPage() {
       </PageHero>
       {groups.map((group) => (
         <section key={group} className="container-sm py-14">
-          <SectionHeading eyebrow={group} title={group === "Distribution" ? "Sell everywhere" : group === "Revenue" ? "Earn more per room" : "Make every stay better"} />
+          <SectionHeading
+            eyebrow={group}
+            title={
+              group === "Distribution"
+                ? "Sell everywhere"
+                : group === "Revenue"
+                  ? "Earn more per room"
+                  : "Make every stay better"
+            }
+          />
           <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {PRODUCTS.filter((p) => p.group === group).map((p) => (
-              <Link key={p.slug} to={`/platform/${p.slug}`} className="group card overflow-hidden transition-shadow hover:shadow-lift">
-                <img src={asset(`brand/${p.image}`)} alt="" loading="lazy" className="aspect-[16/8] w-full object-cover" />
+              <Link
+                key={p.slug}
+                to={`/platform/${p.slug}`}
+                className="group card overflow-hidden transition-shadow hover:shadow-lift"
+              >
+                <img
+                  src={asset(`brand/${p.image}`)}
+                  alt=""
+                  loading="lazy"
+                  className="aspect-[16/8] w-full object-cover"
+                />
                 <div className="p-6">
                   <h3 className="text-xl font-bold group-hover:text-royal">{p.name}</h3>
                   <p className="mt-2 text-ink-soft">{p.tagline}</p>
@@ -57,10 +75,17 @@ export function ProductPage() {
   const product = productBySlug(slug);
   useDocumentTitle(product?.name ?? "Platform");
   if (!product) return <NotFoundPage />;
-  const related = PRODUCTS.filter((p) => p.group === product.group && p.slug !== product.slug).slice(0, 3);
+  const related = PRODUCTS.filter(
+    (p) => p.group === product.group && p.slug !== product.slug,
+  ).slice(0, 3);
   return (
     <>
-      <PageHero eyebrow={product.group} title={product.tagline} body={product.summary} image={product.image}>
+      <PageHero
+        eyebrow={product.group}
+        title={product.tagline}
+        body={product.summary}
+        image={product.image}
+      >
         <Link to="/get-started" className="btn-primary px-6 py-3">
           Try for free
         </Link>
@@ -87,8 +112,19 @@ export function ProductPage() {
       </section>
       <section className="bg-canvas py-16">
         <div className="container-sm grid items-center gap-10 md:grid-cols-2">
-          <SectionHeading eyebrow="Why SiteMinder" title={`${product.name}, connected to everything else`} body="Every product shares the same rates, availability and guest data, so nothing falls out of sync." />
-          <CheckList items={["Set up by our onboarding team", "24/7 support from hotel experts", "No commission, ever", "Works with your PMS"]} />
+          <SectionHeading
+            eyebrow="Why SiteMinder"
+            title={`${product.name}, connected to everything else`}
+            body="Every product shares the same rates, availability and guest data, so nothing falls out of sync."
+          />
+          <CheckList
+            items={[
+              "Set up by our onboarding team",
+              "24/7 support from hotel experts",
+              "No commission, ever",
+              "Works with your PMS",
+            ]}
+          />
         </div>
       </section>
       <Testimonials />

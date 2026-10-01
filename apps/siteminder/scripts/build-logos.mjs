@@ -7,7 +7,9 @@ import sharp from "sharp";
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "public/brand");
 const traced = readFileSync(process.argv[2], "utf8");
-const group = traced.slice(traced.indexOf("<g "), traced.lastIndexOf("</g>") + 4).replace(/\s+/g, " ");
+const group = traced
+  .slice(traced.indexOf("<g "), traced.lastIndexOf("</g>") + 4)
+  .replace(/\s+/g, " ");
 
 // Crop boxes measured on the 3040×720 trace: the full wordmark and just the door mark.
 const WORDMARK = "96 128 2784 479";

@@ -18,7 +18,11 @@ export function MessageBubble({
 }) {
   switch (message.role) {
     case "system":
-      return <p className="mx-auto max-w-[92%] animate-fade-in rounded-full bg-royal-tint px-3 py-1 text-center text-[11px] font-medium text-royal">{message.text}</p>;
+      return (
+        <p className="mx-auto max-w-[92%] animate-fade-in rounded-full bg-royal-tint px-3 py-1 text-center text-[11px] font-medium text-royal">
+          {message.text}
+        </p>
+      );
     case "user":
       return (
         <div className="flex animate-fade-up justify-end">
@@ -35,7 +39,10 @@ export function MessageBubble({
     case "assistant": {
       const pending = message.awaitingVoice && !message.text && !hidePending;
       return (
-        <div className="flex animate-fade-up items-start gap-2.5" data-step={message.stepId ?? undefined}>
+        <div
+          className="flex animate-fade-up items-start gap-2.5"
+          data-step={message.stepId ?? undefined}
+        >
           <span className={cn("mt-0.5", grouped && "invisible")}>
             <SupportMark />
           </span>
@@ -45,7 +52,9 @@ export function MessageBubble({
                 {pending ? <span className="text-ink-faint">Speaking…</span> : message.text}
               </div>
             )}
-            {message.card && <StepCard card={message.card} values={message.values ?? {}} live={live} />}
+            {message.card && (
+              <StepCard card={message.card} values={message.values ?? {}} live={live} />
+            )}
           </div>
         </div>
       );

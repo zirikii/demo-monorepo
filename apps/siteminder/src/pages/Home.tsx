@@ -1,4 +1,18 @@
-import { ArrowRight, BarChart3, BedDouble, CalendarDays, Check, Compass, Globe2, HeartHandshake, MousePointerClick, RefreshCw, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart3,
+  BedDouble,
+  CalendarDays,
+  Check,
+  Compass,
+  Globe2,
+  HeartHandshake,
+  MousePointerClick,
+  RefreshCw,
+  ShieldCheck,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CtaBand, ResourceCard, SectionHeading, Testimonials } from "@/components/marketing";
@@ -22,8 +36,15 @@ function RotatingWord() {
 function HeroVisual() {
   return (
     <div className="relative mx-auto w-full max-w-[520px]">
-      <div className="absolute -inset-6 -z-10 rounded-[40px] bg-gradient-to-br from-lavender via-mint to-butter opacity-80 blur-2xl" aria-hidden />
-      <img src={asset("brand/media/hero-portrait.webp")} alt="Hotelier smiling at a new booking on her phone" className="ml-auto aspect-[47/72] w-[78%] rounded-panel object-cover shadow-lift" />
+      <div
+        className="absolute -inset-6 -z-10 rounded-[40px] bg-gradient-to-br from-lavender via-mint to-butter opacity-80 blur-2xl"
+        aria-hidden
+      />
+      <img
+        src={asset("brand/media/hero-portrait.webp")}
+        alt="Hotelier smiling at a new booking on her phone"
+        className="ml-auto aspect-[47/72] w-[78%] rounded-panel object-cover shadow-lift"
+      />
       <div className="absolute left-0 top-10 w-56 animate-pop-in rounded-card bg-white/95 p-4 shadow-lift backdrop-blur">
         <div className="flex items-center gap-3">
           <BedDouble className="size-6 text-heading" aria-hidden />
@@ -76,9 +97,21 @@ const PILLARS = [
 ];
 
 const CONTROL = [
-  { icon: Compass, title: "Navigate decisively", body: "See demand building around local events weeks before your competitors do." },
-  { icon: MousePointerClick, title: "Act effortlessly", body: "Apply a recommended rate to every room and channel in one click." },
-  { icon: ShieldCheck, title: "Operate confidently", body: "Get alerted the moment a channel stops selling, and fix it with Support in seconds." },
+  {
+    icon: Compass,
+    title: "Navigate decisively",
+    body: "See demand building around local events weeks before your competitors do.",
+  },
+  {
+    icon: MousePointerClick,
+    title: "Act effortlessly",
+    body: "Apply a recommended rate to every room and channel in one click.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Operate confidently",
+    body: "Get alerted the moment a channel stops selling, and fix it with Support in seconds.",
+  },
 ];
 
 export function HomePage() {
@@ -89,7 +122,8 @@ export function HomePage() {
         <div className="container-sm grid items-center gap-14 pb-16 pt-12 md:grid-cols-[1.05fr_1fr] md:pb-24 md:pt-20">
           <div className="animate-fade-up">
             <span className="pill bg-lavender text-heading">
-              <Sparkles className="size-3.5 text-royal" aria-hidden /> Dynamic Revenue Plus now with event insights
+              <Sparkles className="size-3.5 text-royal" aria-hidden /> Dynamic Revenue Plus now with
+              event insights
             </span>
             <h1 className="mt-6 text-5xl font-bold leading-[1.02] md:text-7xl">
               We put you
@@ -97,7 +131,8 @@ export function HomePage() {
               in <RotatingWord />
             </h1>
             <p className="mt-6 max-w-lg text-lg text-ink-soft md:text-xl">
-              SiteMinder is the hotel commerce platform that helps you attract, convert and delight guests, wherever they are.
+              SiteMinder is the hotel commerce platform that helps you attract, convert and delight
+              guests, wherever they are.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/get-started" className="btn-primary px-6 py-3 text-base">
@@ -107,7 +142,9 @@ export function HomePage() {
                 Get a demo
               </Link>
             </div>
-            <p className="mt-4 text-sm text-ink-faint">14-day free trial · No credit card · Cancel any time</p>
+            <p className="mt-4 text-sm text-ink-faint">
+              14-day free trial · No credit card · Cancel any time
+            </p>
           </div>
           <HeroVisual />
         </div>
@@ -125,7 +162,12 @@ export function HomePage() {
       </section>
 
       <section className="container-sm py-20">
-        <SectionHeading eyebrow="One platform" title="Everything you need to win more bookings" body="Distribution, revenue and guest experience, connected by one source of truth." center />
+        <SectionHeading
+          eyebrow="One platform"
+          title="Everything you need to win more bookings"
+          body="Distribution, revenue and guest experience, connected by one source of truth."
+          center
+        />
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {PILLARS.map((p) => (
             <article key={p.group} className="card flex flex-col p-7">
@@ -138,9 +180,15 @@ export function HomePage() {
               <ul className="mt-5 space-y-1.5 border-t border-line-soft pt-5">
                 {PRODUCTS.filter((x) => x.group === p.group).map((x) => (
                   <li key={x.slug}>
-                    <Link to={`/platform/${x.slug}`} className="group flex items-center justify-between text-sm font-semibold text-heading hover:text-royal">
+                    <Link
+                      to={`/platform/${x.slug}`}
+                      className="group flex items-center justify-between text-sm font-semibold text-heading hover:text-royal"
+                    >
                       {x.name}
-                      <ArrowRight className="size-4 opacity-0 transition-opacity group-hover:opacity-100" aria-hidden />
+                      <ArrowRight
+                        className="size-4 opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-hidden
+                      />
                     </Link>
                   </li>
                 ))}
@@ -153,10 +201,15 @@ export function HomePage() {
       <section className="sm-night py-20 text-white">
         <div className="container-sm grid items-center gap-12 md:grid-cols-2">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lime">The Revenue Control Centre</p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight text-white md:text-5xl">Turn every local event into revenue</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-lime">
+              The Revenue Control Centre
+            </p>
+            <h2 className="mt-3 text-3xl font-bold leading-tight text-white md:text-5xl">
+              Turn every local event into revenue
+            </h2>
             <p className="mt-4 text-lg text-white/70">
-              SiteMinder learns from the concerts, conferences and sporting events you&apos;ve already traded through, so next time you price earlier and sell out higher.
+              SiteMinder learns from the concerts, conferences and sporting events you&apos;ve
+              already traded through, so next time you price earlier and sell out higher.
             </p>
             <div className="mt-8 space-y-5">
               {CONTROL.map((c) => (
@@ -187,7 +240,10 @@ export function HomePage() {
                   ["Medical conference", "ICC Sydney · 12 days", "+15%", "Medium"],
                   ["City marathon", "CBD · 19 days", "+20%", "High"],
                 ].map(([name, where, uplift, level]) => (
-                  <li key={name} className="flex items-center justify-between rounded-xl border border-line-soft p-3">
+                  <li
+                    key={name}
+                    className="flex items-center justify-between rounded-xl border border-line-soft p-3"
+                  >
                     <span>
                       <span className="block text-sm font-semibold text-heading">{name}</span>
                       <span className="block text-xs text-ink-faint">{where}</span>
@@ -209,9 +265,18 @@ export function HomePage() {
 
       <section className="container-sm py-20">
         <div className="grid items-center gap-10 md:grid-cols-2">
-          <img src={asset("brand/media/hero-booked.webp")} alt="A hotelier gets a booking notification" loading="lazy" className="rounded-panel shadow-lift" />
+          <img
+            src={asset("brand/media/hero-booked.webp")}
+            alt="A hotelier gets a booking notification"
+            loading="lazy"
+            className="rounded-panel shadow-lift"
+          />
           <div>
-            <SectionHeading eyebrow="24/7 support" title="Help that already knows your hotel" body="SiteMinder Support sees your channels, bookings and events, so it can fix a mapping error or price next week's concert while you're still on the call. Chat or talk, any time." />
+            <SectionHeading
+              eyebrow="24/7 support"
+              title="Help that already knows your hotel"
+              body="SiteMinder Support sees your channels, bookings and events, so it can fix a mapping error or price next week's concert while you're still on the call. Chat or talk, any time."
+            />
             <Link to="/login" className="btn-dark mt-8">
               Log in to try SiteMinder Support
             </Link>
@@ -222,14 +287,21 @@ export function HomePage() {
       <section className="bg-canvas py-20">
         <div className="container-sm">
           <div className="flex flex-wrap items-end justify-between gap-6">
-            <SectionHeading eyebrow="Integrations" title="Works with the tools you already use" body="Hundreds of PMS, payments, revenue and guest-experience partners." />
+            <SectionHeading
+              eyebrow="Integrations"
+              title="Works with the tools you already use"
+              body="Hundreds of PMS, payments, revenue and guest-experience partners."
+            />
             <Link to="/integrations" className="btn-outline">
               Browse the marketplace
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
             {INTEGRATIONS.slice(0, 12).map((i) => (
-              <div key={i.name} className="flex h-20 items-center justify-center rounded-card border border-line-soft bg-white px-3 text-center text-sm font-bold text-heading">
+              <div
+                key={i.name}
+                className="flex h-20 items-center justify-center rounded-card border border-line-soft bg-white px-3 text-center text-sm font-bold text-heading"
+              >
                 {i.name}
               </div>
             ))}

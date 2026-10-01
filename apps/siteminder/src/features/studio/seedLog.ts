@@ -25,11 +25,20 @@ export function seedLog(): ConversationRecord[] {
       trail: ["events", "events.ready", "channels", "channels.mapping", "handoff"],
       turns: 5,
       transcript: [
-        { role: "assistant", text: "Hi Liam, I'm SiteMinder Support. The Sydney Marathon is in 4 days and you're 71% booked, but Booking.com isn't receiving rates." },
+        {
+          role: "assistant",
+          text: "Hi Liam, I'm SiteMinder Support. The Sydney Marathon is in 4 days and you're 71% booked, but Booking.com isn't receiving rates.",
+        },
         { role: "hotelier", text: "Yeah that's why I'm here, are we ready for the marathon?" },
-        { role: "assistant", text: "Not quite. Booking.com has a mapping error on your Ocean Studio, so it won't sell rooms for the marathon." },
+        {
+          role: "assistant",
+          text: "Not quite. Booking.com has a mapping error on your Ocean Studio, so it won't sell rooms for the marathon.",
+        },
         { role: "hotelier", text: "I remapped it already and it's still red" },
-        { role: "system", text: "Routing: Channel not selling → Connectivity, P1 (Demand event this week raised priority)" },
+        {
+          role: "system",
+          text: "Routing: Channel not selling → Connectivity, P1 (Demand event this week raised priority)",
+        },
       ],
     },
     {
@@ -49,9 +58,15 @@ export function seedLog(): ConversationRecord[] {
       transcript: [
         { role: "assistant", text: "Hi Sophie, I'm SiteMinder Support. What can I help you with?" },
         { role: "hotelier", text: "Help me price an upcoming event" },
-        { role: "assistant", text: "Last time (Taylor Swift | The Eras Tour, Feb 2024) you reached 100% at $612 ADR, selling out 41 days out. I'd suggest +35% with a 2-night minimum." },
+        {
+          role: "assistant",
+          text: "Last time (Taylor Swift | The Eras Tour, Feb 2024) you reached 100% at $612 ADR, selling out 41 days out. I'd suggest +35% with a 2-night minimum.",
+        },
         { role: "hotelier", text: "Apply +35% with a 2-night minimum" },
-        { role: "assistant", text: "Done. Rates are up 35% on all rooms with a 2-night minimum stay, and the update has gone to every channel." },
+        {
+          role: "assistant",
+          text: "Done. Rates are up 35% on all rooms with a 2-night minimum stay, and the update has gone to every channel.",
+        },
       ],
     },
     {
@@ -73,8 +88,14 @@ export function seedLog(): ConversationRecord[] {
       turns: 3,
       transcript: [
         { role: "assistant", text: "Hi Ana, I'm SiteMinder Support. What can I help you with?" },
-        { role: "hotelier", text: "We're overbooked tonight, a guest from Booking.com is at the desk and we have no room" },
-        { role: "assistant", text: "Let's protect that guest first. Here's the walk procedure while I get the Reservations team." },
+        {
+          role: "hotelier",
+          text: "We're overbooked tonight, a guest from Booking.com is at the desk and we have no room",
+        },
+        {
+          role: "assistant",
+          text: "Let's protect that guest first. Here's the walk procedure while I get the Reservations team.",
+        },
         { role: "system", text: "Routing: Overbooking → Reservations, P1" },
       ],
     },
@@ -98,7 +119,10 @@ export function seedLog(): ConversationRecord[] {
       transcript: [
         { role: "assistant", text: "Hi Raj, I'm SiteMinder Support. What can I help you with?" },
         { role: "hotelier", text: "Why is my invoice so much higher this month" },
-        { role: "assistant", text: "Your September invoice is up $49 on August because Demand Plus was added." },
+        {
+          role: "assistant",
+          text: "Your September invoice is up $49 on August because Demand Plus was added.",
+        },
         { role: "hotelier", text: "I never asked for that, this is ridiculous" },
         { role: "hotelier", text: "Honestly fed up with surprise charges" },
         { role: "system", text: "Routing: Frustrated hotelier → Customer Success, P2" },
@@ -121,7 +145,10 @@ export function seedLog(): ConversationRecord[] {
       transcript: [
         { role: "assistant", text: "Hi there, I'm SiteMinder Support. What can I help you with?" },
         { role: "hotelier", text: "How do I get on Google Hotel Ads" },
-        { role: "assistant", text: "Demand Plus puts your property on Google Hotel Ads, Trivago, Tripadvisor and other metasearch sites." },
+        {
+          role: "assistant",
+          text: "Demand Plus puts your property on Google Hotel Ads, Trivago, Tripadvisor and other metasearch sites.",
+        },
         { role: "hotelier", text: "Call me tomorrow morning about Demand Plus" },
       ],
     },

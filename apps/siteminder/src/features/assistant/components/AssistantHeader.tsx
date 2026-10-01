@@ -6,7 +6,15 @@ import { useAssistant } from "../AssistantProvider";
 import { ModeToggle } from "./ModeToggle";
 import { SupportMark } from "./SupportMark";
 
-function IconButton({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
+function IconButton({
+  label,
+  onClick,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  children: ReactNode;
+}) {
   return (
     <button
       type="button"
@@ -37,7 +45,10 @@ export function AssistantHeader() {
       <div className="relative flex items-center gap-3">
         <SupportMark size="md" online />
         <div className="min-w-0 flex-1">
-          <h2 id="sm-assistant-title" className="truncate text-base leading-tight font-bold text-white">
+          <h2
+            id="sm-assistant-title"
+            className="truncate text-base leading-tight font-bold text-white"
+          >
             SiteMinder Support
           </h2>
           <p className="truncate text-xs text-white/65">{subtitle}</p>
@@ -46,8 +57,15 @@ export function AssistantHeader() {
           <RotateCcw className="size-4" aria-hidden />
         </IconButton>
         <span className="hidden sm:inline-flex">
-          <IconButton label={expanded ? "Shrink chat" : "Expand chat"} onClick={() => setExpanded(!expanded)}>
-            {expanded ? <Minimize2 className="size-4" aria-hidden /> : <Maximize2 className="size-4" aria-hidden />}
+          <IconButton
+            label={expanded ? "Shrink chat" : "Expand chat"}
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? (
+              <Minimize2 className="size-4" aria-hidden />
+            ) : (
+              <Maximize2 className="size-4" aria-hidden />
+            )}
           </IconButton>
         </span>
         <IconButton label="Close chat" onClick={close}>

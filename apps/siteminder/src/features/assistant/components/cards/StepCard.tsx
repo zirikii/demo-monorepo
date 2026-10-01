@@ -1,12 +1,42 @@
 import { renderCard } from "../../engine/conversation";
 import type { FlowCard, TemplateValues } from "../../flows";
-import { BankTransferCard, CreditRefundCard, ExtensionCard, InstalmentCard, InvoiceCard, InvoiceCompareCard, PaymentConfirmCard } from "./BillingCards";
+import {
+  BankTransferCard,
+  CreditRefundCard,
+  ExtensionCard,
+  InstalmentCard,
+  InvoiceCard,
+  InvoiceCompareCard,
+  PaymentConfirmCard,
+} from "./BillingCards";
 import { EventInsightsCard, EventPlaybookCard, EventReviewCard } from "./EventCards";
 import { FormCard } from "./FormCard";
-import { ContactCard, HandoffCard, InfoCard, PlatformStatusCard, StepsCard, SuccessCard, UrgentCard } from "./GeneralCards";
-import { BookingCard, ChannelCard, ParityCard, PlanCompareCard, SyncTestCard } from "./PropertyCards";
+import {
+  ContactCard,
+  HandoffCard,
+  InfoCard,
+  PlatformStatusCard,
+  StepsCard,
+  SuccessCard,
+  UrgentCard,
+} from "./GeneralCards";
+import {
+  BookingCard,
+  ChannelCard,
+  ParityCard,
+  PlanCompareCard,
+  SyncTestCard,
+} from "./PropertyCards";
 
-export function StepCard({ card: raw, values, live }: { card: FlowCard; values: TemplateValues; live: boolean }) {
+export function StepCard({
+  card: raw,
+  values,
+  live,
+}: {
+  card: FlowCard;
+  values: TemplateValues;
+  live: boolean;
+}) {
   const card = renderCard(raw, values) ?? raw;
   switch (card.kind) {
     case "steps":

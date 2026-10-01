@@ -8,7 +8,11 @@ import { PropertyProvider } from "./features/property/PropertyProvider";
 import { StudioProvider } from "./features/studio/StudioProvider";
 import { AuthProvider } from "./hooks/useAuth";
 import { AdminLayout } from "./pages/admin/AdminLayout";
-import { ConversationDetailPage, ConversationsPage, StudioOverviewPage } from "./pages/admin/Conversations";
+import {
+  ConversationDetailPage,
+  ConversationsPage,
+  StudioOverviewPage,
+} from "./pages/admin/Conversations";
 import { RoutingPage } from "./pages/admin/Routing";
 import { AssistantSettingsPage, PropertyProfilePage } from "./pages/admin/Settings";
 import { SimulatorPage } from "./pages/admin/Simulator";
@@ -21,7 +25,15 @@ import { HelpPage } from "./pages/app/Help";
 import { RatesPage } from "./pages/app/Rates";
 import { ReservationsPage } from "./pages/app/Reservations";
 import { TeamPage } from "./pages/app/Team";
-import { AboutPage, ContactPage, CustomersPage, IntegrationsPage, ResourceArticlePage, ResourcesPage, SolutionPage } from "./pages/Company";
+import {
+  AboutPage,
+  ContactPage,
+  CustomersPage,
+  IntegrationsPage,
+  ResourceArticlePage,
+  ResourcesPage,
+  SolutionPage,
+} from "./pages/Company";
 import { DemoPage, GetStartedPage } from "./pages/Forms";
 import { HomePage } from "./pages/Home";
 import { LoginPage } from "./pages/Login";

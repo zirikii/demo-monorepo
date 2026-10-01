@@ -34,7 +34,15 @@ import {
 } from "./engine/conversation";
 import { validateForm, type FormResult } from "./engine/forms";
 import { isSafetyConcern, resolveIntent } from "./engine/intent";
-import { buildRecord, evaluateHandoff, handoffFacts, newSessionRef, promptOptions, routingSignals, stepTopicEnabled } from "./engine/session";
+import {
+  buildRecord,
+  evaluateHandoff,
+  handoffFacts,
+  newSessionRef,
+  promptOptions,
+  routingSignals,
+  stepTopicEnabled,
+} from "./engine/session";
 import { runChatTurn, type ChatInputItem } from "./chat/grokChat";
 import {
   buildChatInstructions,
@@ -47,7 +55,12 @@ import {
 } from "./engine/voicePrompt";
 import { createPlayer, startMicrophone, type MicStream, type PcmPlayer } from "./voice/audio";
 import { DemoVoice, canRecogniseSpeech } from "./voice/demoVoice";
-import { GrokRealtimeClient, fetchVoiceStatus, requestVoiceGrant, type ToolResult } from "./voice/grokRealtime";
+import {
+  GrokRealtimeClient,
+  fetchVoiceStatus,
+  requestVoiceGrant,
+  type ToolResult,
+} from "./voice/grokRealtime";
 
 export type AssistantMode = "chat" | "voice";
 export type VoiceStatus = "idle" | "connecting" | "listening" | "thinking" | "speaking" | "error";
@@ -65,7 +78,13 @@ export type VoiceState = {
   canRecognise: boolean;
 };
 
-export type OpenOptions = { step?: string; label?: string; mode?: AssistantMode; text?: string; recordId?: string };
+export type OpenOptions = {
+  step?: string;
+  label?: string;
+  mode?: AssistantMode;
+  text?: string;
+  recordId?: string;
+};
 
 export type AssistantContextValue = {
   isOpen: boolean;
@@ -94,14 +113,24 @@ const AssistantContext = createContext<AssistantContextValue | null>(null);
 
 const TYPING_MS = 650;
 
-function stepPayload(stepId: string, values: TemplateValues, customer: ConversationCustomer): ToolResult {
+function stepPayload(
+  stepId: string,
+  values: TemplateValues,
+  customer: ConversationCustomer,
+): ToolResult {
   const { node, text, options, card } = renderStep(stepId, values, customer);
   return {
     step_id: node.id,
     title: node.title,
     say: text,
     options: options.filter((o) => !o.recordId).map((o) => ({ label: o.label, next: o.next })),
-    ...(node.pick ? { records: options.filter((o) => o.recordId).map((o) => ({ record_id: o.recordId, label: o.label })) } : {}),
+    ...(node.pick
+      ? {
+          records: options
+            .filter((o) => o.recordId)
+            .map((o) => ({ record_id: o.recordId, label: o.label })),
+        }
+      : {}),
     on_screen: describeCard(card, values),
   };
 }
@@ -110,20 +139,44 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   const store = useProperty();
   const studio = useStudio();
   const { config } = studio;
-  const { profile, property, channels, bookings, invoices, team, events, rateLog, stopSell, signedIn } = store;
+  const {
+    profile,
+    property,
+    channels,
+    bookings,
+    invoices,
+    team,
+    events,
+    rateLog,
+    stopSell,
+    signedIn,
+  } = store;
 
   const propertyState = useMemo<PropertyState>(
     () => ({ profile, property, channels, bookings, invoices, team, events, rateLog, stopSell }),
     [profile, property, channels, bookings, invoices, team, events, rateLog, stopSell],
   );
-  const customer = useMemo<ConversationCustomer>(() => ({ property: propertyState, signedIn }), [propertyState, signedIn]);
+  const customer = useMemo<ConversationCustomer>(
+    () => ({ property: propertyState, signedIn }),
+    [propertyState, signedIn],
+  );
   const context = useMemo(
     () =>
-      buildContext({ state: propertyState, signedIn }, { personalGreeting: config.assistant.personalGreeting, insights: config.assistant.eventInsights }),
+      buildContext(
+        { state: propertyState, signedIn },
+        {
+          personalGreeting: config.assistant.personalGreeting,
+          insights: config.assistant.eventInsights,
+        },
+      ),
     [propertyState, signedIn, config.assistant.personalGreeting, config.assistant.eventInsights],
   );
 
-  const [conversation, reactDispatch] = useReducer(conversationReducer, { context, customer }, initialConversation);
+  const [conversation, reactDispatch] = useReducer(
+    conversationReducer,
+    { context, customer },
+    initialConversation,
+  );
   const [isOpen, setOpen] = useState(false);
   const [mode, setModeState] = useState<AssistantMode>("chat");
   const [expanded, setExpanded] = useState(false);
@@ -164,7 +217,10 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   const handoffRef = useRef<RoutingOutcome | null>(null);
   const appliedEffects = useRef(new Set<number>());
 
-  const patchVoice = useCallback((patch: Partial<VoiceState>) => setVoice((v) => ({ ...v, ...patch })), []);
+  const patchVoice = useCallback(
+    (patch: Partial<VoiceState>) => setVoice((v) => ({ ...v, ...patch })),
+    [],
+  );
 
   // Advances stateRef immediately so later calls in the same handler (a deep link that then starts
   // voice, say) see this action instead of the last render's state. The reducer is pure, so the
@@ -190,7 +246,10 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     };
   }, [patchVoice]);
 
-  const greeting = useCallback(() => renderStep(ROOT_ID, templateValues(stateRef.current), stateRef.current.customer).text, []);
+  const greeting = useCallback(
+    () => renderStep(ROOT_ID, templateValues(stateRef.current), stateRef.current.customer).text,
+    [],
+  );
 
   const ensureGreeting = useCallback(() => {
     if (stateRef.current.messages.length === 0) dispatch({ type: "step", stepId: ROOT_ID });
@@ -211,26 +270,36 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   }, []);
 
   /** Where the step request really lands: topic switches, decisions and the handoff queue all apply. */
-  const prepareStep = useCallback((requested: string, set?: TemplateValues): { stepId: string; set?: TemplateValues } => {
-    const { config: cfg, log } = studioRef.current;
-    const state = stateRef.current;
-    const values = { ...templateValues(state), ...resolveFacts(set, templateValues(state)) };
-    const target = getNode(requested) ? resolveStepId(requested, values) : "fallback";
-    const stepId = stepTopicEnabled(cfg, target) ? target : "handoff";
-    if (stepId !== "handoff") return { stepId, set };
-    const signals = routingSignals({ ...state, facts: { ...state.facts, ...resolveFacts(set, templateValues(state)) } }, log, session.current.id);
-    const outcome = evaluateHandoff(cfg, signals);
-    handoffRef.current = outcome;
-    setHandoff(outcome);
-    if (cfg.assistant.showRoutingNotes) {
-      const { decision } = outcome;
-      dispatch({
-        type: "system",
-        text: `Routed to ${queueName(cfg, decision.queue)} · ${decision.priority} · ${decision.ruleName ?? "Standard routing"} — ${decision.reason}`,
-      });
-    }
-    return { stepId, set: { ...set, ...handoffFacts(cfg, outcome, session.current.ref, state.customer) } };
-  }, [dispatch]);
+  const prepareStep = useCallback(
+    (requested: string, set?: TemplateValues): { stepId: string; set?: TemplateValues } => {
+      const { config: cfg, log } = studioRef.current;
+      const state = stateRef.current;
+      const values = { ...templateValues(state), ...resolveFacts(set, templateValues(state)) };
+      const target = getNode(requested) ? resolveStepId(requested, values) : "fallback";
+      const stepId = stepTopicEnabled(cfg, target) ? target : "handoff";
+      if (stepId !== "handoff") return { stepId, set };
+      const signals = routingSignals(
+        { ...state, facts: { ...state.facts, ...resolveFacts(set, templateValues(state)) } },
+        log,
+        session.current.id,
+      );
+      const outcome = evaluateHandoff(cfg, signals);
+      handoffRef.current = outcome;
+      setHandoff(outcome);
+      if (cfg.assistant.showRoutingNotes) {
+        const { decision } = outcome;
+        dispatch({
+          type: "system",
+          text: `Routed to ${queueName(cfg, decision.queue)} · ${decision.priority} · ${decision.ruleName ?? "Standard routing"} — ${decision.reason}`,
+        });
+      }
+      return {
+        stepId,
+        set: { ...set, ...handoffFacts(cfg, outcome, session.current.ref, state.customer) },
+      };
+    },
+    [dispatch],
+  );
 
   /** Shows an already-prepared step, with a short typing pause in chat mode. */
   const showPrepared = useCallback(
@@ -252,7 +321,10 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     [dispatch],
   );
 
-  const respond = useCallback((requested: string, set?: TemplateValues) => showPrepared(prepareStep(requested, set)), [prepareStep, showPrepared]);
+  const respond = useCallback(
+    (requested: string, set?: TemplateValues) => showPrepared(prepareStep(requested, set)),
+    [prepareStep, showPrepared],
+  );
 
   /** Script for a prepared step, for notes to Grok while the chat is still showing the typing pause. */
   const scriptFor = useCallback(({ stepId, set }: { stepId: string; set?: TemplateValues }) => {
@@ -295,9 +367,14 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   /** Runs live routing after a hotelier turn (typed, spoken, chip or form). Only one live handoff per chat. */
   const routeAfterTurn = useCallback(
     (said: string): boolean => {
-      if (sessionMeta.current.liveHandoff || stateRef.current.currentStepId === "handoff") return false;
+      if (sessionMeta.current.liveHandoff || stateRef.current.currentStepId === "handoff")
+        return false;
       const { config: cfg, log } = studioRef.current;
-      const outcome = evaluateRouting(cfg, routingSignals(stateRef.current, log, session.current.id), "live");
+      const outcome = evaluateRouting(
+        cfg,
+        routingSignals(stateRef.current, log, session.current.id),
+        "live",
+      );
       if (outcome.decision.action !== "handoff") return false;
       handOff(outcome, said);
       return true;
@@ -339,17 +416,23 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
         const requested = String(args.step_id ?? "");
         if (!getNode(requested)) return { error: `Unknown step ${requested}` };
         if (!stepTopicEnabled(cfg, requested)) {
-          return { error: `The SiteMinder support team has switched off step ${requested}'s topic for the assistant. Go to handoff instead.` };
+          return {
+            error: `The SiteMinder support team has switched off step ${requested}'s topic for the assistant. Go to handoff instead.`,
+          };
         }
         const label = typeof args.option_label === "string" ? args.option_label.toLowerCase() : "";
-        const chosen = liveOptions(state).find((o) => o.next === requested && (!label || o.label.toLowerCase() === label));
+        const chosen = liveOptions(state).find(
+          (o) => o.next === requested && (!label || o.label.toLowerCase() === label),
+        );
         const values = templateValues(state);
         const { stepId, set } = prepareStep(requested, resolveFacts(chosen?.set, values));
         if (stepId !== state.currentStepId) dispatch({ type: "step", stepId, set, silent: true });
         return stepPayload(stepId, { ...values, ...set }, state.customer);
       }
       if (name === TOOL_SELECT_RECORD) {
-        const recordId = String(args.record_id ?? "").replace(/\s/g, "").toLowerCase();
+        const recordId = String(args.record_id ?? "")
+          .replace(/\s/g, "")
+          .toLowerCase();
         const options = liveOptions(state).filter((o) => o.recordId);
         const option = options.find((o) => o.recordId?.toLowerCase() === recordId);
         if (!option) {
@@ -368,12 +451,23 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
         const node = state.currentStepId ? getNode(state.currentStepId) : undefined;
         const card = node?.card;
         if (card?.kind !== "form" || card.form !== form) {
-          return { error: `The screen isn't showing the ${form} form. Call ${TOOL_GO_TO_STEP} first.` };
+          return {
+            error: `The screen isn't showing the ${form} form. Call ${TOOL_GO_TO_STEP} first.`,
+          };
         }
-        const result = validateForm(form, (args.values as Record<string, unknown>) ?? {}, formContext());
+        const result = validateForm(
+          form,
+          (args.values as Record<string, unknown>) ?? {},
+          formContext(),
+        );
         if (!result.ok) return { error: "Some fields need fixing", fields: result.errors };
-        dispatch({ type: "user", text: result.summary, via: modeRef.current === "voice" ? "voice" : "text" });
-        if (routeAfterTurn(result.summary)) return stepPayload("handoff", templateValues(stateRef.current), state.customer);
+        dispatch({
+          type: "user",
+          text: result.summary,
+          via: modeRef.current === "voice" ? "voice" : "text",
+        });
+        if (routeAfterTurn(result.summary))
+          return stepPayload("handoff", templateValues(stateRef.current), state.customer);
         const { stepId, set } = prepareStep(card.next, result.facts);
         dispatch({ type: "step", stepId, set, silent: true });
         return stepPayload(stepId, { ...templateValues(state), ...set }, state.customer);
@@ -386,8 +480,13 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   /** Fills a step Grok opened but never wrote about with the step's own script. */
   const settlePendingStep = useCallback(() => {
     const last = stateRef.current.messages[stateRef.current.messages.length - 1];
-    if (last?.role !== "assistant" || !last.awaitingVoice || last.text || !last.stepId) return false;
-    const text = renderStep(last.stepId, last.values ?? templateValues(stateRef.current), stateRef.current.customer).text;
+    if (last?.role !== "assistant" || !last.awaitingVoice || last.text || !last.stepId)
+      return false;
+    const text = renderStep(
+      last.stepId,
+      last.values ?? templateValues(stateRef.current),
+      stateRef.current.customer,
+    ).text;
     dispatch({ type: "assistant-transcript", text, final: true });
     return true;
   }, [dispatch]);
@@ -404,7 +503,16 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       const input: ChatInputItem[] = [
         ...(chatResponseId.current
           ? []
-          : [{ role: "system" as const, content: buildChatInstructions(templateValues(state), { ...promptOptions(cfg, state.customer), voiceForms: true }, greeting()) }]),
+          : [
+              {
+                role: "system" as const,
+                content: buildChatInstructions(
+                  templateValues(state),
+                  { ...promptOptions(cfg, state.customer), voiceForms: true },
+                  greeting(),
+                ),
+              },
+            ]),
         ...chatNotes.current.map((note) => ({ role: "user" as const, content: note })),
         { role: "user", content: text },
       ];
@@ -414,7 +522,8 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
           input,
           previousResponseId: chatResponseId.current,
           tools: buildVoiceTools(),
-          onToolCall: (name, args) => (current() ? handleToolCall(name, args) : { error: "Conversation was reset" }),
+          onToolCall: (name, args) =>
+            current() ? handleToolCall(name, args) : { error: "Conversation was reset" },
         });
         if (!current()) return;
         chatResponseId.current = reply.responseId;
@@ -464,7 +573,9 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       const prepared = prepareStep(option.next, resolveFacts(option.set, values));
       showPrepared(prepared);
       const script = scriptFor(prepared);
-      tellGrok(`(Hotelier tapped: "${option.label}". The screen now shows step ${script.node.id}. Say: ${script.text})`);
+      tellGrok(
+        `(Hotelier tapped: "${option.label}". The screen now shows step ${script.node.id}. Say: ${script.text})`,
+      );
     },
     [dispatch, prepareStep, routeAfterTurn, scriptFor, showPrepared, tellGrok],
   );
@@ -479,15 +590,23 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       dispatch({ type: "user", text: said, via: "chip" });
       if (routeAfterTurn(said)) return;
       const values = templateValues(stateRef.current);
-      const picked = recordId && node.pick
-        ? renderStep(requested, values, stateRef.current.customer).options.find((o) => o.recordId === recordId)
-        : undefined;
+      const picked =
+        recordId && node.pick
+          ? renderStep(requested, values, stateRef.current.customer).options.find(
+              (o) => o.recordId === recordId,
+            )
+          : undefined;
       const target = picked?.next ?? requested;
       const prepared = prepareStep(target, picked ? resolveFacts(picked.set, values) : undefined);
       if (immediate) {
         if (typingTimer.current) clearTimeout(typingTimer.current);
         setTyping(false);
-        dispatch({ type: "step", stepId: prepared.stepId, set: prepared.set, silent: modeRef.current === "voice" && Boolean(grok.current) });
+        dispatch({
+          type: "step",
+          stepId: prepared.stepId,
+          set: prepared.set,
+          silent: modeRef.current === "voice" && Boolean(grok.current),
+        });
       } else {
         showPrepared(prepared);
       }
@@ -496,7 +615,10 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
     [dispatch, ensureGreeting, prepareStep, routeAfterTurn, showPrepared, tellGrok],
   );
 
-  const goToStep = useCallback((stepId: string, userLabel?: string) => jumpTo(stepId, userLabel, false), [jumpTo]);
+  const goToStep = useCallback(
+    (stepId: string, userLabel?: string) => jumpTo(stepId, userLabel, false),
+    [jumpTo],
+  );
 
   const submitForm = useCallback(
     (form: FormId, values: Record<string, string>, next: string): FormResult => {
@@ -505,7 +627,9 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       dispatch({ type: "user", text: result.summary, via: "text" });
       if (routeAfterTurn(result.summary)) return result;
       respond(next, result.facts);
-      tellGrok(`(Hotelier submitted the ${form} form on screen: ${result.summary}. The screen now shows step ${next}.)`);
+      tellGrok(
+        `(Hotelier submitted the ${form} form on screen: ${result.summary}. The screen now shows step ${next}.)`,
+      );
       return result;
     },
     [dispatch, formContext, respond, routeAfterTurn, tellGrok],
@@ -566,12 +690,18 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       const resumeStep = stateRef.current.currentStepId;
       const resuming = Boolean(resumeStep && resumeStep !== ROOT_ID);
       // The root step starts silent and is filled by the greeting's transcript, or by its script once the greeting ends.
-      if (stateRef.current.messages.length === 0) dispatch({ type: "step", stepId: ROOT_ID, silent: true });
+      if (stateRef.current.messages.length === 0)
+        dispatch({ type: "step", stepId: ROOT_ID, silent: true });
       const { config: cfg } = studioRef.current;
       const client = new GrokRealtimeClient({
         grant,
         voice: cfg.assistant.voice,
-        instructions: buildVoiceInstructions(templateValues(stateRef.current), promptOptions(cfg, stateRef.current.customer), greeting(), resumeStep),
+        instructions: buildVoiceInstructions(
+          templateValues(stateRef.current),
+          promptOptions(cfg, stateRef.current.customer),
+          greeting(),
+          resumeStep,
+        ),
         tools: buildVoiceTools({ voiceForms: cfg.assistant.voiceForms }),
         greeting: resuming ? undefined : greeting(),
         handlers: {
@@ -591,7 +721,13 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
                 mic.current = stream;
                 patchVoice({ status: "listening" });
               })
-              .catch(() => patchVoice({ status: "error", error: "Microphone access was blocked. Allow it in your browser to talk to SiteMinder Support." }));
+              .catch(() =>
+                patchVoice({
+                  status: "error",
+                  error:
+                    "Microphone access was blocked. Allow it in your browser to talk to SiteMinder Support.",
+                }),
+              );
           },
           onUserSpeechStarted: () => {
             player.current?.interrupt();
@@ -603,7 +739,8 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
             if (isSafetyConcern(text)) showSafety(text);
             else routeAfterTurn(text);
           },
-          onAssistantTranscript: (text, final) => dispatch({ type: "assistant-transcript", text, final }),
+          onAssistantTranscript: (text, final) =>
+            dispatch({ type: "assistant-transcript", text, final }),
           onAudio: (b64) => player.current?.enqueue(b64),
           // response.done lands well before the audio finishes, so hand the turn back only once it has played out.
           onResponseDone: () => {
@@ -632,7 +769,16 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       const message = err instanceof Error ? err.message : "Grok voice is unavailable";
       startDemoVoice(`${message}. Using browser voice instead.`);
     }
-  }, [dispatch, greeting, handleToolCall, patchVoice, routeAfterTurn, settlePendingStep, showSafety, startDemoVoice]);
+  }, [
+    dispatch,
+    greeting,
+    handleToolCall,
+    patchVoice,
+    routeAfterTurn,
+    settlePendingStep,
+    showSafety,
+    startDemoVoice,
+  ]);
 
   const setMode = useCallback(
     (next: AssistantMode) => {
@@ -643,7 +789,8 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
         const wasLive = Boolean(grok.current);
         stopVoice();
         const step = stateRef.current.currentStepId;
-        if (wasLive && step) tellGrok(`(The hotelier switched from voice back to chat on step ${step}.)`);
+        if (wasLive && step)
+          tellGrok(`(The hotelier switched from voice back to chat on step ${step}.)`);
         return;
       }
       if (grokConfigured.current) void startGrokVoice();
@@ -668,7 +815,8 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
   // Steps that change the account (channel fixes, payments, rates, users) apply once, when shown.
   useEffect(() => {
     const last = conversation.messages[conversation.messages.length - 1];
-    if (!last || last.role !== "assistant" || !last.stepId || appliedEffects.current.has(last.id)) return;
+    if (!last || last.role !== "assistant" || !last.stepId || appliedEffects.current.has(last.id))
+      return;
     const effect = requireNode(last.stepId).effect;
     if (!effect) return;
     appliedEffects.current.add(last.id);
@@ -768,7 +916,25 @@ export function AssistantProvider({ children }: { children: ReactNode }) {
       restart,
       toggleMute,
     }),
-    [isOpen, mode, expanded, typing, conversation, voice, handoff, open, close, setMode, sendText, chooseOption, goToStep, submitForm, back, restart, toggleMute],
+    [
+      isOpen,
+      mode,
+      expanded,
+      typing,
+      conversation,
+      voice,
+      handoff,
+      open,
+      close,
+      setMode,
+      sendText,
+      chooseOption,
+      goToStep,
+      submitForm,
+      back,
+      restart,
+      toggleMute,
+    ],
   );
 
   return <AssistantContext.Provider value={value}>{children}</AssistantContext.Provider>;
