@@ -4,45 +4,48 @@ import { isSafetyConcern, normalise, resolveIntent } from "@/features/assistant/
 
 describe("intent matching", () => {
   it("normalises apostrophes and punctuation", () => {
-    expect(normalise("Where's my TICKET?!")).toBe("wheres my ticket");
+    expect(normalise("Why's my INVOICE higher?!")).toBe("whys my invoice higher");
   });
 
-  it("flags safety concerns", () => {
-    expect(isSafetyConcern("someone got hurt near the stage")).toBe(true);
-    expect(isSafetyConcern("I feel unsafe in the queue")).toBe(true);
-    expect(isSafetyConcern("Someone is threatening me and I'm scared")).toBe(true);
-    expect(isSafetyConcern("a guy has been harassing us at gate 3")).toBe(true);
-    expect(isSafetyConcern("I think my drink was spiked")).toBe(true);
-    expect(isSafetyConcern("I'm scared my tickets won't arrive in time")).toBe(false);
-    expect(isSafetyConcern("where is my ticket")).toBe(false);
+  it("flags safety concerns at the property", () => {
+    expect(isSafetyConcern("a guest collapsed in the lobby")).toBe(true);
+    expect(isSafetyConcern("there's a fire in the kitchen")).toBe(true);
+    expect(isSafetyConcern("a guest is threatening our night manager")).toBe(true);
+    expect(isSafetyConcern("expedia is hurting our revenue")).toBe(false);
+    expect(isSafetyConcern("the booking engine is down")).toBe(false);
   });
 
   it("routes a safety message to the safety step before anything else", () => {
-    const options: RenderedOption[] = [{ label: "Yes", next: "resolved" }];
-    expect(resolveIntent("my friend is injured", "tickets.mobile", options)).toMatchObject({ kind: "step", stepId: "safety", reason: "safety" });
+    const options: RenderedOption[] = [{ label: "Yes, fix the mapping", next: "channels.mapping.done" }];
+    expect(resolveIntent("someone is injured at reception", "channels.mapping", options)).toMatchObject({ kind: "step", stepId: "safety", reason: "safety" });
   });
 
-  it("matches keywords to the right topic", () => {
-    expect(resolveIntent("my event was cancelled, can I get a refund", null, [])).toMatchObject({ kind: "step" });
-    expect(resolveIntent("barcode isn't showing in the app", null, [])).toMatchObject({ kind: "step", stepId: "tickets.mobile" });
-    expect(resolveIntent("I think these are fake tickets from viagogo", null, [])).toMatchObject({ kind: "step", stepId: "tickets.scam" });
+  it("matches keywords to the most specific step", () => {
+    expect(resolveIntent("Expedia says there's a mapping error", null, [])).toMatchObject({ kind: "step", stepId: "channels.mapping" });
+    expect(resolveIntent("we're overbooked tonight", null, [])).toMatchObject({ kind: "step", stepId: "urgent.overbooking" });
+    expect(resolveIntent("I got a phishing email from booking.com", null, [])).toMatchObject({ kind: "step", stepId: "urgent.security" });
+    expect(resolveIntent("why is my invoice higher than expected", null, [])).toMatchObject({ kind: "step", stepId: "billing.high" });
+    expect(resolveIntent("help me price the big game", null, [])).toMatchObject({ kind: "step", stepId: "events" });
   });
 
-  it("matches an order option by the event name alone", () => {
+  it("picks a record by its name alone", () => {
     const options: RenderedOption[] = [
-      { label: "Freddie's Queen · Thu 1 Oct", next: "tickets.mobile", orderId: "TK1" },
-      { label: "Laneway Festival 2027 · Sat 6 Feb", next: "tickets.mobile", orderId: "TK2" },
+      { label: "Expedia · Mapping error", next: "channels.mapping", recordId: "exp", recordKind: "channel" },
+      { label: "Airbnb · Credentials expired", next: "channels.auth", recordId: "abnb", recordKind: "channel" },
     ];
-    const match = resolveIntent("the laneway one", "tickets", options);
-    expect(match).toMatchObject({ kind: "option", option: { orderId: "TK2" } });
+    expect(resolveIntent("the airbnb one", "channels", options)).toMatchObject({ kind: "option", option: { recordId: "abnb" } });
   });
 
   it("treats yes and no as the matching chips", () => {
     const options: RenderedOption[] = [
-      { label: "Yes, request a refund", next: "refunds.confirm" },
-      { label: "No, keep my tickets", next: "resolved" },
+      { label: "Yes, resume Trip.com", next: "channels.paused.done" },
+      { label: "Keep it paused", next: "resolved" },
     ];
-    expect(resolveIntent("yes please", "refunds.standard", options)).toMatchObject({ kind: "option", option: { next: "refunds.confirm" } });
-    expect(resolveIntent("nah", "refunds.standard", options)).toMatchObject({ kind: "option", option: { next: "resolved" } });
+    expect(resolveIntent("yes please", "channels.paused", options)).toMatchObject({ kind: "option", option: { next: "channels.paused.done" } });
+    expect(resolveIntent("nah", "channels.paused", options)).toMatchObject({ kind: "option", option: { next: "resolved" } });
+  });
+
+  it("returns nothing for gibberish", () => {
+    expect(resolveIntent("blah", null, [])).toBeNull();
   });
 });

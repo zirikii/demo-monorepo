@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AppProviders, AppRoutes } from "@/App";
 import { DEMO_USER, writeSession } from "@/lib/auth";
 
@@ -19,11 +20,14 @@ function internalLinks(container: HTMLElement): string[] {
   return [...new Set(hrefs.filter((h) => h.startsWith("/")))];
 }
 
+const NOT_FOUND = "We couldn't find that page";
+
 describe("site routes", () => {
   it("renders the home page with header navigation and the support launcher", () => {
     renderAt("/");
     expect(screen.getByRole("banner")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Talk to Ticketek Support" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Talk to SiteMinder Support" })).toBeInTheDocument();
   });
 
   it("has no dead links from the home page, header or footer", () => {
@@ -31,58 +35,111 @@ describe("site routes", () => {
     const links = internalLinks(container);
     unmount();
     expect(links.length).toBeGreaterThan(20);
-    for (const href of links.filter((h) => !h.startsWith("/login"))) {
+    for (const href of links) {
       const view = renderAt(href);
-      expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), href).toBeNull();
+      expect(screen.queryByRole("heading", { name: NOT_FOUND }), href).toBeNull();
       view.unmount();
     }
   });
 
-  it("shows the 404 page for unknown paths", () => {
+  it("renders every product, solution and resource page linked from the platform pages", () => {
+    for (const start of ["/platform", "/resources"]) {
+      const { container, unmount } = renderAt(start);
+      const links = internalLinks(container).filter((h) => /^\/(platform|solutions|resources)\//.test(h));
+      unmount();
+      expect(links.length, start).toBeGreaterThan(3);
+      for (const href of links) {
+        const view = renderAt(href);
+        expect(screen.queryByRole("heading", { name: NOT_FOUND }), href).toBeNull();
+        view.unmount();
+      }
+    }
+  });
+
+  it("shows the 404 page for unknown paths and unknown products", () => {
     renderAt("/definitely-not-here");
-    expect(screen.getByRole("heading", { name: "We couldn't find that page" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: NOT_FOUND })).toBeInTheDocument();
   });
 
-  it("documents intentional login render crash (site config casing)", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/login")).toThrow();
-    consoleError.mockRestore();
+  it("sends signed-out visitors to log in before the platform, then back", async () => {
+    renderAt("/app/channels");
+    expect(screen.getByRole("heading", { name: "Log in to SiteMinder" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toHaveValue(DEMO_USER.email);
+    await userEvent.setup().click(screen.getByRole("button", { name: "Log in" }));
+    expect(await screen.findByRole("heading", { name: "Channels" })).toBeInTheDocument();
   });
 
-  it("sends signed-out fans to sign in before My Account", () => {
-    // Unauthenticated /account redirects to /login, which currently throws (same demo bug).
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/account/orders")).toThrow();
-    consoleError.mockRestore();
+  it("captures demo requests", async () => {
+    renderAt("/demo");
+    const user = userEvent.setup();
+    const form = screen.getByRole("form", { name: "Book my demo" });
+    const fields: [string, string][] = [
+      ["First name", "Sophie"],
+      ["Last name", "Tran"],
+      ["Work email", "sophie@harbourlane.com.au"],
+      ["Phone", "0412 555 019"],
+      ["Property name", "The Harbour Lane Hotel"],
+    ];
+    for (const [label, value] of fields) await user.type(within(form).getByLabelText(label), value);
+    await user.selectOptions(within(form).getByLabelText("Number of rooms"), "81–150");
+    await user.click(within(form).getByRole("button", { name: "Book my demo" }));
+    expect(await screen.findByRole("status")).toHaveTextContent("you're all set");
   });
 
-  it("renders every account and Support Studio page for a signed-in fan", () => {
+  it("renders every platform and Support Studio page for a signed-in hotelier", () => {
     writeSession(DEMO_USER);
     const paths = [
-      "/account",
-      "/account/orders",
-      "/account/orders/TK41882950",
-      "/account/history",
-      "/account/favourites",
-      "/account/waitlist",
-      "/account/details",
-      "/account/notifications",
-      "/account/payment",
-      "/account/password",
-      "/account/close",
+      "/app",
+      "/app/channels",
+      "/app/reservations",
+      "/app/rates",
+      "/app/events",
+      "/app/billing",
+      "/app/team",
+      "/app/help",
       "/admin",
       "/admin/conversations",
       "/admin/routing",
       "/admin/simulator",
       "/admin/assistant",
-      "/admin/fan",
+      "/admin/property",
     ];
     for (const path of paths) {
       const view = renderAt(path);
-      expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), path).toBeNull();
-      expect(screen.queryByRole("heading", { name: /sign in/i }), path).toBeNull();
+      expect(screen.queryByRole("heading", { name: NOT_FOUND }), path).toBeNull();
+      expect(screen.queryByRole("heading", { name: "Log in to SiteMinder" }), path).toBeNull();
       expect(within(view.container).getAllByRole("heading").length, path).toBeGreaterThan(0);
       view.unmount();
     }
+  });
+
+  it("toggles a stop sell from the rate grid", async () => {
+    writeSession(DEMO_USER);
+    renderAt("/app/rates");
+    const cell = screen.getAllByRole("button", { name: /^Deluxe King .*Toggle stop sell$/ })[0]!;
+    await userEvent.setup().click(cell);
+    expect(cell).toHaveAccessibleName(/closed\. Toggle stop sell$/);
+  });
+
+  it("adds an event to the demand calendar", async () => {
+    writeSession(DEMO_USER);
+    renderAt("/app/events");
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("button", { name: "Add event" }));
+    const form = screen.getByRole("form", { name: "Add an event" });
+    await user.type(within(form).getByLabelText("Event name"), "Fred again.. at Allianz Stadium");
+    await user.type(within(form).getByLabelText("Date"), "2030-03-01");
+    await user.click(within(form).getByRole("button", { name: "Save event" }));
+    expect(screen.getByText("Fred again.. at Allianz Stadium")).toBeInTheDocument();
+  });
+
+  it("simulates routing for any scenario", async () => {
+    writeSession(DEMO_USER);
+    renderAt("/admin/simulator");
+    const result = screen.getByTestId("sim-result");
+    expect(result).toHaveTextContent("Assistant keeps helping");
+    expect(screen.getByText(/they land in/)).toHaveTextContent("Connectivity at P1");
+    await userEvent.setup().click(screen.getByRole("button", { name: "Account hacked" }));
+    expect(result).toHaveTextContent("Hands off to Security");
   });
 });
