@@ -25,7 +25,8 @@ demo-monorepo/
 │   ├── gojek/    # Vite + React 19 gojek.io corporate site + Partner Hub (Tailwind v4, TS)
 │   ├── gopay/    # Vite + React 19 GoPay consumer reKYC flow (Tailwind v4, TS)
 │   ├── agl/      # Vite + React 19 agl.com.au + AGL Assistant chat/voice (Grok) (Tailwind v4, TS)
-│   └── ticketek/ # Vite + React 19 premier.ticketek.com.au + Ticketek Support chat/voice (Tailwind v4, TS)
+│   ├── ticketek/ # Vite + React 19 premier.ticketek.com.au + Ticketek Support chat/voice (Tailwind v4, TS)
+│   └── siteminder/ # Vite + React 19 siteminder.com + mock platform + SiteMinder Support chat/voice (Tailwind v4, TS)
 └── packages/
     └── ui/       # @demo/ui — shared utilities, tokens, and components
 ```
@@ -62,6 +63,7 @@ Every app depends on `@demo/ui` (`workspace:*`) and pulls something from it:
 | gopay | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` beside the phone |
 | agl | `cn` class merger (`src/lib/cn.ts` re-exports `@demo/ui/cn`) + `<DemoRibbon>` in header |
 | ticketek | `cn` + `asset` (`src/lib/cn.ts`, `src/lib/asset.ts`) + `<DemoRibbon>` in header |
+| siteminder | `cn` + `asset` (`src/lib/cn.ts`, `src/lib/asset.ts`) + `<DemoRibbon>` in header |
 | nab | `tokens.css` design tokens copied into `css/tokens.css` at build time |
 
 See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
@@ -73,10 +75,10 @@ See [`packages/ui/README.md`](packages/ui/README.md) for the full export list.
 pnpm install
 
 # run one app
-pnpm dev:kddi      # or dev:nab / … / optus / commbank / employmenthero / hub24 / atlassian / gopay / agl / ticketek
+pnpm dev:kddi      # or dev:nab / … / optus / commbank / employmenthero / hub24 / atlassian / gopay / agl / ticketek / siteminder
 
 # build one app
-pnpm build:seek    # or build:kddi / … / build:hub24 / build:atlassian / build:gopay / build:agl / build:ticketek
+pnpm build:seek    # or build:kddi / … / build:hub24 / build:atlassian / build:gopay / build:agl / build:ticketek / build:siteminder
 
 # build every app
 pnpm build

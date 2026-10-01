@@ -7,8 +7,8 @@ export function toLocalIso(date: Date): string {
 }
 
 /**
- * Venue-local start time `days` from today. Touring shows and theatre seasons are dated relative to
- * the demo's clock so there's always an event tomorrow night, whatever day the demo runs.
+ * Property-local time `days` from today. Bookings and demand events are dated relative to the demo's
+ * clock so there's always an arrival tonight and an event this week, whatever day the demo runs.
  */
 export function daysFromToday(days: number, time: string, base: Date = new Date()): string {
   const [h, m] = time.split(":").map(Number);
