@@ -1,0 +1,91 @@
+import type { FlowNode } from "./types";
+
+export const propertyNodes: FlowNode[] = [
+  {
+    id: "property",
+    topic: "property",
+    title: "Property changes",
+    say: "What's changing at {propertyName}?",
+    options: [
+      { label: "Add another property", next: "property.add" },
+      { label: "Switch to a new PMS", next: "property.pms" },
+      { label: "Close or sell a property", next: "property.close" },
+      { label: "What does it cost?", next: "property.fees" },
+    ],
+    keywords: ["property changes", "new property", "change of ownership", "moving pms", "renovation"],
+  },
+  {
+    id: "property.add",
+    topic: "property",
+    title: "Add a property",
+    say: "Great news. Tell me about the new property and our onboarding team will have it set up, usually within five business days.",
+    card: { kind: "form", form: "add-property", next: "property.add.done" },
+    options: [{ label: "Back", next: "property" }],
+    keywords: ["add a property", "second property", "another hotel", "new hotel", "onboard a property"],
+  },
+  {
+    id: "property.add.done",
+    topic: "property",
+    title: "Property requested",
+    say: "Done. Onboarding for {newPropertyName} in {newPropertyCity} is underway, reference {requestRef}. We'll copy your channel setup from {propertyName} so it's quicker to go live.",
+    card: { kind: "success", title: "Onboarding started", detail: "{newPropertyName} · {newPropertyRooms} rooms · Ref {requestRef}" },
+    options: [
+      { label: "Ask about Groups & Chains", next: "account.plan" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+  },
+  {
+    id: "property.pms",
+    topic: "property",
+    title: "Switch PMS",
+    say: "SiteMinder integrates with hundreds of PMSs. You're on {pms} today. Which one are you moving to, and when?",
+    card: { kind: "form", form: "switch-pms", next: "property.pms.done" },
+    options: [{ label: "Back", next: "property" }],
+    keywords: ["switch pms", "change pms", "new pms", "moving to cloudbeds", "moving to opera", "pms migration"],
+  },
+  {
+    id: "property.pms.done",
+    topic: "property",
+    title: "PMS switch booked",
+    say: "Booked in. We'll move you from {pms} to {newPms} {pmsGoLive}, reference {requestRef}. Bookings keep flowing to SiteMinder throughout, and we'll resend anything made during the cutover.",
+    card: { kind: "success", title: "PMS switch scheduled", detail: "{pms} → {newPms} · {pmsGoLive} · Ref {requestRef}" },
+    effect: "switch-pms",
+    options: [{ label: "That's all, thanks", next: "resolved" }],
+  },
+  {
+    id: "property.close",
+    topic: "property",
+    title: "Close or sell",
+    say: "Sorry to see {propertyName} change hands. Before we close the account, choose what happens to it.",
+    options: [
+      { label: "Transfer it to the new owner", next: "property.close.done", set: { closeMode: "transfer to the new owner" } },
+      { label: "Close it completely", next: "property.close.done", set: { closeMode: "close" } },
+      { label: "Talk to someone first", next: "handoff" },
+    ],
+    keywords: ["close property", "sell the hotel", "selling the property", "closing down", "cancel my subscription", "cancel subscription"],
+  },
+  {
+    id: "property.close.done",
+    topic: "property",
+    title: "Request lodged",
+    say: "I've lodged a request to {closeMode} {propertyName}. Customer Success will confirm the date with you, and future bookings stay safe until the handover.",
+    card: { kind: "success", title: "Request lodged", detail: "{propertyName} · {closeMode} · Customer Success will be in touch" },
+    options: [{ label: "That's all, thanks", next: "resolved" }],
+  },
+  {
+    id: "property.fees",
+    topic: "property",
+    title: "Fees",
+    say: "Adding a property is billed at your plan's per-property price, with onboarding included. Switching PMS is free. Closing a property needs 30 days' notice.",
+    card: {
+      kind: "info",
+      title: "Property change fees",
+      body: "New property: plan price per property, onboarding included. PMS switch: no charge. Closure or transfer: 30 days' notice, no exit fee.",
+      link: { label: "See pricing", to: "/pricing" },
+    },
+    options: [
+      { label: "Add a property", next: "property.add" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+  },
+];

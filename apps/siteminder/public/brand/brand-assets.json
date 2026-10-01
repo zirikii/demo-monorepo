@@ -1,0 +1,28 @@
+{
+  "brand": "SiteMinder",
+  "disclaimer": "Unofficial demo. Not affiliated with SiteMinder Limited.",
+  "regenerate": "pnpm --filter siteminder-website-demo brand",
+  "logos": {
+    "siteminder-logo-navy.svg": "Wordmark traced from the white-background logo in the official SiteMinder x Stripe video thumbnail (https://i.ytimg.com/vi/8OBzeYHS1YM/maxresdefault.jpg), Stratos navy #00033B",
+    "siteminder-logo-white.svg": "Same trace, white, for dark surfaces",
+    "siteminder-mark.svg": "Door mark only (navy)",
+    "siteminder-mark-white.svg": "Door mark only (white)",
+    "favicon-64.png": "Door mark on white, 64px",
+    "apple-touch-icon.png": "Door mark on white, 180px"
+  },
+  "palette": {
+    "stratos": "#00033B",
+    "ink": "#181447",
+    "royal": "#0168F5",
+    "royal-bright": "#308AFF",
+    "lime": "#D1FC72",
+    "lavender": "#ECDEFF",
+    "butter": "#E9EAC2",
+    "mint": "#D4FAEB",
+    "aqua": "#77C1A7",
+    "deep": "#07114E"
+  },
+  "palette_source": "Sampled from official SiteMinder video thumbnails and the wordmark (lime 'BOOKED' pill, royal-blue gradients, pastel report covers)",
+  "typography": "SiteMinder uses a grotesk (Untitled Sans); the demo substitutes Inter via @fontsource/inter",
+  "media": "scripts/media.json lists every image in public/brand/media and its source video"
+}

@@ -1,0 +1,172 @@
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+@theme {
+  /* Ticketek brand palette (public/brand/brand-assets.json) */
+  --color-midnight: #001828;
+  --color-midnight-soft: #0b2a3f;
+  --color-midnight-line: #1d3a4f;
+  --color-tk-pink: #fc6eeb;
+  --color-tk-jacaranda: #9b6eea;
+  /* Interactive blue used for links, focus and secondary buttons on premier.ticketek.com.au */
+  --color-tk-blue: #00497a;
+  --color-tk-blue-hover: #003a61;
+  --color-tk-blue-tint: #e6eef4;
+  /* "Get Tickets" green */
+  --color-tk-green: #428226;
+  --color-tk-green-hover: #366b1f;
+  /* Purchase session timer */
+  --color-tk-yellow: #ffc300;
+
+  --color-ink: #171717;
+  --color-ink-soft: #4a4a4a;
+  --color-ink-faint: #6b6b6b;
+  --color-page: #f3f3f3;
+  --color-surface: #ffffff;
+  --color-line: #d7d7d7;
+  --color-line-soft: #e8e8e8;
+
+  --color-positive: #2e6b18;
+  --color-positive-bg: #e8f3e3;
+  --color-critical: #972323;
+  --color-critical-bg: #fbeaea;
+  --color-caution: #8a5a00;
+  --color-caution-bg: #fff6d9;
+
+  --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  --radius-tk: 5px;
+  --radius-tk-lg: 10px;
+  --radius-tk-xl: 18px;
+
+  --shadow-tk: 0 1px 4px rgba(0, 24, 40, 0.12);
+  --shadow-tk-lift: 0 8px 24px rgba(0, 24, 40, 0.16);
+  --shadow-tk-panel: 0 28px 70px rgba(0, 24, 40, 0.35);
+
+  --animate-fade-up: tk-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-fade-in: tk-fade-in 0.2s ease-out both;
+  --animate-pop-in: tk-pop-in 0.32s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-typing: tk-typing 1.2s ease-in-out infinite;
+  --animate-pulse-ring: tk-pulse-ring 2.4s ease-out infinite;
+  --animate-spin-slow: spin 8s linear infinite;
+}
+
+@keyframes tk-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tk-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tk-pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes tk-typing {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes tk-pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-tk-blue);
+    outline-offset: 2px;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  /* White content panel used for every page body on premier.ticketek.com.au */
+  .main-content-box {
+    @apply rounded-tk bg-surface shadow-tk;
+  }
+  .container-tk {
+    @apply mx-auto w-full max-w-[1200px] px-4 md:px-6;
+  }
+  .btn-tickets {
+    @apply inline-flex items-center justify-center gap-2 rounded-tk bg-tk-green px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-tk-green-hover disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-tk bg-tk-blue px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-tk-blue-hover disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-tk border border-tk-blue bg-white px-5 py-2.5 text-sm font-semibold text-tk-blue transition-colors hover:bg-tk-blue-tint disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .field {
+    @apply w-full rounded-tk border border-line bg-white px-3 py-2.5 text-sm text-ink placeholder:text-ink-faint focus:border-tk-blue focus:outline-none focus:ring-2 focus:ring-tk-blue/20;
+  }
+  .link {
+    @apply font-medium text-tk-blue underline-offset-2 hover:underline;
+  }
+  /* Signature Ticketek pink→jacaranda gradient from the brand guidelines */
+  .tk-gradient {
+    background-image: linear-gradient(120deg, var(--color-tk-pink) 0%, var(--color-tk-jacaranda) 100%);
+  }
+  .tk-gradient-text {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(120deg, var(--color-tk-pink) 0%, var(--color-tk-jacaranda) 100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

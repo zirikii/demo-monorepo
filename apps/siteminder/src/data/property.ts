@@ -1,0 +1,364 @@
+import type { Booking, Channel, DemandEvent, Invoice, PropertyState, RoomType, TeamUser } from "@/features/property/types";
+import { daysFromToday, toLocalIso } from "@/lib/clock";
+
+/**
+ * The Harbour Lane Hotel is fictional. Past events are real Sydney events, but every occupancy,
+ * rate and booking figure attached to them is invented for the demo.
+ */
+export const ROOM_TYPES: RoomType[] = [
+  { id: "SQ", name: "Superior Queen", rooms: 30, baseRate: 239 },
+  { id: "DK", name: "Deluxe King", rooms: 28, baseRate: 279 },
+  { id: "HV", name: "Harbour View King", rooms: 16, baseRate: 349 },
+  { id: "TW", name: "Twin Room", rooms: 8, baseRate: 249 },
+  { id: "ES", name: "Executive Suite", rooms: 4, baseRate: 529 },
+];
+
+function hoursAgo(h: number, base: Date): string {
+  return toLocalIso(new Date(base.getTime() - h * 3_600_000));
+}
+
+function seedChannels(now: Date): Channel[] {
+  return [
+    { id: "bdc", name: "Booking.com", kind: "ota", status: "connected", lastSync: hoursAgo(0.05, now), bookings30d: 214, revenue30d: 118_420, commissionPct: 15 },
+    { id: "exp", name: "Expedia", kind: "ota", status: "mapping-error", lastSync: hoursAgo(19, now), bookings30d: 96, revenue30d: 52_610, commissionPct: 18, issueRoom: "Deluxe King" },
+    { id: "abnb", name: "Airbnb", kind: "ota", status: "auth-failed", lastSync: hoursAgo(52, now), bookings30d: 31, revenue30d: 19_880, commissionPct: 15 },
+    { id: "agoda", name: "Agoda", kind: "ota", status: "connected", lastSync: hoursAgo(0.1, now), bookings30d: 58, revenue30d: 27_340, commissionPct: 17 },
+    { id: "trip", name: "Trip.com", kind: "ota", status: "paused", lastSync: hoursAgo(240, now), bookings30d: 0, revenue30d: 0, commissionPct: 16 },
+    { id: "hbeds", name: "Hotelbeds", kind: "wholesale", status: "connected", lastSync: hoursAgo(0.2, now), bookings30d: 22, revenue30d: 9_870, commissionPct: 20 },
+    { id: "ghotel", name: "Google Hotel Ads", kind: "metasearch", status: "connected", lastSync: hoursAgo(0.08, now), bookings30d: 47, revenue30d: 26_150, commissionPct: 0 },
+    { id: "direct", name: "SiteMinder Booking Engine", kind: "direct", status: "connected", lastSync: hoursAgo(0.02, now), bookings30d: 133, revenue30d: 71_930, commissionPct: 0 },
+    { id: "gds", name: "GDS (Amadeus, Sabre)", kind: "gds", status: "connected", lastSync: hoursAgo(0.3, now), bookings30d: 18, revenue30d: 11_260, commissionPct: 10 },
+  ];
+}
+
+type BookingSeed = Omit<Booking, "checkIn" | "bookedAt"> & { inDays: number; bookedDaysAgo: number };
+
+const BOOKING_SEEDS: BookingSeed[] = [
+  { id: "BDC-4821937", channelId: "bdc", guest: "Hannah Okafor", room: "Deluxe King", inDays: 0, nights: 2, guests: 2, total: 598, status: "overbooked", bookedDaysAgo: 0 },
+  { id: "EXP-7730241", channelId: "exp", guest: "Daniel Whitford", room: "Harbour View King", inDays: 5, nights: 3, guests: 2, total: 1_647, status: "missing-in-pms", bookedDaysAgo: 1 },
+  { id: "DIR-100482", channelId: "direct", guest: "Mei Lin Chen", room: "Executive Suite", inDays: 5, nights: 2, guests: 2, total: 1_498, status: "card-declined", bookedDaysAgo: 2 },
+  { id: "BDC-4819022", channelId: "bdc", guest: "Lucas Ferreira", room: "Superior Queen", inDays: 3, nights: 4, guests: 1, total: 1_036, status: "modified", bookedDaysAgo: 9, change: "Dates moved from a 3-night to a 4-night stay; arrival unchanged" },
+  { id: "AGD-55120873", channelId: "agoda", guest: "Aiko Tanaka", room: "Twin Room", inDays: 12, nights: 3, guests: 2, total: 867, status: "cancelled", bookedDaysAgo: 20 },
+  { id: "BDC-4822410", channelId: "bdc", guest: "Oliver Grant", room: "Deluxe King", inDays: 5, nights: 2, guests: 2, total: 1_118, status: "confirmed", bookedDaysAgo: 0 },
+  { id: "DIR-100479", channelId: "direct", guest: "Priya Raman", room: "Harbour View King", inDays: 12, nights: 4, guests: 2, total: 1_796, status: "confirmed", bookedDaysAgo: 3 },
+  { id: "GHA-302117", channelId: "ghotel", guest: "Thomas Byrne", room: "Superior Queen", inDays: 1, nights: 1, guests: 1, total: 259, status: "confirmed", bookedDaysAgo: 4 },
+  { id: "EXP-7729915", channelId: "exp", guest: "Sofia Rossi", room: "Superior Queen", inDays: 7, nights: 2, guests: 2, total: 538, status: "confirmed", bookedDaysAgo: 6 },
+  { id: "HBD-882301", channelId: "hbeds", guest: "Group: Kiwi Rugby Tours", room: "Twin Room", inDays: 4, nights: 3, guests: 8, total: 3_984, status: "confirmed", bookedDaysAgo: 40 },
+  { id: "GDS-1A7X9Q", channelId: "gds", guest: "Rachel Kim (Deloitte)", room: "Deluxe King", inDays: 2, nights: 2, guests: 1, total: 638, status: "confirmed", bookedDaysAgo: 8 },
+  { id: "BDC-4818761", channelId: "bdc", guest: "Matteo Bianchi", room: "Harbour View King", inDays: 26, nights: 2, guests: 2, total: 1_398, status: "confirmed", bookedDaysAgo: 11 },
+  { id: "DIR-100470", channelId: "direct", guest: "Grace Nguyen", room: "Deluxe King", inDays: 26, nights: 2, guests: 2, total: 1_158, status: "confirmed", bookedDaysAgo: 14 },
+  { id: "AGD-55121904", channelId: "agoda", guest: "Wei Zhang", room: "Superior Queen", inDays: 9, nights: 3, guests: 2, total: 777, status: "confirmed", bookedDaysAgo: 5 },
+  { id: "BDC-4820388", channelId: "bdc", guest: "Emily Carter", room: "Twin Room", inDays: 6, nights: 1, guests: 2, total: 289, status: "confirmed", bookedDaysAgo: 2 },
+  { id: "EXP-7731052", channelId: "exp", guest: "James O'Connell", room: "Deluxe King", inDays: 12, nights: 3, guests: 2, total: 1_077, status: "confirmed", bookedDaysAgo: 1 },
+  { id: "DIR-100485", channelId: "direct", guest: "Isabella Moreno", room: "Superior Queen", inDays: 33, nights: 4, guests: 1, total: 1_116, status: "confirmed", bookedDaysAgo: 1 },
+  { id: "BDC-4817299", channelId: "bdc", guest: "Noah Williams", room: "Executive Suite", inDays: 5, nights: 2, guests: 3, total: 1_798, status: "confirmed", bookedDaysAgo: 18 },
+  { id: "GHA-302140", channelId: "ghotel", guest: "Charlotte Dubois", room: "Harbour View King", inDays: 8, nights: 2, guests: 2, total: 758, status: "confirmed", bookedDaysAgo: 3 },
+  { id: "AGD-55119002", channelId: "agoda", guest: "Ravi Patel", room: "Deluxe King", inDays: 15, nights: 2, guests: 2, total: 598, status: "confirmed", bookedDaysAgo: 7 },
+  { id: "BDC-4821554", channelId: "bdc", guest: "Zoe Mitchell", room: "Superior Queen", inDays: 2, nights: 3, guests: 2, total: 777, status: "confirmed", bookedDaysAgo: 1 },
+  { id: "DIR-100488", channelId: "direct", guest: "Ethan Brooks", room: "Twin Room", inDays: 10, nights: 2, guests: 2, total: 538, status: "confirmed", bookedDaysAgo: 0 },
+  { id: "EXP-7728801", channelId: "exp", guest: "Ana Souza", room: "Superior Queen", inDays: 19, nights: 5, guests: 2, total: 1_295, status: "confirmed", bookedDaysAgo: 12 },
+  { id: "BDC-4816601", channelId: "bdc", guest: "Liam Murphy", room: "Deluxe King", inDays: 40, nights: 3, guests: 2, total: 897, status: "confirmed", bookedDaysAgo: 21 },
+];
+
+function seedBookings(now: Date): Booking[] {
+  return BOOKING_SEEDS.map(({ inDays, bookedDaysAgo, ...b }) => ({
+    ...b,
+    checkIn: daysFromToday(inDays, "14:00", now),
+    bookedAt: daysFromToday(-bookedDaysAgo, "10:15", now),
+  }));
+}
+
+function seedInvoices(now: Date): Invoice[] {
+  const month = (offset: number) => new Date(now.getFullYear(), now.getMonth() + offset, 1);
+  const period = (d: Date) => d.toLocaleDateString("en-AU", { month: "long", year: "numeric" });
+  const iso = (d: Date) => toLocalIso(d);
+  const current = month(0);
+  const last = month(-1);
+  const prior = month(-2);
+  return [
+    {
+      id: `INV-${current.getFullYear()}${String(current.getMonth() + 1).padStart(2, "0")}-20418`,
+      period: period(current),
+      issued: iso(current),
+      due: daysFromToday(6, "23:59", now),
+      lines: [
+        { label: "SiteMinder Plus subscription", amount: 129 },
+        { label: "Demand Plus (Google Hotel Ads)", amount: 79 },
+        { label: "Booking Engine transaction fees (133 bookings)", amount: 214.6 },
+        { label: "SiteMinder Pay processing", amount: 186.35 },
+      ],
+      status: "open",
+      driver: "addon",
+    },
+    {
+      id: `INV-${last.getFullYear()}${String(last.getMonth() + 1).padStart(2, "0")}-20418`,
+      period: period(last),
+      issued: iso(last),
+      due: iso(new Date(last.getFullYear(), last.getMonth(), 15)),
+      lines: [
+        { label: "SiteMinder Plus subscription", amount: 129 },
+        { label: "Booking Engine transaction fees (98 bookings)", amount: 158.15 },
+        { label: "SiteMinder Pay processing", amount: 141.2 },
+      ],
+      status: "paid",
+      driver: "bookings",
+      paidAt: iso(new Date(last.getFullYear(), last.getMonth(), 14)),
+    },
+    {
+      id: `INV-${prior.getFullYear()}${String(prior.getMonth() + 1).padStart(2, "0")}-20418`,
+      period: period(prior),
+      issued: iso(prior),
+      due: iso(new Date(prior.getFullYear(), prior.getMonth(), 15)),
+      lines: [
+        { label: "SiteMinder Plus subscription", amount: 129 },
+        { label: "Booking Engine transaction fees (91 bookings)", amount: 146.9 },
+        { label: "SiteMinder Pay processing", amount: 132.75 },
+      ],
+      status: "paid",
+      driver: "unchanged",
+      paidAt: iso(new Date(prior.getFullYear(), prior.getMonth(), 12)),
+    },
+  ];
+}
+
+const TEAM: TeamUser[] = [
+  { id: "u1", name: "Sophie Tran", email: "sophie.tran@harbourlane.com.au", role: "Admin", mfa: true, lastActive: "Today" },
+  { id: "u2", name: "Michael Harris", email: "michael.harris@harbourlane.com.au", role: "Owner", mfa: true, lastActive: "Yesterday" },
+  { id: "u3", name: "Ava Robinson", email: "ava.robinson@harbourlane.com.au", role: "Front desk", mfa: false, lastActive: "Today" },
+  { id: "u4", name: "Jack Lee", email: "jack.lee@harbourlane.com.au", role: "Revenue", mfa: true, lastActive: "3 days ago" },
+  { id: "u5", name: "Night Audit", email: "nightaudit@harbourlane.com.au", role: "Read only", mfa: false, lastActive: "Today" },
+];
+
+function nextNewYearsEve(now: Date): string {
+  return toLocalIso(new Date(now.getFullYear(), 11, 31, 21, 0));
+}
+
+function seedEvents(now: Date): DemandEvent[] {
+  const upcoming: DemandEvent[] = [
+    {
+      id: "evt-bledisloe",
+      name: "Wallabies v All Blacks — Bledisloe Cup",
+      category: "sport",
+      venue: "Accor Stadium, Sydney Olympic Park",
+      start: daysFromToday(5, "19:45", now),
+      end: daysFromToday(5, "22:00", now),
+      distanceKm: 14,
+      attendance: 72_000,
+      source: "insights",
+      onBooksPct: 71,
+    },
+    {
+      id: "evt-sxsw-2026",
+      name: "SXSW Sydney",
+      category: "conference",
+      venue: "ICC Sydney & Tech Central",
+      start: daysFromToday(12, "09:00", now),
+      end: daysFromToday(18, "23:00", now),
+      distanceKm: 3,
+      attendance: 100_000,
+      source: "insights",
+      onBooksPct: 64,
+    },
+    {
+      id: "evt-neon-harbour",
+      name: "Neon Harbour — Stadium Tour",
+      category: "concert",
+      venue: "Allianz Stadium, Moore Park",
+      start: daysFromToday(26, "19:30", now),
+      end: daysFromToday(27, "23:00", now),
+      distanceKm: 4,
+      attendance: 45_000,
+      source: "manual",
+      onBooksPct: 48,
+    },
+    {
+      id: "evt-hospitality-summit",
+      name: "Hospitality Futures Summit",
+      category: "conference",
+      venue: "ICC Sydney",
+      start: daysFromToday(33, "08:30", now),
+      end: daysFromToday(35, "17:00", now),
+      distanceKm: 3,
+      attendance: 6_500,
+      source: "manual",
+      onBooksPct: 39,
+    },
+    {
+      id: "evt-nye",
+      name: "New Year's Eve on Sydney Harbour",
+      category: "holiday",
+      venue: "Sydney Harbour foreshore",
+      start: nextNewYearsEve(now),
+      end: nextNewYearsEve(now),
+      distanceKm: 0.5,
+      attendance: 1_000_000,
+      source: "insights",
+      onBooksPct: 83,
+    },
+  ];
+
+  const past: DemandEvent[] = [
+    {
+      id: "evt-nye-2025",
+      name: "New Year's Eve on Sydney Harbour",
+      category: "holiday",
+      venue: "Sydney Harbour foreshore",
+      start: "2025-12-31T21:00:00",
+      end: "2026-01-01T01:00:00",
+      distanceKm: 0.5,
+      attendance: 1_000_000,
+      source: "insights",
+      outcome: { occupancyPct: 100, adr: 799, adrUpliftPct: 210, soldOutDaysBefore: 64, minStay: 3, note: "Sold out 64 days out on a 3-night minimum. Harbour View King went first." },
+    },
+    {
+      id: "evt-sxsw-2025",
+      name: "SXSW Sydney",
+      category: "conference",
+      venue: "ICC Sydney & Tech Central",
+      start: "2025-10-13T09:00:00",
+      end: "2025-10-19T23:00:00",
+      distanceKm: 3,
+      attendance: 100_000,
+      source: "insights",
+      outcome: { occupancyPct: 88, adr: 329, adrUpliftPct: 22, soldOutDaysBefore: 0, minStay: 1, note: "Midweek peaked; the closing weekend softened. Corporate GDS demand doubled." },
+    },
+    {
+      id: "evt-nrl-gf-2025",
+      name: "NRL Grand Final",
+      category: "sport",
+      venue: "Accor Stadium, Sydney Olympic Park",
+      start: "2025-10-05T19:30:00",
+      end: "2025-10-05T22:00:00",
+      distanceKm: 14,
+      attendance: 80_000,
+      source: "insights",
+      outcome: { occupancyPct: 93, adr: 356, adrUpliftPct: 44, soldOutDaysBefore: 3, minStay: 1, note: "Late surge once the finalists were known — 38% of rooms booked in the final week." },
+    },
+    {
+      id: "evt-marathon-2025",
+      name: "TCS Sydney Marathon",
+      category: "sport",
+      venue: "Sydney CBD to Sydney Opera House",
+      start: "2025-08-31T06:00:00",
+      end: "2025-08-31T14:00:00",
+      distanceKm: 1,
+      attendance: 35_000,
+      source: "insights",
+      outcome: { occupancyPct: 95, adr: 371, adrUpliftPct: 52, soldOutDaysBefore: 6, minStay: 2, note: "International runners booked early; 2-night minimum held well." },
+    },
+    {
+      id: "evt-lions-2025",
+      name: "Wallabies v British & Irish Lions — 3rd Test",
+      category: "sport",
+      venue: "Accor Stadium, Sydney Olympic Park",
+      start: "2025-08-02T19:35:00",
+      end: "2025-08-02T22:00:00",
+      distanceKm: 14,
+      attendance: 80_000,
+      source: "insights",
+      outcome: { occupancyPct: 99, adr: 455, adrUpliftPct: 97, soldOutDaysBefore: 18, minStay: 2, note: "Travelling supporters filled the house 18 days out; Expedia drove 31% of room nights." },
+    },
+    {
+      id: "evt-vivid-2025",
+      name: "Vivid Sydney",
+      category: "festival",
+      venue: "Circular Quay & The Rocks",
+      start: "2025-05-23T18:00:00",
+      end: "2025-06-14T23:00:00",
+      distanceKm: 0.3,
+      attendance: 3_000_000,
+      source: "insights",
+      outcome: { occupancyPct: 91, adr: 342, adrUpliftPct: 28, soldOutDaysBefore: 0, minStay: 1, note: "Weekends sold out every week; weekdays softened mid-run." },
+    },
+    {
+      id: "evt-mardi-gras-2026",
+      name: "Sydney Gay and Lesbian Mardi Gras Parade",
+      category: "festival",
+      venue: "Oxford Street, Darlinghurst",
+      start: "2026-02-28T19:00:00",
+      end: "2026-03-01T04:00:00",
+      distanceKm: 3,
+      attendance: 300_000,
+      source: "insights",
+      outcome: { occupancyPct: 97, adr: 418, adrUpliftPct: 71, soldOutDaysBefore: 9, minStay: 2, note: "Strong direct demand — Booking Engine took 34% of the weekend." },
+    },
+    {
+      id: "evt-eras-2024",
+      name: "Taylor Swift | The Eras Tour",
+      category: "concert",
+      venue: "Accor Stadium, Sydney Olympic Park",
+      start: "2024-02-23T18:00:00",
+      end: "2024-02-26T23:00:00",
+      distanceKm: 14,
+      attendance: 320_000,
+      source: "manual",
+      outcome: { occupancyPct: 100, adr: 612, adrUpliftPct: 148, soldOutDaysBefore: 41, minStay: 2, note: "Sold out 41 days out, but the first third of rooms went at only +35% before rates were raised." },
+    },
+    {
+      id: "evt-coldplay-2023",
+      name: "Coldplay — Music of the Spheres",
+      category: "concert",
+      venue: "Accor Stadium, Sydney Olympic Park",
+      start: "2023-11-07T18:30:00",
+      end: "2023-11-08T23:00:00",
+      distanceKm: 14,
+      attendance: 150_000,
+      source: "manual",
+      outcome: { occupancyPct: 98, adr: 489, adrUpliftPct: 92, soldOutDaysBefore: 23, minStay: 2, note: "Second show added late — pickup jumped 22 points in 48 hours." },
+    },
+    {
+      id: "evt-sheeran-2023",
+      name: "Ed Sheeran — +–=÷× Tour",
+      category: "concert",
+      venue: "Accor Stadium, Sydney Olympic Park",
+      start: "2023-02-24T18:30:00",
+      end: "2023-02-25T23:00:00",
+      distanceKm: 14,
+      attendance: 140_000,
+      source: "manual",
+      outcome: { occupancyPct: 96, adr: 401, adrUpliftPct: 68, soldOutDaysBefore: 12, minStay: 1, note: "No minimum stay — one-night stays crowded out longer bookings on the Friday." },
+    },
+  ];
+
+  return [...upcoming, ...past];
+}
+
+export const SEED_PROFILE = {
+  firstName: "Sophie",
+  lastName: "Tran",
+  email: "sophie.tran@harbourlane.com.au",
+  mobile: "0412 555 019",
+  role: "Revenue & Distribution Manager",
+};
+
+export function seedProperty(now: Date = new Date()): PropertyState {
+  return {
+    profile: { ...SEED_PROFILE },
+    property: {
+      id: "SM-20418",
+      name: "The Harbour Lane Hotel",
+      city: "Sydney",
+      rooms: ROOM_TYPES.reduce((n, r) => n + r.rooms, 0),
+      stars: 4,
+      pms: "Mews",
+      plan: "plus",
+      billingEmail: "accounts@harbourlane.com.au",
+      abn: "41 612 908 335",
+      card: { brand: "Visa", last4: "4417" },
+      directDebit: false,
+      credit: 86.4,
+      supportCode: "HL-7Q4K-20418",
+      roomTypes: ROOM_TYPES.map((r) => ({ ...r })),
+    },
+    channels: seedChannels(now),
+    bookings: seedBookings(now),
+    invoices: seedInvoices(now),
+    team: TEAM.map((u) => ({ ...u })),
+    events: seedEvents(now),
+    rateLog: [
+      { id: "rl-1", at: daysFromToday(-1, "16:20", now), summary: "Superior Queen +$20 for the next 14 days (Jack Lee)" },
+      { id: "rl-2", at: daysFromToday(-3, "09:05", now), summary: "Closed to arrival on Harbour View King for New Year's Eve (Sophie Tran)" },
+    ],
+    stopSell: [],
+  };
+}
