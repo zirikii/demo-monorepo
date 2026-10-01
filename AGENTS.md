@@ -29,6 +29,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | gojek (Vite + React 19) | `pnpm dev:gojek` | 5182 | gojek.io corporate site + mock Partner Hub; no env needed |
 | gopay (Vite + React 19) | `pnpm dev:gopay` | 5184 | GoPay consumer reKYC flow; no env needed |
 | agl (Vite + React 19) | `pnpm dev:agl` | 5185 | agl.com.au clone + AGL Assistant chat/voice; optional server-only `XAI_API_KEY` for Grok voice |
+| ticketek (Vite + React 19) | `pnpm dev:ticketek` | 5197 | premier.ticketek.com.au clone + mock My Account + Ticketek Support chat/voice + `/admin` Support Studio; reuses AGL's `XAI_API_KEY`; intentional login rendering bug (site config casing) |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
@@ -56,11 +57,15 @@ it; live dispatch needs the key in `apps/optus/.env.local` and Node 22.13+.
 (`/api/voice/*`) mints short-lived Grok Voice tokens; without the key the assistant falls back to a
 browser-speech demo voice. Never prefix it `VITE_`.
 
+`apps/ticketek` imports AGL's `server/chatSession.ts` / `voiceSession.ts` and reads `XAI_API_KEY`
+from `apps/agl/.env.local` (its own `apps/ticketek/.env.local` wins). Without a key, chat uses the
+scripted intent matcher and voice uses browser speech.
+
 ### Lint / test / build
 
-- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek/gopay/agl
+- Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek/gopay/agl/ticketek
  + `@demo/ui` typecheck; nab has no linter.
-- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24, atlassian, gojek, gopay and agl (run `pnpm test`
+- Tests: the real unit suites are Vitest in kddi, naukri, seek, spark, changi, nine, commbank, employmenthero, hub24, atlassian, gojek, gopay, agl and ticketek (run `pnpm test`
   inside an app, or the root filters). **`pnpm test` at the root fails** because `apps/nab`'s
   `test` script is a Playwright *walkthrough recorder* (not a unit suite) that needs
   browser binaries — install with `pnpm exec playwright install chromium` if you need the

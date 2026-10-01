@@ -1,0 +1,49 @@
+{
+  "fetched": "2026-09-30",
+  "disclaimer": "Unofficial demo assets. Ticketek brand artwork and event imagery are used for visual fidelity only. Not affiliated with or endorsed by Ticketek Pty Ltd or TEG.",
+  "canonicalSource": "https://premier.ticketek.com.au/",
+  "note": "premier.ticketek.com.au is not reachable from the build environment. Logos come from the official Ticketek brand kit and event artwork from the Ticketek image CDN. Refresh with scripts/fetch-brand-assets.sh.",
+  "files": [
+    {
+      "file": "ticketek-logo-white.svg",
+      "source": "https://d35kvm5iuwjt9t.cloudfront.net/brand/Ticketek_Logo_Pack.zip (RGB/SVG/TKT-Logo-White-RGB.svg)",
+      "description": "Star + wordmark, white. Site header on Midnight."
+    },
+    {
+      "file": "ticketek-logo-midnight.svg",
+      "source": "https://d35kvm5iuwjt9t.cloudfront.net/brand/Ticketek_Logo_Pack.zip (RGB/SVG/TKT-Logo-Midnight-RGB.svg)",
+      "description": "Star + wordmark, Midnight. Light surfaces (login, footer, Support Studio)."
+    },
+    {
+      "file": "ticketek-logo-black.svg",
+      "source": "https://d35kvm5iuwjt9t.cloudfront.net/brand/Ticketek_Logo_Pack.zip (RGB/SVG/TKT-Logo-Black-RGB.svg)",
+      "description": "Star + wordmark, black. Printable e-ticket."
+    },
+    {
+      "file": "favicon.ico",
+      "source": "https://d35kvm5iuwjt9t.cloudfront.net/static-pages/branding/favicon.ico",
+      "description": "Browser tab icon."
+    },
+    {
+      "file": "events/*-tile.webp",
+      "source": "https://d35kvm5iuwjt9t.cloudfront.net/dbimages/sfx{id}.jpg (1050×520 tiles, ids in scripts/event-images.json)",
+      "description": "Event card artwork, resized to 720px wide."
+    },
+    {
+      "file": "events/*-banner.webp",
+      "source": "https://d35kvm5iuwjt9t.cloudfront.net/dbimages/sfx{id}.jpg (2340×765 banners, ids in scripts/event-images.json)",
+      "description": "Hero and show-page banners, resized to 1600px wide."
+    }
+  ],
+  "palette": {
+    "midnight": "#001828",
+    "pink": "#FC6EEB",
+    "jacaranda": "#9B6EEA",
+    "interactive": "#00497A",
+    "getTickets": "#428226",
+    "sessionTimer": "#FFC300",
+    "background": "#F3F3F3",
+    "text": "#171717"
+  },
+  "typography": "Inter (brand guideline: Inter Tight for display)."
+}

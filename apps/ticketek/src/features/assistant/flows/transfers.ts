@@ -1,0 +1,128 @@
+import type { FlowNode } from "./types";
+
+export const transferNodes: FlowNode[] = [
+  {
+    id: "transfer",
+    topic: "transfer",
+    title: "Transfer tickets",
+    say: "Happy to help you send tickets to a friend. Which order?",
+    pick: {
+      filter: "transferable",
+      next: "transfer.form",
+      emptySay: "None of your orders can be sent in the app right now. Only App/Mobile Tickets for upcoming events can be transferred.",
+    },
+    options: [{ label: "Why can't I transfer?", next: "transfer.unavailable" }],
+    keywords: ["transfer", "send tickets", "send a ticket", "give my tickets", "give tickets to a friend", "send to my friend", "send it to a friend"],
+  },
+  {
+    id: "transfer.decide",
+    topic: "transfer",
+    title: "Transfer check",
+    say: "Let me check whether these tickets can be transferred.",
+    decide: { fact: "canTransfer", cases: { yes: "transfer.form", no: "transfer.unavailable" }, otherwise: "transfer" },
+    options: [],
+  },
+  {
+    id: "transfer.form",
+    topic: "transfer",
+    title: "Who's it for?",
+    say: "Who are you sending your {orderEvent} tickets to? I need their name and the email on their Ticketek account.",
+    card: { kind: "form", form: "transfer-tickets", next: "transfer.done" },
+    options: [{ label: "Back", next: "transfer" }],
+  },
+  {
+    id: "transfer.done",
+    topic: "transfer",
+    title: "Transfer sent",
+    say: "Done! {friendName} will get an email at {friendEmail} to accept {transferCount}. Once they accept, your barcodes for those tickets stop working and theirs go live.",
+    card: { kind: "success", title: "Transfer sent", detail: "{transferCount} for {orderEvent} → {friendName}" },
+    effect: "transfer",
+    options: [
+      { label: "Thanks", next: "resolved" },
+      { label: "Send another", next: "transfer" },
+    ],
+  },
+  {
+    id: "transfer.unavailable",
+    topic: "transfer",
+    title: "Can't transfer",
+    say: "{transferNote}",
+    options: [
+      { label: "Sell on Marketplace instead", next: "resale.decide" },
+      { label: "Talk to a person", next: "handoff" },
+      { label: "Back to topics", next: "menu" },
+    ],
+  },
+  {
+    id: "resale",
+    topic: "resale",
+    title: "Sell on Marketplace",
+    say: "Marketplace (Fan to Fan) lets you resell tickets you can't use, safely and at a fair price. Which order would you like to sell?",
+    pick: {
+      filter: "resellable",
+      next: "resale.price",
+      emptySay: "None of your orders can be listed right now. Marketplace takes upcoming App/Mobile Tickets until 2 hours before the event.",
+    },
+    options: [{ label: "How does Marketplace work?", next: "resale.how" }],
+    keywords: ["resell", "resale", "sell my tickets", "sell tickets", "marketplace", "fan to fan", "list my tickets"],
+  },
+  {
+    id: "resale.decide",
+    topic: "resale",
+    title: "Resale check",
+    say: "Let me check whether these tickets can go on Marketplace.",
+    decide: { fact: "canResell", cases: { yes: "resale.price", no: "resale.unavailable" }, otherwise: "resale" },
+    options: [],
+  },
+  {
+    id: "resale.price",
+    topic: "resale",
+    title: "Set your price",
+    say: "You can list your {orderEvent} tickets for up to the original price of {orderFacePrice} each. What price would you like per ticket?",
+    card: { kind: "form", form: "resale-price", next: "resale.listed" },
+    options: [
+      { label: "How does Marketplace work?", next: "resale.how" },
+      { label: "Back", next: "resale" },
+    ],
+  },
+  {
+    id: "resale.listed",
+    topic: "resale",
+    title: "Listed",
+    say: "Your tickets are listed at {resalePrice} each. When they sell, the old barcodes are cancelled, the buyer gets new ones, and your money goes to your {cardLabel} within 7 business days after the event.",
+    card: { kind: "success", title: "Listed on Marketplace", detail: "{orderTickets} × {orderEvent} at {resalePrice}" },
+    effect: "resale",
+    options: [{ label: "Thanks", next: "resolved" }],
+  },
+  {
+    id: "resale.how",
+    topic: "resale",
+    title: "How Marketplace works",
+    say: "Marketplace is Ticketek's official Fan to Fan resale. It's safe for both sides because every sold ticket is reissued with a new barcode.",
+    card: {
+      kind: "steps",
+      title: "Marketplace (Fan to Fan)",
+      steps: [
+        "List App/Mobile Tickets from My Account, up to the original price.",
+        "Buyers get brand-new barcodes, so there's no risk of fakes.",
+        "Listings close 2 hours before the event.",
+        "Sellers are paid within 7 business days after the event, less a 10% fee.",
+      ],
+    },
+    options: [
+      { label: "Sell my tickets", next: "resale" },
+      { label: "Thanks", next: "resolved" },
+    ],
+    keywords: ["how does marketplace work", "is resale safe", "resale fees"],
+  },
+  {
+    id: "resale.unavailable",
+    topic: "resale",
+    title: "Can't list",
+    say: "Sorry, these tickets can't go on Marketplace. Only App/Mobile Tickets for upcoming events can be listed, up to 2 hours before the start, and not once they've been transferred.",
+    options: [
+      { label: "Transfer to a friend instead", next: "transfer.decide" },
+      { label: "Talk to a person", next: "handoff" },
+    ],
+  },
+];

@@ -1,0 +1,213 @@
+import type { FlowNode } from "./types";
+
+const NOT_LISTED = { label: "My order isn't listed", next: "order.missing" };
+
+export const ticketNodes: FlowNode[] = [
+  {
+    id: "tickets",
+    topic: "tickets",
+    title: "Where's my ticket?",
+    say: "Let's find your tickets. Which order is it?",
+    pick: {
+      filter: "active",
+      next: "tickets.mobile",
+      byPolicy: { cancelled: "changes.cancelled", refunded: "refunds.already" },
+      byDelivery: { mobile: "tickets.mobile", ezyticket: "tickets.ezy", collection: "tickets.collect", souvenir: "tickets.souvenir" },
+      emptySay: "I can't see any upcoming orders on this account. If you bought with another email, I can help you track them down.",
+    },
+    options: [NOT_LISTED],
+    keywords: [
+      "where's my ticket",
+      "where is my ticket",
+      "where are my tickets",
+      "my tickets",
+      "haven't received",
+      "havent got my tickets",
+      "can't find my tickets",
+      "barcode",
+      "ticket app",
+      "tickets not showing",
+    ],
+  },
+  {
+    id: "tickets.mobile",
+    topic: "tickets",
+    title: "Mobile tickets",
+    say: "Your {orderEvent} tickets are App/Mobile Tickets. {barcodeLine}",
+    card: { kind: "mobile-ticket" },
+    options: [
+      { label: "They're not in my app", next: "tickets.mobile.missing" },
+      { label: "It says 'This ticket is no longer active'", next: "tickets.inactive" },
+      { label: "Send one to a friend", next: "transfer.decide" },
+      { label: "All sorted, thanks", next: "resolved" },
+    ],
+    keywords: ["mobile ticket", "barcode not showing", "barcode isn't showing", "no barcode"],
+  },
+  {
+    id: "tickets.mobile.missing",
+    topic: "tickets",
+    title: "Not in the app",
+    say: "Let's get them showing. Most of the time it's the app signed into a different account.",
+    card: {
+      kind: "steps",
+      title: "Get your mobile tickets",
+      steps: [
+        "Open the Ticketek app and check you're signed in as {email}.",
+        "Go to My Tickets and pull down to refresh.",
+        "Update the app from the App Store or Google Play.",
+        "Barcodes only appear 48 hours before the event — until then you'll see a countdown.",
+      ],
+    },
+    options: [
+      { label: "Found them", next: "resolved" },
+      { label: "Still missing", next: "handoff" },
+    ],
+  },
+  {
+    id: "tickets.inactive",
+    topic: "tickets",
+    title: "Ticket no longer active",
+    say: "That message means the barcode was replaced — usually because the ticket was transferred, sold on Marketplace or reissued. The old barcode won't scan, but any new one will.",
+    card: {
+      kind: "steps",
+      title: "\"THIS TICKET IS NO LONGER ACTIVE\"",
+      steps: [
+        "Check My Tickets for a newer copy of the same seat.",
+        "If you sent it to a friend, it now lives in their account.",
+        "If you didn't transfer or sell it, contact us straight away so we can secure your order.",
+      ],
+    },
+    options: [
+      { label: "I didn't transfer it", next: "handoff" },
+      { label: "Show my tickets again", next: "tickets" },
+    ],
+    keywords: ["no longer active", "ticket not active", "inactive ticket", "ticket is no longer active"],
+  },
+  {
+    id: "tickets.ezy",
+    topic: "tickets",
+    title: "EzyTicket",
+    say: "Your {orderEvent} tickets are EzyTickets — a PDF emailed to {email} to print at home. Each barcode scans once, so keep copies to yourself.",
+    card: { kind: "order" },
+    options: [
+      { label: "Resend my tickets", next: "tickets.resend" },
+      { label: "They won't print", next: "tickets.ezy.print" },
+      { label: "All sorted, thanks", next: "resolved" },
+    ],
+    keywords: ["ezyticket", "ezy ticket", "print my tickets", "print at home", "pdf"],
+  },
+  {
+    id: "tickets.ezy.print",
+    topic: "tickets",
+    title: "Printing EzyTickets",
+    say: "No printer? No problem — the venue can scan the PDF from your phone at full brightness.",
+    card: {
+      kind: "steps",
+      title: "Printing tips",
+      steps: ["Open the PDF on a computer, not in your email preview.", "Print at 100% scale on A4 white paper.", "Or show the PDF on your phone with brightness turned up."],
+    },
+    options: [
+      { label: "Resend my tickets", next: "tickets.resend" },
+      { label: "Thanks", next: "resolved" },
+    ],
+  },
+  {
+    id: "tickets.resend",
+    topic: "tickets",
+    title: "Resend tickets",
+    say: "I'll resend your tickets and confirmation. Which email should they go to?",
+    card: { kind: "form", form: "resend-tickets", next: "tickets.resent" },
+    options: [{ label: "Back", next: "tickets" }],
+    keywords: ["resend", "resend my tickets", "send my tickets again", "didn't get the email", "confirmation email"],
+  },
+  {
+    id: "tickets.resent",
+    topic: "tickets",
+    title: "Tickets resent",
+    say: "Done — I've sent them to {resendEmail}. They usually arrive within a few minutes; check your junk folder just in case.",
+    card: { kind: "success", title: "Tickets resent", detail: "Sent to {resendEmail}" },
+    options: [
+      { label: "Got them, thanks", next: "resolved" },
+      { label: "Still nothing", next: "handoff" },
+    ],
+  },
+  {
+    id: "tickets.collect",
+    topic: "tickets",
+    title: "Venue collection",
+    say: "Your {orderEvent} tickets are waiting at the {orderVenue} box office, which opens 90 minutes before the show. Bring photo ID and the card you paid with.",
+    card: { kind: "order" },
+    options: [
+      { label: "Someone else is collecting", next: "tickets.collect.authority" },
+      { label: "Can I switch to mobile tickets?", next: "tickets.nochange" },
+      { label: "All sorted, thanks", next: "resolved" },
+    ],
+    keywords: ["collect my tickets", "box office", "collection", "pick up tickets"],
+  },
+  {
+    id: "tickets.collect.authority",
+    topic: "tickets",
+    title: "Collecting for someone",
+    say: "A friend can collect for you with a signed note from you and a copy of your photo ID.",
+    card: {
+      kind: "steps",
+      title: "Collection authority",
+      steps: ["Write a note naming your friend and order {orderId}, and sign it.", "Give them a copy of your photo ID and the card you paid with.", "They show the note and their own photo ID at the box office."],
+    },
+    options: [{ label: "Thanks", next: "resolved" }],
+  },
+  {
+    id: "tickets.nochange",
+    topic: "tickets",
+    title: "Change delivery",
+    say: "Sorry, the delivery method can't be changed once an order is placed — that's part of Ticketek's purchase policy. Your tickets will be ready to collect as planned.",
+    options: [
+      { label: "Okay", next: "resolved" },
+      { label: "Talk to a person", next: "handoff" },
+    ],
+    keywords: ["change delivery", "change to mobile", "switch delivery"],
+  },
+  {
+    id: "tickets.souvenir",
+    topic: "tickets",
+    title: "Souvenir tickets",
+    say: "Souvenir tickets are posted by Australia Post, dispatched 14 days before the event to the address on your account. Your {orderEvent} tickets are on their way.",
+    card: { kind: "order" },
+    options: [
+      { label: "They haven't arrived", next: "tickets.souvenir.late" },
+      { label: "Thanks", next: "resolved" },
+    ],
+    keywords: ["souvenir ticket", "posted tickets", "tickets in the mail", "post"],
+  },
+  {
+    id: "tickets.souvenir.late",
+    topic: "tickets",
+    title: "Posted tickets late",
+    say: "If they haven't arrived 5 days before the event, don't worry — we'll cancel the posted tickets and reissue them for collection at {orderVenue}. Bring photo ID.",
+    options: [
+      { label: "Reissue for collection", next: "handoff" },
+      { label: "I'll wait a few days", next: "resolved" },
+    ],
+  },
+  {
+    id: "tickets.scam",
+    topic: "tickets",
+    title: "Unofficial resellers",
+    say: "I'm sorry this has happened. Ticketek can only guarantee tickets bought from Ticketek or Ticketek Marketplace — tickets from other sites or social media may be fake or already used. Contact the seller's platform or your bank, and report it to Scamwatch. If tickets were moved out of your account without permission, I'll get our Customer Relations team on it now.",
+    card: {
+      kind: "steps",
+      title: "Buy safely",
+      steps: [
+        "Only buy from ticketek.com.au, the Ticketek app, or Ticketek Marketplace.",
+        "Never pay a stranger by bank transfer or gift card for tickets.",
+        "Report suspicious listings to scamwatch.gov.au.",
+      ],
+    },
+    options: [
+      { label: "Tickets left my account", next: "handoff" },
+      { label: "Buy from Marketplace", next: "resale.how" },
+      { label: "Back to topics", next: "menu" },
+    ],
+    keywords: ["scam", "fake tickets", "bought from a reseller", "viagogo", "facebook seller", "tickets don't scan", "barcode already used"],
+  },
+];

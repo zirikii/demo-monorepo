@@ -29,6 +29,7 @@
     "dev:gojek": "pnpm --filter gojek-website-demo dev",
     "dev:gopay": "pnpm --filter gopay-rekyc-demo dev",
     "dev:agl": "pnpm --filter agl-website-demo dev",
+    "dev:ticketek": "pnpm --filter ticketek-website-demo dev",
     "build:kddi": "pnpm --filter kddi-noc-dashboard build",
     "build:nab": "pnpm --filter nab-landing build",
     "build:naukri": "pnpm --filter naukri-job-portal build",
@@ -46,6 +47,7 @@
     "build:gojek": "pnpm --filter gojek-website-demo build",
     "build:gopay": "pnpm --filter gopay-rekyc-demo build",
     "build:agl": "pnpm --filter agl-website-demo build",
+    "build:ticketek": "pnpm --filter ticketek-website-demo build",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css}\" --ignore-path .gitignore"
   },
   "devDependencies": {
