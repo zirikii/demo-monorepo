@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Loader2 } from "lucide-react";
 import { CONFIRM_TOAST } from "@/data/identity";
 import { Phone, PrimaryButton, StatusBar } from "@/components/chrome/Chrome";
 import { useSession } from "@/hooks/useSession";
 import { confirmUnchanged } from "@/lib/kyc";
+import {
+  cameraErrorMessage,
+  openUserCamera,
+  showCameraPreview,
+  stopCamera,
+} from "@/lib/openCamera";
+
+type CameraStatus = "starting" | "live" | "blocked";
 
 export function FaceScreen() {
   const navigate = useNavigate();
@@ -13,10 +20,50 @@ export function FaceScreen() {
   const { scenario, account, setAccount, showToast, setGenie, frRemaining, setFrRemaining } =
     useSession();
   const [sheet, setSheet] = useState(true);
-  const [scanning, setScanning] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const [status, setStatus] = useState<CameraStatus>("starting");
+  const [detail, setDetail] = useState<string | null>(null);
+  const [hint, setHint] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    let cancelled = false;
+    let stream: MediaStream | null = null;
+
+    setStatus("starting");
+    setDetail(null);
+    setHint(null);
+
+    openUserCamera()
+      .then(async (next) => {
+        if (cancelled) {
+          stopCamera(next);
+          return;
+        }
+        stream = next;
+        await showCameraPreview(video, next);
+        if (cancelled) {
+          stopCamera(next);
+          return;
+        }
+        setStatus("live");
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return;
+        setStatus("blocked");
+        setDetail(cameraErrorMessage(error));
+      });
+
+    return () => {
+      cancelled = true;
+      stopCamera(stream);
+      video.srcObject = null;
+    };
+  }, [attempt]);
 
   function finish(passed: boolean) {
-    setScanning(false);
     if (!passed) {
       const left = frRemaining - 1;
       setFrRemaining(left);
@@ -37,22 +84,48 @@ export function FaceScreen() {
     navigate("/onboarding");
   }
 
-  function start() {
-    setSheet(false);
-    setScanning(true);
-    window.setTimeout(() => {
-      finish(scenario !== "fr-fail");
-    }, 1200);
+  function capture() {
+    const video = videoRef.current;
+    if (!video || video.videoWidth === 0 || video.videoHeight === 0) {
+      setHint("Waiting for a picture from the camera.");
+      return;
+    }
+    setHint(null);
+    finish(scenario !== "fr-fail");
   }
+
+  function onAction() {
+    if (status === "blocked") {
+      setAttempt((value) => value + 1);
+      return;
+    }
+    capture();
+  }
+
+  const actionLabel = status === "blocked" ? "Retry camera" : "Capture photo";
+  const action = (
+    <PrimaryButton className="mt-4" onClick={onAction} disabled={status === "starting"}>
+      {status === "starting" ? "Starting camera" : actionLabel}
+    </PrimaryButton>
+  );
 
   return (
     <Phone className="bg-camera text-white">
       <StatusBar dark />
       <div className="flex items-center justify-between px-4">
-        <button type="button" aria-label="Back" className="text-[14px] font-bold text-white" onClick={() => navigate("/review")}>
+        <button
+          type="button"
+          aria-label="Back"
+          className="text-[14px] font-bold text-white"
+          onClick={() => navigate("/review")}
+        >
           Back
         </button>
-        <button type="button" className="text-[14px] font-bold text-white" onClick={() => setSheet(true)}>
+        <button
+          type="button"
+          className="text-[14px] font-bold text-white"
+          onClick={() => setSheet(true)}
+        >
           View Guides
         </button>
       </div>
@@ -60,14 +133,34 @@ export function FaceScreen() {
         className="relative flex min-h-0 flex-1 items-center justify-center"
         data-testid="face-preview"
       >
-        <p className="absolute inset-x-6 top-4 text-center text-[18px] font-bold text-white">
+        <p className="absolute inset-x-6 top-4 z-10 text-center text-[18px] font-bold text-white">
           Fit your face in the photo area
         </p>
-        <div className="size-64 rounded-full border-4 border-white/80 bg-gradient-to-b from-[#3a4148] to-[#121416]" />
-        {scanning ? (
-          <p className="absolute bottom-6 flex items-center gap-2 rounded-2xl bg-white/10 px-4 py-3 text-[14px] font-bold text-white">
-            <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            Hold still. Your e-KTP is ready
+        <div className="relative size-64 overflow-hidden rounded-full border-4 border-white/80 bg-gradient-to-b from-[#3a4148] to-[#121416]">
+          <video
+            ref={videoRef}
+            className="absolute inset-0 size-full object-cover [transform:scaleX(-1)]"
+            autoPlay
+            muted
+            playsInline
+            data-testid="face-camera"
+            aria-label="Camera preview"
+          />
+        </div>
+        {status === "blocked" && detail ? (
+          <p
+            className="absolute inset-x-6 bottom-6 text-center text-[13px] font-bold text-white"
+            role="alert"
+          >
+            {detail}
+          </p>
+        ) : null}
+        {hint ? (
+          <p
+            className="absolute inset-x-6 bottom-6 text-center text-[13px] font-bold text-white"
+            role="status"
+          >
+            {hint}
           </p>
         ) : null}
       </div>
@@ -85,11 +178,11 @@ export function FaceScreen() {
               hat
             </p>
           </div>
-          <PrimaryButton className="mt-4" onClick={start}>
-            Got it, I’m ready
-          </PrimaryButton>
+          {action}
         </div>
-      ) : null}
+      ) : (
+        <div className="shrink-0 px-4 pb-6">{action}</div>
+      )}
     </Phone>
   );
 }
@@ -110,13 +203,21 @@ export function FaceFailScreen() {
         <div className="absolute left-1/2 top-0 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-4 border-error bg-card text-2xl">
           !
         </div>
-        <h2 className="font-serif text-[24px] font-semibold leading-9">Couldn&apos;t verify your face</h2>
+        <h2 className="font-serif text-[24px] font-semibold leading-9">
+          Couldn&apos;t verify your face
+        </h2>
         <p className="mt-1 text-[14px] leading-5 text-body">
           We couldn&apos;t recognize your face. Please make sure you meet the guidelines.
         </p>
         <div className="mt-5 space-y-3 text-left">
-          <Guide title="Photo has to be well-lit" body="Find a place with enough lighting (not too dark or too bright)." />
-          <Guide title="Face has to be clearly visible" body="Don’t wear mask, hat, or any kind of glasses." />
+          <Guide
+            title="Photo has to be well-lit"
+            body="Find a place with enough lighting (not too dark or too bright)."
+          />
+          <Guide
+            title="Face has to be clearly visible"
+            body="Don’t wear mask, hat, or any kind of glasses."
+          />
         </div>
       </div>
       <div className="mt-auto bg-card px-4 pb-6 pt-4">
