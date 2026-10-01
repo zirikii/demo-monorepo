@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 import { getNode, topicLabel } from "../flows";
 import type { ConversationState } from "../engine/conversation";
 
-/** "Refunds & exchanges › Rescheduled event" — keeps the fan oriented in the flow. */
+/** "Channels & connectivity › Mapping error" — keeps the hotelier oriented in the flow. */
 export function FlowTrail({ conversation, onBack, tone = "light" }: { conversation: ConversationState; onBack: () => void; tone?: "light" | "dark" }) {
   const current = conversation.currentStepId ? getNode(conversation.currentStepId) : undefined;
   const topic = current ? topicLabel(current) : undefined;
@@ -18,7 +18,7 @@ export function FlowTrail({ conversation, onBack, tone = "light" }: { conversati
         <button
           type="button"
           onClick={onBack}
-          className={cn("inline-flex items-center gap-1 rounded-full px-2 py-1 font-semibold", dark ? "text-white hover:bg-white/10" : "text-tk-blue hover:bg-tk-blue-tint")}
+          className={cn("inline-flex items-center gap-1 rounded-full px-2 py-1 font-semibold", dark ? "text-white hover:bg-white/10" : "text-royal hover:bg-royal-tint")}
         >
           <ArrowLeft className="size-3.5" aria-hidden /> Back
         </button>

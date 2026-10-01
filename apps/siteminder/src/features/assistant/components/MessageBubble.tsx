@@ -18,13 +18,13 @@ export function MessageBubble({
 }) {
   switch (message.role) {
     case "system":
-      return <p className="mx-auto max-w-[90%] animate-fade-in rounded-full bg-page px-3 py-1 text-center text-[11px] text-ink-soft">{message.text}</p>;
+      return <p className="mx-auto max-w-[92%] animate-fade-in rounded-full bg-royal-tint px-3 py-1 text-center text-[11px] font-medium text-royal">{message.text}</p>;
     case "user":
       return (
         <div className="flex animate-fade-up justify-end">
-          <div className="max-w-[82%] rounded-tk-xl rounded-br-md bg-midnight px-4 py-2.5 text-sm leading-relaxed text-white shadow-tk">
+          <div className="max-w-[82%] rounded-[20px] rounded-br-md bg-royal px-4 py-2.5 text-sm leading-relaxed text-white shadow-card">
             {message.via === "voice" && (
-              <span className="mb-0.5 flex items-center gap-1 text-[11px] font-semibold text-tk-pink">
+              <span className="mb-0.5 flex items-center gap-1 text-[11px] font-semibold text-lime">
                 <Mic className="size-3" aria-hidden /> Said
               </span>
             )}
@@ -41,7 +41,7 @@ export function MessageBubble({
           </span>
           <div className="min-w-0 flex-1 space-y-2">
             {(message.text || pending) && (
-              <div className="w-fit max-w-[92%] rounded-tk-xl rounded-tl-md bg-page px-4 py-2.5 text-sm leading-relaxed text-ink">
+              <div className="w-fit max-w-[92%] rounded-[20px] rounded-tl-md bg-canvas px-4 py-2.5 text-sm leading-relaxed text-ink">
                 {pending ? <span className="text-ink-faint">Speaking…</span> : message.text}
               </div>
             )}

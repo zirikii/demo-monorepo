@@ -57,7 +57,7 @@ export function buildVoiceTools({ voiceForms = true }: { voiceForms?: boolean } 
         "On a step that asks which channel, booking, invoice or event (marked PICK in FLOW), choose the hotelier's record. The app checks its live status (mapping error, credentials, overbooked, unpaid…) and returns the step to show next.",
       parameters: {
         type: "object",
-        properties: { record_id: { type: "string", description: "Record id from PROPERTY RECORDS or DEMAND EVENTS, e.g. ch-expedia, SM-48213, INV-2026-09 or ev-coldplay" } },
+        properties: { record_id: { type: "string", description: "Record id from PROPERTY RECORDS or DEMAND EVENTS, e.g. exp, BDC-4821937, INV-202610-20418 or evt-bledisloe" } },
         required: ["record_id"],
       },
     },

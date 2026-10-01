@@ -66,7 +66,7 @@ export const urgentNodes: FlowNode[] = [
       { label: "Connect me with Trust & Safety", next: "handoff" },
       { label: "Reset my two-factor now", next: "account.login.mfa" },
     ],
-    keywords: ["phishing", "suspicious email", "scam email", "hacked", "someone logged in", "fake booking.com email", "compromised"],
+    keywords: ["phishing", "phishing email", "suspicious email", "scam email", "hacked", "someone logged in", "fake booking.com email", "compromised"],
   },
   {
     id: "urgent.fraud",

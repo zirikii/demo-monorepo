@@ -1,31 +1,29 @@
-import { Accessibility, CalendarClock, CreditCard, MapPin, RotateCcw, Send, Sparkles, Tag, Ticket, UserRound, Users } from "lucide-react";
+import { BedDouble, Building2, CalendarDays, HeartHandshake, Plug, Receipt, Siren, Tag, TrendingUp, UserRound } from "lucide-react";
 import type { Topic } from "../flows";
 
 export function TopicIcon({ icon, className }: { icon: Topic["icon"]; className?: string }) {
   const props = { className, "aria-hidden": true as const };
   switch (icon) {
-    case "ticket":
-      return <Ticket {...props} />;
-    case "refund":
-      return <RotateCcw {...props} />;
-    case "calendar":
-      return <CalendarClock {...props} />;
-    case "send":
-      return <Send {...props} />;
+    case "plug":
+      return <Plug {...props} />;
+    case "bed":
+      return <BedDouble {...props} />;
     case "tag":
       return <Tag {...props} />;
-    case "accessible":
-      return <Accessibility {...props} />;
-    case "users":
-      return <Users {...props} />;
-    case "card":
-      return <CreditCard {...props} />;
+    case "calendar":
+      return <CalendarDays {...props} />;
+    case "receipt":
+      return <Receipt {...props} />;
+    case "heart":
+      return <HeartHandshake {...props} />;
     case "user":
       return <UserRound {...props} />;
-    case "map":
-      return <MapPin {...props} />;
-    case "sparkles":
-      return <Sparkles {...props} />;
+    case "building":
+      return <Building2 {...props} />;
+    case "alert":
+      return <Siren {...props} />;
+    case "trending":
+      return <TrendingUp {...props} />;
     default: {
       const exhaustive: never = icon;
       return exhaustive;

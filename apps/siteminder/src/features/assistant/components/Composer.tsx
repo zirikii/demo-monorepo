@@ -1,11 +1,11 @@
 import { useState, type FormEvent } from "react";
-import { AudioLines, SendHorizontal } from "lucide-react";
+import { AudioLines, ArrowUp } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 export function Composer({
   onSend,
   onVoice,
-  placeholder = "Ask about your tickets…",
+  placeholder = "Ask about channels, bookings, rates…",
   tone = "light",
   autoFocus,
 }: {
@@ -25,9 +25,15 @@ export function Composer({
   const dark = tone === "dark";
   const ready = Boolean(text.trim());
   return (
-    <form onSubmit={submit} className="flex items-center gap-2" aria-label="Message Ticketek Support">
+    <form
+      onSubmit={submit}
+      className={cn(
+        "flex items-center gap-1.5 rounded-full border p-1.5 pl-4 transition-shadow focus-within:shadow-glow",
+        dark ? "border-white/20 bg-white/10" : "border-line bg-white focus-within:border-royal",
+      )}
+    >
       <label htmlFor={`assistant-input-${tone}`} className="sr-only">
-        Message
+        Message SiteMinder Support
       </label>
       <input
         id={`assistant-input-${tone}`}
@@ -36,12 +42,7 @@ export function Composer({
         placeholder={placeholder}
         autoComplete="off"
         autoFocus={autoFocus}
-        className={cn(
-          "h-11 min-w-0 flex-1 rounded-full border px-4 text-sm focus:ring-2 focus:outline-none",
-          dark
-            ? "border-white/20 bg-white/10 text-white placeholder:text-white/55 focus:ring-white/40"
-            : "border-line bg-white text-ink placeholder:text-ink-faint focus:border-tk-blue focus:ring-tk-blue/20",
-        )}
+        className={cn("h-9 min-w-0 flex-1 bg-transparent text-sm focus:outline-none", dark ? "text-white placeholder:text-white/55" : "text-ink placeholder:text-ink-faint")}
       />
       {onVoice && (
         <button
@@ -49,7 +50,7 @@ export function Composer({
           onClick={onVoice}
           aria-label="Switch to voice"
           title="Talk instead"
-          className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-tk-blue-tint text-tk-blue transition-colors hover:bg-tk-blue hover:text-white"
+          className="inline-flex size-9 shrink-0 items-center justify-center rounded-full text-royal transition-colors hover:bg-royal-tint"
         >
           <AudioLines className="size-5" aria-hidden />
         </button>
@@ -59,11 +60,11 @@ export function Composer({
         aria-label="Send"
         disabled={!ready}
         className={cn(
-          "inline-flex size-11 shrink-0 items-center justify-center rounded-full transition-colors",
-          ready ? (dark ? "bg-white text-midnight" : "bg-midnight text-white hover:bg-midnight-soft") : dark ? "bg-white/10 text-white/40" : "bg-line-soft text-ink-faint",
+          "inline-flex size-9 shrink-0 items-center justify-center rounded-full transition-colors",
+          ready ? (dark ? "bg-lime text-stratos" : "bg-royal text-white hover:bg-royal-hover") : dark ? "bg-white/10 text-white/40" : "bg-line-soft text-ink-faint",
         )}
       >
-        <SendHorizontal className="size-5" aria-hidden />
+        <ArrowUp className="size-5" aria-hidden />
       </button>
     </form>
   );

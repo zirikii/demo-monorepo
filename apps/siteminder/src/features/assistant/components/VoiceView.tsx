@@ -30,19 +30,25 @@ function statusLabel(voice: VoiceState): string {
   }
 }
 
-/** The brand gradient as a living orb: it breathes while listening and swells with speech. */
+/** A royal-blue orb with a lime core: it breathes while listening and swells with speech. */
 function VoiceOrb({ voice, small }: { voice: VoiceState; small: boolean }) {
   const scale = 1 + Math.min(voice.level, 1) * 0.18;
   const active = voice.status === "speaking" || voice.status === "listening";
   return (
     <div className={cn("relative grid place-items-center transition-all", small ? "size-28" : "size-44")}>
-      {voice.status === "listening" && !voice.muted && <span className="absolute inset-3 animate-pulse-ring rounded-full bg-tk-pink/30" aria-hidden />}
-      <span aria-hidden className="tk-gradient absolute inset-5 rounded-full opacity-50 blur-xl transition-transform duration-150" style={{ transform: `scale(${scale * 1.1})` }} />
+      {voice.status === "listening" && !voice.muted && <span className="absolute inset-3 animate-pulse-ring rounded-full bg-royal-bright/35" aria-hidden />}
+      <span aria-hidden className="sm-gradient absolute inset-5 rounded-full opacity-60 blur-xl transition-transform duration-150" style={{ transform: `scale(${scale * 1.1})` }} />
       <span
         aria-hidden
-        className={cn("tk-gradient relative rounded-full shadow-[0_0_60px_rgba(252,110,235,0.35)] transition-transform duration-150", small ? "size-16" : "size-24", voice.status === "thinking" && "animate-spin-slow")}
+        className={cn(
+          "relative grid place-items-center rounded-full bg-[conic-gradient(from_180deg,var(--color-royal),var(--color-royal-bright),var(--color-lime),var(--color-royal))] shadow-[0_0_60px_rgba(48,138,255,0.45)] transition-transform duration-150",
+          small ? "size-16" : "size-24",
+          voice.status === "thinking" && "animate-spin-slow",
+        )}
         style={{ transform: `scale(${active ? scale : 1})` }}
-      />
+      >
+        <span className={cn("rounded-full bg-stratos/85", small ? "size-11" : "size-[70px]")} />
+      </span>
     </div>
   );
 }
@@ -59,11 +65,11 @@ export function VoiceView() {
   const heard = voice.interim || (lastUser && lastUser.id > (lastAssistant?.id ?? 0) ? lastUser.text : "");
 
   return (
-    <div className="relative flex h-full flex-col overflow-hidden bg-midnight text-white">
-      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 size-80 -translate-x-1/2 rounded-full bg-tk-jacaranda/25 blur-3xl" />
+    <div className="relative flex h-full flex-col overflow-hidden bg-stratos text-white">
+      <div aria-hidden className="pointer-events-none absolute -top-24 left-1/2 size-80 -translate-x-1/2 rounded-full bg-royal/30 blur-3xl" />
       <div className="relative flex flex-col items-start gap-2 px-4 pt-3">
         <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/85 ring-1 ring-white/15">
-          <span className={cn("size-1.5 rounded-full", voice.provider === "grok" ? "bg-[#22c55e]" : "bg-tk-yellow")} aria-hidden />
+          <span className={cn("size-1.5 rounded-full", voice.provider === "grok" ? "bg-lime" : "bg-butter")} aria-hidden />
           {voice.provider === "grok" ? "Grok voice · Live" : "Browser voice · demo mode"}
         </span>
         <FlowTrail conversation={conversation} onBack={back} tone="dark" />
@@ -72,7 +78,7 @@ export function VoiceView() {
       <div className="relative flex-1 overflow-y-auto px-5 pb-4">
         <div className={cn("flex flex-col items-center text-center", cardIsCurrent ? "pt-1" : "pt-6")}>
           <VoiceOrb voice={voice} small={cardIsCurrent} />
-          <p className="mt-2 text-xs font-bold tracking-[0.14em] text-tk-pink uppercase" role="status">
+          <p className="mt-2 text-xs font-bold tracking-[0.14em] text-lime uppercase" role="status">
             {statusLabel(voice)}
           </p>
           <p className="mt-4 min-h-14 max-w-sm text-lg leading-snug font-semibold" aria-live="polite">
@@ -85,8 +91,8 @@ export function VoiceView() {
           )}
         </div>
         {voice.error && (
-          <p role="alert" className="mx-auto mt-4 flex max-w-sm items-start gap-2 rounded-tk bg-white/10 p-3 text-xs text-white/90">
-            <TriangleAlert className="mt-0.5 size-4 shrink-0 text-tk-yellow" aria-hidden />
+          <p role="alert" className="mx-auto mt-4 flex max-w-sm items-start gap-2 rounded-xl bg-white/10 p-3 text-xs text-white/90">
+            <TriangleAlert className="mt-0.5 size-4 shrink-0 text-butter" aria-hidden />
             {voice.error}
           </p>
         )}
@@ -103,7 +109,7 @@ export function VoiceView() {
         )}
       </div>
 
-      <div className="relative shrink-0 border-t border-white/10 bg-midnight-soft/80 px-4 pt-3 pb-4 backdrop-blur">
+      <div className="relative shrink-0 border-t border-white/10 bg-deep/80 px-4 pt-3 pb-4 backdrop-blur">
         {typing && (
           <div className="mb-3">
             <Composer tone="dark" autoFocus onSend={(text) => sendText(text, "text")} placeholder="Type instead…" />
@@ -116,7 +122,7 @@ export function VoiceView() {
             aria-pressed={typing}
             aria-label="Type instead"
             title="Type instead"
-            className={cn("inline-flex size-12 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors", typing ? "bg-white text-midnight" : "bg-white/10 hover:bg-white/20")}
+            className={cn("inline-flex size-12 items-center justify-center rounded-full ring-1 ring-white/20 transition-colors", typing ? "bg-white text-stratos" : "bg-white/10 hover:bg-white/20")}
           >
             <Keyboard className="size-5" aria-hidden />
           </button>
@@ -125,7 +131,7 @@ export function VoiceView() {
             onClick={toggleMute}
             aria-pressed={voice.muted}
             aria-label={voice.muted ? "Unmute microphone" : "Mute microphone"}
-            className={cn("inline-flex size-16 items-center justify-center rounded-full shadow-tk-lift transition-colors", voice.muted ? "bg-white/15 ring-1 ring-white/30" : "bg-white text-midnight hover:bg-tk-blue-tint")}
+            className={cn("inline-flex size-16 items-center justify-center rounded-full shadow-lift transition-colors", voice.muted ? "bg-white/15 ring-1 ring-white/30" : "bg-lime text-stratos hover:bg-lime-deep")}
           >
             {voice.muted ? <MicOff className="size-6" aria-hidden /> : <Mic className="size-6" aria-hidden />}
           </button>
@@ -134,7 +140,7 @@ export function VoiceView() {
             onClick={() => setMode("chat")}
             aria-label="End voice and return to chat"
             title="End voice"
-            className="inline-flex size-12 items-center justify-center rounded-full bg-critical text-white hover:bg-[#7d1c1c]"
+            className="inline-flex size-12 items-center justify-center rounded-full bg-critical text-white hover:bg-critical/80"
           >
             <PhoneOff className="size-5" aria-hidden />
           </button>
