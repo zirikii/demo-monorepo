@@ -9,8 +9,8 @@ import { asset } from "@/lib/asset";
 type SiteConfig = { name: string; tagline: string };
 
 const siteConfig = {
-  Premier: { name: "Ticketek Premier", tagline: "Tickets, orders and Events I've Been To" },
-  Marketplace: { name: "Ticketek Marketplace", tagline: "Buy and sell tickets fan to fan" },
+  premier: { name: "Ticketek Premier", tagline: "Tickets, orders and Events I've Been To" },
+  marketplace: { name: "Ticketek Marketplace", tagline: "Buy and sell tickets fan to fan" },
 } satisfies Record<string, SiteConfig>;
 
 function AuthShell({ title, tagline, children }: { title: string; tagline?: string; children: ReactNode }) {
@@ -31,7 +31,7 @@ export function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const siteKey = (params.get("site") ?? "premier") as keyof typeof siteConfig;
+  const siteKey = (params.get("site") ?? "premier").toLowerCase() as keyof typeof siteConfig;
   const site = siteConfig[siteKey];
   const [email, setEmail] = useState(DEMO_USER.email);
   const [password, setPassword] = useState("tickets2026");
