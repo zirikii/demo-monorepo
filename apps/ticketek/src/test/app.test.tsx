@@ -1,6 +1,6 @@
 import { render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AppProviders, AppRoutes } from "@/App";
 import { DEMO_USER, writeSession } from "@/lib/auth";
 
@@ -15,7 +15,10 @@ function renderAt(path: string) {
 }
 
 function internalLinks(container: HTMLElement): string[] {
-  const hrefs = Array.from(container.querySelectorAll("a[href]"), (a) => a.getAttribute("href") ?? "");
+  const hrefs = Array.from(
+    container.querySelectorAll("a[href]"),
+    (a) => a.getAttribute("href") ?? "",
+  );
   return [...new Set(hrefs.filter((h) => h.startsWith("/")))];
 }
 
@@ -31,9 +34,12 @@ describe("site routes", () => {
     const links = internalLinks(container);
     unmount();
     expect(links.length).toBeGreaterThan(20);
-    for (const href of links.filter((h) => !h.startsWith("/login"))) {
+    for (const href of links) {
       const view = renderAt(href);
-      expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), href).toBeNull();
+      expect(
+        screen.queryByRole("heading", { name: "We couldn't find that page" }),
+        href,
+      ).toBeNull();
       view.unmount();
     }
   });
@@ -43,17 +49,18 @@ describe("site routes", () => {
     expect(screen.getByRole("heading", { name: "We couldn't find that page" })).toBeInTheDocument();
   });
 
-  it("documents intentional login render crash (site config casing)", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/login")).toThrow();
-    consoleError.mockRestore();
+  it("renders the login page", () => {
+    renderAt("/login");
+    expect(
+      screen.getByRole("heading", { name: /sign in to ticketek premier/i }),
+    ).toBeInTheDocument();
   });
 
   it("sends signed-out fans to sign in before My Account", () => {
-    // Unauthenticated /account redirects to /login, which currently throws (same demo bug).
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/account/orders")).toThrow();
-    consoleError.mockRestore();
+    renderAt("/account/orders");
+    expect(
+      screen.getByRole("heading", { name: /sign in to ticketek premier/i }),
+    ).toBeInTheDocument();
   });
 
   it("renders every account and Support Studio page for a signed-in fan", () => {
@@ -79,7 +86,10 @@ describe("site routes", () => {
     ];
     for (const path of paths) {
       const view = renderAt(path);
-      expect(screen.queryByRole("heading", { name: "We couldn't find that page" }), path).toBeNull();
+      expect(
+        screen.queryByRole("heading", { name: "We couldn't find that page" }),
+        path,
+      ).toBeNull();
       expect(screen.queryByRole("heading", { name: /sign in/i }), path).toBeNull();
       expect(within(view.container).getAllByRole("heading").length, path).toBeGreaterThan(0);
       view.unmount();
