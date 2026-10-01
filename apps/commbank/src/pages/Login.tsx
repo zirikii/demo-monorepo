@@ -10,10 +10,18 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 type ServiceConfig = { name: string; tagline: string };
 
 const serviceConfig = {
-  NetBank: { name: "NetBank", tagline: "Everyday personal banking" },
-  CommBiz: { name: "CommBiz", tagline: "Business banking" },
-  CommSec: { name: "CommSec", tagline: "Investing and share trading" },
+  netbank: { name: "NetBank", tagline: "Everyday personal banking" },
+  commbiz: { name: "CommBiz", tagline: "Business banking" },
+  commsec: { name: "CommSec", tagline: "Investing and share trading" },
 } satisfies Record<string, ServiceConfig>;
+
+function resolveService(key: string | null): ServiceConfig {
+  const normalized = (key ?? "netbank").toLowerCase();
+  if (Object.hasOwn(serviceConfig, normalized)) {
+    return serviceConfig[normalized as keyof typeof serviceConfig];
+  }
+  return serviceConfig.netbank;
+}
 
 export function LoginPage() {
   useDocumentTitle("Log on to NetBank");
@@ -21,8 +29,7 @@ export function LoginPage() {
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
 
-  const serviceKey = (searchParams.get("service") ?? "netbank") as keyof typeof serviceConfig;
-  const service = serviceConfig[serviceKey];
+  const service = resolveService(searchParams.get("service"));
   const redirect = searchParams.get("redirect") ?? "/netbank";
 
   const [clientNumber, setClientNumber] = useState("12345678");
