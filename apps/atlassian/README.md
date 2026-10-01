@@ -6,8 +6,8 @@ collections, solutions, resources, customers, company pages) plus mock product w
 for **Jira**, **Confluence**, **Jira Service Management**, **Jira Product Discovery**,
 **Bitbucket**, **Trello**, **Loom**, **Rovo**, and **Admin**.
 
-Jira board cards cannot be dragged between columns — that limitation is intentional for
-demos. Status still changes from the work item page. Trello cards *can* move between lists.
+Jira board cards drag between columns; the new status survives a refresh. Trello cards
+move between lists the same way.
 
 > **Not affiliated with, endorsed by, or connected to Atlassian Pty Ltd.** Every teammate,
 > work item, customer story and figure in this build is invented. Nothing is transmitted

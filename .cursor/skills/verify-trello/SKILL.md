@@ -1,6 +1,6 @@
 ---
 name: verify-trello
-description: Drive the Atlassian demo's mock Trello workspace (apps/atlassian, port 5183) — login, board, move cards between lists. Use when proving Trello. Jira cards must stay unmovable.
+description: Drive the Atlassian demo's mock Trello workspace (apps/atlassian, port 5183) — login, board, move cards between lists. Use when proving Trello, not Jira.
 ---
 
 # Verify Trello (Atlassian demo)
@@ -9,7 +9,7 @@ Project-local skill for the mock **Trello** workspace in `apps/atlassian`. Marke
 
 Do not create or follow a `verify-atlassian` skill. This one is Trello-workspace scoped.
 
-Jira board cards cannot move between columns — that is an intentional demo limitation owned by `verify-jira`. Do not “fix” it from this skill.
+Jira board card moves are owned by `verify-jira`. Do not prove or change them from this skill.
 
 ## Launch
 

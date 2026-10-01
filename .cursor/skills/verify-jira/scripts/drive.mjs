@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Isolated Chromium: login → board → create → issue detail → status move → Rovo page.
- * Board drag is intentionally not driven (`move-drag` blocked).
+ * Isolated Chromium: login → board → create → board drag → issue detail → Rovo page.
+ * Honors VERIFY_JIRA_URL and VERIFY_JIRA_ARTIFACTS.
  *
  *   VERIFY_JIRA_URL=http://localhost:53183 node .cursor/skills/verify-jira/scripts/drive.mjs
  */
@@ -88,15 +88,9 @@ try {
     await page.getByRole("link", { name: new RegExp(key) }).waitFor();
   }
 
-  const card = page.getByRole("link", { name: /PORTAL-142/ });
-  const draggable = await card.getAttribute("draggable");
-  if (draggable !== "false") {
-    throw new Error(`Jira cards must stay non-draggable; got draggable=${draggable}`);
-  }
   if (await page.getByLabel("Ask Rovo").count()) {
     throw new Error("board must not mount a compact Ask Rovo panel");
   }
-  await page.screenshot({ path: join(artifactsDir, "move-drag-blocked.png"), fullPage: true });
   await page.screenshot({ path: join(artifactsDir, "board-columns.png"), fullPage: true });
 
   await page.getByLabel("Search work items").fill("zzzz");
@@ -125,25 +119,44 @@ try {
   await page.reload({ waitUntil: "networkidle" });
   await page.getByText("Write launch FAQ").waitFor();
 
-  await page.getByRole("link", { name: /PORTAL-170/ }).click();
-  await page.getByRole("heading", { name: "Campaign ad refresh landing page" }).waitFor();
-  await page.screenshot({ path: join(artifactsDir, "move-before-detail.png"), fullPage: true });
-  await page.getByLabel("Status").selectOption("In progress");
+  const dragCard = page.getByRole("link", { name: /PORTAL-170/ });
+  const todoColumn = page.getByRole("region", { name: "To do" });
+  const inProgressColumn = page.getByRole("region", { name: "In progress" });
+  await todoColumn.getByRole("link", { name: /PORTAL-170/ }).waitFor();
+
+  const cardBox = await dragCard.boundingBox();
+  const targetBox = await inProgressColumn.boundingBox();
+  if (!cardBox || !targetBox) {
+    throw new Error("PORTAL-170 or In progress column has no bounding box");
+  }
+  await page.mouse.move(cardBox.x + cardBox.width / 2, cardBox.y + Math.min(20, cardBox.height / 3));
+  await page.mouse.down();
+  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + Math.min(90, targetBox.height / 2), {
+    steps: 16,
+  });
+  await page.screenshot({ path: join(artifactsDir, "move-drag-over.png"), fullPage: true });
+  await page.mouse.up();
+
+  await inProgressColumn.getByRole("link", { name: /PORTAL-170/ }).waitFor();
+  if ((await todoColumn.getByRole("link", { name: /PORTAL-170/ }).count()) > 0) {
+    throw new Error("PORTAL-170 stayed in To do after board drop");
+  }
+  await page.screenshot({ path: join(artifactsDir, "move-after-board.png"), fullPage: true });
+
   const afterMove = await page.evaluate(() => {
     const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
     return issues.find((issue) => issue.key === "PORTAL-170") ?? null;
   });
   if (afterMove?.status !== "In progress") {
-    throw new Error(`expected PORTAL-170 In progress, got ${JSON.stringify(afterMove)}`);
+    throw new Error(`expected PORTAL-170 In progress after drag, got ${JSON.stringify(afterMove)}`);
   }
   await writeFile(
     join(artifactsDir, "issues-after-move.json"),
     `${JSON.stringify(afterMove, null, 2)}\n`,
   );
-  await page.goto(`${origin}/jira`, { waitUntil: "networkidle" });
-  await page.getByRole("link", { name: /PORTAL-170/ }).waitFor();
-  await page.screenshot({ path: join(artifactsDir, "move-after-board.png"), fullPage: true });
   await page.reload({ waitUntil: "networkidle" });
+  await page.getByRole("heading", { name: "PORTAL Sprint 24" }).waitFor();
+  await page.getByRole("region", { name: "In progress" }).getByRole("link", { name: /PORTAL-170/ }).waitFor();
   const afterReload = await page.evaluate(() => {
     const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
     return issues.find((issue) => issue.key === "PORTAL-170") ?? null;
@@ -155,6 +168,14 @@ try {
     join(artifactsDir, "issues-after-reload.json"),
     `${JSON.stringify(afterReload, null, 2)}\n`,
   );
+
+  await page.getByRole("link", { name: /PORTAL-170/ }).click();
+  await page.getByRole("heading", { name: "Campaign ad refresh landing page" }).waitFor();
+  await page.screenshot({ path: join(artifactsDir, "move-before-detail.png"), fullPage: true });
+  const detailStatus = await page.getByLabel("Status").inputValue();
+  if (detailStatus !== "In progress") {
+    throw new Error(`issue detail Status should be In progress after drag, got ${detailStatus}`);
+  }
 
   await page.goto(`${origin}/jira/issues/PORTAL-142`, { waitUntil: "networkidle" });
   await page.getByRole("heading", { name: "Add 300k-account onboarding path" }).waitFor();
@@ -211,9 +232,8 @@ try {
       `- Session email: ${storage.email}`,
       `- Title: ${storage.title}`,
       `- Created: ${afterCreate.key} (${afterCreate.status})`,
-      `- Moved: PORTAL-170 → ${afterReload.status}`,
-      `- Features: login, board, create-issue, move-status-select, issue-detail, rovo-page`,
-      `- move-drag: blocked on purpose (cards draggable=false)`,
+      `- Moved: PORTAL-170 → ${afterReload.status} (board drag)`,
+      `- Features: login, board, create-issue, move-drag, move-persist, move-reload, issue-detail, rovo-page`,
       `- rovo-board-aside: product gap (no compact board panel)`,
       "",
     ].join("\n"),

@@ -115,7 +115,7 @@ try {
       `- Landed: ${page.url()}`,
       `- Session email: ${storage.email}`,
       `- Title: ${storage.title}`,
-      `- Feature: login → board (move-drag blocked on purpose)`,
+      `- Feature: login → board`,
       "",
     ].join("\n"),
   );
