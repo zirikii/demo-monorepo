@@ -154,15 +154,14 @@ describe("engage reporting", () => {
 });
 
 describe("trading", () => {
-  it("documents intentional pre-trade CGT discount bug (2× overstatement)", async () => {
+  it("applies the 50% CGT discount to pre-trade tax estimates", async () => {
     const user = userEvent.setup();
     writeSession(ADVISER);
     renderRoutes("/adviserhub/trading");
 
-    // DEMO BUG (intentional): missing 50% CGT discount.
-    // Correct: 50,000 × 12% × 50% × 39% = $1,170. Buggy: 50,000 × 12% × 39% = $2,340.
-    expect(screen.getByText("$2,340")).toBeInTheDocument();
-    expect(screen.queryByText("$1,170")).not.toBeInTheDocument();
+    // 50,000 × 12% × 50% × 39% = $1,170.
+    expect(screen.getByText("$1,170")).toBeInTheDocument();
+    expect(screen.queryByText("$2,340")).not.toBeInTheDocument();
 
     await user.selectOptions(screen.getByLabelText("Instruction"), "Buy");
     expect(screen.getByText("$0")).toBeInTheDocument();
