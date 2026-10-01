@@ -3,7 +3,10 @@ import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 import { AppProviders, AppRoutes } from "@/App";
+import { seedProperty } from "@/data/property";
+import { nextEvent } from "@/features/property/insights";
 import { DEMO_USER, writeSession } from "@/lib/auth";
+import { toLocalIso } from "@/lib/clock";
 
 function renderAt(path: string) {
   return render(
@@ -111,6 +114,19 @@ describe("site routes", () => {
       expect(within(view.container).getAllByRole("heading").length, path).toBeGreaterThan(0);
       view.unmount();
     }
+  });
+
+  it("shows applied event pricing as live on the dashboard", () => {
+    writeSession(DEMO_USER);
+    const now = new Date();
+    const seeded = seedProperty();
+    const next = nextEvent(seeded.events, now)!;
+    const events = seeded.events.map((e) => (e.id === next.id ? { ...e, plan: { upliftPct: 40, minStay: 3, appliedAt: toLocalIso(now) } } : e));
+    localStorage.setItem("siteminder-property-v1", JSON.stringify({ ...seeded, events }));
+    renderAt("/app");
+    expect(screen.getByText("Live").previousElementSibling).toHaveTextContent("+40%");
+    expect(screen.getByText("3 nights")).toBeInTheDocument();
+    expect(screen.queryByText("Suggested")).toBeNull();
   });
 
   it("toggles a stop sell from the rate grid", async () => {

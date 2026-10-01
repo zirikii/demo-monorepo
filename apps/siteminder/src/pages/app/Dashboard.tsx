@@ -33,6 +33,7 @@ export function DashboardPage() {
   const adr = Math.round(live.reduce((n, b) => n + b.total, 0) / Math.max(1, live.reduce((n, b) => n + b.nights, 0)));
   const event = nextEvent(events, now);
   const plan = event ? forecast(event, events, now) : null;
+  const pricing = event?.plan ?? plan;
 
   const alerts: Alert[] = [
     ...bookings.filter(bookingNeedsAction).map((b) => ({
@@ -104,7 +105,7 @@ export function DashboardPage() {
           )}
         </Panel>
 
-        {event && plan ? (
+        {event && plan && pricing ? (
           <section className="sm-night relative overflow-hidden rounded-card p-6 text-white">
             <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-lime">
               <Sparkles className="size-4" aria-hidden /> Next demand event
@@ -116,8 +117,8 @@ export function DashboardPage() {
             <div className="mt-5 grid grid-cols-3 gap-3 text-center">
               {[
                 ["On the books", `${event.onBooksPct ?? 0}%`],
-                ["Suggested", `+${plan.upliftPct}%`],
-                ["Min stay", `${plan.minStay} night${plan.minStay > 1 ? "s" : ""}`],
+                [event.plan ? "Live" : "Suggested", `+${pricing.upliftPct}%`],
+                ["Min stay", `${pricing.minStay} night${pricing.minStay > 1 ? "s" : ""}`],
               ].map(([k, v]) => (
                 <div key={k} className="rounded-xl bg-white/10 px-2 py-3">
                   <p className="text-lg font-bold">{v}</p>
