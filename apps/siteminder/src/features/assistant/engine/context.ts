@@ -309,7 +309,7 @@ export function filterRecords(state: PropertyState, filter: RecordFilter, now: D
         .map((e) => ({ id: e.id, kind: "event", label: `${e.name} · ${formatShortDate(e.start)}`, status: e.category, facts: eventFacts(e, state, now) }));
     case "events-past":
       return pastEvents(state.events)
-        .slice(0, 6)
+        .slice(0, 10)
         .map((e) => ({ id: e.id, kind: "history", label: `${e.name} · ${formatMonthYear(e.start)}`, status: e.category, facts: historyFacts(e) }));
     default: {
       const exhaustive: never = filter;
