@@ -1,25 +1,26 @@
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { REGIONS } from "@/data/nav";
-import type { RegionId } from "@/data/types";
 import { useAssistant } from "@/features/assistant/AssistantProvider";
 import { renderStep } from "@/features/assistant/engine/conversation";
 import { promptOptions } from "@/features/assistant/engine/session";
 import { buildChatInstructions } from "@/features/assistant/engine/voicePrompt";
 import { ROOT_ID, topics } from "@/features/assistant/flows";
-import { useFan } from "@/features/fan/FanProvider";
-import { FAN_TIERS, fanTier, lifetimeEvents, topGenres } from "@/features/fan/recommendations";
+import { insightLines, pastEvents, upcomingEvents } from "@/features/property/insights";
+import { useProperty } from "@/features/property/PropertyProvider";
+import type { BookingStatus, ChannelStatus, PlanId } from "@/features/property/types";
+import { BOOKING_STATUS_LABELS, CHANNEL_STATUS_LABELS, EVENT_CATEGORY_LABELS, PLANS } from "@/features/property/views";
 import { hoursLabel } from "@/features/studio/config";
 import { useStudio } from "@/features/studio/StudioProvider";
 import type { Persona, StudioConfig, VoiceName } from "@/features/studio/types";
 import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { cn } from "@/lib/cn";
+import { formatCurrency, formatMonthYear, formatShortDate } from "@/lib/format";
 import { AdminPage, Card, Toggle } from "./AdminLayout";
 
 const PERSONAS: { id: Persona; label: string; description: string }[] = [
   { id: "warm", label: "Warm", description: "Friendly and reassuring — the default" },
-  { id: "upbeat", label: "Upbeat", description: "Excited about the event, a bit of fan energy" },
-  { id: "concise", label: "Concise", description: "Short, to the point" },
+  { id: "expert", label: "Expert", description: "Speaks like a revenue and distribution specialist" },
+  { id: "concise", label: "Concise", description: "Short, to the point — for busy front desks" },
 ];
 
 const VOICES: { id: VoiceName; label: string }[] = [
@@ -33,15 +34,14 @@ const VOICES: { id: VoiceName; label: string }[] = [
 type AssistantFlag = { [K in keyof StudioConfig["assistant"]]: StudioConfig["assistant"][K] extends boolean ? K : never }[keyof StudioConfig["assistant"]];
 
 const FLAGS: { key: AssistantFlag; label: string; description: string }[] = [
-  { key: "personalGreeting", label: "Personal greeting", description: "Open with the fan's next event and any cancelled orders." },
-  { key: "useHistory", label: "Use event history", description: "Share events the fan has been to with Grok for context." },
-  { key: "recommendations", label: "Recommendations", description: "Suggest events based on what the fan has been to." },
-  { key: "voiceForms", label: "Forms by voice", description: "Let Grok fill in on-screen forms from what the fan says." },
+  { key: "personalGreeting", label: "Personal greeting", description: "Open with the property's live issues and the next demand event." },
+  { key: "eventInsights", label: "Event history insights", description: "Use past events (occupancy, ADR, sell-out lead time) to plan pricing." },
+  { key: "voiceForms", label: "Forms by voice", description: "Let Grok fill in on-screen forms from what the hotelier says." },
   { key: "showRoutingNotes", label: "Show routing notes", description: "Show which queue and rule a handoff used, in the chat." },
 ];
 
 function hourOptions() {
-  return Array.from({ length: 24 }, (_, h) => h);
+  return Array.from({ length: 25 }, (_, h) => h);
 }
 
 export function AssistantSettingsPage() {
@@ -55,7 +55,7 @@ export function AssistantSettingsPage() {
   return (
     <AdminPage
       title="Assistant"
-      description="How Ticketek Support sounds, what it knows about the fan, and which topics it handles. Changes apply to the next message."
+      description="How SiteMinder Support sounds, what it knows about the property, and which topics it handles. Changes apply to the next message."
       action={
         <span className={cn("rounded-full px-3 py-1 text-xs font-semibold", voice.grokConfigured ? "bg-positive-bg text-positive" : "bg-caution-bg text-caution")}>
           {voice.grokConfigured ? "Grok connected" : "Grok key not set · guided mode"}
@@ -66,10 +66,10 @@ export function AssistantSettingsPage() {
         <Card title="Persona">
           <div className="space-y-2">
             {PERSONAS.map((p) => (
-              <label key={p.id} className={cn("flex cursor-pointer items-start gap-3 rounded-tk border p-3", config.assistant.persona === p.id ? "border-tk-blue bg-tk-blue-tint" : "border-line-soft")}>
-                <input type="radio" name="persona" checked={config.assistant.persona === p.id} onChange={() => set({ persona: p.id })} className="mt-1 accent-tk-blue" />
+              <label key={p.id} className={cn("flex cursor-pointer items-start gap-3 rounded-xl border p-3", config.assistant.persona === p.id ? "border-royal bg-royal-tint" : "border-line-soft")}>
+                <input type="radio" name="persona" checked={config.assistant.persona === p.id} onChange={() => set({ persona: p.id })} className="mt-1 accent-royal" />
                 <span>
-                  <span className="block font-semibold">{p.label}</span>
+                  <span className="block font-semibold text-heading">{p.label}</span>
                   <span className="text-sm text-ink-soft">{p.description}</span>
                 </span>
               </label>
@@ -91,7 +91,7 @@ export function AssistantSettingsPage() {
             {FLAGS.map((f) => (
               <li key={f.key} className="flex items-center justify-between gap-4 py-2.5">
                 <span>
-                  <span className="block font-semibold">{f.label}</span>
+                  <span className="block font-semibold text-heading">{f.label}</span>
                   <span className="text-sm text-ink-soft">{f.description}</span>
                 </span>
                 <Toggle label={f.label} checked={config.assistant[f.key]} onChange={(v) => set({ [f.key]: v })} />
@@ -103,14 +103,14 @@ export function AssistantSettingsPage() {
           <p className="-mt-1 mb-3 text-sm text-ink-soft">Switched-off topics go straight to a person instead of the guided flow.</p>
           <ul className="grid gap-2 sm:grid-cols-2">
             {topics.map((t) => (
-              <li key={t.id} className="flex items-center justify-between gap-3 rounded-tk border border-line-soft px-3 py-2 text-sm">
+              <li key={t.id} className="flex items-center justify-between gap-3 rounded-xl border border-line-soft px-3 py-2 text-sm">
                 {t.label}
                 <Toggle label={t.label} checked={config.topics[t.id]} onChange={(v) => updateConfig((c) => ({ ...c, topics: { ...c.topics, [t.id]: v } }))} />
               </li>
             ))}
           </ul>
         </Card>
-        <Card title="Live chat hours">
+        <Card title="Live specialist hours">
           <p className="-mt-1 mb-3 text-sm text-ink-soft">Outside these hours, handoffs become a callback. Currently {hoursLabel(config)}.</p>
           <div className="flex gap-3">
             {(["open", "close"] as const).map((k) => (
@@ -136,34 +136,50 @@ export function AssistantSettingsPage() {
             rows={3}
             value={config.assistant.customInstructions}
             onChange={(e) => set({ customInstructions: e.target.value })}
-            placeholder="e.g. Mention the ABBA Show presale to fans who like 70s music."
+            placeholder="e.g. Mention Dynamic Revenue Plus to properties that price events manually."
             className="field"
           />
         </Card>
       </div>
       <Card title="What Grok is told">
-        <p className="-mt-1 mb-3 text-sm text-ink-soft">The system prompt for the current fan, built from the flow, their orders, event history and your routing rules.</p>
-        <pre className="max-h-96 overflow-auto rounded-tk bg-midnight p-4 text-xs leading-relaxed whitespace-pre-wrap text-white/85">{prompt}</pre>
+        <p className="-mt-1 mb-3 text-sm text-ink-soft">The system prompt for the current hotelier, built from the flow, their property records, event history and your routing rules.</p>
+        <pre className="max-h-96 overflow-auto rounded-xl bg-stratos p-4 text-xs leading-relaxed whitespace-pre-wrap text-white/85">{prompt}</pre>
       </Card>
     </AdminPage>
   );
 }
 
-export function FanProfilePage() {
-  useDocumentTitle("Fan profile · Support Studio");
-  const { profile, updateProfile, resetFan, views } = useFan();
+const CHANNEL_STATUSES = Object.keys(CHANNEL_STATUS_LABELS) as ChannelStatus[];
+const BOOKING_STATUSES = Object.keys(BOOKING_STATUS_LABELS) as BookingStatus[];
+
+export function PropertyProfilePage() {
+  useDocumentTitle("Property & events · Support Studio");
+  const store = useProperty();
   const { resetConfig, clearLog } = useStudio();
-  const tier = fanTier(profile);
+  const { property, channels, bookings, events } = store;
+  const now = new Date();
+  const upcoming = upcomingEvents(events, now);
+  const past = pastEvents(events);
+
+  const setProperty = (patch: Partial<typeof property>) => store.update((s) => ({ ...s, property: { ...s.property, ...patch } }));
+  const setChannel = (id: string, status: ChannelStatus) =>
+    store.update((s) => ({
+      ...s,
+      channels: s.channels.map((c) => (c.id === id ? { ...c, status, issueRoom: status === "mapping-error" ? (c.issueRoom ?? "Deluxe King") : undefined } : c)),
+    }));
+  const setBooking = (id: string, status: BookingStatus) => store.update((s) => ({ ...s, bookings: s.bookings.map((b) => (b.id === id ? { ...b, status } : b)) }));
+  const setOnBooks = (id: string, pct: number) =>
+    store.update((s) => ({ ...s, events: s.events.map((e) => (e.id === id ? { ...e, onBooksPct: Math.max(0, Math.min(100, pct)) } : e)) }));
 
   return (
     <AdminPage
-      title="Fan profile"
-      description="The demo fan the assistant personalises for. Change their history to see greetings, recommendations and routing respond."
+      title="Property & events"
+      description="The demo property SiteMinder Support personalises for. Change channel and booking states, or the events store, to see greetings, flows and routing respond."
       action={
         <button
           type="button"
           onClick={() => {
-            resetFan();
+            store.reset();
             resetConfig();
             clearLog();
           }}
@@ -174,63 +190,119 @@ export function FanProfilePage() {
       }
     >
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card title={`${profile.firstName} ${profile.lastName}`}>
-          <dl className="grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <dt className="text-xs text-ink-faint">Fan tier</dt>
-              <dd className="font-semibold">{tier.label}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-faint">Lifetime events</dt>
-              <dd className="font-semibold">{lifetimeEvents(profile)}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-faint">Top genres</dt>
-              <dd className="font-semibold capitalize">{topGenres(profile.attended).join(", ") || "–"}</dd>
-            </div>
-            <div>
-              <dt className="text-xs text-ink-faint">Orders</dt>
-              <dd className="font-semibold">{views.length}</dd>
-            </div>
-          </dl>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div>
-              <label htmlFor="fan-archived" className="mb-1 block text-xs font-semibold">
-                Earlier events (before history)
-              </label>
-              <input id="fan-archived" type="number" min={0} value={profile.archivedEvents} onChange={(e) => updateProfile({ archivedEvents: Math.max(0, Number(e.target.value)) })} className="field" />
-              <p className="mt-1 text-xs text-ink-faint">Tiers: {FAN_TIERS.map((t) => `${t.label} ${t.min}+`).join(" · ")}</p>
-            </div>
-            <div>
-              <label htmlFor="fan-region" className="mb-1 block text-xs font-semibold">
-                Home state
-              </label>
-              <select id="fan-region" value={profile.homeRegion} onChange={(e) => updateProfile({ homeRegion: e.target.value as RegionId })} className="field">
-                {REGIONS.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    {r.label}
+        <Card title={property.name}>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="text-xs font-semibold">
+              Property name
+              <input className="field mt-1" value={property.name} onChange={(e) => setProperty({ name: e.target.value })} />
+            </label>
+            <label className="text-xs font-semibold">
+              Plan
+              <select className="field mt-1" value={property.plan} onChange={(e) => setProperty({ plan: e.target.value as PlanId })}>
+                {(Object.keys(PLANS) as PlanId[]).map((p) => (
+                  <option key={p} value={p}>
+                    {PLANS[p].name}
                   </option>
                 ))}
               </select>
-            </div>
+            </label>
+            <label className="text-xs font-semibold">
+              Rooms
+              <input className="field mt-1" type="number" min={1} value={property.rooms} onChange={(e) => setProperty({ rooms: Math.max(1, Number(e.target.value)) })} />
+            </label>
+            <label className="text-xs font-semibold">
+              PMS
+              <input className="field mt-1" value={property.pms} onChange={(e) => setProperty({ pms: e.target.value })} />
+            </label>
           </div>
-          <label className="mt-4 flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={profile.accessibility.wheelchair}
-              onChange={(e) => updateProfile({ accessibility: { ...profile.accessibility, wheelchair: e.target.checked } })}
-              className="size-4 accent-tk-blue"
-            />
-            Needs wheelchair-accessible seating
-          </label>
+          <p className="mt-3 text-xs text-ink-faint">
+            Signed-in hotelier: {store.profile.firstName} {store.profile.lastName} ({store.profile.email}). Support code {property.supportCode}.
+          </p>
         </Card>
-        <Card title="Events they've been to" action={<Link to="/account/history" className="link text-sm">Edit on the site</Link>}>
-          <ul className="max-h-72 divide-y divide-line-soft overflow-y-auto text-sm">
-            {profile.attended.map((a) => (
-              <li key={a.id} className="flex justify-between gap-3 py-2">
-                <span className="truncate">{a.name}</span>
-                <span className="shrink-0 text-ink-faint">{a.date.slice(0, 4)}</span>
+        <Card title="Channels">
+          <ul className="divide-y divide-line-soft text-sm">
+            {channels.map((c) => (
+              <li key={c.id} className="flex items-center justify-between gap-3 py-2">
+                <span className="truncate">{c.name}</span>
+                <select aria-label={`${c.name} status`} className="field w-44 py-1.5" value={c.status} onChange={(e) => setChannel(c.id, e.target.value as ChannelStatus)}>
+                  {CHANNEL_STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                      {CHANNEL_STATUS_LABELS[s]}
+                    </option>
+                  ))}
+                </select>
               </li>
+            ))}
+          </ul>
+        </Card>
+        <Card title="Bookings" className="lg:col-span-2">
+          <div className="grid gap-x-6 sm:grid-cols-2">
+            {bookings.slice(0, 12).map((b) => (
+              <div key={b.id} className="flex items-center justify-between gap-3 border-b border-line-soft py-2 text-sm">
+                <span className="min-w-0">
+                  <span className="block truncate font-medium text-heading">{b.guest}</span>
+                  <span className="text-xs text-ink-faint">
+                    {b.id} · {formatShortDate(b.checkIn)}
+                  </span>
+                </span>
+                <select aria-label={`${b.id} status`} className="field w-40 py-1.5" value={b.status} onChange={(e) => setBooking(b.id, e.target.value as BookingStatus)}>
+                  {BOOKING_STATUSES.map((s) => (
+                    <option key={s} value={s}>
+                      {BOOKING_STATUS_LABELS[s]}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ))}
+          </div>
+        </Card>
+        <Card title="Upcoming events" action={<Link to="/app/events" className="link text-sm">Add on the platform</Link>}>
+          <ul className="divide-y divide-line-soft text-sm">
+            {upcoming.map((e) => (
+              <li key={e.id} className="flex items-center justify-between gap-3 py-2">
+                <span className="min-w-0">
+                  <span className="block truncate font-medium text-heading">{e.name}</span>
+                  <span className="text-xs text-ink-faint">
+                    {formatShortDate(e.start)} · {EVENT_CATEGORY_LABELS[e.category]}
+                    {e.plan ? ` · priced +${e.plan.upliftPct}%` : ""}
+                  </span>
+                </span>
+                <label className="flex shrink-0 items-center gap-1 text-xs text-ink-faint">
+                  <input
+                    aria-label={`${e.name} on the books`}
+                    type="number"
+                    className="field w-16 py-1"
+                    value={e.onBooksPct ?? 0}
+                    onChange={(ev) => setOnBooks(e.id, Number(ev.target.value))}
+                  />
+                  %
+                </label>
+                <button type="button" onClick={() => store.removeEvent(e.id)} className="grid size-8 place-items-center rounded-full text-ink-faint hover:bg-critical-bg hover:text-critical" aria-label={`Remove ${e.name}`}>
+                  <Trash2 className="size-4" aria-hidden />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <Card title="Past events (demand history)">
+          <ul className="max-h-80 divide-y divide-line-soft overflow-y-auto text-sm">
+            {past.map((e) => (
+              <li key={e.id} className="flex items-center justify-between gap-3 py-2">
+                <span className="min-w-0">
+                  <span className="block truncate font-medium text-heading">{e.name}</span>
+                  <span className="text-xs text-ink-faint">
+                    {formatMonthYear(e.start)} · {e.outcome?.occupancyPct}% · {formatCurrency(e.outcome?.adr ?? 0)} · +{e.outcome?.adrUpliftPct}%
+                  </span>
+                </span>
+                <button type="button" onClick={() => store.removeEvent(e.id)} className="grid size-8 shrink-0 place-items-center rounded-full text-ink-faint hover:bg-critical-bg hover:text-critical" aria-label={`Remove ${e.name}`}>
+                  <Trash2 className="size-4" aria-hidden />
+                </button>
+              </li>
+            ))}
+          </ul>
+          <ul className="mt-3 space-y-1 border-t border-line-soft pt-3 text-xs text-ink-soft">
+            {insightLines(events).map((l) => (
+              <li key={l}>{l}</li>
             ))}
           </ul>
         </Card>

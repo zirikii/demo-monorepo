@@ -1,8 +1,8 @@
 import { ArrowDown, ArrowUp, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { topics, type TopicId } from "@/features/assistant/flows";
-import { STATUS_LABELS } from "@/features/fan/orders";
-import type { OrderStatus } from "@/features/fan/types";
+import type { BookingStatus, ChannelStatus, PlanId } from "@/features/property/types";
+import { BOOKING_STATUS_LABELS, CHANNEL_STATUS_LABELS, PLANS } from "@/features/property/views";
 import { CONDITION_LABELS, defaultCondition, PRIORITIES, QUEUE_IDS, queueName } from "@/features/studio/config";
 import { describeCondition } from "@/features/studio/routing";
 import { useStudio } from "@/features/studio/StudioProvider";
@@ -11,7 +11,25 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { cn } from "@/lib/cn";
 import { AdminPage, Card, Toggle } from "./AdminLayout";
 
-const ORDER_STATUSES = Object.keys(STATUS_LABELS) as OrderStatus[];
+const CHANNEL_STATUSES = Object.keys(CHANNEL_STATUS_LABELS) as ChannelStatus[];
+const BOOKING_STATUSES = Object.keys(BOOKING_STATUS_LABELS) as BookingStatus[];
+const PLAN_IDS = Object.keys(PLANS) as PlanId[];
+
+function CheckboxGroup<T extends string>({ legend, items, labels, selected, onChange }: { legend: string; items: T[]; labels: Record<T, string>; selected: T[]; onChange: (next: T[]) => void }) {
+  return (
+    <fieldset className="sm:col-span-2">
+      <legend className="mb-1 text-xs font-semibold">{legend}</legend>
+      <div className="flex flex-wrap gap-3 text-sm">
+        {items.map((s) => (
+          <label key={s} className="flex items-center gap-1.5">
+            <input type="checkbox" checked={selected.includes(s)} onChange={() => onChange(toggleIn(selected, s))} className="accent-royal" />
+            {labels[s]}
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
 const CONDITION_KINDS = Object.keys(CONDITION_LABELS) as RuleCondKind[];
 
 function NumberField({ id, label, value, onChange, step = 1 }: { id: string; label: string; value: number; onChange: (v: number) => void; step?: number }) {
@@ -53,20 +71,16 @@ function ConditionFields({ condition, onChange }: { condition: RuleCondition; on
         </div>
       );
     case "event_within":
-      return <NumberField id="rule-hours" label="Hours before the event" value={condition.hours} onChange={(hours) => onChange({ ...condition, hours })} />;
-    case "event_status":
+      return <NumberField id="rule-days" label="Days before the event" value={condition.days} onChange={(days) => onChange({ ...condition, days })} />;
+    case "event_at_risk":
+      return <NumberField id="rule-risk-days" label="Next event within (days)" value={condition.days} onChange={(days) => onChange({ ...condition, days })} />;
+    case "channel_issue":
       return (
-        <fieldset className="sm:col-span-2">
-          <legend className="mb-1 text-xs font-semibold">Order status</legend>
-          <div className="flex flex-wrap gap-3 text-sm">
-            {ORDER_STATUSES.map((s) => (
-              <label key={s} className="flex items-center gap-1.5">
-                <input type="checkbox" checked={condition.statuses.includes(s)} onChange={() => onChange({ ...condition, statuses: toggleIn(condition.statuses, s) })} className="accent-tk-blue" />
-                {STATUS_LABELS[s]}
-              </label>
-            ))}
-          </div>
-        </fieldset>
+        <CheckboxGroup legend="Channel status" items={CHANNEL_STATUSES} labels={CHANNEL_STATUS_LABELS} selected={condition.statuses} onChange={(statuses) => onChange({ ...condition, statuses })} />
+      );
+    case "booking_status":
+      return (
+        <CheckboxGroup legend="Booking status" items={BOOKING_STATUSES} labels={BOOKING_STATUS_LABELS} selected={condition.statuses} onChange={(statuses) => onChange({ ...condition, statuses })} />
       );
     case "topic":
       return (
@@ -75,17 +89,27 @@ function ConditionFields({ condition, onChange }: { condition: RuleCondition; on
           <div className="flex flex-wrap gap-3 text-sm">
             {topics.map((t) => (
               <label key={t.id} className="flex items-center gap-1.5">
-                <input type="checkbox" checked={condition.topics.includes(t.id)} onChange={() => onChange({ ...condition, topics: toggleIn<TopicId>(condition.topics, t.id) })} className="accent-tk-blue" />
+                <input type="checkbox" checked={condition.topics.includes(t.id)} onChange={() => onChange({ ...condition, topics: toggleIn<TopicId>(condition.topics, t.id) })} className="accent-royal" />
                 {t.label}
               </label>
             ))}
           </div>
         </fieldset>
       );
-    case "fan_tier":
-      return <NumberField id="rule-min-events" label="Events attended at least" value={condition.minEvents} onChange={(minEvents) => onChange({ ...condition, minEvents })} />;
-    case "order_value":
-      return <NumberField id="rule-min" label="Order value at least ($)" value={condition.min} onChange={(min) => onChange({ ...condition, min })} />;
+    case "plan":
+      return (
+        <CheckboxGroup
+          legend="Plan"
+          items={PLAN_IDS}
+          labels={Object.fromEntries(PLAN_IDS.map((p) => [p, PLANS[p].name])) as Record<PlanId, string>}
+          selected={condition.plans}
+          onChange={(plans) => onChange({ ...condition, plans })}
+        />
+      );
+    case "property_size":
+      return <NumberField id="rule-rooms" label="Rooms at least" value={condition.minRooms} onChange={(minRooms) => onChange({ ...condition, minRooms })} />;
+    case "invoice_overdue":
+      return <NumberField id="rule-overdue" label="Days overdue at least" value={condition.minDays} onChange={(minDays) => onChange({ ...condition, minDays })} />;
     case "misunderstood":
       return <NumberField id="rule-count" label="Fallbacks" value={condition.count} onChange={(count) => onChange({ ...condition, count })} />;
     case "repeat_contact":
@@ -103,6 +127,7 @@ function ConditionFields({ condition, onChange }: { condition: RuleCondition; on
 }
 
 function RuleForm({ initial, onSave, onCancel }: { initial: RoutingRule; onSave: (rule: RoutingRule) => void; onCancel: () => void }) {
+  const { config } = useStudio();
   const [rule, setRule] = useState(initial);
   const [error, setError] = useState<string | null>(null);
   const submit = (e: FormEvent) => {
@@ -112,7 +137,7 @@ function RuleForm({ initial, onSave, onCancel }: { initial: RoutingRule; onSave:
     onSave({ ...rule, name: rule.name.trim() });
   };
   return (
-    <form onSubmit={submit} className="grid gap-3 rounded-tk bg-page p-4 sm:grid-cols-2" aria-label="Edit rule">
+    <form onSubmit={submit} className="grid gap-3 rounded-xl bg-canvas p-4 sm:grid-cols-2" aria-label="Edit rule">
       <div>
         <label htmlFor="rule-name" className="mb-1 block text-xs font-semibold">
           Name
@@ -155,7 +180,7 @@ function RuleForm({ initial, onSave, onCancel }: { initial: RoutingRule; onSave:
           <select id="rule-queue" value={rule.queue} onChange={(e) => setRule({ ...rule, queue: e.target.value as QueueId })} className="field">
             {QUEUE_IDS.map((q) => (
               <option key={q} value={q}>
-                {q}
+                {queueName(config, q)}
               </option>
             ))}
           </select>
@@ -207,7 +232,7 @@ export function RoutingPage() {
   return (
     <AdminPage
       title="Routing rules"
-      description="Rules run top to bottom after every fan message. Handoff rules move the fan to a person the moment they match. Route rules only pick the queue and priority when a handoff happens — the first match wins the queue, the most urgent match sets the priority."
+      description="Rules run top to bottom after every hotelier message. Handoff rules move the hotelier to a person the moment they match. Route rules only pick the queue and priority when a handoff happens — the first match wins the queue, the most urgent match sets the priority."
       action={
         <div className="flex gap-2">
           <button type="button" onClick={resetConfig} className="btn-outline">
@@ -222,8 +247,8 @@ export function RoutingPage() {
       <Card>
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="font-bold">Routing is {config.routing.enabled ? "on" : "off"}</p>
-            <p className="text-sm text-ink-soft">When off, the assistant never hands off on its own and every handoff goes to Fan Support.</p>
+            <p className="font-semibold">Routing is {config.routing.enabled ? "on" : "off"}</p>
+            <p className="text-sm text-ink-soft">When off, the assistant never hands off on its own and every handoff goes to Customer Support.</p>
           </div>
           <Toggle label="Routing enabled" checked={config.routing.enabled} onChange={(enabled) => updateConfig((c) => ({ ...c, routing: { ...c.routing, enabled } }))} />
         </div>
@@ -247,36 +272,36 @@ export function RoutingPage() {
           {rules.map((rule, i) => (
             <li key={rule.id} className="py-3">
               <div className={cn("flex flex-wrap items-center gap-3", !rule.enabled && "opacity-60")}>
-                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-page text-xs font-bold">{i + 1}</span>
+                <span className="grid size-7 shrink-0 place-items-center rounded-full bg-canvas text-xs font-bold">{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold">
                     {rule.name}{" "}
-                    <span className={cn("ml-1 rounded-full px-2 py-0.5 text-[11px] font-semibold", rule.action === "handoff" ? "bg-tk-pink/20 text-midnight" : "bg-tk-blue-tint text-tk-blue")}>
+                    <span className={cn("ml-1 rounded-full px-2 py-0.5 text-[11px] font-semibold", rule.action === "handoff" ? "bg-lime text-stratos" : "bg-royal-tint text-royal")}>
                       {rule.action === "handoff" ? "Hands off" : "Routes"}
                     </span>
                   </p>
                   <p className="text-sm text-ink-soft">
-                    {CONDITION_LABELS[rule.condition.kind]} <strong className="text-ink">{describeCondition(rule.condition)}</strong> → {queueName(config, rule.queue)} · {rule.priority}
+                    {CONDITION_LABELS[rule.condition.kind]} <strong className="text-heading">{describeCondition(rule.condition)}</strong> → {queueName(config, rule.queue)} · {rule.priority}
                   </p>
                   {rule.description && <p className="text-xs text-ink-faint">{rule.description}</p>}
                 </div>
                 <div className="flex items-center gap-1">
-                  <button type="button" onClick={() => moveRule(rule.id, -1)} disabled={i === 0} className="grid size-8 place-items-center rounded-full hover:bg-page disabled:opacity-30" aria-label={`Move ${rule.name} up`}>
+                  <button type="button" onClick={() => moveRule(rule.id, -1)} disabled={i === 0} className="grid size-8 place-items-center rounded-full hover:bg-canvas disabled:opacity-30" aria-label={`Move ${rule.name} up`}>
                     <ArrowUp className="size-4" aria-hidden />
                   </button>
                   <button
                     type="button"
                     onClick={() => moveRule(rule.id, 1)}
                     disabled={i === rules.length - 1}
-                    className="grid size-8 place-items-center rounded-full hover:bg-page disabled:opacity-30"
+                    className="grid size-8 place-items-center rounded-full hover:bg-canvas disabled:opacity-30"
                     aria-label={`Move ${rule.name} down`}
                   >
                     <ArrowDown className="size-4" aria-hidden />
                   </button>
-                  <button type="button" onClick={() => setEditing(editing === rule.id ? null : rule.id)} className="grid size-8 place-items-center rounded-full hover:bg-page" aria-label={`Edit ${rule.name}`}>
+                  <button type="button" onClick={() => setEditing(editing === rule.id ? null : rule.id)} className="grid size-8 place-items-center rounded-full hover:bg-canvas" aria-label={`Edit ${rule.name}`}>
                     <Pencil className="size-4" aria-hidden />
                   </button>
-                  <button type="button" onClick={() => removeRule(rule.id)} className="grid size-8 place-items-center rounded-full hover:bg-page hover:text-critical" aria-label={`Delete ${rule.name}`}>
+                  <button type="button" onClick={() => removeRule(rule.id)} className="grid size-8 place-items-center rounded-full hover:bg-canvas hover:text-critical" aria-label={`Delete ${rule.name}`}>
                     <Trash2 className="size-4" aria-hidden />
                   </button>
                   <Toggle label={`${rule.name} enabled`} checked={rule.enabled} onChange={(enabled) => updateRule(rule.id, { enabled })} />
@@ -305,7 +330,7 @@ export function RoutingPage() {
           {QUEUE_IDS.map((id) => {
             const q = config.queues[id];
             return (
-              <li key={id} className="flex items-end gap-2 rounded-tk border border-line-soft p-3">
+              <li key={id} className="flex items-end gap-2 rounded-xl border border-line-soft p-3">
                 <div className="flex-1">
                   <label htmlFor={`q-${id}`} className="mb-1 block text-xs font-semibold text-ink-faint">
                     {id}

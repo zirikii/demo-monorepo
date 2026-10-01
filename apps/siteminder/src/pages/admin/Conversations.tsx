@@ -11,7 +11,7 @@ import { AdminPage, Card } from "./AdminLayout";
 
 const OUTCOME_TONE: Record<ConversationRecord["outcome"], string> = {
   resolved: "bg-positive-bg text-positive",
-  handoff: "bg-tk-blue-tint text-tk-blue",
+  handoff: "bg-royal-tint text-royal",
   open: "bg-line-soft text-ink-soft",
 };
 
@@ -27,14 +27,14 @@ function OutcomePill({ outcome }: { outcome: ConversationRecord["outcome"] }) {
 
 function ConversationTable({ records }: { records: ConversationRecord[] }) {
   const { config } = useStudio();
-  if (records.length === 0) return <p className="py-6 text-center text-sm text-ink-soft">No conversations yet. Open Ticketek Support on the site to create one.</p>;
+  if (records.length === 0) return <p className="py-6 text-center text-sm text-ink-soft">No conversations yet. Open SiteMinder Support on the site to create one.</p>;
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-sm">
         <thead className="text-xs text-ink-faint uppercase">
           <tr>
             <th className="py-2 pr-3 font-semibold">Ref</th>
-            <th className="py-2 pr-3 font-semibold">Fan</th>
+            <th className="py-2 pr-3 font-semibold">Hotelier</th>
             <th className="py-2 pr-3 font-semibold">Channel</th>
             <th className="py-2 pr-3 font-semibold">Topics</th>
             <th className="py-2 pr-3 font-semibold">Outcome</th>
@@ -44,13 +44,16 @@ function ConversationTable({ records }: { records: ConversationRecord[] }) {
         </thead>
         <tbody className="divide-y divide-line-soft">
           {records.map((r) => (
-            <tr key={r.id} className="hover:bg-page">
+            <tr key={r.id} className="hover:bg-canvas">
               <td className="py-2.5 pr-3">
                 <Link to={`/admin/conversations/${r.id}`} className="link font-semibold">
                   {r.ref}
                 </Link>
               </td>
-              <td className="py-2.5 pr-3">{r.fanName}</td>
+              <td className="py-2.5 pr-3">
+                <span className="block font-medium text-heading">{r.contactName}</span>
+                <span className="text-xs text-ink-faint">{r.propertyName}</span>
+              </td>
               <td className="py-2.5 pr-3">
                 <span className="inline-flex items-center gap-1">
                   {r.channel === "voice" ? <Mic className="size-3.5" aria-hidden /> : <MessageCircle className="size-3.5" aria-hidden />}
@@ -93,12 +96,12 @@ export function StudioOverviewPage() {
   ];
 
   return (
-    <AdminPage title="Support Studio" description="How Ticketek Support is performing, where handoffs land, and what fans are asking about. Every conversation on the site is logged here.">
+    <AdminPage title="Support Studio" description="How SiteMinder Support is performing, where handoffs land, and what hoteliers are asking about. Every conversation on the site is logged here.">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
           <Card key={s.label}>
             <p className="text-xs font-semibold text-ink-faint uppercase">{s.label}</p>
-            <p className="mt-1 text-3xl font-extrabold">{s.value}</p>
+            <p className="mt-1 text-3xl font-bold">{s.value}</p>
           </Card>
         ))}
       </div>
@@ -109,7 +112,7 @@ export function StudioOverviewPage() {
               const count = byQueue.get(id as QueueId) ?? 0;
               return (
                 <li key={id} className="flex items-center gap-3 text-sm">
-                  <Headset className="size-4 text-tk-blue" aria-hidden />
+                  <Headset className="size-4 text-royal" aria-hidden />
                   <span className="flex-1">{q.name}</span>
                   <span className="text-xs text-ink-faint">~{q.waitMins} min wait</span>
                   <span className="w-8 text-right font-bold">{count}</span>
@@ -129,8 +132,8 @@ export function StudioOverviewPage() {
                     <span>{findTopic(t as Parameters<typeof findTopic>[0])?.label ?? t}</span>
                     <span className="font-bold">{n}</span>
                   </div>
-                  <div className="h-2 rounded-full bg-page">
-                    <div className="tk-gradient h-2 rounded-full" style={{ width: `${(n / maxTopic) * 100}%` }} />
+                  <div className="h-2 rounded-full bg-canvas">
+                    <div className="sm-gradient h-2 rounded-full" style={{ width: `${(n / maxTopic) * 100}%` }} />
                   </div>
                 </li>
               ))}
@@ -180,17 +183,17 @@ export function ConversationDetailPage() {
     );
   }
   return (
-    <AdminPage title={record.ref} description={`${record.fanName} · ${record.channel === "voice" ? "Voice" : "Chat"} · ${formatDateTime(record.startedAt)}`} action={<OutcomePill outcome={record.outcome} />}>
+    <AdminPage title={record.ref} description={`${record.contactName} · ${record.propertyName} · ${record.channel === "voice" ? "Voice" : "Chat"} · ${formatDateTime(record.startedAt)}`} action={<OutcomePill outcome={record.outcome} />}>
       <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
         <Card title="Transcript">
           <ol className="space-y-3">
             {record.transcript.map((line, i) => (
-              <li key={i} className={cn("flex", line.role === "fan" ? "justify-end" : line.role === "system" ? "justify-center" : "justify-start")}>
+              <li key={i} className={cn("flex", line.role === "hotelier" ? "justify-end" : line.role === "system" ? "justify-center" : "justify-start")}>
                 {line.role === "system" ? (
-                  <span className="rounded-full bg-page px-3 py-1 text-xs text-ink-soft">{line.text}</span>
+                  <span className="rounded-full bg-canvas px-3 py-1 text-xs text-ink-soft">{line.text}</span>
                 ) : (
-                  <span className={cn("max-w-[80%] rounded-tk-xl px-4 py-2 text-sm", line.role === "fan" ? "bg-midnight text-white" : "bg-page text-ink")}>
-                    {line.role === "assistant" && <Bot className="mr-1 inline size-3.5 text-tk-jacaranda" aria-hidden />}
+                  <span className={cn("max-w-[80%] rounded-[20px] px-4 py-2 text-sm", line.role === "hotelier" ? "bg-royal text-white" : "bg-canvas text-ink")}>
+                    {line.role === "assistant" && <Bot className="mr-1 inline size-3.5 text-royal" aria-hidden />}
                     {line.text}
                   </span>
                 )}
@@ -222,13 +225,13 @@ export function ConversationDetailPage() {
           <Card title="Flow path">
             <ol className="flex flex-wrap gap-1.5 text-xs">
               {record.trail.map((s, i) => (
-                <li key={`${s}-${i}`} className="rounded-full bg-tk-blue-tint px-2 py-0.5 font-mono text-tk-blue">
+                <li key={`${s}-${i}`} className="rounded-full bg-royal-tint px-2 py-0.5 font-mono text-royal">
                   {s}
                 </li>
               ))}
             </ol>
             <p className="mt-3 text-xs text-ink-faint">
-              {record.turns} fan turns · {record.engine === "grok" ? "Grok" : "Guided flow"} · {record.signedIn ? "Signed in" : "Guest"}
+              {record.turns} hotelier turns · {record.engine === "grok" ? "Grok" : "Guided flow"} · {record.signedIn ? "Signed in" : "Guest"}
             </p>
           </Card>
         </div>
