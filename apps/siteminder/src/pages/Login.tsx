@@ -10,17 +10,26 @@ import { asset } from "@/lib/asset";
 type ProductConfig = { name: string; tagline: string };
 
 const productConfig = {
-  SiteMinder: { name: "SiteMinder", tagline: "The hotel commerce platform" },
-  LittleHotelier: { name: "Little Hotelier", tagline: "All-in-one software for small properties" },
+  siteminder: { name: "SiteMinder", tagline: "The hotel commerce platform" },
+  littlehotelier: { name: "Little Hotelier", tagline: "All-in-one software for small properties" },
 } satisfies Record<string, ProductConfig>;
+
+const DEFAULT_PRODUCT_KEY = "siteminder" as const;
+
+function resolveProductKey(raw: string | null): keyof typeof productConfig {
+  const key = (raw ?? DEFAULT_PRODUCT_KEY).toLowerCase();
+  if (key in productConfig) {
+    return key as keyof typeof productConfig;
+  }
+  return DEFAULT_PRODUCT_KEY;
+}
 
 export function LoginPage() {
   useDocumentTitle("Login");
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const productKey = (params.get("product") ?? "siteminder") as keyof typeof productConfig;
-  const product = productConfig[productKey];
+  const product = productConfig[resolveProductKey(params.get("product"))];
   const [email, setEmail] = useState(DEMO_USER.email);
   const [password, setPassword] = useState("demo-password");
   const [show, setShow] = useState(false);
