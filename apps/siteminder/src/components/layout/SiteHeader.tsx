@@ -162,11 +162,11 @@ export function SiteHeader() {
       ref={ref}
       className="sticky top-0 z-40 border-b border-line-soft bg-white/95 backdrop-blur"
     >
-      <div className="container-sm flex h-[72px] items-center gap-6">
+      <div className="container-sm flex h-[72px] items-center gap-4">
         <Link to="/" aria-label="SiteMinder home" className="shrink-0">
           <Logo className="h-[22px]" />
         </Link>
-        <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-1 whitespace-nowrap lg:flex">
           {MENUS.map((m) => (
             <button
               key={m.id}
@@ -174,7 +174,7 @@ export function SiteHeader() {
               aria-expanded={menu === m.id}
               onClick={() => setMenu((cur) => (cur === m.id ? null : m.id))}
               className={cn(
-                "inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas",
+                "inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-2 text-sm font-semibold text-heading hover:bg-canvas",
                 menu === m.id && "bg-canvas text-royal",
               )}
             >
@@ -187,29 +187,32 @@ export function SiteHeader() {
           ))}
           <Link
             to="/integrations"
-            className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas"
+            className="shrink-0 rounded-full px-2.5 py-2 text-sm font-semibold whitespace-nowrap text-heading hover:bg-canvas"
           >
             Partners
           </Link>
           <Link
             to="/pricing"
-            className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas"
+            className="shrink-0 rounded-full px-2.5 py-2 text-sm font-semibold whitespace-nowrap text-heading hover:bg-canvas"
           >
             Pricing
           </Link>
         </nav>
-        <div className="ml-auto hidden items-center gap-2 lg:flex">
-          <DemoRibbon label="Unofficial demo" className="border-line text-ink-faint" />
+        <div className="ml-auto hidden shrink-0 items-center gap-2 whitespace-nowrap lg:flex">
+          <DemoRibbon
+            label="Unofficial demo"
+            className="hidden shrink-0 border-line text-ink-faint xl:inline-flex"
+          />
           <Link
             to={user ? "/app" : "/login"}
-            className="rounded-full px-3.5 py-2 text-sm font-semibold text-heading hover:bg-canvas"
+            className="shrink-0 rounded-full px-2.5 py-2 text-sm font-semibold whitespace-nowrap text-heading hover:bg-canvas"
           >
             {user ? "Go to platform" : "Login"}
           </Link>
-          <Link to="/demo" className="btn-outline">
+          <Link to="/demo" className="btn-outline shrink-0 px-4 whitespace-nowrap">
             Get a demo
           </Link>
-          <Link to="/get-started" className="btn-primary">
+          <Link to="/get-started" className="btn-primary shrink-0 px-4 whitespace-nowrap">
             Try for free
           </Link>
         </div>
