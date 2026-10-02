@@ -7,11 +7,20 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 import { DEMO_USER, safeNext } from "@/lib/auth";
 import { asset } from "@/lib/asset";
 
+type ProductConfig = { name: string; tagline: string };
+
+const productConfig = {
+  SiteMinder: { name: "SiteMinder", tagline: "The hotel commerce platform" },
+  LittleHotelier: { name: "Little Hotelier", tagline: "All-in-one software for small properties" },
+} satisfies Record<string, ProductConfig>;
+
 export function LoginPage() {
   useDocumentTitle("Login");
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
+  const productKey = (params.get("product") ?? "siteminder") as keyof typeof productConfig;
+  const product = productConfig[productKey];
   const [email, setEmail] = useState(DEMO_USER.email);
   const [password, setPassword] = useState("demo-password");
   const [show, setShow] = useState(false);
@@ -32,8 +41,9 @@ export function LoginPage() {
         >
           <Logo className="h-6" />
           <h1 id="login-title" className="mt-8 text-3xl font-bold">
-            Log in to SiteMinder
+            Log in to {product.name}
           </h1>
+          <p className="mt-1 text-sm text-ink-faint">{product.tagline}</p>
           <p className="mt-2 text-sm text-ink-soft">
             Demo mode: any email and password will sign you in.
           </p>
@@ -85,7 +95,7 @@ export function LoginPage() {
             <Lock className="size-4" aria-hidden /> Log in
           </button>
           <p className="mt-6 text-center text-sm text-ink-soft">
-            New to SiteMinder?{" "}
+            New to {product.name}?{" "}
             <Link to="/get-started" className="link">
               Start a free trial
             </Link>

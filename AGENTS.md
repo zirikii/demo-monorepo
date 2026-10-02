@@ -30,7 +30,7 @@ per-app scripts and features are documented in the root `README.md` and each app
 | gopay (Vite + React 19) | `pnpm dev:gopay` | 5184 | GoPay consumer reKYC flow; no env needed |
 | agl (Vite + React 19) | `pnpm dev:agl` | 5185 | agl.com.au clone + AGL Assistant chat/voice; optional server-only `XAI_API_KEY` for Grok voice |
 | ticketek (Vite + React 19) | `pnpm dev:ticketek` | 5197 | premier.ticketek.com.au clone + mock My Account + Ticketek Support chat/voice + `/admin` Support Studio; reuses AGL's `XAI_API_KEY`; intentional login rendering bug (site config casing) |
-| siteminder (Vite + React 19) | `pnpm dev:siteminder` | 5198 | siteminder.com clone + mock platform (`/app`) + SiteMinder Support chat/voice + `/admin` Support Studio; reuses AGL's `XAI_API_KEY`; no env needed |
+| siteminder (Vite + React 19) | `pnpm dev:siteminder` | 5198 | siteminder.com clone + mock platform (`/app`) + SiteMinder Support chat/voice + `/admin` Support Studio; reuses AGL's `XAI_API_KEY`; intentional login rendering bug (product config casing) |
 
 - **Port collision:** naukri, seek, and spark all default to port 3000. To run them at the same
   time, start one on another port with the `PORT` env var, e.g.
