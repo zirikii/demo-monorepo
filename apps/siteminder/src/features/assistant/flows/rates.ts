@@ -1,0 +1,132 @@
+import type { FlowNode } from "./types";
+
+export const rateNodes: FlowNode[] = [
+  {
+    id: "rates",
+    topic: "rates",
+    title: "Rates & availability",
+    say: "Sure. What do you need to do with your rates or availability?",
+    options: [
+      { label: "Update rates in bulk", next: "rates.bulk" },
+      { label: "My rates aren't updating", next: "rates.notupdating" },
+      { label: "Set a minimum stay or restriction", next: "rates.restrictions" },
+      { label: "A channel is undercutting my direct rate", next: "rates.parity" },
+    ],
+    keywords: ["rates", "rate", "availability", "inventory", "pricing", "prices", "allocation"],
+  },
+  {
+    id: "rates.bulk",
+    topic: "rates",
+    title: "Bulk rate update",
+    say: "Tell me which rooms, the change and the dates, and I'll push it to every connected channel at once.",
+    card: { kind: "form", form: "bulk-rates", next: "rates.bulk.done" },
+    options: [{ label: "Back to rates", next: "rates" }],
+    keywords: [
+      "bulk update",
+      "bulk rate",
+      "change my rates",
+      "increase rates",
+      "raise rates",
+      "lower rates",
+      "drop rates",
+    ],
+  },
+  {
+    id: "rates.bulk.done",
+    topic: "rates",
+    title: "Rates updated",
+    say: "Done. {rateRoom} is {rateChange} from {rateFrom} for {rateNights}, and the update has gone to all your channels. Change reference {rateRef}.",
+    card: {
+      kind: "success",
+      title: "Rates sent to all channels",
+      detail: "{rateRoom} {rateChange} · from {rateFrom} · {rateNights} · Ref {rateRef}",
+    },
+    effect: "bulk-rates",
+    options: [
+      { label: "Add a minimum stay too", next: "rates.restrictions" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+  },
+  {
+    id: "rates.notupdating",
+    topic: "rates",
+    title: "Rates not updating",
+    say: "When a rate doesn't change on a channel, it's nearly always the channel connection or a derived rate. Which is it closest to?",
+    options: [
+      { label: "One channel isn't updating", next: "channels" },
+      { label: "No channels are updating", next: "channels.status" },
+      { label: "Only one rate plan is wrong", next: "rates.derived" },
+    ],
+    keywords: [
+      "rates not updating",
+      "rate didn't change",
+      "prices not changing",
+      "availability not updating",
+    ],
+  },
+  {
+    id: "rates.derived",
+    topic: "rates",
+    title: "Derived rate plans",
+    say: "Derived rate plans follow their parent automatically, so editing them directly won't stick. Update the parent rate instead.",
+    card: {
+      kind: "steps",
+      title: "Fix a derived rate",
+      steps: [
+        "Open Rates & availability and switch to the rate plan view",
+        "Plans with a link icon are derived — note their parent",
+        "Change the parent rate; the derived plan moves by its offset",
+        "Or unlink the plan to set it independently",
+      ],
+    },
+    options: [
+      { label: "Talk to a person", next: "handoff" },
+      { label: "That fixed it", next: "resolved" },
+    ],
+  },
+  {
+    id: "rates.restrictions",
+    topic: "rates",
+    title: "Restrictions",
+    say: "SiteMinder sends minimum stay, maximum stay, closed to arrival, closed to departure and stop sell to every channel. Set them for a date range in Rates & availability.",
+    card: {
+      kind: "info",
+      title: "Restrictions you can send",
+      body: "Min stay (through or on arrival), max stay, closed to arrival (CTA), closed to departure (CTD) and stop sell. Most channels support all five; metasearch only shows price.",
+      link: { label: "Open Rates & availability", to: "/app/rates" },
+    },
+    options: [
+      { label: "Set restrictions for an event", next: "events" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+    keywords: [
+      "minimum stay",
+      "min stay",
+      "closed to arrival",
+      "cta",
+      "ctd",
+      "restriction",
+      "max stay",
+    ],
+  },
+  {
+    id: "rates.parity",
+    topic: "rates",
+    title: "Rate parity",
+    say: "Here's how your rates compare for tonight across channels. When a channel is cheaper than your Booking Engine, it's usually a channel promotion or a member discount you've opted into.",
+    card: { kind: "parity" },
+    options: [
+      { label: "Grow my direct bookings", next: "grow.website" },
+      { label: "Talk to a person", next: "handoff" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+    keywords: [
+      "parity",
+      "rate parity",
+      "undercutting",
+      "cheaper on booking.com",
+      "cheaper on expedia",
+      "competitor rates",
+    ],
+  },
+];

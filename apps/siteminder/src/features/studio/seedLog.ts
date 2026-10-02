@@ -1,0 +1,156 @@
+import { toLocalIso } from "@/lib/clock";
+import type { ConversationRecord } from "./types";
+
+function hoursAgo(h: number): string {
+  return toLocalIso(new Date(Date.now() - h * 3_600_000));
+}
+
+export function seedLog(): ConversationRecord[] {
+  return [
+    {
+      id: "conv-seed-1",
+      ref: "SMS-4Q8K21",
+      startedAt: hoursAgo(1.6),
+      endedAt: hoursAgo(1.5),
+      contactName: "Liam O'Brien",
+      propertyName: "Bondi Shore Apartments",
+      signedIn: true,
+      channel: "voice",
+      engine: "grok",
+      outcome: "handoff",
+      queue: "connectivity",
+      priority: "P1",
+      ruleName: "Channel not selling",
+      topics: ["events", "channels"],
+      trail: ["events", "events.ready", "channels", "channels.mapping", "handoff"],
+      turns: 5,
+      transcript: [
+        {
+          role: "assistant",
+          text: "Hi Liam, I'm SiteMinder Support. The Sydney Marathon is in 4 days and you're 71% booked, but Booking.com isn't receiving rates.",
+        },
+        { role: "hotelier", text: "Yeah that's why I'm here, are we ready for the marathon?" },
+        {
+          role: "assistant",
+          text: "Not quite. Booking.com has a mapping error on your Ocean Studio, so it won't sell rooms for the marathon.",
+        },
+        { role: "hotelier", text: "I remapped it already and it's still red" },
+        {
+          role: "system",
+          text: "Routing: Channel not selling → Connectivity, P1 (Demand event this week raised priority)",
+        },
+      ],
+    },
+    {
+      id: "conv-seed-2",
+      ref: "SMS-4Q7ZP0",
+      startedAt: hoursAgo(3.4),
+      endedAt: hoursAgo(3.3),
+      contactName: "Sophie Tran",
+      propertyName: "The Harbour Lane Hotel",
+      signedIn: true,
+      channel: "chat",
+      engine: "scripted",
+      outcome: "resolved",
+      topics: ["events"],
+      trail: ["events", "events.playbook", "events.pricing", "events.pricing.done", "resolved"],
+      turns: 4,
+      transcript: [
+        { role: "assistant", text: "Hi Sophie, I'm SiteMinder Support. What can I help you with?" },
+        { role: "hotelier", text: "Help me price an upcoming event" },
+        {
+          role: "assistant",
+          text: "Last time (Taylor Swift | The Eras Tour, Feb 2024) you reached 100% at $612 ADR, selling out 41 days out. I'd suggest +35% with a 2-night minimum.",
+        },
+        { role: "hotelier", text: "Apply +35% with a 2-night minimum" },
+        {
+          role: "assistant",
+          text: "Done. Rates are up 35% on all rooms with a 2-night minimum stay, and the update has gone to every channel.",
+        },
+      ],
+    },
+    {
+      id: "conv-seed-3",
+      ref: "SMS-4Q6M9C",
+      startedAt: hoursAgo(6.2),
+      endedAt: hoursAgo(6),
+      contactName: "Ana Kovac",
+      propertyName: "Yarra Lane Boutique",
+      signedIn: true,
+      channel: "chat",
+      engine: "grok",
+      outcome: "handoff",
+      queue: "reservations",
+      priority: "P1",
+      ruleName: "Overbooking",
+      topics: ["urgent", "reservations"],
+      trail: ["urgent", "urgent.overbooking", "handoff"],
+      turns: 3,
+      transcript: [
+        { role: "assistant", text: "Hi Ana, I'm SiteMinder Support. What can I help you with?" },
+        {
+          role: "hotelier",
+          text: "We're overbooked tonight, a guest from Booking.com is at the desk and we have no room",
+        },
+        {
+          role: "assistant",
+          text: "Let's protect that guest first. Here's the walk procedure while I get the Reservations team.",
+        },
+        { role: "system", text: "Routing: Overbooking → Reservations, P1" },
+      ],
+    },
+    {
+      id: "conv-seed-4",
+      ref: "SMS-4Q5T2H",
+      startedAt: hoursAgo(9),
+      endedAt: hoursAgo(8.8),
+      contactName: "Raj Mehta",
+      propertyName: "Fortitude Valley Inn",
+      signedIn: true,
+      channel: "voice",
+      engine: "grok",
+      outcome: "handoff",
+      queue: "success",
+      priority: "P2",
+      ruleName: "Frustrated hotelier",
+      topics: ["billing"],
+      trail: ["billing", "billing.high", "billing.high.addon", "handoff"],
+      turns: 4,
+      transcript: [
+        { role: "assistant", text: "Hi Raj, I'm SiteMinder Support. What can I help you with?" },
+        { role: "hotelier", text: "Why is my invoice so much higher this month" },
+        {
+          role: "assistant",
+          text: "Your September invoice is up $49 on August because Demand Plus was added.",
+        },
+        { role: "hotelier", text: "I never asked for that, this is ridiculous" },
+        { role: "hotelier", text: "Honestly fed up with surprise charges" },
+        { role: "system", text: "Routing: Frustrated hotelier → Customer Success, P2" },
+      ],
+    },
+    {
+      id: "conv-seed-5",
+      ref: "SMS-4Q4A7D",
+      startedAt: hoursAgo(26),
+      endedAt: hoursAgo(25.9),
+      contactName: "Guest",
+      propertyName: "Not logged in",
+      signedIn: false,
+      channel: "chat",
+      engine: "scripted",
+      outcome: "resolved",
+      topics: ["grow"],
+      trail: ["grow", "grow.demandplus", "grow.callback", "grow.callback.done", "resolved"],
+      turns: 3,
+      transcript: [
+        { role: "assistant", text: "Hi there, I'm SiteMinder Support. What can I help you with?" },
+        { role: "hotelier", text: "How do I get on Google Hotel Ads" },
+        {
+          role: "assistant",
+          text: "Demand Plus puts your property on Google Hotel Ads, Trivago, Tripadvisor and other metasearch sites.",
+        },
+        { role: "hotelier", text: "Call me tomorrow morning about Demand Plus" },
+      ],
+    },
+  ];
+}

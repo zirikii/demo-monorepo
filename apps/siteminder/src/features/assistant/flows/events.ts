@@ -1,0 +1,145 @@
+import type { FlowNode } from "./types";
+
+export const eventNodes: FlowNode[] = [
+  {
+    id: "events",
+    topic: "events",
+    title: "Events & demand",
+    say: "Which event are you planning for? I'll compare it with {eventsLine}.",
+    pick: {
+      filter: "events-upcoming",
+      next: "events.playbook",
+      emptySay:
+        "Log in and I'll pull up the events coming to your area, with what happened last time.",
+    },
+    options: [
+      { label: "Review a past event", next: "events.history" },
+      { label: "What have past events taught us?", next: "events.insights" },
+      { label: "Add an event", next: "events.add" },
+    ],
+    keywords: [
+      "event",
+      "events",
+      "concert",
+      "festival",
+      "conference",
+      "demand",
+      "event pricing",
+      "upcoming event",
+      "big game",
+      "stadium",
+    ],
+  },
+  {
+    id: "events.playbook",
+    topic: "events",
+    title: "Event playbook",
+    say: "{eventName} is {eventDaysOut} at {eventVenue}, and you're {eventOnBooks} booked. {eventAdvice} I'd suggest +{eventUplift} on all rooms with a {eventMinStay} minimum stay.",
+    card: { kind: "event-playbook" },
+    options: [
+      { label: "Apply event pricing", next: "events.pricing" },
+      { label: "Are my channels ready?", next: "events.ready" },
+      { label: "Talk to a revenue specialist", next: "handoff" },
+    ],
+  },
+  {
+    id: "events.pricing",
+    topic: "events",
+    title: "Apply event pricing",
+    say: "I've filled in the suggestion from your history. Adjust it if you like, and I'll apply it to every room and channel for {eventName}.",
+    card: { kind: "form", form: "event-pricing", next: "events.pricing.done" },
+    options: [{ label: "Back to the playbook", next: "events.playbook" }],
+    keywords: ["apply event pricing", "event rates", "raise rates for the event"],
+  },
+  {
+    id: "events.pricing.done",
+    topic: "events",
+    title: "Event pricing applied",
+    say: "Done. Rates for {eventName} are up {planUpliftLabel} on all rooms with a {planMinStayLabel} minimum stay, and the update has gone to every channel. I'll keep it against this event so we can compare results afterwards.",
+    card: {
+      kind: "success",
+      title: "Event pricing live",
+      detail: "{eventName} · +{planUpliftLabel} · {planMinStayLabel} minimum · all channels",
+    },
+    effect: "event-plan",
+    options: [
+      { label: "Check my channels are ready", next: "events.ready" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+  },
+  {
+    id: "events.ready",
+    topic: "events",
+    title: "Channel readiness",
+    say: "{eventReadyLine}",
+    options: [
+      { label: "Fix my channels now", next: "channels" },
+      { label: "Talk to a connectivity specialist", next: "handoff" },
+      { label: "Back to the playbook", next: "events.playbook" },
+    ],
+  },
+  {
+    id: "events.history",
+    topic: "events",
+    title: "Past events",
+    say: "Which past event would you like to look back at?",
+    pick: {
+      filter: "events-past",
+      next: "events.review",
+      emptySay:
+        "Log in and I'll show you the events you've traded through, with how each one went.",
+    },
+    options: [{ label: "Add a past event", next: "events.add" }],
+    keywords: ["past event", "last time", "how did we do", "event history", "previous event"],
+  },
+  {
+    id: "events.review",
+    topic: "events",
+    title: "Event review",
+    say: "At {historyName} ({historyDate}) you ran {historyOccupancy} occupancy at {historyAdr} ADR, up {historyUplift}. {historySoldOut} {historyNote}",
+    card: { kind: "event-review" },
+    picker: "events.history",
+    options: [
+      { label: "Plan for an upcoming event", next: "events" },
+      { label: "What have past events taught us?", next: "events.insights" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+  },
+  {
+    id: "events.insights",
+    topic: "events",
+    title: "Event insights",
+    say: "{insightsLine}",
+    card: { kind: "event-insights" },
+    options: [
+      { label: "Plan for an upcoming event", next: "events" },
+      { label: "Automate this with Dynamic Revenue Plus", next: "grow.revenue" },
+    ],
+    keywords: ["insights", "what have we learned", "event insights", "demand insights", "patterns"],
+  },
+  {
+    id: "events.add",
+    topic: "events",
+    title: "Add an event",
+    say: "Tell me about the event and I'll add it to your demand calendar, so it shows up in your playbooks and in Insights.",
+    card: { kind: "form", form: "add-event", next: "events.add.done" },
+    options: [{ label: "Back to events", next: "events" }],
+    keywords: ["add an event", "new event", "add event", "track an event"],
+  },
+  {
+    id: "events.add.done",
+    topic: "events",
+    title: "Event added",
+    say: "Added. {newEventName} on {newEventDateLabel} is in your demand calendar now. When it's close, I'll compare it with similar events from your history.",
+    card: {
+      kind: "success",
+      title: "Event added",
+      detail: "{newEventName} · {newEventDateLabel} · {newEventVenue}",
+    },
+    effect: "add-event",
+    options: [
+      { label: "Plan for an upcoming event", next: "events" },
+      { label: "That's all, thanks", next: "resolved" },
+    ],
+  },
+];
