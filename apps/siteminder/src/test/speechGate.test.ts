@@ -31,6 +31,16 @@ describe("speech gate", () => {
     expect(out).toEqual(repeat(0.1, out.length));
   });
 
+  it("keeps sending a long utterance that is under way when capture starts", () => {
+    const out = run(repeat(0.1, 300));
+    expect(out).toEqual(repeat(0.1, out.length));
+  });
+
+  it("keeps sending a long utterance after a quiet room", () => {
+    const out = run([...repeat(0.001, 10), ...repeat(0.1, 400)]);
+    expect(out.slice(10)).toEqual(repeat(0.1, out.length - 10));
+  });
+
   it("silences meeting audio that is already playing when capture starts", () => {
     const out = run([...repeat(0.015, 50), ...repeat(0.1, 10)]);
     expect(out.slice(0, 45)).toEqual(repeat(0, 45));

@@ -109,14 +109,16 @@ export function createSpeechGate({
   return (samples) => {
     const ms = (samples.length / sampleRate) * 1000;
     const level = rms(samples);
-    floor = Math.min(level, floor * gain(FLOOR_RISE_DB_PER_S, ms));
-    const loud = level > Math.max(MIN_SPEECH_RMS, floor * floorRatio, speech * speechRatio);
+    const risenFloor = Math.min(level, floor * gain(FLOOR_RISE_DB_PER_S, ms));
+    const loud = level > Math.max(MIN_SPEECH_RMS, risenFloor * floorRatio, speech * speechRatio);
     if (loud) {
       // Rises fast and settles slowly, so a word's tail doesn't drag the reference down.
       speech += (level - speech) * (level > speech ? 0.5 : 0.05);
       holdLeft = holdMs;
       queue.forEach((f) => (f.open = true));
     } else {
+      // The floor only rises between words; otherwise a long utterance becomes its own floor.
+      floor = risenFloor;
       speech *= gain(-SPEECH_DECAY_DB_PER_S, ms);
       holdLeft = Math.max(0, holdLeft - ms);
     }
