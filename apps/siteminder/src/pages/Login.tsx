@@ -14,13 +14,21 @@ const productConfig = {
   LittleHotelier: { name: "Little Hotelier", tagline: "All-in-one software for small properties" },
 } satisfies Record<string, ProductConfig>;
 
+const productKeys = Object.keys(productConfig) as (keyof typeof productConfig)[];
+
+// Links and the query default use "siteminder"; the config keys are PascalCase.
+function productFromQuery(raw: string | null): ProductConfig {
+  const wanted = (raw ?? "siteminder").toLowerCase();
+  const key = productKeys.find((candidate) => candidate.toLowerCase() === wanted);
+  return productConfig[key ?? "SiteMinder"];
+}
+
 export function LoginPage() {
   useDocumentTitle("Login");
   const { login } = useAuth();
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const productKey = (params.get("product") ?? "siteminder") as keyof typeof productConfig;
-  const product = productConfig[productKey];
+  const product = productFromQuery(params.get("product"));
   const [email, setEmail] = useState(DEMO_USER.email);
   const [password, setPassword] = useState("demo-password");
   const [show, setShow] = useState(false);
