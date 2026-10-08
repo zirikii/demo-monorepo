@@ -2,8 +2,7 @@ import { describe, expect, it } from "vitest";
 import { createSpeechGate, rms } from "@/features/assistant/voice/pcm";
 
 /** 40ms frame at 24kHz whose RMS is exactly `level`. */
-const frame = (level: number) =>
-  new Float32Array(960).map((_, i) => (i % 2 ? level : -level));
+const frame = (level: number) => new Float32Array(960).map((_, i) => (i % 2 ? level : -level));
 
 function run(levels: number[]): number[] {
   const gate = createSpeechGate();
