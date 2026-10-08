@@ -66,6 +66,77 @@ function logRate(state: PropertyState, summary: string, now: Date): PropertyStat
   };
 }
 
+/** "up 10%", "down $20", "set to $289" — the phrases `describeRateChange` stores on the step. */
+function parseRateAdjustment(change: string | undefined): ((base: number) => number) | null {
+  const text = (change ?? "").trim();
+  const pct = /^(up|down) (\d+(?:\.\d+)?)%$/.exec(text);
+  if (pct) {
+    const amount = Number(pct[2]);
+    const factor = pct[1] === "up" ? 1 + amount / 100 : 1 - amount / 100;
+    return (base) => Math.max(0, Math.round(base * factor));
+  }
+  const dollars = /^(up|down) \$(\d+(?:\.\d+)?)$/.exec(text);
+  if (dollars) {
+    const amount = Number(dollars[2]);
+    const delta = dollars[1] === "up" ? amount : -amount;
+    return (base) => Math.max(0, Math.round(base + delta));
+  }
+  const setTo = /^set to \$(\d+(?:\.\d+)?)$/.exec(text);
+  if (setTo) {
+    const amount = Math.max(0, Math.round(Number(setTo[1])));
+    return () => amount;
+  }
+  return null;
+}
+
+function bulkNights(value: string | undefined): number {
+  const n = Number(/^(\d+)/.exec(value ?? "")?.[1]);
+  return Number.isFinite(n) && n >= 1 ? n : 7;
+}
+
+function bulkStart(values: Values, now: Date): string {
+  for (const raw of [values.rateFromDate, values.rateFrom, values.today]) {
+    if (raw && /^\d{4}-\d{2}-\d{2}/.test(raw)) return raw.slice(0, 10);
+  }
+  return toLocalIso(now).slice(0, 10);
+}
+
+function addDays(isoDate: string, days: number): string {
+  const [y, m, d] = isoDate.split("-").map(Number);
+  if (!y || !m || !d) return isoDate;
+  return toLocalIso(new Date(y, m - 1, d + days)).slice(0, 10);
+}
+
+/**
+ * The rate grid prices a cell from the room's base for that night, then the weekend bump and any
+ * event plan. `rateLog` is only the Recent changes list, so the new base has to land on the room.
+ */
+function applyBulkRates(state: PropertyState, values: Values, now: Date): PropertyState {
+  const adjust = parseRateAdjustment(values.rateChange);
+  if (!adjust) return state;
+  const name = values.rateRoom?.trim();
+  const selected =
+    !name || name === "All rooms"
+      ? state.property.roomTypes
+      : state.property.roomTypes.filter((room) => room.name === name);
+  if (!selected.length) return state;
+  const start = bulkStart(values, now);
+  const dates = Array.from({ length: bulkNights(values.rateNights) }, (_, i) => addDays(start, i));
+  const ids = new Set(selected.map((room) => room.id));
+  return {
+    ...state,
+    property: {
+      ...state.property,
+      roomTypes: state.property.roomTypes.map((room) => {
+        if (!ids.has(room.id)) return room;
+        const rates = { ...room.rates };
+        for (const day of dates) rates[day] = adjust(rates[day] ?? room.baseRate);
+        return { ...room, rates };
+      }),
+    },
+  };
+}
+
 const CATEGORIES: EventCategory[] = [
   "concert",
   "sport",
@@ -127,8 +198,8 @@ export function applyEffect(
       return { ...state, property: { ...state.property, credit: 0 } };
     case "bulk-rates":
       return logRate(
-        state,
-        `${values.rateRoom ?? "All rooms"} ${values.rateChange ?? ""} from ${values.rateFrom ?? "today"} for ${values.rateNights ?? "7"} nights (${who})`,
+        applyBulkRates(state, values, now),
+        `${values.rateRoom ?? "All rooms"} ${values.rateChange ?? ""} from ${values.rateFrom ?? "today"} for ${values.rateNights ?? "7 nights"} (${who})`,
         now,
       );
     case "event-plan": {
