@@ -53,11 +53,77 @@ export function resampleLinear(
   return out;
 }
 
-/** RMS level mapped to 0–1 with a gentle curve so quiet speech still animates the visualiser. */
-export function rmsLevel(samples: Float32Array): number {
+export function rms(samples: Float32Array): number {
   if (samples.length === 0) return 0;
   let sum = 0;
   for (let i = 0; i < samples.length; i++) sum += samples[i]! * samples[i]!;
-  const rms = Math.sqrt(sum / samples.length);
-  return Math.min(1, Math.sqrt(rms) * 1.6);
+  return Math.sqrt(sum / samples.length);
+}
+
+/** RMS level mapped to 0–1 with a gentle curve so quiet speech still animates the visualiser. */
+export function rmsLevel(samples: Float32Array): number {
+  return Math.min(1, Math.sqrt(rms(samples)) * 1.6);
+}
+
+export type SpeechGateOptions = {
+  sampleRate?: number;
+  /** A frame must be this many times louder than the room's noise floor to count as speech. */
+  floorRatio?: number;
+  /** ...and at least this fraction of the speaker's recent voice level (0.25 ≈ 12 dB below). */
+  speechRatio?: number;
+  /** Keeps the gate open through the dips between words. */
+  holdMs?: number;
+  /** Delay so the quiet onset of a word is sent once the gate opens, instead of clipped. */
+  preRollMs?: number;
+};
+
+const MIN_SPEECH_RMS = 0.003;
+const FLOOR_RISE_DB_PER_S = 3;
+const SPEECH_DECAY_DB_PER_S = 1;
+const gain = (dbPerSecond: number, ms: number) => 10 ** ((dbPerSecond * ms) / 20_000);
+
+/**
+ * Replaces mic frames that are much quieter than the speaker's own voice with digital silence.
+ * On a Zoom, Teams or Meet call the other participants reach the mic from outside the browser, so
+ * its echo canceller can't remove them, and server VAD hears them as the user still talking — the
+ * turn never ends, or they barge in on the reply. Returns the frames ready to send, `preRollMs` late.
+ */
+export function createSpeechGate({
+  sampleRate = REALTIME_SAMPLE_RATE,
+  floorRatio = 3,
+  speechRatio = 0.25,
+  holdMs = 300,
+  preRollMs = 100,
+}: SpeechGateOptions = {}): (frame: Float32Array) => Float32Array[] {
+  let floor = Infinity;
+  let speech = 0;
+  let holdLeft = 0;
+  let queuedMs = 0;
+  const queue: { samples: Float32Array; ms: number; open: boolean }[] = [];
+
+  return (samples) => {
+    const ms = (samples.length / sampleRate) * 1000;
+    const level = rms(samples);
+    floor = Math.min(level, floor * gain(FLOOR_RISE_DB_PER_S, ms));
+    const loud = level > Math.max(MIN_SPEECH_RMS, floor * floorRatio, speech * speechRatio);
+    if (loud) {
+      // Rises fast and settles slowly, so a word's tail doesn't drag the reference down.
+      speech += (level - speech) * (level > speech ? 0.5 : 0.05);
+      holdLeft = holdMs;
+      queue.forEach((f) => (f.open = true));
+    } else {
+      speech *= gain(-SPEECH_DECAY_DB_PER_S, ms);
+      holdLeft = Math.max(0, holdLeft - ms);
+    }
+    queue.push({ samples, ms, open: loud || holdLeft > 0 });
+    queuedMs += ms;
+
+    const out: Float32Array[] = [];
+    while (queue.length > 0 && queuedMs - queue[0]!.ms >= preRollMs) {
+      const head = queue.shift()!;
+      queuedMs -= head.ms;
+      out.push(head.open ? head.samples : new Float32Array(head.samples.length));
+    }
+    return out;
+  };
 }
