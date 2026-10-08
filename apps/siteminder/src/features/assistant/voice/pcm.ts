@@ -78,6 +78,11 @@ export type SpeechGateOptions = {
 };
 
 const MIN_SPEECH_RMS = 0.003;
+/**
+ * Starting floor (≈ -46 dBFS). Seeding it from the first frame would lock out a speaker who is
+ * already talking when capture starts; this is still loud enough to gate typical meeting bleed.
+ */
+const INITIAL_FLOOR_RMS = 0.005;
 const FLOOR_RISE_DB_PER_S = 3;
 const SPEECH_DECAY_DB_PER_S = 1;
 const gain = (dbPerSecond: number, ms: number) => 10 ** ((dbPerSecond * ms) / 20_000);
@@ -95,7 +100,7 @@ export function createSpeechGate({
   holdMs = 300,
   preRollMs = 100,
 }: SpeechGateOptions = {}): (frame: Float32Array) => Float32Array[] {
-  let floor = Infinity;
+  let floor = INITIAL_FLOOR_RMS;
   let speech = 0;
   let holdLeft = 0;
   let queuedMs = 0;

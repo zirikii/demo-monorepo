@@ -25,6 +25,18 @@ describe("speech gate", () => {
     expect(out[10]).toBe(0.002);
   });
 
+  it("sends speech that is already under way when capture starts", () => {
+    const out = run(repeat(0.1, 25));
+    expect(out.length).toBeGreaterThan(0);
+    expect(out).toEqual(repeat(0.1, out.length));
+  });
+
+  it("silences meeting audio that is already playing when capture starts", () => {
+    const out = run([...repeat(0.015, 50), ...repeat(0.1, 10)]);
+    expect(out.slice(0, 45)).toEqual(repeat(0, 45));
+    expect(out.slice(50)).toEqual(repeat(0.1, out.length - 50));
+  });
+
   it("still opens for a softer reply after a long pause", () => {
     const out = run([...repeat(0.1, 25), ...repeat(0.001, 125), ...repeat(0.02, 10)]);
     expect(out.slice(150)).toContain(0.02);
