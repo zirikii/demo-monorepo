@@ -126,10 +126,9 @@ export function RatesPage() {
                     const closed = stopSell.includes(key);
                     const plan = eventOn(events, d)?.plan;
                     const weekend = [5, 6].includes(new Date(`${d}T12:00:00`).getDay());
+                    const base = room.rates?.[d] ?? room.baseRate;
                     const rate = Math.round(
-                      room.baseRate *
-                        (1 + (plan?.upliftPct ?? 0) / 100) *
-                        (weekend && !plan ? 1.12 : 1),
+                      base * (1 + (plan?.upliftPct ?? 0) / 100) * (weekend && !plan ? 1.12 : 1),
                     );
                     return (
                       <td key={d} className="p-1">

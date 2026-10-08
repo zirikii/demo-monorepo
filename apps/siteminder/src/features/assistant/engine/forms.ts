@@ -164,6 +164,7 @@ export const forms: Record<FormId, FormDefinition> = {
       rateRoom: v.room ?? "All rooms",
       rateChange: describeRateChange(v.change ?? "") ?? "",
       rateFrom: formatShortDate(v.from ?? ""),
+      rateFromDate: v.from ?? "",
       rateNights: v.nights ?? "7 nights",
       rateRef: referenceFor("RC", v),
     }),
