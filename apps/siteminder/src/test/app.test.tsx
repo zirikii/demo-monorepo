@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AppProviders, AppRoutes } from "@/App";
 import { seedProperty } from "@/data/property";
 import { nextEvent } from "@/features/property/insights";
@@ -41,7 +41,7 @@ describe("site routes", () => {
     const links = internalLinks(container);
     unmount();
     expect(links.length).toBeGreaterThan(20);
-    for (const href of links.filter((h) => !h.startsWith("/login"))) {
+    for (const href of links) {
       const view = renderAt(href);
       expect(screen.queryByRole("heading", { name: NOT_FOUND }), href).toBeNull();
       view.unmount();
@@ -69,17 +69,28 @@ describe("site routes", () => {
     expect(screen.getByRole("heading", { name: NOT_FOUND })).toBeInTheDocument();
   });
 
-  it("documents intentional login render crash (product config casing)", () => {
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/login")).toThrow();
-    consoleError.mockRestore();
+  it("renders login for default, cased, and unknown product query values", () => {
+    const cases: [string, string][] = [
+      ["/login", "Log in to SiteMinder"],
+      ["/login?product=SiteMinder", "Log in to SiteMinder"],
+      ["/login?product=littlehotelier", "Log in to Little Hotelier"],
+      ["/login?product=LittleHotelier", "Log in to Little Hotelier"],
+      ["/login?product=toString", "Log in to SiteMinder"],
+      ["/login?product=not-a-product", "Log in to SiteMinder"],
+    ];
+    for (const [path, heading] of cases) {
+      const view = renderAt(path);
+      expect(screen.getByRole("heading", { name: heading }), path).toBeInTheDocument();
+      view.unmount();
+    }
   });
 
-  it("sends signed-out visitors to log in before the platform", () => {
-    // Unauthenticated /app redirects to /login, which currently throws (same demo bug).
-    const consoleError = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => renderAt("/app/channels")).toThrow();
-    consoleError.mockRestore();
+  it("sends signed-out visitors to log in before the platform, then back", async () => {
+    renderAt("/app/channels");
+    expect(screen.getByRole("heading", { name: "Log in to SiteMinder" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Email")).toHaveValue(DEMO_USER.email);
+    await userEvent.setup().click(screen.getByRole("button", { name: "Log in" }));
+    expect(await screen.findByRole("heading", { name: "Channels" })).toBeInTheDocument();
   });
 
   it("captures demo requests", async () => {

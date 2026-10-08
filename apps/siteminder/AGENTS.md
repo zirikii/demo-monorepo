@@ -1,7 +1,7 @@
 # SiteMinder demo — cloud notes
 
 - Dev: `pnpm dev:siteminder` (port **5198**). Tests: `pnpm --filter siteminder-website-demo test` (Vitest, no Playwright).
-- **Intentional bug** on `/login` (product config casing → page does not render) for demo / Bugbot. Don't fix it unless asked; `app.test.tsx` asserts the crash.
+- `/login` looks up `?product=` case-insensitively (`siteminder`, `littlehotelier`). Unknown values, including prototype names like `toString`, fall back to SiteMinder. `app.test.tsx` covers that render.
 - Mock login accepts any credentials; the form is pre-filled for Sophie Tran at The Harbour Lane Hotel. Session, property data, Studio config and the conversation log all live in `localStorage` (`siteminder-*` keys). `/admin/property` → **Reset all demo data** restores the seed.
 - Seed data is dated relative to today (`src/lib/clock.ts`), so there's always an overbooking tonight and the Bledisloe Cup 5 days out. Tests depend on that.
 - The flow graph in `src/features/assistant/flows/` is the single source of truth for chat **and** voice. `flows.test.ts` fails on dangling links, unreachable steps, unknown `{placeholders}` or links the router doesn't serve (`src/test/routes.ts`).
