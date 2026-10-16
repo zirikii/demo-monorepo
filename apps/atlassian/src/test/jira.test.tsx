@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -28,6 +28,15 @@ function LoginProbe() {
       <p>{location.search}</p>
     </div>
   );
+}
+
+function columnSection(name: string): HTMLElement {
+  const heading = screen.getByRole("heading", { name });
+  const section = heading.closest("section");
+  if (!(section instanceof HTMLElement)) {
+    throw new Error(`Missing column section for ${name}`);
+  }
+  return section;
 }
 
 function renderJira(route: string) {
@@ -89,6 +98,39 @@ describe("Jira board", () => {
     await user.type(screen.getByLabelText("Search work items"), "zzzz");
 
     expect(screen.queryByText("PORTAL-142")).not.toBeInTheDocument();
+  });
+
+  it("drags PORTAL-170 onto In progress and keeps that status after remount", () => {
+    const view = renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    expect(card).toHaveAttribute("draggable", "true");
+
+    fireEvent.dragStart(card);
+    expect(card.className).toMatch(/opacity-/);
+
+    const inProgress = columnSection("In progress");
+    fireEvent.dragOver(inProgress);
+    expect(inProgress.className).toMatch(/atl-blue/);
+
+    fireEvent.drop(inProgress);
+
+    const moved = screen.getByRole("link", { name: /PORTAL-170/ });
+    expect(columnSection("In progress")).toContainElement(moved);
+    expect(columnSection("To do")).not.toContainElement(moved);
+
+    const stored = JSON.parse(window.localStorage.getItem("atlassian-demo-issues") ?? "[]") as {
+      key: string;
+      status: string;
+    }[];
+    expect(stored.find((issue) => issue.key === "PORTAL-170")?.status).toBe("In progress");
+
+    view.unmount();
+    renderJira("/jira");
+
+    const restored = screen.getByRole("link", { name: /PORTAL-170/ });
+    expect(columnSection("In progress")).toContainElement(restored);
+    expect(columnSection("To do")).not.toContainElement(restored);
   });
 });
 
@@ -157,12 +199,12 @@ describe("Jira create and comments", () => {
     writeSession(USER);
   });
 
-  it("creates a work item from a column and leaves cards undraggable", async () => {
+  it("creates a work item from a column and leaves cards draggable", async () => {
     const user = userEvent.setup();
     renderJira("/jira");
 
     const card = screen.getByRole("link", { name: /PORTAL-170/ });
-    expect(card).toHaveAttribute("draggable", "false");
+    expect(card).toHaveAttribute("draggable", "true");
 
     await user.click(screen.getByRole("button", { name: "Create in To do" }));
     await user.type(screen.getByLabelText("Summary"), "Write launch FAQ");

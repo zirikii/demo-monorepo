@@ -1,17 +1,34 @@
-import type { DragEvent } from "react";
+import { useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IssueTypeGlyph } from "./IssueTypeGlyph";
 import type { JiraIssue } from "@/data/types";
 import { initials } from "@/lib/format";
 
-export function IssueCard({ issue }: { issue: JiraIssue }) {
+export function IssueCard({
+  issue,
+  onDragStart,
+  onDragEnd,
+}: {
+  issue: JiraIssue;
+  onDragStart?: (key: string) => void;
+  onDragEnd?: () => void;
+}) {
+  const [lifted, setLifted] = useState(false);
+
   return (
     <Link
       to={`/jira/issues/${issue.key}`}
-      draggable={false}
-      onDragStart={(event: DragEvent<HTMLAnchorElement>) => event.preventDefault()}
-      className="focus-atl block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl transition hover:bg-surface-tint"
+      draggable
+      onDragStart={() => {
+        setLifted(true);
+        onDragStart?.(issue.key);
+      }}
+      onDragEnd={() => {
+        setLifted(false);
+        onDragEnd?.();
+      }}
+      className={`focus-atl block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl transition hover:bg-surface-tint${lifted ? " opacity-60" : ""}`}
     >
       <p className="text-sm text-ink-strong">{issue.summary}</p>
       {issue.labels.length > 0 ? (

@@ -15,7 +15,7 @@ import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
@@ -38,6 +38,8 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
+  const [draggingKey, setDraggingKey] = useState<string | null>(null);
+  const [overStatus, setOverStatus] = useState<IssueStatus | null>(null);
   const showReleaseRisk = readJson("atlassian-demo-settings", { releaseInsights: false }).releaseInsights;
 
   const boardPeople = useMemo(() => {
@@ -161,7 +163,32 @@ export default function BoardPage() {
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setOverStatus(status);
+                }}
+                onDragLeave={(event) => {
+                  const next = event.relatedTarget;
+                  if (next instanceof Node && event.currentTarget.contains(next)) return;
+                  setOverStatus((current) => (current === status ? null : current));
+                }}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  if (draggingKey) {
+                    updateIssueStatus(draggingKey, status);
+                    setIssues(readIssues());
+                  }
+                  setDraggingKey(null);
+                  setOverStatus(null);
+                }}
+                className={
+                  overStatus === status
+                    ? "w-64 shrink-0 rounded-atl-lg border border-atl-blue bg-atl-blue/10 p-1.5"
+                    : "w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5"
+                }
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
@@ -170,7 +197,14 @@ export default function BoardPage() {
                   <ul className="flex flex-col gap-1.5">
                     {columnIssues.map((issue) => (
                       <li key={issue.key}>
-                        <IssueCard issue={issue} />
+                        <IssueCard
+                          issue={issue}
+                          onDragStart={setDraggingKey}
+                          onDragEnd={() => {
+                            setDraggingKey(null);
+                            setOverStatus(null);
+                          }}
+                        />
                       </li>
                     ))}
                   </ul>
