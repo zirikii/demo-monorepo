@@ -15,7 +15,7 @@ import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
@@ -38,7 +38,10 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
-  const showReleaseRisk = readJson("atlassian-demo-settings", { releaseInsights: false }).releaseInsights;
+  const [overStatus, setOverStatus] = useState<IssueStatus | null>(null);
+  const showReleaseRisk = readJson("atlassian-demo-settings", {
+    releaseInsights: false,
+  }).releaseInsights;
 
   const boardPeople = useMemo(() => {
     const names = [user?.name ?? "You"];
@@ -62,10 +65,7 @@ export default function BoardPage() {
   }, [issues, query, typeFilter]);
 
   return (
-    <JiraLayout
-      title={`Board · ${SPRINT.name}`}
-      onCreate={() => setCreateStatus("To do")}
-    >
+    <JiraLayout title={`Board · ${SPRINT.name}`} onCreate={() => setCreateStatus("To do")}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold text-ink-strong">{SPRINT.name}</h2>
@@ -161,7 +161,29 @@ export default function BoardPage() {
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  setOverStatus(status);
+                }}
+                onDragLeave={(event) => {
+                  const next = event.relatedTarget;
+                  if (next instanceof Node && event.currentTarget.contains(next)) return;
+                  setOverStatus((current) => (current === status ? null : current));
+                }}
+                onDrop={(event) => {
+                  event.preventDefault();
+                  const key = event.dataTransfer.getData("text/plain");
+                  if (key) setIssues(updateIssueStatus(key, status));
+                  setOverStatus(null);
+                }}
+                className={`w-64 shrink-0 rounded-atl-lg border p-1.5 ${
+                  overStatus === status
+                    ? "border-atl-blue bg-atl-blue/10"
+                    : "border-transparent bg-surface-deep"
+                }`}
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
