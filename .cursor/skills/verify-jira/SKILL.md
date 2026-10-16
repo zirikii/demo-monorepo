@@ -9,7 +9,7 @@ Project-local skill for the mock Jira workspace in `apps/atlassian`. Marketing r
 
 Do not create or follow a `verify-atlassian` skill. This one is Jira-workspace scoped.
 
-Board drag (`move-drag`) is the demo's target proof even if the board cannot drop cards yet. Keep that feature file. Until drag lands, a verification run proves Login → Board and reports `move-drag` as blocked. Do not relabel issue-detail Status as board drag.
+Board drag (`move-drag`) is the demo's target proof. Drive a real drop on `/jira`. Do not relabel issue-detail Status as board drag.
 
 ## Launch
 
@@ -87,11 +87,11 @@ Prefer roles, labels, and routes. Do not use coordinates or tab-order hacks.
 
 Seeded Jira login: `demo@atlassian.com` / `teamwork2026` → `/jira`. Admin (`admin@atlassian.com`) lands on `/admin`. Rovo (`rovo@atlassian.com`) lands on `/rovo`. Do not use those accounts to prove the board.
 
-Board cards are **not** draggable between columns. That is an intentional demo limitation. Keep `features/move-issue.md`. Report `move-drag` blocked. Do not treat Trello list moves or issue-detail Status as that proof.
+Board cards drag between columns. Keep `features/move-issue.md`. Prove `move-drag` with a drop on a column, then storage and a full reload. Do not treat Trello list moves or issue-detail Status as that proof.
 
 Read `features/` before driving. A proof that uses one convenient entry point is incomplete when the map lists others. Report a blocked path as blocked; do not relabel a different path as that proof.
 
-The default proof is **Login → Board → Create issue → issue detail / status move → `/jira/rovo`**. Still record `move-drag` blocked (intentional) and `rovo-board-aside` blocked (product gap: no compact board panel). Sibling skills cover the other product apps (`verify-confluence`, `verify-jsm`, `verify-jpd`, `verify-bitbucket`, `verify-trello`, `verify-loom`, `verify-rovo`, `verify-admin`).
+The default proof is **Login → Board → drag card → Create issue → issue detail / status move → `/jira/rovo`**. Record `rovo-board-aside` blocked (product gap: no compact board panel). Sibling skills cover the other product apps (`verify-confluence`, `verify-jsm`, `verify-jpd`, `verify-bitbucket`, `verify-trello`, `verify-loom`, `verify-rovo`, `verify-admin`).
 
 ## Evidence
 
