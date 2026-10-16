@@ -5,29 +5,19 @@ import { IssueTypeGlyph } from "./IssueTypeGlyph";
 import type { JiraIssue } from "@/data/types";
 import { initials } from "@/lib/format";
 
-export function IssueCard({
-  issue,
-  onDragStart,
-  onDragEnd,
-}: {
-  issue: JiraIssue;
-  onDragStart?: (key: string) => void;
-  onDragEnd?: () => void;
-}) {
+export function IssueCard({ issue }: { issue: JiraIssue }) {
   const [lifted, setLifted] = useState(false);
 
   return (
     <Link
       to={`/jira/issues/${issue.key}`}
       draggable
-      onDragStart={() => {
+      onDragStart={(event) => {
+        event.dataTransfer.setData("text/plain", issue.key);
+        event.dataTransfer.effectAllowed = "move";
         setLifted(true);
-        onDragStart?.(issue.key);
       }}
-      onDragEnd={() => {
-        setLifted(false);
-        onDragEnd?.();
-      }}
+      onDragEnd={() => setLifted(false)}
       className={`focus-atl block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl transition hover:bg-surface-tint${lifted ? " opacity-60" : ""}`}
     >
       <p className="text-sm text-ink-strong">{issue.summary}</p>

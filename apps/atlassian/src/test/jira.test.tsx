@@ -106,14 +106,24 @@ describe("Jira board", () => {
     const card = screen.getByRole("link", { name: /PORTAL-170/ });
     expect(card).toHaveAttribute("draggable", "true");
 
-    fireEvent.dragStart(card);
+    const data = new Map<string, string>();
+    const dataTransfer = {
+      setData: (type: string, value: string) => {
+        data.set(type, value);
+      },
+      getData: (type: string) => data.get(type) ?? "",
+      effectAllowed: "move",
+    };
+
+    fireEvent.dragStart(card, { dataTransfer });
     expect(card.className).toMatch(/opacity-/);
 
     const inProgress = columnSection("In progress");
-    fireEvent.dragOver(inProgress);
+    fireEvent.dragOver(inProgress, { dataTransfer });
     expect(inProgress.className).toMatch(/atl-blue/);
 
-    fireEvent.drop(inProgress);
+    fireEvent.drop(inProgress, { dataTransfer });
+    fireEvent.dragEnd(card);
 
     const moved = screen.getByRole("link", { name: /PORTAL-170/ });
     expect(columnSection("In progress")).toContainElement(moved);

@@ -107,8 +107,15 @@ try {
   await page.screenshot({ path: join(artifactsDir, "move-drag-before.png"), fullPage: true });
   await page.screenshot({ path: join(artifactsDir, "board-columns.png"), fullPage: true });
 
-  await card.dispatchEvent("dragstart", { bubbles: true, cancelable: true });
-  await inProgress.dispatchEvent("dragover", { bubbles: true, cancelable: true });
+  await page.evaluate(() => {
+    const link = [...document.querySelectorAll("a")].find((node) => node.textContent?.includes("PORTAL-170"));
+    const heading = [...document.querySelectorAll("h3")].find((node) => node.textContent === "In progress");
+    const section = heading?.closest("section");
+    if (!link || !section) throw new Error("missing card or In progress column");
+    const dataTransfer = new DataTransfer();
+    link.dispatchEvent(new DragEvent("dragstart", { bubbles: true, cancelable: true, dataTransfer }));
+    section.dispatchEvent(new DragEvent("dragover", { bubbles: true, cancelable: true, dataTransfer }));
+  });
   await page.waitForFunction(() => {
     const heading = [...document.querySelectorAll("h3")].find((node) => node.textContent === "In progress");
     const section = heading?.closest("section");
@@ -118,8 +125,14 @@ try {
     );
   });
   await page.screenshot({ path: join(artifactsDir, "move-drag-over.png"), fullPage: true });
-  await inProgress.dispatchEvent("drop", { bubbles: true, cancelable: true });
-  await card.dispatchEvent("dragend", { bubbles: true, cancelable: true });
+  await page.evaluate(() => {
+    const link = [...document.querySelectorAll("a")].find((node) => node.textContent?.includes("PORTAL-170"));
+    const heading = [...document.querySelectorAll("h3")].find((node) => node.textContent === "In progress");
+    const section = heading?.closest("section");
+    link?.dispatchEvent(new DragEvent("dragend", { bubbles: true, cancelable: true }));
+    section?.dispatchEvent(new DragEvent("dragleave", { bubbles: true, cancelable: true }));
+  });
+  await card.dragTo(inProgress);
   await inProgress.getByRole("link", { name: /PORTAL-170/ }).waitFor();
   if ((await todo.getByRole("link", { name: /PORTAL-170/ }).count()) !== 0) {
     throw new Error("PORTAL-170 still in To do after drop");

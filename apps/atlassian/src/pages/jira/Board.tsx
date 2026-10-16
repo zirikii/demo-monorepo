@@ -38,7 +38,6 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
-  const [draggingKey, setDraggingKey] = useState<string | null>(null);
   const [overStatus, setOverStatus] = useState<IssueStatus | null>(null);
   const showReleaseRisk = readJson("atlassian-demo-settings", { releaseInsights: false }).releaseInsights;
 
@@ -176,18 +175,15 @@ export default function BoardPage() {
                 }}
                 onDrop={(event) => {
                   event.preventDefault();
-                  if (draggingKey) {
-                    updateIssueStatus(draggingKey, status);
-                    setIssues(readIssues());
-                  }
-                  setDraggingKey(null);
+                  const key = event.dataTransfer.getData("text/plain");
+                  if (key) setIssues(updateIssueStatus(key, status));
                   setOverStatus(null);
                 }}
-                className={
+                className={`w-64 shrink-0 rounded-atl-lg border p-1.5 ${
                   overStatus === status
-                    ? "w-64 shrink-0 rounded-atl-lg border border-atl-blue bg-atl-blue/10 p-1.5"
-                    : "w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5"
-                }
+                    ? "border-atl-blue bg-atl-blue/10"
+                    : "border-transparent bg-surface-deep"
+                }`}
               >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
@@ -197,14 +193,7 @@ export default function BoardPage() {
                   <ul className="flex flex-col gap-1.5">
                     {columnIssues.map((issue) => (
                       <li key={issue.key}>
-                        <IssueCard
-                          issue={issue}
-                          onDragStart={setDraggingKey}
-                          onDragEnd={() => {
-                            setDraggingKey(null);
-                            setOverStatus(null);
-                          }}
-                        />
+                        <IssueCard issue={issue} />
                       </li>
                     ))}
                   </ul>
