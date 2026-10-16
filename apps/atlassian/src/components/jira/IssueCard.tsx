@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type DragEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IssueTypeGlyph } from "./IssueTypeGlyph";
@@ -12,7 +12,7 @@ export function IssueCard({ issue }: { issue: JiraIssue }) {
     <Link
       to={`/jira/issues/${issue.key}`}
       draggable
-      onDragStart={(event) => {
+      onDragStart={(event: DragEvent<HTMLAnchorElement>) => {
         event.dataTransfer.setData("text/plain", issue.key);
         event.dataTransfer.effectAllowed = "move";
         setLifted(true);
