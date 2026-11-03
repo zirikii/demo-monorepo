@@ -1,6 +1,7 @@
 import {
   REALTIME_SAMPLE_RATE,
   base64ToInt16,
+  createSpeechGate,
   floatTo16BitPcm,
   int16ToBase64,
   pcm16ToFloat,
@@ -55,6 +56,7 @@ export async function startMicrophone(
 
   const source = ctx.createMediaStreamSource(media);
   const node = new AudioWorkletNode(ctx, "pcm-capture");
+  const gate = createSpeechGate();
   let muted = false;
 
   node.port.onmessage = (event: MessageEvent<Float32Array>) => {
@@ -64,7 +66,7 @@ export async function startMicrophone(
     }
     const samples = resampleLinear(event.data, ctx.sampleRate, REALTIME_SAMPLE_RATE);
     onLevel(rmsLevel(samples));
-    onChunk(int16ToBase64(floatTo16BitPcm(samples)));
+    for (const frame of gate(samples)) onChunk(int16ToBase64(floatTo16BitPcm(frame)));
   };
   source.connect(node);
 

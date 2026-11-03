@@ -63,6 +63,15 @@ from `apps/agl/.env.local` (its own `apps/ticketek/.env.local` wins). Without a 
 scripted intent matcher and voice uses browser speech. `apps/siteminder` does the same (its own
 `apps/siteminder/.env.local` wins).
 
+### Grok voice mic capture (all voice apps)
+
+Pass mic frames through a speech gate before `input_audio_buffer.append`. Copy
+`createSpeechGate` from `apps/siteminder/src/features/assistant/voice/pcm.ts` and wire it like
+`audio.ts` there. On a Zoom/Teams/Meet call, the other participants reach the mic from outside the
+browser, so its echo canceller can't remove them. Server VAD then thinks the user is still talking
+and never ends the turn. The gate replaces frames well below the speaker's own voice with silence.
+Keep `src/test/speechGate.test.ts` alongside it.
+
 ### Lint / test / build
 
 - Lint: `pnpm lint` (root) runs across kddi/naukri/seek/spark/paytm/squiz/changi/nine/optus/commbank/employmenthero/hub24/atlassian/gojek/gopay/agl/ticketek/siteminder
