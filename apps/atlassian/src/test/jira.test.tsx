@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -170,12 +170,9 @@ describe("Jira create and comments", () => {
     writeSession(USER);
   });
 
-  it("creates a work item from a column and leaves cards undraggable", async () => {
+  it("creates a work item from a column", async () => {
     const user = userEvent.setup();
     renderJira("/jira");
-
-    const card = screen.getByRole("link", { name: /PORTAL-170/ });
-    expect(card).toHaveAttribute("draggable", "false");
 
     await user.click(screen.getByRole("button", { name: "Create in To do" }));
     await user.type(screen.getByLabelText("Summary"), "Write launch FAQ");
@@ -189,8 +186,49 @@ describe("Jira create and comments", () => {
     expect(
       stored.some((issue) => issue.summary === "Write launch FAQ" && issue.status === "To do"),
     ).toBe(true);
+    expect(screen.getByRole("link", { name: /Write launch FAQ/ })).toHaveAttribute(
+      "draggable",
+      "true",
+    );
+  });
+
+  it("moves a card into another column and persists the status", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    expect(card).toHaveAttribute("draggable", "true");
+    const dataTransfer = createDataTransfer();
+    fireEvent.dragStart(card, { dataTransfer });
+
+    const column = screen.getByRole("region", { name: "In progress" });
+    fireEvent.dragOver(column, { dataTransfer });
+    fireEvent.drop(column, { dataTransfer });
+
+    const stored = JSON.parse(window.localStorage.getItem("atlassian-demo-issues") ?? "[]") as {
+      key: string;
+      status: string;
+    }[];
+    expect(stored.find((issue) => issue.key === "PORTAL-170")?.status).toBe("In progress");
+    expect(column).toContainElement(screen.getByRole("link", { name: /PORTAL-170/ }));
+    expect(screen.getByRole("region", { name: "To do" })).not.toContainElement(
+      screen.getByRole("link", { name: /PORTAL-170/ }),
+    );
   });
 });
+
+function createDataTransfer() {
+  const store = new Map<string, string>();
+  return {
+    setData(format: string, value: string) {
+      store.set(format, value);
+    },
+    getData(format: string) {
+      return store.get(format) ?? "";
+    },
+    effectAllowed: "move",
+    dropEffect: "move",
+  };
+}
 
 describe("Jira comments", () => {
   beforeEach(() => {
