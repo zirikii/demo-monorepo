@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState, type DragEvent } from "react";
 import {
   Filter,
   Megaphone,
@@ -14,8 +14,9 @@ import { JiraLayout } from "@/components/jira/JiraLayout";
 import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
+import { columnStatusAtPoint } from "@/lib/boardDrag";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
@@ -38,6 +39,9 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
+  const draggingKey = useRef<string | null>(null);
+  const hoveredColumn = useRef<IssueStatus | null>(null);
+  const dropHandled = useRef(false);
   const showReleaseRisk = readJson("atlassian-demo-settings", {
     releaseInsights: false,
   }).releaseInsights;
@@ -50,6 +54,51 @@ export default function BoardPage() {
     }
     return names;
   }, [issues, user]);
+
+  function moveIssue(key: string, status: IssueStatus) {
+    const current = readIssues().find((issue) => issue.key === key);
+    if (!current || current.status === status) return;
+    setIssues(updateIssueStatus(key, status));
+  }
+
+  function onColumnDragOver(status: IssueStatus, event: DragEvent<HTMLElement>) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    hoveredColumn.current = status;
+  }
+
+  function onColumnDrop(status: IssueStatus, event: DragEvent<HTMLElement>) {
+    event.preventDefault();
+    const key = event.dataTransfer.getData("text/plain") || draggingKey.current || "";
+    dropHandled.current = true;
+    hoveredColumn.current = null;
+    if (key) moveIssue(key, status);
+  }
+
+  function onCardDragEnd(key: string, point: { x: number; y: number }) {
+    draggingKey.current = null;
+    const hovered = hoveredColumn.current;
+    hoveredColumn.current = null;
+    if (dropHandled.current) {
+      dropHandled.current = false;
+      return;
+    }
+    const pointed = columnStatusAtPoint(point.x, point.y);
+    if (pointed) {
+      moveIssue(key, pointed);
+      return;
+    }
+    // Some browsers return no element under the pointer on dragend. The last
+    // column that accepted dragover is the destination in that case only.
+    const stack =
+      typeof document.elementsFromPoint === "function"
+        ? document.elementsFromPoint(point.x, point.y)
+        : null;
+    const hitTestEmpty = stack
+      ? stack.length === 0
+      : document.elementFromPoint(point.x, point.y) == null;
+    if (hitTestEmpty && hovered) moveIssue(key, hovered);
+  }
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -160,7 +209,14 @@ export default function BoardPage() {
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                aria-label={status}
+                data-column-status={status}
+                onDragOver={(event) => onColumnDragOver(status, event)}
+                onDrop={(event) => onColumnDrop(status, event)}
+                className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5"
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
@@ -169,7 +225,14 @@ export default function BoardPage() {
                   <ul className="flex flex-col gap-1.5">
                     {columnIssues.map((issue) => (
                       <li key={issue.key}>
-                        <IssueCard issue={issue} />
+                        <IssueCard
+                          issue={issue}
+                          onDragStart={(key) => {
+                            draggingKey.current = key;
+                            dropHandled.current = false;
+                          }}
+                          onDragEnd={onCardDragEnd}
+                        />
                       </li>
                     ))}
                   </ul>
