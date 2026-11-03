@@ -47,6 +47,54 @@ describe("property effects", () => {
     expect(applyEffect(once, "close-out", { bookingId: "BDC-4821937" }, now)).toBe(once);
   });
 
+  it("writes bulk rate prices onto the nights the grid shows, and logs the change", () => {
+    const start = "2026-10-01";
+    const next = applyEffect(
+      seed(),
+      "bulk-rates",
+      {
+        rateRoom: "Deluxe King",
+        rateChange: "up 10%",
+        rateFrom: "Thu 1 Oct",
+        rateFromDate: start,
+        rateNights: "3 nights",
+      },
+      now,
+    );
+    expect(next.property.roomTypes.find((r) => r.name === "Deluxe King")?.rates).toEqual({
+      "2026-10-01": 307,
+      "2026-10-02": 307,
+      "2026-10-03": 307,
+    });
+    expect(next.property.roomTypes.find((r) => r.name === "Superior Queen")?.rates).toBeUndefined();
+    expect(next.rateLog[0]?.summary).toBe(
+      "Deluxe King up 10% from Thu 1 Oct for 3 nights (Sophie Tran via Support)",
+    );
+
+    const all = applyEffect(
+      seed(),
+      "bulk-rates",
+      { rateRoom: "All rooms", rateChange: "down $20", rateFromDate: start, rateNights: "1 night" },
+      now,
+    );
+    expect(all.property.roomTypes.map((r) => r.rates?.[start])).toEqual([219, 259, 329, 229, 509]);
+
+    const set = applyEffect(
+      seed(),
+      "bulk-rates",
+      {
+        rateRoom: "Harbour View King",
+        rateChange: "set to $289",
+        rateFromDate: start,
+        rateNights: "1 night",
+      },
+      now,
+    );
+    expect(set.property.roomTypes.find((r) => r.id === "HV")?.rates).toEqual({ [start]: 289 });
+    expect(set.property.roomTypes.find((r) => r.id === "DK")?.rates).toBeUndefined();
+    expect(set.rateLog[0]?.summary).toContain("Harbour View King set to $289");
+  });
+
   it("stores event pricing against the event and logs it", () => {
     const next = applyEffect(
       seed(),

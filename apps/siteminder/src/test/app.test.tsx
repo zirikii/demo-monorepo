@@ -4,9 +4,11 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import { AppProviders, AppRoutes } from "@/App";
 import { seedProperty } from "@/data/property";
+import { applyEffect } from "@/features/property/effects";
 import { nextEvent } from "@/features/property/insights";
 import { DEMO_USER, writeSession } from "@/lib/auth";
 import { toLocalIso } from "@/lib/clock";
+import { formatCurrency } from "@/lib/format";
 
 function renderAt(path: string) {
   return render(
@@ -141,6 +143,47 @@ describe("site routes", () => {
     expect(screen.getByText("Live").previousElementSibling).toHaveTextContent("+40%");
     expect(screen.getByText("3 nights")).toBeInTheDocument();
     expect(screen.queryByText("Suggested")).toBeNull();
+  });
+
+  it("shows a bulk rate change on the nights it covers", () => {
+    writeSession(DEMO_USER);
+    const now = new Date();
+    const start = toLocalIso(new Date(now.getFullYear(), now.getMonth(), now.getDate())).slice(
+      0,
+      10,
+    );
+    const later = toLocalIso(new Date(now.getFullYear(), now.getMonth(), now.getDate() + 3)).slice(
+      0,
+      10,
+    );
+    const next = applyEffect(
+      seedProperty(now),
+      "bulk-rates",
+      {
+        rateRoom: "Deluxe King",
+        rateChange: "up 10%",
+        rateFromDate: start,
+        rateNights: "1 night",
+      },
+      now,
+    );
+    localStorage.setItem("siteminder-property-v1", JSON.stringify(next));
+    renderAt("/app/rates");
+    const shown = (base: number, day: string) => {
+      const weekend = [5, 6].includes(new Date(`${day}T12:00:00`).getDay());
+      return Math.round(base * (weekend ? 1.12 : 1));
+    };
+    expect(
+      screen.getByRole("button", {
+        name: `Deluxe King ${start}: ${formatCurrency(shown(Math.round(279 * 1.1), start))}. Toggle stop sell`,
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", {
+        name: `Deluxe King ${later}: ${formatCurrency(shown(279, later))}. Toggle stop sell`,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Deluxe King up 10%/)).toBeInTheDocument();
   });
 
   it("toggles a stop sell from the rate grid", async () => {

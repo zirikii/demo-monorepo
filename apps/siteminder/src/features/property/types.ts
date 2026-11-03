@@ -61,7 +61,14 @@ export type TeamUser = {
   lastActive: string;
 };
 
-export type RoomType = { id: string; name: string; rooms: number; baseRate: number };
+export type RoomType = {
+  id: string;
+  name: string;
+  rooms: number;
+  baseRate: number;
+  /** Bulk-updated base for a night (`yyyy-mm-dd`). Missing nights use `baseRate`. */
+  rates?: Record<string, number>;
+};
 
 export type EventCategory = "concert" | "sport" | "festival" | "conference" | "theatre" | "holiday";
 
