@@ -10,19 +10,31 @@ import { useDocumentTitle } from "@/hooks/useDocumentTitle";
 type ServiceConfig = { name: string; tagline: string };
 
 const serviceConfig = {
-  NetBank: { name: "NetBank", tagline: "Everyday personal banking" },
-  CommBiz: { name: "CommBiz", tagline: "Business banking" },
-  CommSec: { name: "CommSec", tagline: "Investing and share trading" },
+  netbank: { name: "NetBank", tagline: "Everyday personal banking" },
+  commbiz: { name: "CommBiz", tagline: "Business banking" },
+  commsec: { name: "CommSec", tagline: "Investing and share trading" },
 } satisfies Record<string, ServiceConfig>;
 
+type ServiceId = keyof typeof serviceConfig;
+
+function isServiceId(value: string): value is ServiceId {
+  // `in` would treat inherited keys such as "toString" as a real service.
+  return Object.hasOwn(serviceConfig, value);
+}
+
+function resolveService(raw: string | null): ServiceConfig {
+  const key = (raw ?? "").trim().toLowerCase();
+  if (isServiceId(key)) return serviceConfig[key];
+  return serviceConfig.netbank;
+}
+
 export function LoginPage() {
-  useDocumentTitle("Log on to NetBank");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login } = useAuth();
 
-  const serviceKey = (searchParams.get("service") ?? "netbank") as keyof typeof serviceConfig;
-  const service = serviceConfig[serviceKey];
+  const service = resolveService(searchParams.get("service"));
+  useDocumentTitle(`Log on to ${service.name}`);
   const redirect = searchParams.get("redirect") ?? "/netbank";
 
   const [clientNumber, setClientNumber] = useState("12345678");
