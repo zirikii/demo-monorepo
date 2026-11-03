@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -170,12 +170,9 @@ describe("Jira create and comments", () => {
     writeSession(USER);
   });
 
-  it("creates a work item from a column and leaves cards undraggable", async () => {
+  it("creates a work item from a column", async () => {
     const user = userEvent.setup();
     renderJira("/jira");
-
-    const card = screen.getByRole("link", { name: /PORTAL-170/ });
-    expect(card).toHaveAttribute("draggable", "false");
 
     await user.click(screen.getByRole("button", { name: "Create in To do" }));
     await user.type(screen.getByLabelText("Summary"), "Write launch FAQ");
@@ -189,6 +186,38 @@ describe("Jira create and comments", () => {
     expect(
       stored.some((issue) => issue.summary === "Write launch FAQ" && issue.status === "To do"),
     ).toBe(true);
+  });
+
+  it("moves a card to another column and persists the status", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("article", {
+      name: /PORTAL-170 Campaign ad refresh landing page/,
+    });
+    expect(card).toHaveAttribute("draggable", "true");
+
+    const dataTransfer = {
+      data: {} as Record<string, string>,
+      dropEffect: "move",
+      effectAllowed: "move",
+      setData(type: string, value: string) {
+        this.data[type] = value;
+      },
+      getData(type: string) {
+        return this.data[type] ?? "";
+      },
+    };
+
+    fireEvent.dragStart(card, { dataTransfer });
+    const inProgressColumn = screen.getByRole("region", { name: "In progress" });
+    fireEvent.dragOver(inProgressColumn, { dataTransfer });
+    fireEvent.drop(inProgressColumn, { dataTransfer });
+
+    const stored = JSON.parse(window.localStorage.getItem("atlassian-demo-issues") ?? "[]") as {
+      key: string;
+      status: string;
+    }[];
+    expect(stored.find((issue) => issue.key === "PORTAL-170")?.status).toBe("In progress");
   });
 });
 

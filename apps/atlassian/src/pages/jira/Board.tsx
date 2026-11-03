@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 import {
   Filter,
   Megaphone,
@@ -15,8 +15,9 @@ import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
+import { cn } from "@/lib/cn";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
 
@@ -38,6 +39,8 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
+  const [draggingKey, setDraggingKey] = useState<string | null>(null);
+  const [dropTarget, setDropTarget] = useState<IssueStatus | null>(null);
   const showReleaseRisk = readJson("atlassian-demo-settings", {
     releaseInsights: false,
   }).releaseInsights;
@@ -62,6 +65,28 @@ export default function BoardPage() {
       return matchesQuery && matchesType;
     });
   }, [issues, query, typeFilter]);
+
+  function clearDragState() {
+    setDraggingKey(null);
+    setDropTarget(null);
+  }
+
+  function onColumnDrop(status: IssueStatus, event: DragEvent<HTMLElement>) {
+    event.preventDefault();
+    const key = event.dataTransfer.getData("text/plain");
+    if (!key) {
+      clearDragState();
+      return;
+    }
+    const current = issues.find((issue) => issue.key === key);
+    if (!current || current.status === status) {
+      clearDragState();
+      return;
+    }
+    updateIssueStatus(key, status);
+    setIssues(readIssues());
+    clearDragState();
+  }
 
   return (
     <JiraLayout title={`Board · ${SPRINT.name}`} onCreate={() => setCreateStatus("To do")}>
@@ -156,11 +181,28 @@ export default function BoardPage() {
       {filtered.length === 0 ? (
         <p className="mt-8 text-sm text-ink-faint">No work items match that search.</p>
       ) : (
-        <div className="scrollbar-none mt-4 flex min-w-0 items-start gap-3 overflow-x-auto pb-4">
+        <div
+          className="scrollbar-none mt-4 flex min-w-0 items-start gap-3 overflow-x-auto pb-4"
+          onDragEnd={clearDragState}
+        >
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
+            const isDropTarget = dropTarget === status && draggingKey !== null;
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                aria-label={status}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  event.dataTransfer.dropEffect = "move";
+                  setDropTarget(status);
+                }}
+                onDrop={(event) => onColumnDrop(status, event)}
+                className={cn(
+                  "w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5 transition-colors duration-200",
+                  isDropTarget && "bg-info-tint ring-2 ring-atl-blue-deep ring-inset",
+                )}
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
@@ -169,7 +211,12 @@ export default function BoardPage() {
                   <ul className="flex flex-col gap-1.5">
                     {columnIssues.map((issue) => (
                       <li key={issue.key}>
-                        <IssueCard issue={issue} />
+                        <IssueCard
+                          issue={issue}
+                          dragging={draggingKey === issue.key}
+                          onDragStart={setDraggingKey}
+                          onDragEnd={clearDragState}
+                        />
                       </li>
                     ))}
                   </ul>
