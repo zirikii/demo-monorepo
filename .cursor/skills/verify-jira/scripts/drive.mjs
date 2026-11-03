@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /**
- * Isolated Chromium: login → board → create → issue detail → status move → Rovo page.
- * Board drag is intentionally not driven (`move-drag` blocked).
+ * Isolated Chromium: login → board → drag a card → create → issue detail → status move → Rovo page.
  *
  *   VERIFY_JIRA_URL=http://localhost:53183 node .cursor/skills/verify-jira/scripts/drive.mjs
  */
@@ -53,6 +52,9 @@ const userDataDir = await mkdtemp(join(tmpdir(), "verify-jira-"));
 const context = await chromium.launchPersistentContext(userDataDir, {
   headless: true,
   viewport: { width: 1440, height: 900 },
+  ...(process.env.VERIFY_JIRA_CHROME_CHANNEL
+    ? { channel: process.env.VERIFY_JIRA_CHROME_CHANNEL }
+    : {}),
 });
 const page = context.pages()[0] ?? (await context.newPage());
 
@@ -88,16 +90,44 @@ try {
     await page.getByRole("link", { name: new RegExp(key) }).waitFor();
   }
 
-  const card = page.getByRole("link", { name: /PORTAL-142/ });
-  const draggable = await card.getAttribute("draggable");
-  if (draggable !== "false") {
-    throw new Error(`Jira cards must stay non-draggable; got draggable=${draggable}`);
+  const dragCard = page.getByRole("link", { name: /PORTAL-171/ });
+  const draggable = await dragCard.getAttribute("draggable");
+  if (draggable !== "true") {
+    throw new Error(`Jira cards must be draggable; got draggable=${draggable}`);
   }
   if (await page.getByLabel("Ask Rovo").count()) {
     throw new Error("board must not mount a compact Ask Rovo panel");
   }
-  await page.screenshot({ path: join(artifactsDir, "move-drag-blocked.png"), fullPage: true });
   await page.screenshot({ path: join(artifactsDir, "board-columns.png"), fullPage: true });
+
+  const inReview = page.getByRole("region", { name: "In review" });
+  await dragCard.dragTo(inReview);
+  const afterDrag = await page.evaluate(() => {
+    const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
+    return issues.find((issue) => issue.key === "PORTAL-171") ?? null;
+  });
+  if (afterDrag?.status !== "In review") {
+    throw new Error(`expected PORTAL-171 In review after drag, got ${JSON.stringify(afterDrag)}`);
+  }
+  if ((await inReview.getByRole("link", { name: /PORTAL-171/ }).count()) !== 1) {
+    throw new Error("PORTAL-171 was not under In review after the drop");
+  }
+  await page.screenshot({ path: join(artifactsDir, "move-after-drag.png"), fullPage: true });
+  await page.reload({ waitUntil: "networkidle" });
+  await page.getByRole("heading", { name: "PORTAL Sprint 24" }).waitFor();
+  const afterDragReload = await page.evaluate(() => {
+    const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
+    return issues.find((issue) => issue.key === "PORTAL-171") ?? null;
+  });
+  if (afterDragReload?.status !== "In review") {
+    throw new Error("PORTAL-171 did not stay In review after reload");
+  }
+  if (
+    (await page.getByRole("region", { name: "In review" }).getByRole("link", { name: /PORTAL-171/ }).count()) !==
+    1
+  ) {
+    throw new Error("PORTAL-171 left In review after reload");
+  }
 
   await page.getByLabel("Search work items").fill("zzzz");
   await page.getByText("No work items match that search.").waitFor();
@@ -212,8 +242,8 @@ try {
       `- Title: ${storage.title}`,
       `- Created: ${afterCreate.key} (${afterCreate.status})`,
       `- Moved: PORTAL-170 → ${afterReload.status}`,
-      `- Features: login, board, create-issue, move-status-select, issue-detail, rovo-page`,
-      `- move-drag: blocked on purpose (cards draggable=false)`,
+      `- Features: login, board, move-drag, create-issue, move-status-select, issue-detail, rovo-page`,
+      `- move-drag: PORTAL-171 To do → In review (persisted after reload)`,
       `- rovo-board-aside: product gap (no compact board panel)`,
       "",
     ].join("\n"),

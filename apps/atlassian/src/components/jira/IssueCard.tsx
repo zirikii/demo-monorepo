@@ -9,8 +9,11 @@ export function IssueCard({ issue }: { issue: JiraIssue }) {
   return (
     <Link
       to={`/jira/issues/${issue.key}`}
-      draggable={false}
-      onDragStart={(event: DragEvent<HTMLAnchorElement>) => event.preventDefault()}
+      draggable
+      onDragStart={(event: DragEvent<HTMLAnchorElement>) => {
+        event.dataTransfer.setData("text/plain", issue.key);
+        event.dataTransfer.effectAllowed = "move";
+      }}
       className="focus-atl block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl transition hover:bg-surface-tint"
     >
       <p className="text-sm text-ink-strong">{issue.summary}</p>

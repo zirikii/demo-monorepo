@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 import {
   Filter,
   Megaphone,
@@ -15,7 +15,7 @@ import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
@@ -41,6 +41,13 @@ export default function BoardPage() {
   const showReleaseRisk = readJson("atlassian-demo-settings", {
     releaseInsights: false,
   }).releaseInsights;
+
+  function onDrop(status: IssueStatus, event: DragEvent<HTMLElement>) {
+    event.preventDefault();
+    const key = event.dataTransfer.getData("text/plain");
+    if (!issues.some((issue) => issue.key === key)) return;
+    setIssues(updateIssueStatus(key, status));
+  }
 
   const boardPeople = useMemo(() => {
     const names = [user?.name ?? "You"];
@@ -160,7 +167,16 @@ export default function BoardPage() {
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                aria-label={status}
+                onDragOver={(event) => {
+                  event.preventDefault();
+                  event.dataTransfer.dropEffect = "move";
+                }}
+                onDrop={(event) => onDrop(status, event)}
+                className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5"
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
