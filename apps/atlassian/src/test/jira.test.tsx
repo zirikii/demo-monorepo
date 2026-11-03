@@ -1,7 +1,7 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { RequireAuth } from "@/components/jira/RequireAuth";
 import { AuthProvider } from "@/hooks/useAuth";
 import { writeSession, type DemoUser } from "@/lib/auth";
@@ -28,6 +28,36 @@ function LoginProbe() {
       <p>{location.search}</p>
     </div>
   );
+}
+
+function mockDataTransfer() {
+  const store = new Map<string, string>();
+  return {
+    dropEffect: "none",
+    effectAllowed: "all",
+    setData(format: string, data: string) {
+      store.set(format, data);
+    },
+    getData(format: string) {
+      return store.get(format) ?? "";
+    },
+  };
+}
+
+function stubHitTest(nodes: Element[]) {
+  Object.defineProperty(document, "elementsFromPoint", {
+    configurable: true,
+    writable: true,
+    value: () => nodes,
+  });
+}
+
+function storedIssueStatus(key: string) {
+  const stored = JSON.parse(window.localStorage.getItem("atlassian-demo-issues") ?? "[]") as {
+    key: string;
+    status: string;
+  }[];
+  return stored.find((issue) => issue.key === key)?.status;
 }
 
 function renderJira(route: string) {
@@ -170,12 +200,12 @@ describe("Jira create and comments", () => {
     writeSession(USER);
   });
 
-  it("creates a work item from a column and leaves cards undraggable", async () => {
+  it("creates a work item from a column", async () => {
     const user = userEvent.setup();
     renderJira("/jira");
 
     const card = screen.getByRole("link", { name: /PORTAL-170/ });
-    expect(card).toHaveAttribute("draggable", "false");
+    expect(card).toHaveAttribute("draggable", "true");
 
     await user.click(screen.getByRole("button", { name: "Create in To do" }));
     await user.type(screen.getByLabelText("Summary"), "Write launch FAQ");
@@ -189,6 +219,114 @@ describe("Jira create and comments", () => {
     expect(
       stored.some((issue) => issue.summary === "Write launch FAQ" && issue.status === "To do"),
     ).toBe(true);
+  });
+});
+
+describe("Jira board drag", () => {
+  beforeEach(() => {
+    window.localStorage.clear();
+    writeSession(USER);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("drops a card onto another column and keeps the status", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    const dataTransfer = mockDataTransfer();
+    fireEvent.dragStart(card, { dataTransfer });
+    const inProgress = screen.getByRole("region", { name: "In progress" });
+    fireEvent.dragOver(inProgress, { dataTransfer });
+    fireEvent.drop(inProgress, { dataTransfer });
+
+    expect(within(inProgress).getByRole("link", { name: /PORTAL-170/ })).toBeInTheDocument();
+    expect(storedIssueStatus("PORTAL-170")).toBe("In progress");
+    expect(
+      within(screen.getByRole("region", { name: "To do" })).queryByRole("link", {
+        name: /PORTAL-170/,
+      }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("moves a card on dragEnd when the browser never fires drop", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    const inReview = screen.getByRole("region", { name: "In review" });
+    stubHitTest([inReview]);
+
+    fireEvent.dragStart(card, { dataTransfer: mockDataTransfer() });
+    fireEvent(card, new MouseEvent("dragend", { bubbles: true, clientX: 40, clientY: 40 }));
+
+    expect(within(inReview).getByRole("link", { name: /PORTAL-170/ })).toBeInTheDocument();
+    expect(storedIssueStatus("PORTAL-170")).toBe("In review");
+  });
+
+  it("uses the last hovered column when the pointer hit-test is empty", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    const done = screen.getByRole("region", { name: "Done" });
+    stubHitTest([]);
+    const dataTransfer = mockDataTransfer();
+
+    fireEvent.dragStart(card, { dataTransfer });
+    fireEvent.dragOver(done, { dataTransfer });
+    fireEvent(card, new MouseEvent("dragend", { bubbles: true, clientX: 8, clientY: 8 }));
+
+    expect(within(done).getByRole("link", { name: /PORTAL-170/ })).toBeInTheDocument();
+    expect(storedIssueStatus("PORTAL-170")).toBe("Done");
+  });
+
+  it("does not move a card that is released outside the board after hovering a column", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    const inProgress = screen.getByRole("region", { name: "In progress" });
+    stubHitTest([document.body]);
+    const dataTransfer = mockDataTransfer();
+
+    fireEvent.dragStart(card, { dataTransfer });
+    fireEvent.dragOver(inProgress, { dataTransfer });
+    fireEvent(card, new MouseEvent("dragend", { bubbles: true, clientX: 0, clientY: 0 }));
+
+    expect(
+      within(screen.getByRole("region", { name: "To do" })).getByRole("link", {
+        name: /PORTAL-170/,
+      }),
+    ).toBeInTheDocument();
+    expect(storedIssueStatus("PORTAL-170")).toBeUndefined();
+  });
+
+  it("leaves the card in place when the drag ends outside the board", () => {
+    renderJira("/jira");
+
+    const card = screen.getByRole("link", { name: /PORTAL-170/ });
+    stubHitTest([document.body]);
+
+    fireEvent.dragStart(card, { dataTransfer: mockDataTransfer() });
+    fireEvent(card, new MouseEvent("dragend", { bubbles: true, clientX: 0, clientY: 0 }));
+
+    expect(
+      within(screen.getByRole("region", { name: "To do" })).getByRole("link", {
+        name: /PORTAL-170/,
+      }),
+    ).toBeInTheDocument();
+    expect(storedIssueStatus("PORTAL-170")).toBeUndefined();
+  });
+
+  it("still opens the work item from a click", async () => {
+    const user = userEvent.setup();
+    renderJira("/jira");
+
+    await user.click(screen.getByRole("link", { name: /PORTAL-170/ }));
+
+    expect(
+      screen.getByRole("heading", { name: "Campaign ad refresh landing page" }),
+    ).toBeInTheDocument();
   });
 });
 

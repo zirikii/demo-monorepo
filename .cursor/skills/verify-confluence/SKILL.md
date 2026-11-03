@@ -9,7 +9,7 @@ Project-local skill for the mock **Confluence** workspace in `apps/atlassian`. M
 
 Do not create or follow a `verify-atlassian` skill. This one is Confluence-workspace scoped.
 
-Jira board cards cannot move between columns — that is an intentional demo limitation owned by `verify-jira`. Do not “fix” it from this skill.
+Jira board drag is owned by `verify-jira`. Do not change it from this skill.
 
 ## Launch
 
