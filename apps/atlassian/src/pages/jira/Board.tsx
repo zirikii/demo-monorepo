@@ -38,7 +38,9 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
-  const showReleaseRisk = readJson("atlassian-demo-settings", { releaseInsights: false }).releaseInsights;
+  const showReleaseRisk = readJson("atlassian-demo-settings", {
+    releaseInsights: false,
+  }).releaseInsights;
 
   const boardPeople = useMemo(() => {
     const names = [user?.name ?? "You"];
@@ -62,10 +64,7 @@ export default function BoardPage() {
   }, [issues, query, typeFilter]);
 
   return (
-    <JiraLayout
-      title={`Board · ${SPRINT.name}`}
-      onCreate={() => setCreateStatus("To do")}
-    >
+    <JiraLayout title={`Board · ${SPRINT.name}`} onCreate={() => setCreateStatus("To do")}>
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-xl font-bold text-ink-strong">{SPRINT.name}</h2>
@@ -157,7 +156,7 @@ export default function BoardPage() {
       {filtered.length === 0 ? (
         <p className="mt-8 text-sm text-ink-faint">No work items match that search.</p>
       ) : (
-        <div className="mt-4 flex items-start gap-3 overflow-x-auto pb-4">
+        <div className="scrollbar-none mt-4 flex min-w-0 items-start gap-3 overflow-x-auto pb-4">
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
             return (
