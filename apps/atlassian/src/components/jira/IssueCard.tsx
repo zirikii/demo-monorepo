@@ -1,4 +1,4 @@
-import type { DragEvent } from "react";
+import type { DragEvent, MouseEvent } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { IssueTypeGlyph } from "./IssueTypeGlyph";
@@ -51,7 +51,7 @@ export function IssueCard({
           <Link
             to={`/jira/issues/${issue.key}`}
             draggable={false}
-            onClick={(event) => event.stopPropagation()}
+            onClick={(event: MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}
             className="focus-atl text-atl-blue hover:underline"
           >
             {issue.key}
