@@ -1,6 +1,6 @@
 # demo-monorepo
 
-A pnpm workspace that bundles independent demo apps together and gives them
+A workspace that bundles independent demo apps together and gives them
 a single shared UI package (`@demo/ui`) to pull from.
 
 ## What's inside
