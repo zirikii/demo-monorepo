@@ -79,6 +79,18 @@
 
   --animate-atl-rise: atl-rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-atl-fade: atl-fade 0.22s ease-out both;
+  --animate-atl-drop: atl-drop 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes atl-drop {
+  from {
+    opacity: 0.6;
+    transform: translateY(-6px) scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes atl-rise {

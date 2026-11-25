@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 import {
   Filter,
   Megaphone,
@@ -15,7 +15,7 @@ import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
 import type { IssueStatus, IssueType } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
@@ -38,6 +38,40 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
+  const [draggingKey, setDraggingKey] = useState<string | null>(null);
+  const [dropTarget, setDropTarget] = useState<IssueStatus | null>(null);
+  const [droppedKey, setDroppedKey] = useState<string | null>(null);
+  const draggingStatus = issues.find((issue) => issue.key === draggingKey)?.status;
+
+  function handleDragOver(event: DragEvent<HTMLElement>, status: IssueStatus) {
+    if (!draggingStatus || draggingStatus === status) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    setDropTarget(status);
+  }
+
+  function handleDragLeave(event: DragEvent<HTMLElement>) {
+    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
+    setDropTarget(null);
+  }
+
+  function handleDrop(event: DragEvent<HTMLElement>, status: IssueStatus) {
+    event.preventDefault();
+    const key = event.dataTransfer.getData("text/plain") || draggingKey;
+    const issue = issues.find((candidate) => candidate.key === key);
+    if (issue && issue.status !== status) {
+      setIssues(updateIssueStatus(issue.key, status));
+      setDroppedKey(issue.key);
+    }
+    setDropTarget(null);
+    setDraggingKey(null);
+  }
+
+  function handleDragEnd() {
+    setDropTarget(null);
+    setDraggingKey(null);
+  }
+
   const showReleaseRisk = readJson("atlassian-demo-settings", {
     releaseInsights: false,
   }).releaseInsights;
@@ -159,20 +193,50 @@ export default function BoardPage() {
         <div className="scrollbar-none mt-4 flex min-w-0 items-start gap-3 overflow-x-auto pb-4">
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
+            const headingId = `board-column-${status.toLowerCase().replace(/\s+/g, "-")}`;
+            const isDropTarget = dropTarget === status;
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                aria-labelledby={headingId}
+                data-drop-target={isDropTarget ? "true" : undefined}
+                onDragEnter={(event) => handleDragOver(event, status)}
+                onDragOver={(event) => handleDragOver(event, status)}
+                onDragLeave={handleDragLeave}
+                onDrop={(event) => handleDrop(event, status)}
+                className={`w-64 shrink-0 rounded-atl-lg p-1.5 transition-colors ${
+                  isDropTarget ? "bg-atl-tint ring-2 ring-atl-blue" : "bg-surface-deep"
+                }`}
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
-                  <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
+                  <h3 id={headingId} className="text-xs font-semibold text-ink-soft">
+                    {status}
+                  </h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
                 </header>
                 {columnIssues.length > 0 ? (
                   <ul className="flex flex-col gap-1.5">
                     {columnIssues.map((issue) => (
                       <li key={issue.key}>
-                        <IssueCard issue={issue} />
+                        <IssueCard
+                          issue={issue}
+                          dragging={issue.key === draggingKey}
+                          dropped={issue.key === droppedKey}
+                          onDragStart={(key) => {
+                            setDroppedKey(null);
+                            setDraggingKey(key);
+                          }}
+                          onDragEnd={handleDragEnd}
+                        />
                       </li>
                     ))}
                   </ul>
+                ) : null}
+                {isDropTarget ? (
+                  <div
+                    aria-hidden
+                    className="mt-1.5 h-14 rounded-atl-lg border-2 border-dashed border-atl-blue bg-white/60"
+                  />
                 ) : null}
                 <button
                   type="button"
