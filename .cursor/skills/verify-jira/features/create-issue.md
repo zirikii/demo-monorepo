@@ -29,5 +29,5 @@ Preconditions:
 ## Gotchas
 
 - Column buttons are named `Create in {status}`. The dialog submit is `Create work item`. Header Create is labelled `Create`.
-- Cards remain non-draggable after create. Do not treat create as a column-move proof.
+- Create does not move columns. Do not treat create as a column-move proof.
 - `nextIssueKey` increments the highest PORTAL number already stored. A stale `atlassian-demo-issues` changes the new key.
