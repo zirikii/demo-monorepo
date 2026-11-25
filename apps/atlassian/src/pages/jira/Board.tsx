@@ -12,13 +12,15 @@ import { CreateIssueDialog } from "@/components/jira/CreateIssueDialog";
 import { IssueCard } from "@/components/jira/IssueCard";
 import { JiraLayout } from "@/components/jira/JiraLayout";
 import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
-import type { IssueStatus, IssueType } from "@/data/types";
+import type { IssueStatus, IssueType, JiraIssue } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
 import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
+
+type BoardDrag = { key: string; from: IssueStatus; over: IssueStatus | null; lifted: boolean };
 
 function ToolbarIconButton({ label, icon: Icon }: { label: string; icon: typeof Filter }) {
   return (
@@ -38,38 +40,41 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
-  const [draggingKey, setDraggingKey] = useState<string | null>(null);
-  const [dropTarget, setDropTarget] = useState<IssueStatus | null>(null);
+  const [drag, setDrag] = useState<BoardDrag | null>(null);
   const [droppedKey, setDroppedKey] = useState<string | null>(null);
-  const draggingStatus = issues.find((issue) => issue.key === draggingKey)?.status;
+
+  function startDrag(issue: JiraIssue) {
+    setDroppedKey(null);
+    setDrag({ key: issue.key, from: issue.status, over: null, lifted: false });
+    // Restyling the card inside dragstart would bake the faded look into the browser's drag image.
+    window.setTimeout(() =>
+      setDrag((current) => (current?.key === issue.key ? { ...current, lifted: true } : current)),
+    );
+  }
 
   function handleDragOver(event: DragEvent<HTMLElement>, status: IssueStatus) {
-    if (!draggingStatus || draggingStatus === status) return;
+    if (!drag || drag.from === status) return;
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
-    setDropTarget(status);
+    if (drag.over !== status) setDrag({ ...drag, over: status });
   }
 
   function handleDragLeave(event: DragEvent<HTMLElement>) {
-    if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
-    setDropTarget(null);
+    const next =
+      event.relatedTarget instanceof Node
+        ? event.relatedTarget
+        : document.elementFromPoint?.(event.clientX, event.clientY);
+    if (next && event.currentTarget.contains(next)) return;
+    setDrag((current) => (current ? { ...current, over: null } : current));
   }
 
   function handleDrop(event: DragEvent<HTMLElement>, status: IssueStatus) {
     event.preventDefault();
-    const key = event.dataTransfer.getData("text/plain") || draggingKey;
-    const issue = issues.find((candidate) => candidate.key === key);
-    if (issue && issue.status !== status) {
-      setIssues(updateIssueStatus(issue.key, status));
-      setDroppedKey(issue.key);
+    if (drag && drag.from !== status) {
+      setIssues(updateIssueStatus(drag.key, status, issues));
+      setDroppedKey(drag.key);
     }
-    setDropTarget(null);
-    setDraggingKey(null);
-  }
-
-  function handleDragEnd() {
-    setDropTarget(null);
-    setDraggingKey(null);
+    setDrag(null);
   }
 
   const showReleaseRisk = readJson("atlassian-demo-settings", {
@@ -193,12 +198,11 @@ export default function BoardPage() {
         <div className="scrollbar-none mt-4 flex min-w-0 items-start gap-3 overflow-x-auto pb-4">
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
-            const headingId = `board-column-${status.toLowerCase().replace(/\s+/g, "-")}`;
-            const isDropTarget = dropTarget === status;
+            const isDropTarget = drag?.over === status;
             return (
               <section
                 key={status}
-                aria-labelledby={headingId}
+                aria-label={status}
                 data-drop-target={isDropTarget ? "true" : undefined}
                 onDragEnter={(event) => handleDragOver(event, status)}
                 onDragOver={(event) => handleDragOver(event, status)}
@@ -209,9 +213,7 @@ export default function BoardPage() {
                 }`}
               >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
-                  <h3 id={headingId} className="text-xs font-semibold text-ink-soft">
-                    {status}
-                  </h3>
+                  <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
                 </header>
                 {columnIssues.length > 0 ? (
@@ -220,13 +222,12 @@ export default function BoardPage() {
                       <li key={issue.key}>
                         <IssueCard
                           issue={issue}
-                          dragging={issue.key === draggingKey}
-                          dropped={issue.key === droppedKey}
-                          onDragStart={(key) => {
-                            setDroppedKey(null);
-                            setDraggingKey(key);
-                          }}
-                          onDragEnd={handleDragEnd}
+                          dragging={drag?.key === issue.key}
+                          lifted={drag?.key === issue.key && drag.lifted}
+                          dropped={droppedKey === issue.key}
+                          onDragStart={() => startDrag(issue)}
+                          onDragEnd={() => setDrag(null)}
+                          onDropSettled={() => setDroppedKey(null)}
                         />
                       </li>
                     ))}

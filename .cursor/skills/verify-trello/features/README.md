@@ -8,7 +8,7 @@ Maintained source for verifying the mock Trello workspace in `apps/atlassian`. M
 - Isolated Chromium; do not reuse a tab that might be a customer presentation.
 - Session: sign in as `demo@atlassian.com` / `teamwork2026` via `/login?portal=trello`.
 - Never drive an instance this run did not start. Default port 5183; isolated proofs may use 53183.
-- Jira board cards staying unmovable is owned by `verify-jira`. Do not change that from this map.
+- Jira board drag between columns is owned by `verify-jira`. Do not prove or change it from this map.
 
 ## Driving conventions
 
@@ -25,4 +25,4 @@ Each file: H1, one paragraph, then `Sub-features`, `How to get to it (user POV)`
 
 - [Login](./login.md) — Login signs into Trello and lands on the Northline launch board.
 - [Board](./board.md) — Four lists hold seeded cards (press kit, website QA, partner email, logo lockup).
-- [Move card](./move-card.md) — Trello cards CAN move between lists. This is the contrast with Jira board cards, which must not.
+- [Move card](./move-card.md) — Trello cards CAN move between lists. Jira board drag is a separate proof owned by `verify-jira`.

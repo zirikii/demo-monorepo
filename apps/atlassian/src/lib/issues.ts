@@ -24,8 +24,12 @@ export function getStoredIssue(key: string): JiraIssue | undefined {
   return readIssues().find((issue) => issue.key.toLowerCase() === key.toLowerCase());
 }
 
-export function updateIssueStatus(key: string, status: IssueStatus): JiraIssue[] {
-  const next = readIssues().map((issue) => (issue.key === key ? { ...issue, status } : issue));
+export function updateIssueStatus(
+  key: string,
+  status: IssueStatus,
+  issues = readIssues(),
+): JiraIssue[] {
+  const next = issues.map((issue) => (issue.key === key ? { ...issue, status } : issue));
   writeIssues(next);
   return next;
 }

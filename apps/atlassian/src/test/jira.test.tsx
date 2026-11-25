@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { createEvent, fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes, useLocation } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
@@ -295,6 +295,62 @@ describe("Jira board drag and drop", () => {
       "data-drop-target",
       "true",
     );
+  });
+
+  it("keeps the highlight while the pointer moves onto a card inside the target column", () => {
+    renderJira("/jira");
+
+    const inProgress = screen.getByRole("region", { name: "In progress" });
+    const innerCard = within(inProgress).getByRole("link", { name: /PORTAL-142/ });
+    const dataTransfer = fakeDataTransfer();
+
+    fireEvent.dragStart(screen.getByRole("link", { name: /PORTAL-170/ }), { dataTransfer });
+    fireEvent.dragOver(inProgress, { dataTransfer });
+    const leave = createEvent.dragLeave(inProgress, { dataTransfer });
+    Object.defineProperty(leave, "relatedTarget", { value: innerCard });
+    fireEvent(inProgress, leave);
+
+    expect(inProgress).toHaveAttribute("data-drop-target", "true");
+  });
+
+  it("ignores its own column and drops that did not start from a board card", () => {
+    renderJira("/jira");
+
+    const todo = screen.getByRole("region", { name: "To do" });
+    const inProgress = screen.getByRole("region", { name: "In progress" });
+    const dataTransfer = fakeDataTransfer();
+    dataTransfer.setData("text/plain", "PORTAL-170");
+
+    fireEvent.dragOver(inProgress, { dataTransfer });
+    fireEvent.drop(inProgress, { dataTransfer });
+    expect(inProgress).not.toHaveAttribute("data-drop-target", "true");
+    expect(within(todo).getByRole("link", { name: /PORTAL-170/ })).toBeInTheDocument();
+
+    fireEvent.dragStart(within(todo).getByRole("link", { name: /PORTAL-170/ }), { dataTransfer });
+    fireEvent.dragOver(todo, { dataTransfer });
+    fireEvent.drop(todo, { dataTransfer });
+
+    expect(todo).not.toHaveAttribute("data-drop-target", "true");
+    expect(window.localStorage.getItem("atlassian-demo-issues")).toBeNull();
+  });
+
+  it("moves a card dropped while the board is filtered and keeps the hidden cards", async () => {
+    const user = userEvent.setup();
+    renderJira("/jira");
+
+    await user.type(screen.getByLabelText("Search work items"), "campaign");
+    const dataTransfer = fakeDataTransfer();
+    fireEvent.dragStart(screen.getByRole("link", { name: /PORTAL-170/ }), { dataTransfer });
+    fireEvent.dragOver(screen.getByRole("region", { name: "Done" }), { dataTransfer });
+    fireEvent.drop(screen.getByRole("region", { name: "Done" }), { dataTransfer });
+    await user.clear(screen.getByLabelText("Search work items"));
+
+    expect(
+      within(screen.getByRole("region", { name: "Done" })).getByRole("link", {
+        name: /PORTAL-170/,
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /PORTAL-142/ })).toBeInTheDocument();
   });
 });
 

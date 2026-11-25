@@ -28,7 +28,7 @@ Preconditions:
 
 - **Before.** PORTAL-170 is inside the To do region and has `draggable="true"`. Screenshot `artifacts/<run-id>/move-drag-before.png`.
 - **Drag.** `page.mouse.move` to the card centre, `mouse.down()`, then `mouse.move` onto the In progress region in several steps. Playwright's locator `dragTo` also works; synthetic `dispatchEvent` drags do not prove the UI.
-- **Hover state.** Wait for `section[data-drop-target="true"]`, then let the colour transition settle (~400 ms) before reading styles. The target heading is `In progress`, its className contains `atl-blue`, its computed background is the atl-tint blue (`rgb(233, 242, 255)`), and PORTAL-170's link has `data-dragging="true"`. Screenshot `artifacts/<run-id>/move-drag-hover.png`.
+- **Hover state.** Wait for `section[data-drop-target="true"]`, then wait until exactly one column is highlighted and its background has finished transitioning. The target region is `In progress`, its className contains `atl-blue`, its computed background is the atl-tint blue (`rgb(233, 242, 255)`), and PORTAL-170's link has `data-dragging="true"`. Save `artifacts/<run-id>/drag-hover-state.json` and screenshot `move-drag-hover.png`.
 - **Drop.** `mouse.up()`. PORTAL-170 is inside In progress and not in To do; no column still has `data-drop-target="true"`. Storage status is `In progress`. Save `artifacts/<run-id>/issues-after-drag.json` and screenshot `move-drag-after.png`.
 - **Reload.** Full reload `/jira`. PORTAL-170 is still inside In progress and storage still reads `In progress`. Save `issues-after-drag-reload.json` and screenshot `move-drag-reload.png`.
 - Trello (`/trello`) list moves are a different product. Do not use them as a Jira proof.

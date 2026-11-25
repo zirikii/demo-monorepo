@@ -7,13 +7,23 @@ import { initials } from "@/lib/format";
 
 type IssueCardProps = {
   issue: JiraIssue;
-  dragging?: boolean;
-  dropped?: boolean;
-  onDragStart?: (key: string) => void;
-  onDragEnd?: () => void;
+  dragging: boolean;
+  lifted: boolean;
+  dropped: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  onDropSettled: () => void;
 };
 
-export function IssueCard({ issue, dragging, dropped, onDragStart, onDragEnd }: IssueCardProps) {
+export function IssueCard({
+  issue,
+  dragging,
+  lifted,
+  dropped,
+  onDragStart,
+  onDragEnd,
+  onDropSettled,
+}: IssueCardProps) {
   return (
     <Link
       to={`/jira/issues/${issue.key}`}
@@ -22,11 +32,12 @@ export function IssueCard({ issue, dragging, dropped, onDragStart, onDragEnd }: 
       onDragStart={(event: DragEvent<HTMLAnchorElement>) => {
         event.dataTransfer.setData("text/plain", issue.key);
         event.dataTransfer.effectAllowed = "move";
-        onDragStart?.(issue.key);
+        onDragStart();
       }}
-      onDragEnd={() => onDragEnd?.()}
+      onDragEnd={onDragEnd}
+      onAnimationEnd={dropped ? onDropSettled : undefined}
       className={`focus-atl block cursor-grab rounded-atl-lg border px-3 py-2.5 transition active:cursor-grabbing ${
-        dragging
+        lifted
           ? "scale-[0.98] border-dashed border-atl-sky bg-atl-tint opacity-50 shadow-none"
           : "border-line-soft bg-white shadow-atl hover:bg-surface-tint"
       } ${dropped ? "animate-atl-drop" : ""}`}

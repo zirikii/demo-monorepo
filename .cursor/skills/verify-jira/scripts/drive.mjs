@@ -46,6 +46,7 @@ function loadChromium() {
 }
 
 const chromium = loadChromium();
+const ATL_TINT = "rgb(233, 242, 255)";
 
 await mkdir(artifactsDir, { recursive: true });
 
@@ -94,7 +95,7 @@ try {
   await page.screenshot({ path: join(artifactsDir, "board-columns.png"), fullPage: true });
 
   const column = (name) => page.getByRole("region", { name, exact: true });
-  const readStatus = (key) =>
+  const readIssue = (key) =>
     page.evaluate((issueKey) => {
       const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
       return issues.find((issue) => issue.key === issueKey) ?? null;
@@ -107,18 +108,28 @@ try {
   await page.screenshot({ path: join(artifactsDir, "move-drag-before.png"), fullPage: true });
   const from = await dragCard.boundingBox();
   const to = await column("In progress").boundingBox();
+  if (!from || !to) {
+    throw new Error("PORTAL-170 card or In progress column is not on screen");
+  }
   await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
   await page.mouse.down();
   await page.mouse.move(to.x + to.width / 2, to.y + 40, { steps: 12 });
-  await page.waitForSelector('section[data-drop-target="true"]');
-  await page.waitForTimeout(400);
+  await page.waitForFunction(
+    (blue) => {
+      const targets = document.querySelectorAll('section[data-drop-target="true"]');
+      return targets.length === 1 && getComputedStyle(targets[0]).backgroundColor === blue;
+    },
+    ATL_TINT,
+    { timeout: 3000 },
+  );
   const hoverState = await page.evaluate(() => {
-    const target = document.querySelector('section[data-drop-target="true"]');
+    const targets = document.querySelectorAll('section[data-drop-target="true"]');
     const dragging = document.querySelector('a[data-dragging="true"]');
     return {
-      target: target?.querySelector("h3")?.textContent ?? null,
-      targetClass: target?.className ?? "",
-      targetBackground: target ? getComputedStyle(target).backgroundColor : null,
+      targetCount: targets.length,
+      target: targets[0]?.getAttribute("aria-label") ?? null,
+      targetClass: targets[0]?.className ?? "",
+      targetBackground: targets[0] ? getComputedStyle(targets[0]).backgroundColor : null,
       draggingKey: dragging?.getAttribute("href") ?? null,
     };
   });
@@ -128,6 +139,10 @@ try {
   if (!hoverState.draggingKey?.endsWith("/PORTAL-170")) {
     throw new Error(`expected PORTAL-170 to be marked dragging, got ${hoverState.draggingKey}`);
   }
+  await writeFile(
+    join(artifactsDir, "drag-hover-state.json"),
+    `${JSON.stringify(hoverState, null, 2)}\n`,
+  );
   await page.screenshot({ path: join(artifactsDir, "move-drag-hover.png"), fullPage: true });
   await page.mouse.up();
 
@@ -138,19 +153,19 @@ try {
   if (await page.locator('section[data-drop-target="true"]').count()) {
     throw new Error("drop target highlight did not clear after the drop");
   }
-  const afterDrag = await readStatus("PORTAL-170");
+  const afterDrag = await readIssue("PORTAL-170");
   if (afterDrag?.status !== "In progress") {
     throw new Error(`expected PORTAL-170 In progress after drag, got ${JSON.stringify(afterDrag)}`);
   }
   await writeFile(
     join(artifactsDir, "issues-after-drag.json"),
-    `${JSON.stringify({ ...afterDrag, hoverState }, null, 2)}\n`,
+    `${JSON.stringify(afterDrag, null, 2)}\n`,
   );
   await page.screenshot({ path: join(artifactsDir, "move-drag-after.png"), fullPage: true });
 
   await page.reload({ waitUntil: "networkidle" });
   await column("In progress").getByRole("link", { name: /PORTAL-170/ }).waitFor();
-  const afterDragReload = await readStatus("PORTAL-170");
+  const afterDragReload = await readIssue("PORTAL-170");
   if (afterDragReload?.status !== "In progress") {
     throw new Error("PORTAL-170 did not stay In progress after reload");
   }
@@ -190,7 +205,7 @@ try {
   await page.getByRole("heading", { name: "Campaign ad refresh landing page" }).waitFor();
   await page.screenshot({ path: join(artifactsDir, "move-before-detail.png"), fullPage: true });
   await page.getByLabel("Status").selectOption("In review");
-  const afterMove = await readStatus("PORTAL-170");
+  const afterMove = await readIssue("PORTAL-170");
   if (afterMove?.status !== "In review") {
     throw new Error(`expected PORTAL-170 In review, got ${JSON.stringify(afterMove)}`);
   }
@@ -203,7 +218,7 @@ try {
   await page.screenshot({ path: join(artifactsDir, "move-after-board.png"), fullPage: true });
   await page.reload({ waitUntil: "networkidle" });
   await column("In review").getByRole("link", { name: /PORTAL-170/ }).waitFor();
-  const afterReload = await readStatus("PORTAL-170");
+  const afterReload = await readIssue("PORTAL-170");
   if (afterReload?.status !== "In review") {
     throw new Error(`PORTAL-170 did not persist In review after reload`);
   }
