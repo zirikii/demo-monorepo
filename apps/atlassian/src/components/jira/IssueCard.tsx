@@ -5,13 +5,42 @@ import { IssueTypeGlyph } from "./IssueTypeGlyph";
 import type { JiraIssue } from "@/data/types";
 import { initials } from "@/lib/format";
 
-export function IssueCard({ issue }: { issue: JiraIssue }) {
+type IssueCardProps = {
+  issue: JiraIssue;
+  dragging: boolean;
+  lifted: boolean;
+  dropped: boolean;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  onDropSettled: () => void;
+};
+
+export function IssueCard({
+  issue,
+  dragging,
+  lifted,
+  dropped,
+  onDragStart,
+  onDragEnd,
+  onDropSettled,
+}: IssueCardProps) {
   return (
     <Link
       to={`/jira/issues/${issue.key}`}
-      draggable={false}
-      onDragStart={(event: DragEvent<HTMLAnchorElement>) => event.preventDefault()}
-      className="focus-atl block rounded-atl-lg border border-line-soft bg-white px-3 py-2.5 shadow-atl transition hover:bg-surface-tint"
+      draggable
+      data-dragging={dragging ? "true" : undefined}
+      onDragStart={(event: DragEvent<HTMLAnchorElement>) => {
+        event.dataTransfer.setData("text/plain", issue.key);
+        event.dataTransfer.effectAllowed = "move";
+        onDragStart();
+      }}
+      onDragEnd={onDragEnd}
+      onAnimationEnd={dropped ? onDropSettled : undefined}
+      className={`focus-atl block cursor-grab rounded-atl-lg border px-3 py-2.5 transition active:cursor-grabbing ${
+        lifted
+          ? "scale-[0.98] border-dashed border-atl-sky bg-atl-tint opacity-50 shadow-none"
+          : "border-line-soft bg-white shadow-atl hover:bg-surface-tint"
+      } ${dropped ? "animate-atl-drop" : ""}`}
     >
       <p className="text-sm text-ink-strong">{issue.summary}</p>
       {issue.labels.length > 0 ? (

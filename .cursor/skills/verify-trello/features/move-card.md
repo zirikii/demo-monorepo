@@ -1,6 +1,6 @@
 # Move card
 
-Trello cards CAN move between lists. This is the contrast with Jira board cards, which must not.
+Trello cards CAN move between lists. Jira board card drag is a separate product proof owned by `verify-jira`.
 
 ## Sub-features
 

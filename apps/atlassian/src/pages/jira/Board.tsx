@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type DragEvent } from "react";
 import {
   Filter,
   Megaphone,
@@ -12,13 +12,15 @@ import { CreateIssueDialog } from "@/components/jira/CreateIssueDialog";
 import { IssueCard } from "@/components/jira/IssueCard";
 import { JiraLayout } from "@/components/jira/JiraLayout";
 import { BOARD_COLUMNS, SPRINT } from "@/data/jira";
-import type { IssueStatus, IssueType } from "@/data/types";
+import type { IssueStatus, IssueType, JiraIssue } from "@/data/types";
 import { useAuth } from "@/hooks/useAuth";
 import { initials } from "@/lib/format";
-import { createIssue, issuesByStatus, readIssues } from "@/lib/issues";
+import { createIssue, issuesByStatus, readIssues, updateIssueStatus } from "@/lib/issues";
 import { readJson } from "@/lib/storage";
 
 const TYPE_FILTERS: Array<"All types" | IssueType> = ["All types", "Story", "Task", "Bug", "Epic"];
+
+type BoardDrag = { key: string; from: IssueStatus; over: IssueStatus | null; lifted: boolean };
 
 function ToolbarIconButton({ label, icon: Icon }: { label: string; icon: typeof Filter }) {
   return (
@@ -38,6 +40,43 @@ export default function BoardPage() {
   const [typeFilter, setTypeFilter] = useState<(typeof TYPE_FILTERS)[number]>("All types");
   const [issues, setIssues] = useState(readIssues);
   const [createStatus, setCreateStatus] = useState<IssueStatus | null>(null);
+  const [drag, setDrag] = useState<BoardDrag | null>(null);
+  const [droppedKey, setDroppedKey] = useState<string | null>(null);
+
+  function startDrag(issue: JiraIssue) {
+    setDroppedKey(null);
+    setDrag({ key: issue.key, from: issue.status, over: null, lifted: false });
+    // Restyling the card inside dragstart would bake the faded look into the browser's drag image.
+    window.setTimeout(() =>
+      setDrag((current) => (current?.key === issue.key ? { ...current, lifted: true } : current)),
+    );
+  }
+
+  function handleDragOver(event: DragEvent<HTMLElement>, status: IssueStatus) {
+    if (!drag || drag.from === status) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    if (drag.over !== status) setDrag({ ...drag, over: status });
+  }
+
+  function handleDragLeave(event: DragEvent<HTMLElement>) {
+    const next =
+      event.relatedTarget instanceof Node
+        ? event.relatedTarget
+        : document.elementFromPoint?.(event.clientX, event.clientY);
+    if (next && event.currentTarget.contains(next)) return;
+    setDrag((current) => (current ? { ...current, over: null } : current));
+  }
+
+  function handleDrop(event: DragEvent<HTMLElement>, status: IssueStatus) {
+    event.preventDefault();
+    if (drag && drag.from !== status) {
+      setIssues(updateIssueStatus(drag.key, status, issues));
+      setDroppedKey(drag.key);
+    }
+    setDrag(null);
+  }
+
   const showReleaseRisk = readJson("atlassian-demo-settings", {
     releaseInsights: false,
   }).releaseInsights;
@@ -159,8 +198,20 @@ export default function BoardPage() {
         <div className="scrollbar-none mt-4 flex min-w-0 items-start gap-3 overflow-x-auto pb-4">
           {BOARD_COLUMNS.map((status) => {
             const columnIssues = issuesByStatus(status, filtered);
+            const isDropTarget = drag?.over === status;
             return (
-              <section key={status} className="w-64 shrink-0 rounded-atl-lg bg-surface-deep p-1.5">
+              <section
+                key={status}
+                aria-label={status}
+                data-drop-target={isDropTarget ? "true" : undefined}
+                onDragEnter={(event) => handleDragOver(event, status)}
+                onDragOver={(event) => handleDragOver(event, status)}
+                onDragLeave={handleDragLeave}
+                onDrop={(event) => handleDrop(event, status)}
+                className={`w-64 shrink-0 rounded-atl-lg p-1.5 transition-colors ${
+                  isDropTarget ? "bg-atl-tint ring-2 ring-atl-blue" : "bg-surface-deep"
+                }`}
+              >
                 <header className="flex items-baseline gap-1.5 px-2 pt-1.5 pb-2">
                   <h3 className="text-xs font-semibold text-ink-soft">{status}</h3>
                   <span className="text-xs font-medium text-ink-faint">{columnIssues.length}</span>
@@ -169,10 +220,24 @@ export default function BoardPage() {
                   <ul className="flex flex-col gap-1.5">
                     {columnIssues.map((issue) => (
                       <li key={issue.key}>
-                        <IssueCard issue={issue} />
+                        <IssueCard
+                          issue={issue}
+                          dragging={drag?.key === issue.key}
+                          lifted={drag?.key === issue.key && drag.lifted}
+                          dropped={droppedKey === issue.key}
+                          onDragStart={() => startDrag(issue)}
+                          onDragEnd={() => setDrag(null)}
+                          onDropSettled={() => setDroppedKey(null)}
+                        />
                       </li>
                     ))}
                   </ul>
+                ) : null}
+                {isDropTarget ? (
+                  <div
+                    aria-hidden
+                    className="mt-1.5 h-14 rounded-atl-lg border-2 border-dashed border-atl-blue bg-white/60"
+                  />
                 ) : null}
                 <button
                   type="button"

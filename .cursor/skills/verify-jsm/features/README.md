@@ -8,7 +8,7 @@ Maintained source for verifying the mock Jira Service Management workspace in `a
 - Isolated Chromium; do not reuse a tab that might be a customer presentation.
 - Session: sign in as `demo@atlassian.com` / `teamwork2026` via `/login?portal=jsm`.
 - Never drive an instance this run did not start. Default port 5183; isolated proofs may use 53183.
-- Jira board cards staying unmovable is owned by `verify-jira`. Do not change that from this map.
+- Jira board drag between columns is owned by `verify-jira`. Do not prove or change it from this map.
 
 ## Driving conventions
 

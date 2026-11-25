@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Isolated Chromium: login → board → create → issue detail → status move → Rovo page.
- * Board drag is intentionally not driven (`move-drag` blocked).
+ * Isolated Chromium: login → board → drag PORTAL-170 to In progress → reload → create →
+ * issue detail → status move → Rovo page.
  *
  *   VERIFY_JIRA_URL=http://localhost:53183 node .cursor/skills/verify-jira/scripts/drive.mjs
  */
@@ -46,6 +46,7 @@ function loadChromium() {
 }
 
 const chromium = loadChromium();
+const ATL_TINT = "rgb(233, 242, 255)";
 
 await mkdir(artifactsDir, { recursive: true });
 
@@ -88,16 +89,91 @@ try {
     await page.getByRole("link", { name: new RegExp(key) }).waitFor();
   }
 
-  const card = page.getByRole("link", { name: /PORTAL-142/ });
-  const draggable = await card.getAttribute("draggable");
-  if (draggable !== "false") {
-    throw new Error(`Jira cards must stay non-draggable; got draggable=${draggable}`);
-  }
   if (await page.getByLabel("Ask Rovo").count()) {
     throw new Error("board must not mount a compact Ask Rovo panel");
   }
-  await page.screenshot({ path: join(artifactsDir, "move-drag-blocked.png"), fullPage: true });
   await page.screenshot({ path: join(artifactsDir, "board-columns.png"), fullPage: true });
+
+  const column = (name) => page.getByRole("region", { name, exact: true });
+  const readIssue = (key) =>
+    page.evaluate((issueKey) => {
+      const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
+      return issues.find((issue) => issue.key === issueKey) ?? null;
+    }, key);
+
+  const dragCard = column("To do").getByRole("link", { name: /PORTAL-170/ });
+  if ((await dragCard.getAttribute("draggable")) !== "true") {
+    throw new Error("PORTAL-170 card must be draggable");
+  }
+  await page.screenshot({ path: join(artifactsDir, "move-drag-before.png"), fullPage: true });
+  const from = await dragCard.boundingBox();
+  const to = await column("In progress").boundingBox();
+  if (!from || !to) {
+    throw new Error("PORTAL-170 card or In progress column is not on screen");
+  }
+  await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(to.x + to.width / 2, to.y + 40, { steps: 12 });
+  await page.waitForFunction(
+    (blue) => {
+      const targets = document.querySelectorAll('section[data-drop-target="true"]');
+      return targets.length === 1 && getComputedStyle(targets[0]).backgroundColor === blue;
+    },
+    ATL_TINT,
+    { timeout: 3000 },
+  );
+  const hoverState = await page.evaluate(() => {
+    const targets = document.querySelectorAll('section[data-drop-target="true"]');
+    const dragging = document.querySelector('a[data-dragging="true"]');
+    return {
+      targetCount: targets.length,
+      target: targets[0]?.getAttribute("aria-label") ?? null,
+      targetClass: targets[0]?.className ?? "",
+      targetBackground: targets[0] ? getComputedStyle(targets[0]).backgroundColor : null,
+      draggingKey: dragging?.getAttribute("href") ?? null,
+    };
+  });
+  if (hoverState.target !== "In progress" || !hoverState.targetClass.includes("atl-blue")) {
+    throw new Error(`expected blue In progress drop target, got ${JSON.stringify(hoverState)}`);
+  }
+  if (!hoverState.draggingKey?.endsWith("/PORTAL-170")) {
+    throw new Error(`expected PORTAL-170 to be marked dragging, got ${hoverState.draggingKey}`);
+  }
+  await writeFile(
+    join(artifactsDir, "drag-hover-state.json"),
+    `${JSON.stringify(hoverState, null, 2)}\n`,
+  );
+  await page.screenshot({ path: join(artifactsDir, "move-drag-hover.png"), fullPage: true });
+  await page.mouse.up();
+
+  await column("In progress").getByRole("link", { name: /PORTAL-170/ }).waitFor();
+  if (await column("To do").getByRole("link", { name: /PORTAL-170/ }).count()) {
+    throw new Error("PORTAL-170 is still in To do after the drop");
+  }
+  if (await page.locator('section[data-drop-target="true"]').count()) {
+    throw new Error("drop target highlight did not clear after the drop");
+  }
+  const afterDrag = await readIssue("PORTAL-170");
+  if (afterDrag?.status !== "In progress") {
+    throw new Error(`expected PORTAL-170 In progress after drag, got ${JSON.stringify(afterDrag)}`);
+  }
+  await writeFile(
+    join(artifactsDir, "issues-after-drag.json"),
+    `${JSON.stringify(afterDrag, null, 2)}\n`,
+  );
+  await page.screenshot({ path: join(artifactsDir, "move-drag-after.png"), fullPage: true });
+
+  await page.reload({ waitUntil: "networkidle" });
+  await column("In progress").getByRole("link", { name: /PORTAL-170/ }).waitFor();
+  const afterDragReload = await readIssue("PORTAL-170");
+  if (afterDragReload?.status !== "In progress") {
+    throw new Error("PORTAL-170 did not stay In progress after reload");
+  }
+  await writeFile(
+    join(artifactsDir, "issues-after-drag-reload.json"),
+    `${JSON.stringify(afterDragReload, null, 2)}\n`,
+  );
+  await page.screenshot({ path: join(artifactsDir, "move-drag-reload.png"), fullPage: true });
 
   await page.getByLabel("Search work items").fill("zzzz");
   await page.getByText("No work items match that search.").waitFor();
@@ -128,13 +204,10 @@ try {
   await page.getByRole("link", { name: /PORTAL-170/ }).click();
   await page.getByRole("heading", { name: "Campaign ad refresh landing page" }).waitFor();
   await page.screenshot({ path: join(artifactsDir, "move-before-detail.png"), fullPage: true });
-  await page.getByLabel("Status").selectOption("In progress");
-  const afterMove = await page.evaluate(() => {
-    const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
-    return issues.find((issue) => issue.key === "PORTAL-170") ?? null;
-  });
-  if (afterMove?.status !== "In progress") {
-    throw new Error(`expected PORTAL-170 In progress, got ${JSON.stringify(afterMove)}`);
+  await page.getByLabel("Status").selectOption("In review");
+  const afterMove = await readIssue("PORTAL-170");
+  if (afterMove?.status !== "In review") {
+    throw new Error(`expected PORTAL-170 In review, got ${JSON.stringify(afterMove)}`);
   }
   await writeFile(
     join(artifactsDir, "issues-after-move.json"),
@@ -144,12 +217,10 @@ try {
   await page.getByRole("link", { name: /PORTAL-170/ }).waitFor();
   await page.screenshot({ path: join(artifactsDir, "move-after-board.png"), fullPage: true });
   await page.reload({ waitUntil: "networkidle" });
-  const afterReload = await page.evaluate(() => {
-    const issues = JSON.parse(localStorage.getItem("atlassian-demo-issues") || "[]");
-    return issues.find((issue) => issue.key === "PORTAL-170") ?? null;
-  });
-  if (afterReload?.status !== "In progress") {
-    throw new Error(`PORTAL-170 did not persist In progress after reload`);
+  await column("In review").getByRole("link", { name: /PORTAL-170/ }).waitFor();
+  const afterReload = await readIssue("PORTAL-170");
+  if (afterReload?.status !== "In review") {
+    throw new Error(`PORTAL-170 did not persist In review after reload`);
   }
   await writeFile(
     join(artifactsDir, "issues-after-reload.json"),
@@ -211,9 +282,9 @@ try {
       `- Session email: ${storage.email}`,
       `- Title: ${storage.title}`,
       `- Created: ${afterCreate.key} (${afterCreate.status})`,
-      `- Moved: PORTAL-170 → ${afterReload.status}`,
-      `- Features: login, board, create-issue, move-status-select, issue-detail, rovo-page`,
-      `- move-drag: blocked on purpose (cards draggable=false)`,
+      `- Dragged: PORTAL-170 To do → ${afterDragReload.status} (drop target ${hoverState.target}, background ${hoverState.targetBackground}), kept after reload`,
+      `- Status select: PORTAL-170 → ${afterReload.status}, kept after reload`,
+      `- Features: login, board, move-drag, move-persist, move-reload, create-issue, move-status-select, issue-detail, rovo-page`,
       `- rovo-board-aside: product gap (no compact board panel)`,
       "",
     ].join("\n"),
